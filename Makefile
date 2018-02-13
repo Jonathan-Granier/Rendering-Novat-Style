@@ -51,10 +51,12 @@ OBJECTS_DIR   = bin/debug/
 ####### Files
 
 SOURCES       = src/main.cpp \
-		src/glad.c 
+		lib/glad.c 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o
-DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
+DIST          = shaders/fragmentshader.frag \
+		shaders/vertexshader.vert \
+		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
 		/usr/lib/qt/mkspecs/common/sanitize.conf \
@@ -173,7 +175,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		Rendu-Style-Nova.pro  src/main.cpp \
-		src/glad.c
+		lib/glad.c
 QMAKE_TARGET  = Rendu-Style-Nova
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Nova
@@ -446,7 +448,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/glad.c $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -499,8 +501,8 @@ compiler_clean: compiler_moc_predefs_clean
 bin/debug/main.o: src/main.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
 
-bin/debug/glad.o: src/glad.c 
-	$(CC) -c $(CFLAGS) $(INCPATH) -o bin/debug/glad.o src/glad.c
+bin/debug/glad.o: lib/glad.c 
+	$(CC) -c $(CFLAGS) $(INCPATH) -o bin/debug/glad.o lib/glad.c
 
 ####### Install
 

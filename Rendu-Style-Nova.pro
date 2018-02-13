@@ -38,8 +38,11 @@ LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -
 
 SOURCES += \
         src/main.cpp \
-        src/glad.c
+        lib/glad.c
 
-#HEADERS +=
 
 HEADERS +=
+
+DISTFILES += \
+    shaders/fragmentshader.frag \
+    shaders/vertexshader.vert
