@@ -1,0 +1,5 @@
+# Rendu-Style-Novat
+
+Projet effectué dans le cadre de mon stage de fin d'étude de Master 2 MOSIG spécialité GVR à l'UGA .  
+Fait à l'INRIA dans l'equipe MAVERICK.
+
