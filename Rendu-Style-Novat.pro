@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Rendu-Style-Nova
+TARGET = Rendu-Style-Novat
 TEMPLATE = app
 
 CONFIG(release, release|debug) {
@@ -38,10 +38,12 @@ LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -
 
 SOURCES += \
         src/main.cpp \
-        lib/glad.c
+        lib/glad.c \
+    src/shader.cpp
 
 
-HEADERS +=
+HEADERS += \
+    src/shader.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \
