@@ -15,10 +15,13 @@ class Shader
 {
 public:
     // the program ID
-    unsigned int ID;
+    unsigned int _ID;
 
     // constructor reads and builds the shader
+    Shader();
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+
+    void initialize(const GLchar *vertexPath, const GLchar *fragmentPath);
     // activate/disable the shader
     void use();
     void disable();

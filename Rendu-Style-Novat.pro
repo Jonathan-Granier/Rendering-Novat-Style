@@ -39,11 +39,15 @@ LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -
 SOURCES += \
         src/main.cpp \
         lib/glad.c \
-    src/shader.cpp
+    src/shader.cpp \
+    src/viewer.cpp \
+    lib/stb_image.cpp
 
 
 HEADERS += \
-    src/shader.h
+    src/shader.h \
+    src/viewer.h \
+    lib/stb_image.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

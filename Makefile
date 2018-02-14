@@ -52,10 +52,14 @@ OBJECTS_DIR   = bin/debug/
 
 SOURCES       = src/main.cpp \
 		lib/glad.c \
-		src/shader.cpp 
+		src/shader.cpp \
+		src/viewer.cpp \
+		lib/stb_image.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
-		bin/debug/shader.o
+		bin/debug/shader.o \
+		bin/debug/viewer.o \
+		bin/debug/stb_image.o
 DIST          = shaders/fragmentshader.frag \
 		shaders/vertexshader.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -176,9 +180,13 @@ DIST          = shaders/fragmentshader.frag \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		Rendu-Style-Novat.pro src/shader.h src/main.cpp \
+		Rendu-Style-Novat.pro src/shader.h \
+		src/viewer.h \
+		lib/stb_image.h src/main.cpp \
 		lib/glad.c \
-		src/shader.cpp
+		src/shader.cpp \
+		src/viewer.cpp \
+		lib/stb_image.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Novat
@@ -451,8 +459,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -502,7 +510,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-bin/debug/main.o: src/main.cpp src/shader.h
+bin/debug/main.o: src/main.cpp src/viewer.h \
+		src/shader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
 
 bin/debug/glad.o: lib/glad.c 
@@ -510,6 +519,13 @@ bin/debug/glad.o: lib/glad.c
 
 bin/debug/shader.o: src/shader.cpp src/shader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shader.o src/shader.cpp
+
+bin/debug/viewer.o: src/viewer.cpp src/viewer.h \
+		src/shader.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/viewer.cpp
+
+bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/stb_image.o lib/stb_image.cpp
 
 ####### Install
 
