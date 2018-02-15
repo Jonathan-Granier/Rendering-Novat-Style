@@ -41,13 +41,27 @@ SOURCES += \
         lib/glad.c \
     src/shader.cpp \
     src/viewer.cpp \
-    lib/stb_image.cpp
+    lib/stb_image.cpp \
+    src/trackball.cpp \
+    lib/glm_add.cpp \
+    src/camera.cpp \
+    src/mesh.cpp \
+    src/vertexLoader.cpp \
+    src/vertex.cpp \
+    src/model.cpp
 
 
 HEADERS += \
     src/shader.h \
     src/viewer.h \
-    lib/stb_image.h
+    lib/stb_image.h \
+    src/trackball.h \
+    lib/glm_add.h \
+    src/camera.h \
+    src/mesh.h \
+    src/vertexLoader.h \
+    src/vertex.h \
+    src/model.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \
