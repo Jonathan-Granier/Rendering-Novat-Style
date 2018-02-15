@@ -9,12 +9,12 @@ vertexLoader::vertexLoader()
 std::vector<Vertex> vertexLoader::vertexFromHardCode()
 {
     std::vector<Vertex> newVertex;
-    newVertex.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f));
-    newVertex.push_back(Vertex( 0.5f, -0.5f, -0.5f,  1.0f, 0.0f));
-    newVertex.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f));
-    newVertex.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f));
-    newVertex.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f));
-    newVertex.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f));
+    newVertex.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f)); // 1
+    newVertex.push_back(Vertex( 0.5f, -0.5f, -0.5f,  1.0f, 0.0f)); // 2
+    newVertex.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f)); // 3
+    newVertex.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f)); // 3
+    newVertex.push_back(Vertex(-0.5f,  0.5f, -0.5f,  0.0f, 1.0f)); // 1
+    newVertex.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f)); // 1
 
     newVertex.push_back(Vertex(-0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
     newVertex.push_back(Vertex( 0.5f, -0.5f,  0.5f,  1.0f, 0.0f));

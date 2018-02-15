@@ -155,8 +155,8 @@ void Viewer::paintGL()
     _shader.setMat4("view",view);
     _shader.setMat4("projection",projection);
 
-    _model->draw(_shader);
-    /*glBindVertexArray(_VAO);
+    //_model->draw(_shader);
+
     for(unsigned int i = 0; i < 10; i++)
     {
       glm::mat4 model;
@@ -165,10 +165,10 @@ void Viewer::paintGL()
       model = glm::rotate(model, (float)glfwGetTime()*glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
       _shader.setMat4("model", model);
 
-      glDrawArrays(GL_TRIANGLES, 0, 36);
+      _model->draw(_shader);
     }
 
-*/
+
 
     _shader.disable();
 
