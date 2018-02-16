@@ -8,7 +8,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <stdlib.h>
-#include<stdlib.h>
 #include <string>
 #include <vector>
 
@@ -44,7 +43,7 @@ public:
     // Constructor
 
 
-    void Draw(Shader shader);
+    void Draw(Shader *shader);
     void setupMesh();
 
 private :

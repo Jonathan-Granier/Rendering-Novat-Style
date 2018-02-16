@@ -48,7 +48,8 @@ SOURCES += \
     src/mesh.cpp \
     src/vertexLoader.cpp \
     src/vertex.cpp \
-    src/model.cpp
+    src/model.cpp \
+    src/inputeventmanager.cpp
 
 
 HEADERS += \
@@ -61,7 +62,8 @@ HEADERS += \
     src/mesh.h \
     src/vertexLoader.h \
     src/vertex.h \
-    src/model.h
+    src/model.h \
+    src/inputeventmanager.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

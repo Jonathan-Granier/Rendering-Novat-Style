@@ -18,35 +18,44 @@
 #include "camera.h"
 #include "vertexLoader.h"
 #include "model.h"
-
-
+#include "inputeventmanager.h"
 
 class Viewer
 {
 public:
     Viewer();
     ~Viewer();
+
+    /*virtual void framebuffer_size_callback_2(int width, int height){
+        _cam->initialize(width,height,false);
+        glViewport(0, 0, width, height);
+    }*/
+    void mouse_callback(GLFWwindow* window,double xpos, double ypos);
+    void scroll_callback(GLFWwindow* window,double xoffset, double yoffset);
+
+
+
+    Camera *cam() const;
+
 private:
     void initShaders();
     void initTextures();
     void show();
     void paintGL();
-
     void processInput();
 
 
-    GLFWwindow* _window;
-    Shader _shader;
-
-    vector<Texture> _textures;
     const unsigned int _SCR_WIDTH = 800;
     const unsigned int _SCR_HEIGHT = 600;
+
+
+    GLFWwindow  *_window;
+    Shader      *_shader;
+    Model       *_model;
+    Camera      *_cam;
+
+
     //data
-
-    std::vector<Vertex> _vertices;
-    Model *_model;
-
-
 
     glm::vec3 _cubePositions[10] = {
       glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -69,6 +78,6 @@ private:
 
 };
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 #endif // VIEWER_H

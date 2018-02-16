@@ -61,7 +61,8 @@ SOURCES       = src/main.cpp \
 		src/mesh.cpp \
 		src/vertexLoader.cpp \
 		src/vertex.cpp \
-		src/model.cpp 
+		src/model.cpp \
+		src/inputeventmanager.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/shader.o \
@@ -73,7 +74,8 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/mesh.o \
 		bin/debug/vertexLoader.o \
 		bin/debug/vertex.o \
-		bin/debug/model.o
+		bin/debug/model.o \
+		bin/debug/inputeventmanager.o
 DIST          = shaders/fragmentshader.frag \
 		shaders/vertexshader.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -203,7 +205,8 @@ DIST          = shaders/fragmentshader.frag \
 		src/mesh.h \
 		src/vertexLoader.h \
 		src/vertex.h \
-		src/model.h src/main.cpp \
+		src/model.h \
+		src/inputeventmanager.h src/main.cpp \
 		lib/glad.c \
 		src/shader.cpp \
 		src/viewer.cpp \
@@ -214,7 +217,8 @@ DIST          = shaders/fragmentshader.frag \
 		src/mesh.cpp \
 		src/vertexLoader.cpp \
 		src/vertex.cpp \
-		src/model.cpp
+		src/model.cpp \
+		src/inputeventmanager.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Novat
@@ -487,8 +491,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h src/trackball.h lib/glm_add.h src/camera.h src/mesh.h src/vertexLoader.h src/vertex.h src/model.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp src/trackball.cpp lib/glm_add.cpp src/camera.cpp src/mesh.cpp src/vertexLoader.cpp src/vertex.cpp src/model.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h src/trackball.h lib/glm_add.h src/camera.h src/mesh.h src/vertexLoader.h src/vertex.h src/model.h src/inputeventmanager.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp src/trackball.cpp lib/glm_add.cpp src/camera.cpp src/mesh.cpp src/vertexLoader.cpp src/vertex.cpp src/model.cpp src/inputeventmanager.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -547,7 +551,8 @@ bin/debug/main.o: src/main.cpp src/viewer.h \
 		src/trackball.h \
 		lib/glm_add.h \
 		src/vertexLoader.h \
-		src/model.h
+		src/model.h \
+		src/inputeventmanager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
 
 bin/debug/glad.o: lib/glad.c 
@@ -565,7 +570,8 @@ bin/debug/viewer.o: src/viewer.cpp src/viewer.h \
 		src/trackball.h \
 		lib/glm_add.h \
 		src/vertexLoader.h \
-		src/model.h
+		src/model.h \
+		src/inputeventmanager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/viewer.cpp
 
 bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
@@ -602,6 +608,12 @@ bin/debug/model.o: src/model.cpp src/model.h \
 		src/mesh.h \
 		src/shader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/model.cpp
+
+bin/debug/inputeventmanager.o: src/inputeventmanager.cpp src/inputeventmanager.h \
+		src/camera.h \
+		src/trackball.h \
+		lib/glm_add.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/inputeventmanager.o src/inputeventmanager.cpp
 
 ####### Install
 

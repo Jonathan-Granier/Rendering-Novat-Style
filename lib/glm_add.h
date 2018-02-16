@@ -10,8 +10,11 @@
 #define GLM_ADD_H
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <math.h>
-
+#include <iostream>
 
 using namespace glm;
 

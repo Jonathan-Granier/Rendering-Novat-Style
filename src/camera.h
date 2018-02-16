@@ -192,6 +192,11 @@ inline void Camera::updateCamVectors(const mat4 &m) { // TODO test
   _up    = vec3(m[0][0],m[0][1],m[0][2]);
   _right = vec3(m[1][0],m[1][1],m[1][2]);
   _view  = vec3(m[2][0],m[2][1],m[2][2]);
+/*
+  _up    = vec3(m[0][0],m[1][0],m[2][0]);
+  _right = vec3(m[0][1],m[1][1],m[2][1]);
+  _view  = vec3(m[0][2],m[1][2],m[2][2]);
+*/
 }
 
 inline void Camera::updateCamDists(const mat4 &m) {

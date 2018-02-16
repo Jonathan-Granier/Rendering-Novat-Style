@@ -7,6 +7,11 @@ Model::Model(TYPE_FILE typeFile, const string &path)
     vector<Vertex> vertices;
     vector<Texture> textures;
     vertexLoader vL;
+    glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
+    float r;
+    int i;
+
+
     switch (typeFile){
         case OBJ:   vertices = vL.vertexFromObj(path);
         break;
@@ -30,10 +35,28 @@ Model::Model(TYPE_FILE typeFile, const string &path)
     _mesh = new Mesh(vertices,_indices,textures);
     _mesh->setupMesh();
 
+    // computing center
+    for(i=0;i<vertices.size();i+=3) {
+      c += vertices[i].Position;
+    }
+    _center = c/(float)vertices.size();
 
+    // computing radius
+    _radius = 0.0;
+    for(i=0;i<vertices.size();i+=3) {
+      c = vertices[i].Position-_center;
+
+      r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);
+      _radius = r>_radius ? r : _radius;
+    }
 }
 
-void Model::draw(Shader shader)
+Model::~Model()
+{
+    delete _mesh;
+}
+
+void Model::draw(Shader *shader)
 {
     _mesh->Draw(shader);
 }
@@ -77,4 +100,14 @@ unsigned int Model::loadTexture(const std::string &path)
     stbi_image_free(data);
 
     return textureID;
+}
+
+float Model::radius() const
+{
+    return _radius;
+}
+
+glm::vec3 Model::center() const
+{
+    return _center;
 }

@@ -28,14 +28,18 @@ Viewer::Viewer()
 
 
     glViewport(0, 0, _SCR_WIDTH, _SCR_HEIGHT);
+
+
+    glfwSetWindowUserPointer(_window, this);
     glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback); // Resize function
 
-    vertexLoader vL;
-    _vertices = vL.vertexFromHardCode();
 
     initShaders();
 
     _model = new Model(Model::NONE,"");
+    _cam = new Camera(_model->radius(),_model->center());
+    _cam->initialize(_SCR_WIDTH,_SCR_HEIGHT,true);
+
     //initTextures();
     //initBuffers();
     //_mesh = Mesh(_vertices,_indices,_textures);
@@ -46,79 +50,20 @@ Viewer::Viewer()
 
 Viewer::~Viewer() {
   //deleteBuffers();
+  delete _model;
+  delete _cam;
+  delete _shader;
   glfwTerminate();
 }
 
 
 void Viewer::initShaders()
 {
-    _shader.initialize("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
+    _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 }
 
 
 
-void Viewer::initTextures(){
-
-    int width, height, nrChannels;
-    unsigned char *data;
-
-    Texture texture1,texture2;
-    texture1.type="texture_normal";
-    texture2.type="texture_normal";
-
-    glGenTextures(1, &texture1.id);
-    glBindTexture(GL_TEXTURE_2D, texture1.id);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load and generate the texture
-    stbi_set_flip_vertically_on_load(true);
-    data = stbi_load("textures/container.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture 1" << std::endl;
-    }
-    stbi_image_free(data);
-
-
-
-
-    glGenTextures(1, &texture2.id);
-    glBindTexture(GL_TEXTURE_2D, texture2.id);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load and generate the texture
-    data = stbi_load("textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture 2" << std::endl;
-    }
-    stbi_image_free(data);
-
-    _textures.push_back(texture1);
-    _textures.push_back(texture2);
-
-  /*  _shader.use();
-    glUniform1i(glGetUniformLocation(_shader._ID, "texture_normal1"), 0);
-    glUniform1i(glGetUniformLocation(_shader._ID, "texture_normal2"), 1);
-*/
-
-}
 
 
 void Viewer::show()
@@ -143,7 +88,11 @@ void Viewer::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-    _shader.use();
+    _shader->use();
+  //  glUniformMatrix4fv(glGetUniformLocation(id,"mdvMat"),1,GL_FALSE,&(_cam->mdvMatrix()[0][0]));
+    _shader->setMat4("mdvMat",_cam->mdvMatrix());
+    _shader->setMat4("projMat",_cam->projMatrix());
+    _shader->setMat4("normalMat",_cam->normalMatrix());
 
     glm::mat4 model;
     glm::mat4 view;
@@ -151,26 +100,26 @@ void Viewer::paintGL()
     model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     projection = glm::perspective(glm::radians(45.0f), (float)_SCR_WIDTH / (float)_SCR_HEIGHT, 0.1f, 100.0f);
-    _shader.setMat4("model",model);
-    _shader.setMat4("view",view);
-    _shader.setMat4("projection",projection);
+    _shader->setMat4("model",model);
+    _shader->setMat4("view",view);
+    _shader->setMat4("projection",projection);
 
-    //_model->draw(_shader);
-
+    _model->draw(_shader);
+/*
     for(unsigned int i = 0; i < 10; i++)
     {
       glm::mat4 model;
       model = glm::translate(model, _cubePositions[i]);
       float angle = 20.0f * i;
       model = glm::rotate(model, (float)glfwGetTime()*glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-      _shader.setMat4("model", model);
+      _shader->setMat4("model", model);
 
       _model->draw(_shader);
     }
+*/
 
 
-
-    _shader.disable();
+    _shader->disable();
 
     glfwPollEvents(); // Checks if any events are triggered
     glfwSwapBuffers(_window); // Double buffer
@@ -188,9 +137,31 @@ void Viewer::processInput()
         glfwSetWindowShouldClose(_window, true);
 }
 
-// Hors classe
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+Camera *Viewer::cam() const
 {
-    glViewport(0, 0, width, height);
+    return _cam;
 }
 
+// Hors classe
+
+//TODO add _cam
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    void *data = glfwGetWindowUserPointer(window);
+    Viewer *v = static_cast<Viewer *>(data);
+    inputEventManager::framebuffer_size_callback(v->cam(),width,height);
+}
+
+void mouse_callback(GLFWwindow* window,double xpos, double ypos)
+{
+    void *data = glfwGetWindowUserPointer(window);
+    Viewer *v = static_cast<Viewer *>(data);
+    inputEventManager::framebuffer_size_callback(v->cam(),width,height);
+}
+
+void scroll_callback(GLFWwindow* window,double xoffset, double yoffset)
+{
+    void *data = glfwGetWindowUserPointer(window);
+    Viewer *v = static_cast<Viewer *>(data);
+    inputEventManager::framebuffer_size_callback(v->cam(),width,height);
+}

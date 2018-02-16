@@ -3,12 +3,18 @@
 
 // Constructor : Compile and link the shaders to _ID
 
-Shader::Shader(){}
 
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 {
     initialize(vertexPath,fragmentPath);
 
+}
+
+
+Shader::~Shader(){
+    if(glIsProgram(_ID)) {
+      glDeleteProgram(_ID);
+    }
 }
 
 void Shader::initialize(const GLchar *vertexPath, const GLchar *fragmentPath)

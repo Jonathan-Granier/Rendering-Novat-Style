@@ -26,17 +26,23 @@ float length(vec3 v){
     return sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
 }
 
+//TODO delete
 mat4 translateEq(mat4 m, vec3 v){
-    m[0][3]=v[0];
+
+    return glm::translate(m,v);
+
+/*    m[0][3]=v[0];
     m[1][3]=v[1];
     m[2][3]=v[2];
     return m;
+*/
 }
 
 
 mat4 identityTranslateEq(vec3 v){
     mat4 m = mat4(); // build identity matrices 4x4
     return translateEq(m,v);
+
 }
 
 
@@ -51,10 +57,18 @@ mat4 quatToMat4(quat q){
     float zz = q[3]*q[3];
     float zw = q[3]*q[0];
 
-    return mat4 (1-2*(yy+zz), 2*(xy+zw)  , 2*(xz-yw)  , 0,
+    mat4 mat4_custom = mat4(1-2*(yy+zz), 2*(xy+zw)  , 2*(xz-yw)  , 0,
                  2*(xy-zw)  , 1-2*(xx+zz), 2*(yz+xw)  , 0,
                  2*(xz+yw)  , 2*(yz-xw)  , 1-2*(xx+yy), 0,
                  0          , 0          , 0          , 1);
+    mat4 mat4_glm = glm::toMat4(q);
+
+    std::cout << "-----QUAT TO MAT 4 ------"        << std::endl;
+    std::cout << "mat4_custom : "   << glm::to_string(mat4_custom)  << std::endl;
+    std::cout << "mat4_glm : "      << glm::to_string(mat4_glm)     << std::endl;
+
+    return mat4_custom;
+
 
 }
 

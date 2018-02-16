@@ -18,8 +18,9 @@ public:
     unsigned int _ID;
 
     // constructor reads and builds the shader
-    Shader();
+
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    ~Shader();
 
     void initialize(const GLchar *vertexPath, const GLchar *fragmentPath);
     // activate/disable the shader

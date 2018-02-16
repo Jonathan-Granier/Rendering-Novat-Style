@@ -18,7 +18,7 @@ Mesh::~Mesh(){
 }
 
 
-void Mesh::Draw(Shader shader)
+void Mesh::Draw(Shader *shader)
 {
 
 
@@ -32,7 +32,7 @@ void Mesh::Draw(Shader shader)
             number = std::to_string(normalNr++);
         }
         glActiveTexture(GL_TEXTURE0 + i);
-        shader.setInt((name + number).c_str(),i);
+        shader->setInt((name + number).c_str(),i);
         //glUniform1i(glGetUniformLocation(shader._ID, (name + number).c_str()), i);
         glBindTexture(GL_TEXTURE_2D, _textures[i].id);
     }
