@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,28 +42,30 @@ SOURCES += \
     src/shader.cpp \
     src/viewer.cpp \
     lib/stb_image.cpp \
-    src/trackball.cpp \
     lib/glm_add.cpp \
-    src/camera.cpp \
     src/mesh.cpp \
     src/vertexLoader.cpp \
     src/vertex.cpp \
     src/model.cpp \
-    src/inputeventmanager.cpp
+    src/camera.cpp \
+    src/trackball.cpp \
+    src/camera_test.cpp \
+    src/trackball_test.cpp
 
 
 HEADERS += \
     src/shader.h \
     src/viewer.h \
     lib/stb_image.h \
-    src/trackball.h \
     lib/glm_add.h \
-    src/camera.h \
     src/mesh.h \
     src/vertexLoader.h \
     src/vertex.h \
     src/model.h \
-    src/inputeventmanager.h
+    src/camera.h \
+    src/trackball.h \
+    src/camera_test.h \
+    src/trackball_test.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

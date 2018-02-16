@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "trackball.h"
+#include "Save_trackball.h"
 #include "lib/glm_add.h"
 
 // OpenGL Mathematics
@@ -71,21 +71,21 @@ class Camera {
   int       _m; // moving mode
   int       _w; // width
   int       _h; // height
-  vec2     _p; // departure point when moving
-  vec3     _c; // center
+  vec2      _p; // departure point when moving
+  vec3      _c; // center
   float     _r; // radius
   TrackBall _t; // trackball
   float     _f; // fovy
   ivec4     _v; // viewport
   int       _d; // mode (persp or ortho)
 
-  vec3     _up;
-  vec3     _right;
-  vec3     _view;
+  vec3      _up;
+  vec3      _right;
+  vec3      _view;
   float     _zmin;
   float     _zmax;
-  mat4     _matm;
-  mat4     _matp;
+  mat4      _matm;
+  mat4      _matp;
 };
 /*
 inline glm::vec2 Camera::vec2ToGlm(const Vec2f &v) const {
@@ -152,7 +152,7 @@ inline void Camera::rotate(const vec2 &p) { // TODO test
   mat4 mo = _matm;
 
   // compute rotation matrix
-  const vec3 tr = vec3(mo[0][3],mo[1][3],mo[2][3]);
+  const vec3 tr = vec3(mo[0][3],mo[1][3],mo[2][3]); //TODO test
   const mat4 t1 = identityTranslateEq(-tr);
   const mat4 t2 = identityTranslateEq(tr);
   const mat4 mr = quatToMat4(_t.track(p));

@@ -1,7 +1,15 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <glad/glad.h>
+//#include <glad/glad.h>
+#include <GL/glew.h>
+
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
+
 #include <glm/glm.hpp>
 #include <string>
 #include <fstream>

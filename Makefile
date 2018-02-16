@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I/usr/lib/qt/mkspecs/linux-g++
+INCPATH       = -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtOpenGL -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I/usr/lib/qt/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = Rendu-Style-Novat1.0.0
 DISTDIR = /disc/jgranier/source_code/Rendu-Style-Novat/bin/debug/Rendu-Style-Novat1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lGLEW -lglfw3 -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -ldl -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lGLEW -lglfw3 -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -ldl -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -55,27 +55,29 @@ SOURCES       = src/main.cpp \
 		src/shader.cpp \
 		src/viewer.cpp \
 		lib/stb_image.cpp \
-		src/trackball.cpp \
 		lib/glm_add.cpp \
-		src/camera.cpp \
 		src/mesh.cpp \
 		src/vertexLoader.cpp \
 		src/vertex.cpp \
 		src/model.cpp \
-		src/inputeventmanager.cpp 
+		src/camera.cpp \
+		src/trackball.cpp \
+		src/camera_test.cpp \
+		src/trackball_test.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/shader.o \
 		bin/debug/viewer.o \
 		bin/debug/stb_image.o \
-		bin/debug/trackball.o \
 		bin/debug/glm_add.o \
-		bin/debug/camera.o \
 		bin/debug/mesh.o \
 		bin/debug/vertexLoader.o \
 		bin/debug/vertex.o \
 		bin/debug/model.o \
-		bin/debug/inputeventmanager.o
+		bin/debug/camera.o \
+		bin/debug/trackball.o \
+		bin/debug/camera_test.o \
+		bin/debug/trackball_test.o
 DIST          = shaders/fragmentshader.frag \
 		shaders/vertexshader.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -199,26 +201,28 @@ DIST          = shaders/fragmentshader.frag \
 		Rendu-Style-Novat.pro src/shader.h \
 		src/viewer.h \
 		lib/stb_image.h \
-		src/trackball.h \
 		lib/glm_add.h \
-		src/camera.h \
 		src/mesh.h \
 		src/vertexLoader.h \
 		src/vertex.h \
 		src/model.h \
-		src/inputeventmanager.h src/main.cpp \
+		src/camera.h \
+		src/trackball.h \
+		src/camera_test.h \
+		src/trackball_test.h src/main.cpp \
 		lib/glad.c \
 		src/shader.cpp \
 		src/viewer.cpp \
 		lib/stb_image.cpp \
-		src/trackball.cpp \
 		lib/glm_add.cpp \
-		src/camera.cpp \
 		src/mesh.cpp \
 		src/vertexLoader.cpp \
 		src/vertex.cpp \
 		src/model.cpp \
-		src/inputeventmanager.cpp
+		src/camera.cpp \
+		src/trackball.cpp \
+		src/camera_test.cpp \
+		src/trackball_test.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Novat
@@ -350,6 +354,7 @@ Makefile: Rendu-Style-Novat.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/li
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		Rendu-Style-Novat.pro \
+		/usr/lib/libQt5OpenGL.prl \
 		/usr/lib/libQt5Widgets.prl \
 		/usr/lib/libQt5Gui.prl \
 		/usr/lib/libQt5Core.prl
@@ -473,6 +478,7 @@ Makefile: Rendu-Style-Novat.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/li
 /usr/lib/qt/mkspecs/features/yacc.prf:
 /usr/lib/qt/mkspecs/features/lex.prf:
 Rendu-Style-Novat.pro:
+/usr/lib/libQt5OpenGL.prl:
 /usr/lib/libQt5Widgets.prl:
 /usr/lib/libQt5Gui.prl:
 /usr/lib/libQt5Core.prl:
@@ -491,8 +497,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h src/trackball.h lib/glm_add.h src/camera.h src/mesh.h src/vertexLoader.h src/vertex.h src/model.h src/inputeventmanager.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp src/trackball.cpp lib/glm_add.cpp src/camera.cpp src/mesh.cpp src/vertexLoader.cpp src/vertex.cpp src/model.cpp src/inputeventmanager.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertexLoader.h src/vertex.h src/model.h src/camera.h src/trackball.h src/camera_test.h src/trackball_test.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertexLoader.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/camera_test.cpp src/trackball_test.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -549,10 +555,17 @@ bin/debug/main.o: src/main.cpp src/viewer.h \
 		src/vertex.h \
 		src/camera.h \
 		src/trackball.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h \
 		lib/glm_add.h \
 		src/vertexLoader.h \
 		src/model.h \
-		src/inputeventmanager.h
+		src/camera_test.h \
+		src/trackball_test.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
 
 bin/debug/glad.o: lib/glad.c 
@@ -568,26 +581,24 @@ bin/debug/viewer.o: src/viewer.cpp src/viewer.h \
 		src/vertex.h \
 		src/camera.h \
 		src/trackball.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h \
 		lib/glm_add.h \
 		src/vertexLoader.h \
 		src/model.h \
-		src/inputeventmanager.h
+		src/camera_test.h \
+		src/trackball_test.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/viewer.cpp
 
 bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/stb_image.o lib/stb_image.cpp
 
-bin/debug/trackball.o: src/trackball.cpp src/trackball.h \
-		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/trackball.cpp
-
 bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o lib/glm_add.cpp
-
-bin/debug/camera.o: src/camera.cpp src/camera.h \
-		src/trackball.h \
-		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/camera.cpp
 
 bin/debug/mesh.o: src/mesh.cpp src/mesh.h \
 		src/shader.h \
@@ -609,11 +620,45 @@ bin/debug/model.o: src/model.cpp src/model.h \
 		src/shader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/model.cpp
 
-bin/debug/inputeventmanager.o: src/inputeventmanager.cpp src/inputeventmanager.h \
-		src/camera.h \
+bin/debug/camera.o: src/camera.cpp src/camera.h \
 		src/trackball.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h \
 		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/inputeventmanager.o src/inputeventmanager.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/camera.cpp
+
+bin/debug/trackball.o: src/trackball.cpp src/trackball.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h \
+		lib/glm_add.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/trackball.cpp
+
+bin/debug/camera_test.o: src/camera_test.cpp src/camera_test.h \
+		src/trackball_test.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera_test.o src/camera_test.cpp
+
+bin/debug/trackball_test.o: src/trackball_test.cpp src/trackball_test.h \
+		lib/vec2.h \
+		lib/vec3.h \
+		lib/quat.h \
+		lib/mat3.h \
+		lib/mat4.h \
+		lib/vec4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball_test.o src/trackball_test.cpp
 
 ####### Install
 

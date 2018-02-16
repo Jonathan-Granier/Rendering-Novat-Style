@@ -1,4 +1,4 @@
-#include "camera.h"
+#include "Save_camera.h"
 
 Camera::Camera(float radius,const vec3 &center,int mode)
   : _m(NONE),

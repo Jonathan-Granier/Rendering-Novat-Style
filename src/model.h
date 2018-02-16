@@ -1,7 +1,13 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <GL/glew.h>
 
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
 
 #include <string>
 #include <vector>

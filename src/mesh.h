@@ -1,8 +1,19 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+
+//#include <glad/glad.h>
+//#include <GLFW/glfw3.h>
+
+#include <GL/glew.h>
+
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
+
+
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
