@@ -57,13 +57,11 @@ SOURCES       = src/main.cpp \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
 		src/mesh.cpp \
-		src/vertexLoader.cpp \
 		src/vertex.cpp \
 		src/model.cpp \
 		src/camera.cpp \
 		src/trackball.cpp \
-		src/camera_test.cpp \
-		src/trackball_test.cpp 
+		src/meshLoader.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/shader.o \
@@ -71,13 +69,11 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/stb_image.o \
 		bin/debug/glm_add.o \
 		bin/debug/mesh.o \
-		bin/debug/vertexLoader.o \
 		bin/debug/vertex.o \
 		bin/debug/model.o \
 		bin/debug/camera.o \
 		bin/debug/trackball.o \
-		bin/debug/camera_test.o \
-		bin/debug/trackball_test.o
+		bin/debug/meshLoader.o
 DIST          = shaders/fragmentshader.frag \
 		shaders/vertexshader.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -203,26 +199,22 @@ DIST          = shaders/fragmentshader.frag \
 		lib/stb_image.h \
 		lib/glm_add.h \
 		src/mesh.h \
-		src/vertexLoader.h \
 		src/vertex.h \
 		src/model.h \
 		src/camera.h \
 		src/trackball.h \
-		src/camera_test.h \
-		src/trackball_test.h src/main.cpp \
+		src/meshLoader.h src/main.cpp \
 		lib/glad.c \
 		src/shader.cpp \
 		src/viewer.cpp \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
 		src/mesh.cpp \
-		src/vertexLoader.cpp \
 		src/vertex.cpp \
 		src/model.cpp \
 		src/camera.cpp \
 		src/trackball.cpp \
-		src/camera_test.cpp \
-		src/trackball_test.cpp
+		src/meshLoader.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Novat
@@ -497,8 +489,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertexLoader.h src/vertex.h src/model.h src/camera.h src/trackball.h src/camera_test.h src/trackball_test.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertexLoader.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/camera_test.cpp src/trackball_test.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertex.h src/model.h src/camera.h src/trackball.h src/meshLoader.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/meshLoader.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -562,10 +554,8 @@ bin/debug/main.o: src/main.cpp src/viewer.h \
 		lib/mat4.h \
 		lib/vec4.h \
 		lib/glm_add.h \
-		src/vertexLoader.h \
-		src/model.h \
-		src/camera_test.h \
-		src/trackball_test.h
+		src/meshLoader.h \
+		src/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
 
 bin/debug/glad.o: lib/glad.c 
@@ -588,10 +578,8 @@ bin/debug/viewer.o: src/viewer.cpp src/viewer.h \
 		lib/mat4.h \
 		lib/vec4.h \
 		lib/glm_add.h \
-		src/vertexLoader.h \
-		src/model.h \
-		src/camera_test.h \
-		src/trackball_test.h
+		src/meshLoader.h \
+		src/model.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/viewer.cpp
 
 bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
@@ -605,19 +593,15 @@ bin/debug/mesh.o: src/mesh.cpp src/mesh.h \
 		src/vertex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mesh.o src/mesh.cpp
 
-bin/debug/vertexLoader.o: src/vertexLoader.cpp src/vertexLoader.h \
-		src/vertex.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/vertexLoader.o src/vertexLoader.cpp
-
 bin/debug/vertex.o: src/vertex.cpp src/vertex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/vertex.o src/vertex.cpp
 
 bin/debug/model.o: src/model.cpp src/model.h \
 		lib/stb_image.h \
-		src/vertexLoader.h \
-		src/vertex.h \
+		src/meshLoader.h \
 		src/mesh.h \
-		src/shader.h
+		src/shader.h \
+		src/vertex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/model.cpp
 
 bin/debug/camera.o: src/camera.cpp src/camera.h \
@@ -641,24 +625,11 @@ bin/debug/trackball.o: src/trackball.cpp src/trackball.h \
 		lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/trackball.cpp
 
-bin/debug/camera_test.o: src/camera_test.cpp src/camera_test.h \
-		src/trackball_test.h \
-		lib/vec2.h \
-		lib/vec3.h \
-		lib/quat.h \
-		lib/mat3.h \
-		lib/mat4.h \
-		lib/vec4.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera_test.o src/camera_test.cpp
-
-bin/debug/trackball_test.o: src/trackball_test.cpp src/trackball_test.h \
-		lib/vec2.h \
-		lib/vec3.h \
-		lib/quat.h \
-		lib/mat3.h \
-		lib/mat4.h \
-		lib/vec4.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball_test.o src/trackball_test.cpp
+bin/debug/meshLoader.o: src/meshLoader.cpp src/meshLoader.h \
+		src/mesh.h \
+		src/shader.h \
+		src/vertex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/meshLoader.o src/meshLoader.cpp
 
 ####### Install
 

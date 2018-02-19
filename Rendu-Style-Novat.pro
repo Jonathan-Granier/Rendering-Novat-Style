@@ -44,13 +44,11 @@ SOURCES += \
     lib/stb_image.cpp \
     lib/glm_add.cpp \
     src/mesh.cpp \
-    src/vertexLoader.cpp \
     src/vertex.cpp \
     src/model.cpp \
     src/camera.cpp \
     src/trackball.cpp \
-    src/camera_test.cpp \
-    src/trackball_test.cpp
+    src/meshLoader.cpp
 
 
 HEADERS += \
@@ -59,13 +57,11 @@ HEADERS += \
     lib/stb_image.h \
     lib/glm_add.h \
     src/mesh.h \
-    src/vertexLoader.h \
     src/vertex.h \
     src/model.h \
     src/camera.h \
     src/trackball.h \
-    src/camera_test.h \
-    src/trackball_test.h
+    src/meshLoader.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

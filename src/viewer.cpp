@@ -44,15 +44,12 @@ void Viewer::initializeGL(){
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
 
-    _model = new Model(Model::NONE,"");
+    //_model = new Model(Model::NONE,"");
+    _model = new Model(Model::OBJ,"Models/cube.obj");
     _cam = new Camera(_model->radius(),_model->center());
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 
     _cam->initialize(width(),height(),true);
-
-
-    _cam_TEST = new Camera_TEST(_model->radius(),_model->center());
-    _cam_TEST->initialize(width(),height(),true);
 }
 
 void Viewer::paintGL(){
@@ -74,7 +71,6 @@ void Viewer::paintGL(){
 
 void Viewer::resizeGL(int width,int height){
     _cam->initialize(width,height,false);
-    _cam_TEST->initialize(width,height,true);
     glViewport(0,0,width,height);
     updateGL();
 }
@@ -86,7 +82,6 @@ void Viewer::keyPressEvent(QKeyEvent *ke){
     // key i: init camera
     if(ke->key()==Qt::Key_I) {
       _cam->initialize(width(),height(),true);
-      _cam_TEST->initialize(width(),height(),true);
     }
     updateGL();
     // key r: reload shaders TODO
@@ -96,16 +91,13 @@ void Viewer::mousePressEvent(QMouseEvent *me){
     const glm::vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _cam->initRotation(p);
-        _cam_TEST->initRotation(p);
     } else if(me->button()==Qt::MidButton) {
         _cam->initMoveZ(p);
-        _cam_TEST->initMoveZ(p);
     }
     updateGL();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
     const glm::vec2 p((float)me->x(),(float)(height()-me->y()));
     _cam->move(p);
-    _cam_TEST->move(p);
     updateGL();
 }

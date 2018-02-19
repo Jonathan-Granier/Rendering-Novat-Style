@@ -4,47 +4,49 @@
 
 Model::Model(TYPE_FILE typeFile, const string &path)
 {
-    vector<Vertex> vertices;
-    vector<Texture> textures;
-    vertexLoader vL;
+    meshLoader mL;
     glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
     float r;
-    int i;
+    unsigned int i;
 
 
     switch (typeFile){
-        case OBJ:   vertices = vL.vertexFromObj(path);
+        case OBJ:   _mesh = mL.vertexFromObj(path);
         break;
-        case MNT:   vertices = vL.vertexFromMNT(path);
+        case MNT:   _mesh = mL.vertexFromMNT(path);
         break;
-        case NONE:  vertices = vL.vertexFromHardCode();
+        case NONE:  _mesh = mL.vertexFromHardCode();
         break;
-        default:    vertices = vL.vertexFromHardCode();
+        default:    _mesh = mL.vertexFromHardCode();
         break;
     }
+
+
+
+
+
 
     Texture texture1,texture2;
     texture1.id = loadTexture("textures/container.jpg");
     texture1.type = "texture_normal";
-    textures.push_back(texture1);
+    _textures.push_back(texture1);
     texture2.id = loadTexture("textures/awesomeface.png");
     texture2.type = "texture_normal";
-    textures.push_back(texture2);
+    _textures.push_back(texture2);
 
-    // Create mesh
-    _mesh = new Mesh(vertices,_indices,textures);
-    _mesh->setupMesh();
+
+
 
     // computing center
-    for(i=0;i<vertices.size();i+=3) {
-      c += vertices[i].Position;
+    for(i=0;i<_mesh->_vertices.size();i+=3) {
+      c += _mesh->_vertices[i].Position;
     }
-    _center = c/(float)vertices.size();
+    _center = c/(float)_mesh->_vertices.size();
 
     // computing radius
     _radius = 0.0;
-    for(i=0;i<vertices.size();i+=3) {
-      c = vertices[i].Position-_center;
+    for(i=0;i<_mesh->_vertices.size();i+=3) {
+      c = _mesh->_vertices[i].Position-_center;
 
       r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);
       _radius = r>_radius ? r : _radius;
@@ -58,7 +60,25 @@ Model::~Model()
 
 void Model::draw(Shader *shader)
 {
-    _mesh->Draw(shader);
+
+    unsigned int normalNr=1;
+
+    for(unsigned int i=0;i<_textures.size();i++){
+        string number;
+        string name=_textures[i].type;
+
+        if(name == "texture_normal"){
+            number = std::to_string(normalNr++);
+        }
+        glActiveTexture(GL_TEXTURE0 + i);
+        shader->setInt((name + number).c_str(),i);
+        glBindTexture(GL_TEXTURE_2D, _textures[i].id);
+    }
+
+    _mesh->Draw();
+
+    // always good practice to set everything back to defaults once configured.
+    glActiveTexture(GL_TEXTURE0);
 }
 
 unsigned int Model::loadTexture(const std::string &path)

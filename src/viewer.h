@@ -33,10 +33,10 @@
 #include "mesh.h"
 #include "shader.h"
 #include "camera.h"
-#include "vertexLoader.h"
+#include "meshLoader.h"
 #include "model.h"
 
-#include "camera_test.h"
+
 
 class Viewer : public QGLWidget
 {
@@ -57,7 +57,7 @@ private:
     Shader      *_shader;
     Model       *_model;
     Camera      *_cam;
-    Camera_TEST *_cam_TEST;
+
 
 };
 

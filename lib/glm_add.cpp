@@ -11,11 +11,7 @@ bool hasInf(vec3 v){
     return (isinf(v[0]) || isinf(v[1]) || isinf(v[2]));
 }
 
-//TODO delete
 mat4 translateEq(mat4 m, vec3 v){
-
-    //return glm::translate(m,v); // HUM TODO ça marche pas
-
     m[3][0]+=v[0];
     m[3][1]+=v[1];
     m[3][2]+=v[2];

@@ -14,9 +14,16 @@
 
 #include "lib/stb_image.h"
 
-#include "vertexLoader.h"
+#include "meshLoader.h"
 #include "mesh.h"
 #include "vertex.h"
+
+// TODO : make a type
+struct Texture {
+    unsigned int id;
+    string type;
+};
+
 
 class Model
 {
@@ -26,6 +33,7 @@ public:
 
     Model(TYPE_FILE typeFile=NONE, std::string const &path="");
     ~Model();
+
     void draw(Shader *shader);
 
     glm::vec3 center() const;
@@ -39,13 +47,8 @@ private:
 
     glm::vec3   _center;
     float       _radius;
+    vector<Texture> _textures;
 
-
-    //TODO delete
-    std::vector<unsigned int> _indices = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
 
 };
 

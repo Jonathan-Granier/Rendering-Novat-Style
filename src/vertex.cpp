@@ -22,3 +22,7 @@ Vertex::Vertex(float px, float py, float pz, float tu, float tv)
     this->TexCoords = glm::vec2(tu,tv);
 }
 
+
+bool Vertex::operator<(const Vertex that) const{
+        return memcmp((void*)this, (void*)&that, sizeof(Vertex))>0;
+}

@@ -59,17 +59,7 @@ class Camera {
  private:
   inline void updateCamVectors(const mat4 &m);
   inline void updateCamDists(const mat4 &m);
-/*
-  // TMP functions, until all Vec2/Vec3/Mat4 are replaced by glm
-  inline glm::vec2 vec2ToGlm(const Vec2f &v) const;
-  inline glm::vec3 vec3ToGlm(const Vec3f &v) const;
-  inline glm::vec4 vec4ToGlm(const Vec4f &v) const;
-  inline glm::mat4 mat4ToGlm(const Mat4f &m) const;
-  inline Vec2f glmToVec2(const glm::vec2 &v) const;
-  inline Vec3f glmToVec3(const glm::vec3 &v) const;
-  inline Vec4f glmToVec4(const glm::vec4 &v) const;
-  inline Mat4f glmToMat4(const glm::mat4 &m) const;
-*/
+
   int           _m; // moving mode
   int           _w; // width
   int           _h; // height
@@ -89,42 +79,7 @@ class Camera {
   glm::mat4     _matm;
   glm::mat4     _matp;
 };
-/*
-inline glm::vec2 Camera::vec2ToGlm(const Vec2f &v) const {
-  return glm::vec2(v.x(),v.y());
-}
 
-inline glm::vec3 Camera::vec3ToGlm(const Vec3f &v) const {
-  return glm::vec3(v.x(),v.y(),v.z());
-}
-
-inline glm::vec4 Camera::vec4ToGlm(const Vec4f &v) const {
-  return glm::vec4(v[0],v[1],v[2],v[3]);
-}
-
-inline glm::mat4 Camera::mat4ToGlm(const Mat4f &m) const {
-  return glm::make_mat4(m.ptr());
-}
-
-inline Vec2f Camera::glmToVec2(const glm::vec2 &v) const {
-  return Vec2f(v[0],v[1]);
-}
-
-inline Vec3f Camera::glmToVec3(const glm::vec3 &v) const {
-  return Vec3f(v[0],v[1],v[2]);
-}
-
-inline Vec4f Camera::glmToVec4(const glm::vec4 &v) const {
-  return Vec4f(v[0],v[1],v[2],v[3]);
-}
-
-inline Mat4f Camera::glmToMat4(const glm::mat4 &m) const {
-  return Mat4f(m[0][0],m[1][0],m[2][0],m[3][0],
-           m[0][1],m[1][1],m[2][1],m[3][1],
-           m[0][2],m[1][2],m[2][2],m[3][2],
-           m[0][3],m[1][3],m[2][3],m[3][3]);
-}
-*/
 inline void Camera::initRotation(const glm::vec2 &p) {
   _m = ROTATE;
   _p = p;
