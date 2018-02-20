@@ -2,7 +2,7 @@
 
 
 
-Model::Model(TYPE_FILE typeFile, const string &path)
+Model::Model(TYPE_FILE typeFile, const std::string &path)
 {
     meshLoader mL;
     glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
@@ -64,8 +64,8 @@ void Model::draw(Shader *shader)
     unsigned int normalNr=1;
 
     for(unsigned int i=0;i<_textures.size();i++){
-        string number;
-        string name=_textures[i].type;
+        std::string number;
+        std::string name=_textures[i].type;
 
         if(name == "texture_normal"){
             number = std::to_string(normalNr++);

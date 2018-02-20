@@ -33,12 +33,12 @@ class Mesh
 public:
 
 
-    Mesh(vector<Vertex> vertices, vector<unsigned int> indices);
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
     ~Mesh();
 
     /*  Mesh Data  */
-    vector<Vertex> _vertices;
-    vector<unsigned int> _indices;
+    std::vector<Vertex> _vertices;
+    std::vector<unsigned int> _indices;
 
     unsigned int _VAO;
 

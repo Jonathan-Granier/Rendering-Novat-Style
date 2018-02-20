@@ -1,7 +1,9 @@
 #include "viewer.h"
 
 Viewer::Viewer(const QGLFormat &format) :
-    QGLWidget(format)
+    QGLWidget(format),
+    _lightPosition(glm::vec3(0,0,1)),
+    _lightMode(false)
 {
 
 }
@@ -30,7 +32,7 @@ void Viewer::initializeGL(){
     glewExperimental = GL_TRUE;
 
     if(glewInit()!=GLEW_OK) {
-      cerr << "Warning: glewInit failed!" << endl;
+      std::cerr << "Warning: glewInit failed!" << std::endl;
     }
 
 
@@ -60,7 +62,8 @@ void Viewer::paintGL(){
 
     _shader->setMat4("mdvMat",_cam->mdvMatrix());
     _shader->setMat4("projMat",_cam->projMatrix());
-    _shader->setMat4("normalMat",_cam->normalMatrix());
+    _shader->setMat3("normalMat",_cam->normalMatrix());
+    _shader->setVec3("lightPosition",_lightPosition);
 
     _model->draw(_shader);
 
@@ -83,21 +86,43 @@ void Viewer::keyPressEvent(QKeyEvent *ke){
     if(ke->key()==Qt::Key_I) {
       _cam->initialize(width(),height(),true);
     }
+    //key r : reload shader
+    if(ke->key()==Qt::Key_R){
+       _shader->initialize();
+    }
     updateGL();
-    // key r: reload shaders TODO
+
 }
 
 void Viewer::mousePressEvent(QMouseEvent *me){
     const glm::vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
+        _lightMode = false;
         _cam->initRotation(p);
     } else if(me->button()==Qt::MidButton) {
+        _lightMode = false;
         _cam->initMoveZ(p);
+    } else if(me->button()==Qt::RightButton) {
+        _lightMode = true;
+        moveLight(p);
     }
     updateGL();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
     const glm::vec2 p((float)me->x(),(float)(height()-me->y()));
-    _cam->move(p);
+    if(_lightMode)
+        moveLight(p);
+    else
+        _cam->move(p);
+
     updateGL();
+}
+
+void Viewer::moveLight(vec2 p)
+{
+    _lightPosition[0] = (p[0]-(float)(width()/2))/((float)(width()/2));
+    _lightPosition[1] = (p[1]-(float)(height()/2))/((float)(height()/2));
+    _lightPosition[2] = 1.0f-std::max(fabs(_lightPosition[0]),fabs(_lightPosition[1]));
+    _lightPosition = glm::normalize(_lightPosition);
+    std::cout << "I move the light : " << glm::to_string(_lightPosition) << std::endl;
 }

@@ -21,7 +21,7 @@
 // TODO : make a type
 struct Texture {
     unsigned int id;
-    string type;
+    std::string type;
 };
 
 
@@ -47,7 +47,7 @@ private:
 
     glm::vec3   _center;
     float       _radius;
-    vector<Texture> _textures;
+    std::vector<Texture> _textures;
 
 
 };

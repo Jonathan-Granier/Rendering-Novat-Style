@@ -57,7 +57,10 @@ private:
     Shader      *_shader;
     Model       *_model;
     Camera      *_cam;
+    glm::vec3   _lightPosition;
+    bool        _lightMode;
 
+    void moveLight(glm::vec2 p);
 
 };
 

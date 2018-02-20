@@ -145,9 +145,9 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
 */
 
 
-    string lineHeader;
-    string lineGarbage;
-    string lineFace;
+    std::string lineHeader;
+    std::string lineGarbage;
+    std::string lineFace;
     std::vector<unsigned int> positionIndices, texCoordIndices, normalIndices;
     std::vector<glm::vec3> positions;
     std::vector<glm::vec2> texCoords;
@@ -156,7 +156,7 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
 
 
     std::cout << "Loading OBJ from " << path << "..." << std::endl;
-    ifstream file(path,ios::in);
+    std::ifstream file(path,std::ios::in);
 
 
 
@@ -172,7 +172,6 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
             glm::vec3 position;
             file >> position.x >> position.y >> position.z;
             positions.push_back(position);
-            std::cout << "I read a position : " << glm::to_string(position) << std::endl;
 
         }else if ( lineHeader.compare("vt") == 0 ){
             glm::vec2 texCoord;
@@ -181,12 +180,10 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
             // TODO test
             //texCoord.y = -texCoord.y; // Invert V coordinate since we will only use DDS texture, which are inverted. Remove if you want to use TGA or BMP loaders.
             texCoords.push_back(texCoord);
-            std::cout << "I read a texCoord : " << glm::to_string(texCoord) << std::endl;
         }else if ( lineHeader.compare("vn") == 0 ){
             glm::vec3 normal;
             file >> normal.x >> normal.y >> normal.z;
             normals.push_back(normal);
-            std::cout << "I read a normal : " << glm::to_string(normal) << std::endl;
         }else if ( lineHeader.compare("f") == 0 ){
 
             unsigned int positionIndex[3], texCoordIndex[3], normalIndex[3];
@@ -210,11 +207,11 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
             texCoordIndex[2] = stoi(lineFace);
             getline(file,lineFace);
             normalIndex[2] = stoi(lineFace);
-
+            /*
             std::cout << "I read a face : " <<  positionIndex[0] << "/" << texCoordIndex[0] << "/" << normalIndex[0] << " " <<
                                                 positionIndex[1] << "/" << texCoordIndex[1] << "/" << normalIndex[1] << " " <<
                                                 positionIndex[2] << "/" << texCoordIndex[2] << "/" << normalIndex[2] << std::endl;
-
+    */
             for(unsigned i=0;i<3;i++){
                 positionIndices .push_back(positionIndex[i]);
                 texCoordIndices .push_back(texCoordIndex[i]);
@@ -224,11 +221,11 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
             // Other , ingore this line
 
             getline(file,lineGarbage);
-            std::cout << "I throw : " << lineGarbage << std::endl;
+            //std::cout << "I throw : " << lineGarbage << std::endl;
         }
     }
 
-
+    std::cout << "Loading OBJ from " << path << " done." << std::endl;
     file.close();
 
 

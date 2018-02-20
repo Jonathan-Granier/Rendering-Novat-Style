@@ -3,7 +3,7 @@
 /* Public Function */
 
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
     this->_vertices = vertices;
     this->_indices = indices;
