@@ -37,8 +37,8 @@ LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -
 
 
 SOURCES += \
-        src/main.cpp \
-        lib/glad.c \
+    src/main.cpp \
+    lib/glad.c \
     src/shader.cpp \
     src/viewer.cpp \
     lib/stb_image.cpp \
@@ -48,7 +48,8 @@ SOURCES += \
     src/model.cpp \
     src/camera.cpp \
     src/trackball.cpp \
-    src/meshLoader.cpp
+    src/meshLoader.cpp \
+    src/progressbar.cpp
 
 
 HEADERS += \
@@ -61,7 +62,8 @@ HEADERS += \
     src/model.h \
     src/camera.h \
     src/trackball.h \
-    src/meshLoader.h
+    src/meshLoader.h \
+    src/progressbar.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

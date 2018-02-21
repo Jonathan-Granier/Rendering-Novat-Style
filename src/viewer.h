@@ -22,12 +22,12 @@
 
 #include <vector>
 
-
 #include <QGLFormat>
 #include <QGLWidget>
 #include <QMouseEvent>
 #include <QKeyEvent>
-#include <QTimer>
+#include <QTime>
+#include <QProgressBar>
 
 #include "lib/stb_image.h"
 #include "mesh.h"
@@ -60,8 +60,14 @@ private:
     glm::vec3   _lightPosition;
     bool        _lightMode;
 
-    void moveLight(glm::vec2 p);
+    QTime _timer;
+    QProgressBar _progressBar;
 
+    double lastTime;
+    int _nbFrames;
+
+    void moveLight(glm::vec2 p);  
+    void printFPS();
 };
 
 #endif // VIEWER_H

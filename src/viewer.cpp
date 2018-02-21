@@ -3,7 +3,8 @@
 Viewer::Viewer(const QGLFormat &format) :
     QGLWidget(format),
     _lightPosition(glm::vec3(0,0,1)),
-    _lightMode(false)
+    _lightMode(false),
+    _nbFrames(0)
 {
 
 }
@@ -21,13 +22,6 @@ void Viewer::initializeGL(){
 
     makeCurrent();
 
-    /*if (!gladLoadGL())
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        exit(0);
-    }
-    */
-
     // init and chack glew
     glewExperimental = GL_TRUE;
 
@@ -36,28 +30,34 @@ void Viewer::initializeGL(){
     }
 
 
-
-
-
-
     // init OpenGL settings
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
 
+
+    // progressBar init();
+
+
     //_model = new Model(Model::NONE,"");
-    _model = new Model(Model::OBJ,"Models/cube.obj");
+    _model = new Model(Model::OBJ,"Models/mountains.obj");
     _cam = new Camera(_model->radius(),_model->center());
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 
     _cam->initialize(width(),height(),true);
+
+    _timer.start();
+
+    // progressBar end();
 }
 
+// Rendu loop
 void Viewer::paintGL(){
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //printFPS();
 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _shader->use();
 
     _shader->setMat4("mdvMat",_cam->mdvMatrix());
@@ -90,6 +90,8 @@ void Viewer::keyPressEvent(QKeyEvent *ke){
     if(ke->key()==Qt::Key_R){
        _shader->initialize();
     }
+    if(ke->key()==Qt::Key_F) {
+     }
     updateGL();
 
 }
@@ -124,5 +126,13 @@ void Viewer::moveLight(vec2 p)
     _lightPosition[1] = (p[1]-(float)(height()/2))/((float)(height()/2));
     _lightPosition[2] = 1.0f-std::max(fabs(_lightPosition[0]),fabs(_lightPosition[1]));
     _lightPosition = glm::normalize(_lightPosition);
-    std::cout << "I move the light : " << glm::to_string(_lightPosition) << std::endl;
+}
+
+void Viewer::printFPS(){
+    _nbFrames++;
+    if((double)_timer.elapsed() > 1000.0){
+        std::cout << 1000.0/double(_nbFrames) << " ms/frame" << std::endl;
+        _nbFrames=0;
+        _timer.restart();
+    }
 }

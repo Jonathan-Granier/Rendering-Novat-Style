@@ -47,6 +47,7 @@ private:
 
     glm::vec3   _center;
     float       _radius;
+
     std::vector<Texture> _textures;
 
 

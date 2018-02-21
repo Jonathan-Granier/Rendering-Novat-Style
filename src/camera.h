@@ -2,10 +2,6 @@
 #define CAMERA_H
 
 #include "trackball.h"
-#include "lib/quat.h"
-#include "lib/vec2.h"
-#include "lib/vec3.h"
-#include "lib/mat4.h"
 
 // OpenGL Mathematics
 #include <glm/glm.hpp>

@@ -1,9 +1,6 @@
 #ifndef TRACKBALL_H
 #define TRACKBALL_H
 
-#include "lib/vec2.h"
-#include "lib/vec3.h"
-#include "lib/quat.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
