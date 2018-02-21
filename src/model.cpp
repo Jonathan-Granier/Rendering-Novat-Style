@@ -38,14 +38,14 @@ Model::Model(TYPE_FILE typeFile, const std::string &path)
 
 
     // computing center
-    for(i=0;i<_mesh->_vertices.size();i+=3) {
+    for(i=0;i<_mesh->_vertices.size();i++) {
       c += _mesh->_vertices[i].Position;
     }
     _center = c/(float)_mesh->_vertices.size();
 
     // computing radius
     _radius = 0.0;
-    for(i=0;i<_mesh->_vertices.size();i+=3) {
+    for(i=0;i<_mesh->_vertices.size();i++) {
       c = _mesh->_vertices[i].Position-_center;
 
       r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);

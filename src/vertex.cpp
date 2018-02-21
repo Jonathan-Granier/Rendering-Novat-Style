@@ -22,6 +22,13 @@ Vertex::Vertex(float px, float py, float pz, float tu, float tv)
     this->TexCoords = glm::vec2(tu,tv);
 }
 
+Vertex::Vertex(float px, float py, float pz)
+{
+    this->Position = glm::vec3(px,py,pz);
+    this->Normal = glm::vec3(0.0f,0.0f,0.0f);
+    this->TexCoords = glm::vec2(0.0f,0.0f);
+}
+
 
 bool Vertex::operator<(const Vertex that) const{
         return memcmp((void*)this, (void*)&that, sizeof(Vertex))>0;

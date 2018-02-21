@@ -20,7 +20,7 @@ public:
     Vertex(glm::vec3 position,glm::vec3 normal,glm::vec2 texCoords);
     Vertex(float px, float py, float pz, float nx, float ny, float nz, float tu, float tv);
     Vertex(float px, float py, float pz, float tu, float tv);
-
+    Vertex(float px, float py, float pz);
     bool operator<(const Vertex that) const;
 
 
