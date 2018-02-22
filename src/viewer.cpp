@@ -1,11 +1,18 @@
 #include "viewer.h"
 
-Viewer::Viewer(const QGLFormat &format) :
-    QGLWidget(format),
+Viewer::Viewer(QWidget *parent) :
+    QOpenGLWidget(parent),
     _lightPosition(glm::vec3(0,0,1)),
     _lightMode(false),
     _nbFrames(0)
 {
+
+    QSurfaceFormat format;
+    format.setVersion(4,4);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setSamples(16); // //multisampling (antialiasing) -> add glEnable(GL_MULTISAMPLE); in initialization.
+    format.setDepthBufferSize(24);
+    this->setFormat(format);
 
 }
 
@@ -23,6 +30,7 @@ void Viewer::initializeGL(){
     makeCurrent();
 
     // init and chack glew
+
     glewExperimental = GL_TRUE;
 
     if(glewInit()!=GLEW_OK) {
@@ -31,6 +39,7 @@ void Viewer::initializeGL(){
 
 
     // init OpenGL settings
+    glEnable(GL_MULTISAMPLE);
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -41,8 +50,8 @@ void Viewer::initializeGL(){
 
 
     //_model = new Model(Model::NONE,"");
-    _model = new Model(Model::MNT,"Models/BDALTI_Alpe_d_huez.asc");
-    //_model = new Model(Model::OBJ,"Models/mountains.obj");
+    //_model = new Model(Model::MNT,"Models/BDALTI_Alpe_d_huez.asc");
+    _model = new Model(Model::OBJ,"Models/cube.obj");
     //_model = new Model(Model::MNT,"Models/MNT_basic.asc");
     _cam = new Camera(_model->radius(),_model->center());
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
@@ -77,7 +86,7 @@ void Viewer::paintGL(){
 void Viewer::resizeGL(int width,int height){
     _cam->initialize(width,height,false);
     glViewport(0,0,width,height);
-    updateGL();
+    update();
 }
 
 
@@ -94,7 +103,7 @@ void Viewer::keyPressEvent(QKeyEvent *ke){
     }
     if(ke->key()==Qt::Key_F) {
      }
-    updateGL();
+    update();
 
 }
 
@@ -110,7 +119,7 @@ void Viewer::mousePressEvent(QMouseEvent *me){
         _lightMode = true;
         moveLight(p);
     }
-    updateGL();
+    update();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
     const glm::vec2 p((float)me->x(),(float)(height()-me->y()));
@@ -119,7 +128,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
     else
         _cam->move(p);
 
-    updateGL();
+    update();
 }
 
 void Viewer::moveLight(vec2 p)

@@ -4,8 +4,6 @@
 #include <iostream>
 #include <unistd.h>
 
-//#include <glad/glad.h>
-//#include <GLFW/glfw3.h>
 
 // GLEW lib: needs to be included first!!
 #include <GL/glew.h>
@@ -16,18 +14,27 @@
 // OpenGL Utility library
 #include <GL/glu.h>
 
+
+
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <vector>
 
-#include <QGLFormat>
-#include <QGLWidget>
+
+
+
+
+#include <QOpenGLWidget>
+#include <QColor>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QTime>
 #include <QProgressBar>
+
+
 
 #include "lib/stb_image.h"
 #include "mesh.h"
@@ -38,10 +45,11 @@
 
 
 
-class Viewer : public QGLWidget
+class Viewer : public QOpenGLWidget
 {
+
 public:
-    Viewer(const QGLFormat &format=QGLFormat::defaultFormat());
+    Viewer(QWidget *parent = 0);
     ~Viewer();
 
     virtual void paintGL();
