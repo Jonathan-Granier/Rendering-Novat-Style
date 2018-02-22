@@ -5,6 +5,8 @@ out vec4 FragColor;
 in vec2 TexCoord;
 in vec4 Normal;
 in vec3 eyeVector;
+in vec4 NormalTest;
+
 
 uniform vec3 lightPosition;
 uniform sampler2D texture_normal1;
@@ -53,5 +55,5 @@ void main()
 
   //FragColor = Ca+Cd;
   //FragColor = vec4(0.4,0.1,0.7,1.0);
-  FragColor = colorObj;
+  FragColor = n;
 }

@@ -42,6 +42,8 @@ void Viewer::initializeGL(){
 
     //_model = new Model(Model::NONE,"");
     _model = new Model(Model::MNT,"Models/BDALTI_Alpe_d_huez.asc");
+    //_model = new Model(Model::OBJ,"Models/mountains.obj");
+    //_model = new Model(Model::MNT,"Models/MNT_basic.asc");
     _cam = new Camera(_model->radius(),_model->center());
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 

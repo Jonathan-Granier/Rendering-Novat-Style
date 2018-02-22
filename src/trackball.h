@@ -49,9 +49,6 @@ inline glm::quat TrackBall::track(const glm::vec2 &pt) {
   float angle = glm::length(p-_startPos)*4/_radius;
   glm::vec3 ptSph = glm::vec3(p.x,p.y,_radius);
   glm::vec3 axis = normal(glm::cross(ptSph, _startSphPos));
-
-//  std::cout << "GLM VEC : ( " << axis.x << " , " << axis.y << " , " << axis.z << " ) | " << angle << std::endl;
-
   if(hasNan(axis)  || hasInf(axis))
     return quat(1,0,0,0);
 
@@ -63,9 +60,7 @@ inline glm::quat TrackBall::track(const glm::vec2 &pt) {
   b=axis.x*tmp;
   c=axis.y*tmp;
   d=axis.z*tmp;
-  quat q = quat(d,a,b,c);
-//  std::cout << "GLM QUAD: ( " << q[0] << " , " << q[1] << " , " << q[2] << " , " << q[3] << " )"  << std::endl;
-  return q;
+  return quat(d,a,b,c);
 }
 
 inline void TrackBall::setCenter(const glm::vec2 &center) {

@@ -28,11 +28,13 @@ public:
     Mesh* vertexFromMNT(const std::string &path);
 
 
+
 private:
 
     Mesh *indexVBO(std::vector<Vertex> vertices);
     bool getSimilarVertexIndex(Vertex &v,std::map<Vertex,unsigned int> &VertexToOutIndex, unsigned int &result);
     void checkHeader(std::string value, std::string goal);
+    void computeNormal(Vertex *v1, Vertex *v2, Vertex *v3);
 };
 
 #endif // MESHLOADER_H

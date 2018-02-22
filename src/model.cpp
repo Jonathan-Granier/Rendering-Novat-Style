@@ -5,11 +5,6 @@
 Model::Model(TYPE_FILE typeFile, const std::string &path)
 {
     meshLoader mL;
-    glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
-    float r;
-    unsigned int i;
-
-
     switch (typeFile){
         case OBJ:   _mesh = mL.vertexFromObj(path);
         break;
@@ -36,7 +31,12 @@ Model::Model(TYPE_FILE typeFile, const std::string &path)
 
 
 
+    glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
+    float r;
+    unsigned int i;
 
+
+    //TODO : demander à romain pourquoi c'est pas centré , OUIN OUIN BOUH BOUH en format MNT.
     // computing center
     for(i=0;i<_mesh->_vertices.size();i++) {
       c += _mesh->_vertices[i].Position;
@@ -51,6 +51,10 @@ Model::Model(TYPE_FILE typeFile, const std::string &path)
       r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);
       _radius = r>_radius ? r : _radius;
     }
+
+    std::cout << glm::to_string(_mesh->_vertices[0].Position) << std::endl;
+    std::cout << glm::to_string(_mesh->_vertices[_mesh->_vertices.size()-1].Position) << std::endl;
+
 }
 
 Model::~Model()

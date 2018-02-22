@@ -13,11 +13,14 @@ out vec2 TexCoord;
 out vec4 Normal;
 out vec4 lightVector;
 
+out vec4 NormalTest;
+
 void main()
 {
     TexCoord = aTexCoord;
     vec4 position = vec4(aPos,1.0);
 
+    NormalTest = vec4(aNormal,1.0);
 
     Normal = vec4(normalize(normalMat*aNormal),0.0);
 

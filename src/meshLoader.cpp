@@ -190,9 +190,12 @@ Mesh* meshLoader::vertexFromMNT(const std::string &path)
     unsigned int currentIndice;
     float offset;
     float noDataValue;
+
+    float miny(10000.0),maxy(0.0);
     std::stringstream iss;
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
+    std::vector<glm::vec3> normalFace;
     std::string value;
 
 
@@ -242,8 +245,10 @@ Mesh* meshLoader::vertexFromMNT(const std::string &path)
     for(unsigned int j=0;j<ncols;j++){
         getline(iss,value,' ');
 
-        Vertex v = Vertex(j*offset,stof(value),0.0f,j*offset/nrows,0.0f);
+        Vertex v = Vertex(j*offset,stof(value),0.0f,float(j)/float(nrows),0.0f);
         vertices.push_back(v);
+        if(stof(value) > maxy) maxy = stof(value);
+        if(stof(value) < miny) miny = stof(value);
         //Push vertex to vertices
     }
     iss.clear();
@@ -254,24 +259,43 @@ Mesh* meshLoader::vertexFromMNT(const std::string &path)
         getline(iss,value,' ');// Throw the first ' '
         for(unsigned int j=0;j<ncols;j++){
             getline(iss,value,' ');
-            //std::cout << "I read : " << stof(value) << " in row : " << i << " and col : " << j << std::endl;
-            Vertex v = Vertex(j*offset,stof(value),i*offset,j*offset/nrows,i*offset/ncols);
+            Vertex v = Vertex(j*offset,stof(value),i*offset,float(j)/float(nrows),float(i)/float(ncols));
             vertices.push_back(v);
+
+            if(stof(value) > maxy) maxy = stof(value);
+            if(stof(value) < miny) miny = stof(value);
+
             currentIndice = ncols*i + j;
 
+            // Inserting in the counterclockwise direction
             if(j!=0){
                 indices.push_back(currentIndice);
                 indices.push_back(currentIndice-ncols);
                 indices.push_back(currentIndice-1);
+
+                //Compute normal of the face and recompute the normal of each vertex of the face;
+                computeNormal(&vertices[currentIndice],&vertices[currentIndice-ncols],&vertices[currentIndice-1]);
+
             }
             if(j!=ncols-1){
+
                 indices.push_back(currentIndice);
-                indices.push_back(currentIndice-ncols);
                 indices.push_back(currentIndice-ncols+1);
+                indices.push_back(currentIndice-ncols);
+
+
+                //Compute normal of the face and recompute the normal of each vertex of the face;
+                computeNormal(&vertices[currentIndice],&vertices[currentIndice-ncols+1],&vertices[currentIndice-ncols]);
             }
 
         }
         iss.clear();
+    }
+
+    glm::vec3 shift_Pos(ncols/2*offset,(miny+maxy)/2,nrows/2*offset);
+    for(unsigned int i=0;i<vertices.size();i++){
+        vertices[i].Normal = glm::normalize(vertices[i].Normal);
+        vertices[i].Position -= shift_Pos;
     }
 
     return new Mesh(vertices,indices);
@@ -334,4 +358,15 @@ void meshLoader::checkHeader(std::string value,std::string goal){
         std::cerr << "Error in MNT file header | Expected: " << goal << " Read: " << value << std::endl;
 
 
+}
+
+// V1,V2,V3 in counterclockwise direction !
+
+void meshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
+    glm::vec3 v12 = v2->Position - v1->Position;
+    glm::vec3 v13 = v3->Position - v1->Position;
+    glm::vec3 nf  = glm::normalize(glm::cross(v13,v12));
+    v1->Normal+=nf;
+    v2->Normal+=nf;
+    v3->Normal+=nf;
 }
