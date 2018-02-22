@@ -24,7 +24,7 @@ class Shader
 {
 public:
     // the program ID
-    unsigned int _ID;
+    unsigned int _ID; //TODO make private with getter
 
     // constructor reads and builds the shader
 

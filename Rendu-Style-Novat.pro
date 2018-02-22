@@ -49,7 +49,8 @@ SOURCES += \
     src/camera.cpp \
     src/trackball.cpp \
     src/meshLoader.cpp \
-    src/progressbar.cpp
+    src/progressbar.cpp \
+    src/mainwindow.cpp
 
 
 HEADERS += \
@@ -63,7 +64,8 @@ HEADERS += \
     src/camera.h \
     src/trackball.h \
     src/meshLoader.h \
-    src/progressbar.h
+    src/progressbar.h \
+    src/mainwindow.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

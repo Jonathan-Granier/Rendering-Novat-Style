@@ -62,7 +62,8 @@ SOURCES       = src/main.cpp \
 		src/camera.cpp \
 		src/trackball.cpp \
 		src/meshLoader.cpp \
-		src/progressbar.cpp 
+		src/progressbar.cpp \
+		src/mainwindow.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/shader.o \
@@ -75,7 +76,8 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/camera.o \
 		bin/debug/trackball.o \
 		bin/debug/meshLoader.o \
-		bin/debug/progressbar.o
+		bin/debug/progressbar.o \
+		bin/debug/mainwindow.o
 DIST          = shaders/fragmentshader.frag \
 		shaders/vertexshader.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -216,7 +218,8 @@ DIST          = shaders/fragmentshader.frag \
 		src/camera.h \
 		src/trackball.h \
 		src/meshLoader.h \
-		src/progressbar.h src/main.cpp \
+		src/progressbar.h \
+		src/mainwindow.h src/main.cpp \
 		lib/glad.c \
 		src/shader.cpp \
 		src/viewer.cpp \
@@ -228,7 +231,8 @@ DIST          = shaders/fragmentshader.frag \
 		src/camera.cpp \
 		src/trackball.cpp \
 		src/meshLoader.cpp \
-		src/progressbar.cpp
+		src/progressbar.cpp \
+		src/mainwindow.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debug/
 TARGET        = bin/debug/Rendu-Style-Novat
@@ -523,8 +527,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertex.h src/model.h src/camera.h src/trackball.h src/meshLoader.h src/progressbar.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/meshLoader.cpp src/progressbar.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertex.h src/model.h src/camera.h src/trackball.h src/meshLoader.h src/progressbar.h src/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/meshLoader.cpp src/progressbar.cpp src/mainwindow.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -574,7 +578,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-bin/debug/main.o: src/main.cpp src/viewer.h \
+bin/debug/main.o: src/main.cpp src/mainwindow.h \
+		src/viewer.h \
 		lib/stb_image.h \
 		src/mesh.h \
 		src/shader.h \
@@ -647,6 +652,20 @@ bin/debug/meshLoader.o: src/meshLoader.cpp src/meshLoader.h \
 
 bin/debug/progressbar.o: src/progressbar.cpp src/progressbar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/progressbar.o src/progressbar.cpp
+
+bin/debug/mainwindow.o: src/mainwindow.cpp src/mainwindow.h \
+		src/viewer.h \
+		lib/stb_image.h \
+		src/mesh.h \
+		src/shader.h \
+		src/vertex.h \
+		src/camera.h \
+		src/trackball.h \
+		lib/glm_add.h \
+		src/meshLoader.h \
+		src/progressbar.h \
+		src/model.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/mainwindow.cpp
 
 ####### Install
 

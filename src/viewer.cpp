@@ -17,7 +17,6 @@ Viewer::Viewer(QWidget *parent) :
 }
 
 Viewer::~Viewer() {
-  //deleteBuffers();
   delete _model;
   delete _cam;
   delete _shader;
@@ -46,7 +45,7 @@ void Viewer::initializeGL(){
     glViewport(0,0,width(),height());
 
 
-    // progressBar init();
+
 
 
     //_model = new Model(Model::NONE,"");
@@ -60,7 +59,6 @@ void Viewer::initializeGL(){
 
     _timer.start();
 
-    // progressBar end();
 }
 
 // Rendu loop
