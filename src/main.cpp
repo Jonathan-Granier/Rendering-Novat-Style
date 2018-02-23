@@ -29,8 +29,8 @@
 int main(int argc,char** argv)
 {
     QApplication application(argc,argv);
-    QCoreApplication::setOrganizationName("Maverick");
-    QCoreApplication::setApplicationName("Rendu Style Novat");
+    application.setWindowIcon(QIcon("Images/RSN.ico"));
+    application.setApplicationName("Rendu Style Novat");
 
     MainWindow window;
     window.show();

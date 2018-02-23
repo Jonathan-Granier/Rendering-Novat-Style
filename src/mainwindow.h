@@ -38,6 +38,7 @@ private:
     Viewer *_viewer;
     QApplication *_application;
 
+
     void setupMenu();
 };
 

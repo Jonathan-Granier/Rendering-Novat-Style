@@ -54,7 +54,7 @@ class Viewer : public QOpenGLWidget
 {
 
 public:
-    Viewer(QString path="",QWidget *parent = 0);
+    Viewer(QWidget *parent = 0);
     ~Viewer();
 
     virtual void paintGL();
@@ -64,7 +64,7 @@ public:
     virtual void mousePressEvent(QMouseEvent *me);
     virtual void mouseMoveEvent(QMouseEvent *me);
 
-    void loadModel();
+
     bool loadModelFromFile(const QString &path);
 
 private:
@@ -75,7 +75,7 @@ private:
     glm::vec3   _lightPosition;
     bool        _lightMode;
     std::string _path;
-    Model::TYPE_FILE type_model;
+    Model::TYPE_FILE _typeModel;
 
     QTime _timer;
     QProgressBar _progressBar;
@@ -83,6 +83,7 @@ private:
     double lastTime;
     int _nbFrames;
 
+    void loadModel();
     void moveLight(glm::vec2 p);  
     void printFPS();
 };

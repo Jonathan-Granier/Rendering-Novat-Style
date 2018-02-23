@@ -1,11 +1,11 @@
 #include "viewer.h"
 
-Viewer::Viewer(QString path,QWidget *parent) :
+Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
-    _path(path),
+    _path(""),
+    _typeModel(Model::NONE),
     _lightPosition(glm::vec3(0,0,1)),
-    _lightMode(false),
-    _nbFrames(0)
+    _lightMode(false)
 {
 
     QSurfaceFormat format;
@@ -48,13 +48,8 @@ void Viewer::initializeGL(){
 
 
 
-    _model = new Model(Model::OBJ,_path.toStdString());
-    _cam = new Camera(_model->radius(),_model->center());
-    _cam->initialize(width(),height(),true);
+    loadModel();
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
-
-
-
     _timer.start();
 
 }
@@ -131,14 +126,19 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 void Viewer::loadModel()
 {
 
+    _model = new Model(_typeModel,_path);
+    _cam = new Camera(_model->radius(),_model->center());
+    _cam->initialize(width(),height(),true);
 
-    delete _model;
 
 }
 
 bool Viewer::loadModelFromFile(const QString &path)
 {
 
+    if(_model){
+        delete _model;
+    }
     QString ext = path.section('.',-1);
 
     std::cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << std::endl;
@@ -156,10 +156,8 @@ bool Viewer::loadModelFromFile(const QString &path)
     else{
         return false;
     }
-    _cam = new Camera(_model->radius(),_model->center());
-    _cam->initialize(width(),height(),true);
     initializeGL();
-
+    update();
     return true;
 }
 
@@ -173,11 +171,3 @@ void Viewer::moveLight(vec2 p)
     _lightPosition = glm::normalize(_lightPosition);
 }
 
-void Viewer::printFPS(){
-    _nbFrames++;
-    if((double)_timer.elapsed() > 1000.0){
-        std::cout << 1000.0/double(_nbFrames) << " ms/frame" << std::endl;
-        _nbFrames=0;
-        _timer.restart();
-    }
-}

@@ -7,14 +7,16 @@
 #include <QToolBar>
 #include <QAction>
 #include <QFileDialog>
+#include <QErrorMessage>
 
 MainWindow::MainWindow()
 {
 
+    this->setFixedSize(1200,800);
     // TODO set Icon
     // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
 
-    _viewer = new Viewer("Models/cube.obj");
+    _viewer = new Viewer();
     setCentralWidget(_viewer);
 
 
@@ -34,20 +36,23 @@ void MainWindow::open()
     QString fileName = QFileDialog::getOpenFileName(this);
     if(!fileName.isEmpty())
     {
-        delete _viewer;
-        _viewer = new Viewer(fileName);
-        setCentralWidget(_viewer);
+        if(!_viewer->loadModelFromFile(fileName)){
+            QErrorMessage errorMessageDialog(this);
+            errorMessageDialog.showMessage(tr("Error , unknow type file !"));
+        }
     }
 }
-
+//TODO
 void MainWindow::saveScreenshot()
 {
-
+    QErrorMessage errorMessageDialog(this);
+    errorMessageDialog.showMessage(tr("Not Implemented!"));
 }
 
-void MainWindow::help() //TODO
+void MainWindow::help()
 {
-
+    QErrorMessage errorMessageDialog(this);
+    errorMessageDialog.showMessage(tr("Not Implemented!"));
 }
 
 void MainWindow::about()
