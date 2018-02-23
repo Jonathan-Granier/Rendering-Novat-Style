@@ -1,7 +1,8 @@
 #include "viewer.h"
 
-Viewer::Viewer(QWidget *parent) :
+Viewer::Viewer(QString path,QWidget *parent) :
     QOpenGLWidget(parent),
+    _path(path),
     _lightPosition(glm::vec3(0,0,1)),
     _lightMode(false),
     _nbFrames(0)
@@ -26,9 +27,10 @@ Viewer::~Viewer() {
 
 void Viewer::initializeGL(){
 
+    std::cout << "InitializeGL" << std::endl;
     makeCurrent();
 
-    // init and chack glew
+    // init and check glew
 
     glewExperimental = GL_TRUE;
 
@@ -46,16 +48,12 @@ void Viewer::initializeGL(){
 
 
 
-
-
-    //_model = new Model(Model::NONE,"");
-    //_model = new Model(Model::MNT,"Models/BDALTI_Alpe_d_huez.asc");
-    _model = new Model(Model::OBJ,"Models/cube.obj");
-    //_model = new Model(Model::MNT,"Models/MNT_basic.asc");
+    _model = new Model(Model::OBJ,_path.toStdString());
     _cam = new Camera(_model->radius(),_model->center());
+    _cam->initialize(width(),height(),true);
     _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 
-    _cam->initialize(width(),height(),true);
+
 
     _timer.start();
 
@@ -128,6 +126,44 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
     update();
 }
+
+// TODO Mieux mais
+void Viewer::loadModel()
+{
+
+
+    delete _model;
+
+}
+
+bool Viewer::loadModelFromFile(const QString &path)
+{
+
+    QString ext = path.section('.',-1);
+
+    std::cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << std::endl;
+
+    if(ext.compare("obj")==0){
+        std::cout << "OJB" << std::endl;
+        _path = path.toStdString();
+        _typeModel = Model::OBJ;
+    }
+    else if(ext.compare("asc")==0){
+        std::cout << "MNT" << std::endl;
+        _path = path.toStdString();
+        _typeModel = Model::MNT;
+    }
+    else{
+        return false;
+    }
+    _cam = new Camera(_model->radius(),_model->center());
+    _cam->initialize(width(),height(),true);
+    initializeGL();
+
+    return true;
+}
+
+
 
 void Viewer::moveLight(vec2 p)
 {

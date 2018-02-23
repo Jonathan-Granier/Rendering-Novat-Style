@@ -36,7 +36,6 @@ Model::Model(TYPE_FILE typeFile, const std::string &path)
     unsigned int i;
 
 
-    //TODO : demander à romain pourquoi c'est pas centré , OUIN OUIN BOUH BOUH en format MNT.
     // computing center
     for(i=0;i<_mesh->_vertices.size();i++) {
       c += _mesh->_vertices[i].Position;

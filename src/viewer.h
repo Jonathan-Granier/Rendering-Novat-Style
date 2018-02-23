@@ -1,9 +1,6 @@
 #ifndef VIEWER_H
 #define VIEWER_H
 
-#include <iostream>
-#include <unistd.h>
-
 
 // GLEW lib: needs to be included first!!
 #include <GL/glew.h>
@@ -13,6 +10,14 @@
 
 // OpenGL Utility library
 #include <GL/glu.h>
+
+
+
+
+
+#include <iostream>
+#include <unistd.h>
+
 
 
 
@@ -49,7 +54,7 @@ class Viewer : public QOpenGLWidget
 {
 
 public:
-    Viewer(QWidget *parent = 0);
+    Viewer(QString path="",QWidget *parent = 0);
     ~Viewer();
 
     virtual void paintGL();
@@ -59,6 +64,8 @@ public:
     virtual void mousePressEvent(QMouseEvent *me);
     virtual void mouseMoveEvent(QMouseEvent *me);
 
+    void loadModel();
+    bool loadModelFromFile(const QString &path);
 
 private:
 
@@ -67,6 +74,8 @@ private:
     Camera      *_cam;
     glm::vec3   _lightPosition;
     bool        _lightMode;
+    std::string _path;
+    Model::TYPE_FILE type_model;
 
     QTime _timer;
     QProgressBar _progressBar;
