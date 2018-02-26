@@ -8,25 +8,24 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
-#include "progressbar.h"
+#include "progressinfo.h"
 
 #include "glm/glm.hpp"
 #include "mesh.h"
+#include "progressinfo.h"
 
 
 
 
-
-class meshLoader
+class MeshLoader
 {
 public:
-    meshLoader();
+    MeshLoader(ProgressInfo *progressInfo);
 
     //std::vector<Vertex> vertexFromHardCode();
     Mesh* vertexFromHardCode();
     Mesh* vertexFromObj(const std::string &path);
     Mesh* vertexFromMNT(const std::string &path);
-
 
 
 private:
@@ -35,6 +34,11 @@ private:
     bool getSimilarVertexIndex(Vertex &v,std::map<Vertex,unsigned int> &VertexToOutIndex, unsigned int &result);
     void checkHeader(std::string value, std::string goal);
     void computeNormal(Vertex *v1, Vertex *v2, Vertex *v3);
+
+    ProgressInfo *_progressInfo;
+
+
+
 };
 
 #endif // MESHLOADER_H

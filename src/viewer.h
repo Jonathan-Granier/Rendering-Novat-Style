@@ -45,9 +45,9 @@
 #include "mesh.h"
 #include "shader.h"
 #include "camera.h"
-#include "meshLoader.h"
+#include "meshloader.h"
 #include "model.h"
-
+#include "progressinfo.h"
 
 
 class Viewer : public QOpenGLWidget
@@ -67,6 +67,10 @@ public:
 
     bool loadModelFromFile(const QString &path);
 
+
+
+    ProgressInfo *progressInfo() const;
+
 private:
 
     Shader      *_shader;
@@ -78,7 +82,7 @@ private:
     Model::TYPE_FILE _typeModel;
 
     QTime _timer;
-    QProgressBar _progressBar;
+    ProgressInfo *_progressInfo;
 
     double lastTime;
     int _nbFrames;

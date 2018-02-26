@@ -2,17 +2,17 @@
 
 
 
-Model::Model(TYPE_FILE typeFile, const std::string &path)
+Model::Model(MeshLoader ml,TYPE_FILE typeFile, const std::string &path)
 {
-    meshLoader mL;
+
     switch (typeFile){
-        case OBJ:   _mesh = mL.vertexFromObj(path);
+        case OBJ:   _mesh = ml.vertexFromObj(path);
         break;
-        case MNT:   _mesh = mL.vertexFromMNT(path);
+        case MNT:   _mesh = ml.vertexFromMNT(path);
         break;
-        case NONE:  _mesh = mL.vertexFromHardCode();
+        case NONE:  _mesh = ml.vertexFromHardCode();
         break;
-        default:    _mesh = mL.vertexFromHardCode();
+        default:    _mesh = ml.vertexFromHardCode();
         break;
     }
 
@@ -50,9 +50,6 @@ Model::Model(TYPE_FILE typeFile, const std::string &path)
       r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);
       _radius = r>_radius ? r : _radius;
     }
-
-    std::cout << glm::to_string(_mesh->_vertices[0].Position) << std::endl;
-    std::cout << glm::to_string(_mesh->_vertices[_mesh->_vertices.size()-1].Position) << std::endl;
 
 }
 
@@ -134,3 +131,5 @@ glm::vec3 Model::center() const
 {
     return _center;
 }
+
+

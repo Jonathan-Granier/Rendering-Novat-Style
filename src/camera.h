@@ -53,8 +53,8 @@ class Camera {
   inline void moveZ(const glm::vec2 &p);
 
  private:
-  inline void updateCamVectors(const mat4 &m);
-  inline void updateCamDists(const mat4 &m);
+  inline void updateCamVectors  (const glm::mat4 &m);
+  inline void updateCamDists    (const glm::mat4 &m);
 
   int           _m; // moving mode
   int           _w; // width
@@ -105,13 +105,13 @@ inline void Camera::rotate(const glm::vec2 &p) {
   glm::mat4 mo = _matm;
 
   // compute rotation matrix
-  const glm::vec3 tr = vec3(mo[3][0],mo[3][1],mo[3][2]);
-  const glm::mat4  t1 =  identityTranslateEq(-tr);
-  const glm::mat4  t2 =  identityTranslateEq(tr);
+  const glm::vec3 tr = glm::vec3(mo[3][0],mo[3][1],mo[3][2]);
+  const glm::mat4 t1 = gml_add::identityTranslateEq(-tr);
+  const glm::mat4 t2 = gml_add::identityTranslateEq(tr);
 
 
-  quat q = _t.track(p);
-  const glm::mat4  mr = quatToMat4(q);
+  glm::quat q = _t.track(p);
+  const glm::mat4  mr = gml_add::quatToMat4(q);
 
   _matm = t2*mr*t1*mo; // TODO test
 
@@ -126,7 +126,7 @@ inline void Camera::moveXY(const glm::vec2 &p) {
   const float s = _r/300.0;
 
   // compute translation matrix
-  _matm = translateEq(_matm,glm::vec3((p[0]-_p[0])*s,(p[1]-_p[1])*s,0.0f));
+  _matm = gml_add::translateEq(_matm,glm::vec3((p[0]-_p[0])*s,(p[1]-_p[1])*s,0.0f));
 
   // update params
   _p = p;
@@ -137,7 +137,7 @@ inline void Camera::moveZ(const glm::vec2 &p) {
   const float s = _r/100.0;
 
   // compute translation matrix
-  _matm = translateEq(_matm,glm::vec3(0.0f,0.0f,(_p[1]-p[1])*s));
+  _matm = gml_add::translateEq(_matm,glm::vec3(0.0f,0.0f,(_p[1]-p[1])*s));
 
   // update params
   _p = p;

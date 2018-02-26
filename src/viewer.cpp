@@ -15,19 +15,20 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
 
+    _progressInfo = new ProgressInfo();
 }
 
 Viewer::~Viewer() {
   delete _model;
   delete _cam;
   delete _shader;
+  delete _progressInfo;
 
 }
 
 
 void Viewer::initializeGL(){
 
-    std::cout << "InitializeGL" << std::endl;
     makeCurrent();
 
     // init and check glew
@@ -122,11 +123,11 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
     update();
 }
 
-// TODO Mieux mais
 void Viewer::loadModel()
 {
 
-    _model = new Model(_typeModel,_path);
+    MeshLoader ml(_progressInfo);
+    _model = new Model(ml,_typeModel,_path);
     _cam = new Camera(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
 
@@ -161,9 +162,15 @@ bool Viewer::loadModelFromFile(const QString &path)
     return true;
 }
 
+ProgressInfo *Viewer::progressInfo() const
+{
+    return _progressInfo;
+}
 
 
-void Viewer::moveLight(vec2 p)
+
+
+void Viewer::moveLight(glm::vec2 p)
 {
     _lightPosition[0] = (p[0]-(float)(width()/2))/((float)(width()/2));
     _lightPosition[1] = (p[1]-(float)(height()/2))/((float)(height()/2));

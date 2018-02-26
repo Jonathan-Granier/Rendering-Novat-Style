@@ -1,14 +1,13 @@
-#include "meshLoader.h"
+#include "meshloader.h"
 #include "glm/gtx/string_cast.hpp"
 
 
-meshLoader::meshLoader()
-{
-
-}
+MeshLoader::MeshLoader(ProgressInfo *p) :
+    _progressInfo(p)
+{}
 
 // A cube without normal
-Mesh* meshLoader::vertexFromHardCode()
+Mesh* MeshLoader::vertexFromHardCode()
 {
     std::vector<Vertex> vertices;
     vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f)); // 1
@@ -59,7 +58,7 @@ Mesh* meshLoader::vertexFromHardCode()
 
 }
 //TODO translate c reader to c++ reader (FILE to ifstream)
-Mesh* meshLoader::vertexFromObj(const std::string &path)
+Mesh* MeshLoader::vertexFromObj(const std::string &path)
 {
 
 
@@ -168,7 +167,7 @@ Mesh* meshLoader::vertexFromObj(const std::string &path)
 
 }
 //TODO Faire les normales / Corriger les textures
-Mesh* meshLoader::vertexFromMNT(const std::string &path)
+Mesh* MeshLoader::vertexFromMNT(const std::string &path)
 {
     std::cout << "Loading MNT " << path << "..." << std::endl;
 
@@ -305,7 +304,7 @@ Mesh* meshLoader::vertexFromMNT(const std::string &path)
 /*Private */
 
 
-Mesh *meshLoader::indexVBO(std::vector<Vertex> vertices){
+Mesh *MeshLoader::indexVBO(std::vector<Vertex> vertices){
 
 
     std::cout << "Indexing data (on "<< vertices.size() <<" vertex) : Start" << std::endl;
@@ -315,7 +314,7 @@ Mesh *meshLoader::indexVBO(std::vector<Vertex> vertices){
     std::map<Vertex,unsigned int> VertexToOutIndex;
 
 
-    ProgressBar bar(std::cout);
+    _progressInfo->setMark(vertices.size());
     for(i=0 ; i < vertices.size();i++){
 
         unsigned int index;
@@ -330,17 +329,17 @@ Mesh *meshLoader::indexVBO(std::vector<Vertex> vertices){
             indices.push_back(newindex);
             VertexToOutIndex[vertices[i]] = newindex;
         }
-        bar.update(i,vertices.size());
+        _progressInfo->setProgress(i);
 
     }
-    std::cout << std::endl;
+    _progressInfo->progressEnd();
 
     std::cout << "Indexing data : Done" << std::endl;
     return new Mesh(indexVertices,indices);
 }
 
 
-bool meshLoader::getSimilarVertexIndex(Vertex &v,std::map<Vertex,unsigned int> &VertexToOutIndex, unsigned int &result){
+bool MeshLoader::getSimilarVertexIndex(Vertex &v,std::map<Vertex,unsigned int> &VertexToOutIndex, unsigned int &result){
     std::map<Vertex,unsigned int>::iterator it = VertexToOutIndex.find(v);
     if(it == VertexToOutIndex.end())
     {
@@ -353,7 +352,7 @@ bool meshLoader::getSimilarVertexIndex(Vertex &v,std::map<Vertex,unsigned int> &
 
 }
 
-void meshLoader::checkHeader(std::string value,std::string goal){
+void MeshLoader::checkHeader(std::string value,std::string goal){
     if(value.compare(goal) != 0)
         std::cerr << "Error in MNT file header | Expected: " << goal << " Read: " << value << std::endl;
 
@@ -362,7 +361,7 @@ void meshLoader::checkHeader(std::string value,std::string goal){
 
 // V1,V2,V3 in counterclockwise direction !
 
-void meshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
+void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
     glm::vec3 v12 = v2->Position - v1->Position;
     glm::vec3 v13 = v3->Position - v1->Position;
     glm::vec3 nf  = glm::normalize(glm::cross(v13,v12));

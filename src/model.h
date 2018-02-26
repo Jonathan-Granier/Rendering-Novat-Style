@@ -14,7 +14,7 @@
 
 #include "lib/stb_image.h"
 
-#include "meshLoader.h"
+#include "meshloader.h"
 #include "mesh.h"
 #include "vertex.h"
 
@@ -31,7 +31,7 @@ public:
 
     enum TYPE_FILE { OBJ, MNT, NONE };
 
-    Model(TYPE_FILE typeFile=NONE, std::string const &path="");
+    Model(MeshLoader ml,TYPE_FILE typeFile=NONE, std::string const &path="");
     ~Model();
 
     void draw(Shader *shader);
