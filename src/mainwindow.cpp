@@ -52,7 +52,7 @@ void MainWindow::open()
 {
     QFileDialog browser;
     QString fileName = browser.getOpenFileName(this, tr("Open Models"), QDir::currentPath()+"/Models",tr("Models (*.asc *.obj)"));
-    browser.close();
+    browser.close(); // FIXME , didn't always work
     if(!fileName.isEmpty())
     {
         if(!_viewer->loadModelFromFile(fileName)){
@@ -100,22 +100,23 @@ void MainWindow::about()
 
 void MainWindow::showLoadingBar()
 {
-    _loadingBar->setMinimum(0);
+    /*_loadingBar->setMinimum(0);
     _loadingBar->setMaximum(_viewer->progressInfo()->mark());
     _loadingBar->setVisible(true);
     //_loadingBar->show();
     statusBar()->setVisible(true);
-
+*/
 }
 
 void MainWindow::updateLoadingBar()
 {
-    _loadingBar->setValue(_viewer->progressInfo()->progress());
+    //_loadingBar->setValue(_viewer->progressInfo()->progress());
+
 }
 
 void MainWindow::hideLoadingBar()
 {
-    _loadingBar->hide();
+    //_loadingBar->hide();
     //statusBar()->setVisible(false);
 
 }
@@ -171,7 +172,7 @@ void MainWindow::setupMenu(){
 
 void MainWindow::setupLoadingBar()
 {
-    _loadingBar = new QProgressBar(this);
+   /* _loadingBar = new QProgressBar(this);
     connect(_viewer->progressInfo(),&ProgressInfo::progressBegin,this,&MainWindow::showLoadingBar);
     connect(_viewer->progressInfo(),&ProgressInfo::progressUpdate,this,&MainWindow::updateLoadingBar);
     connect(_viewer->progressInfo(),&ProgressInfo::progressEnd,this,&MainWindow::hideLoadingBar);
@@ -179,12 +180,15 @@ void MainWindow::setupLoadingBar()
     _loadingBar->setVisible(true);
     statusBar()->setVisible(true);
     _application->processEvents();
+    */
 }
 
 void MainWindow::deleteLoadingBar(){
+    /*
     disconnect(_viewer->progressInfo(),&ProgressInfo::progressBegin,this,&MainWindow::showLoadingBar);
     disconnect(_viewer->progressInfo(),&ProgressInfo::progressUpdate,this,&MainWindow::updateLoadingBar);
     disconnect(_viewer->progressInfo(),&ProgressInfo::progressEnd,this,&MainWindow::hideLoadingBar);
     delete _loadingBar;
+    */
 }
 
