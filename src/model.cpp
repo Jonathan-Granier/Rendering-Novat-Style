@@ -2,13 +2,13 @@
 
 
 
-Model::Model(MeshLoader ml,TYPE_FILE typeFile, const std::string &path)
+Model::Model(MeshLoader ml, const std::vector<std::string> &filepaths,TYPE_FILE typeFile)
 {
 
     switch (typeFile){
-        case OBJ:   _mesh = ml.vertexFromObj(path);
+        case OBJ:   _mesh = ml.vertexFromObj(filepaths[0]);
         break;
-        case MNT:   _mesh = ml.vertexFromMNT(path);
+        case MNT:   _mesh = ml.vertexFromMNT(filepaths);
         break;
         case NONE:  _mesh = ml.vertexFromHardCode();
         break;

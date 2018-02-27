@@ -31,7 +31,7 @@ public:
 
     enum TYPE_FILE { OBJ, MNT, NONE };
 
-    Model(MeshLoader ml,TYPE_FILE typeFile=NONE, std::string const &path="");
+    Model(MeshLoader ml, std::vector<std::string> const &filepaths,TYPE_FILE typeFile=NONE);
     ~Model();
 
     void draw(Shader *shader);

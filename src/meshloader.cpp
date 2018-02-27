@@ -166,10 +166,20 @@ Mesh* MeshLoader::vertexFromObj(const std::string &path)
 
 
 }
-//TODO Faire les normales / Corriger les textures
-Mesh* MeshLoader::vertexFromMNT(const std::string &path)
+
+// TODO doc with this exemple
+/*  1  2  3  | 4  5  6
+ *  7  8  9  | 10 11 12
+ *  13 14 15 | 16 17 18
+ * --------------------
+ *  19 20 21 | 22 23 24
+ *  25 26 27 | 28 29 30
+ *  31 32 33 | 34 35 36
+
+*/
+Mesh* MeshLoader::vertexFromMNT(const std::vector<std::string> &filepaths)
 {
-    std::cout << "Loading MNT " << path << "..." << std::endl;
+    std::cout << "Loading MNT " << filepaths[0] << "..." << std::endl;
 
     /*
 
@@ -184,114 +194,99 @@ Mesh* MeshLoader::vertexFromMNT(const std::string &path)
     *DATA*
     */
 
-    unsigned int ncols;
-    unsigned int nrows;
-    unsigned int currentIndice;
-    float offset;
-    float noDataValue;
 
-    float miny(10000.0),maxy(0.0);
+
+
+    unsigned int iSchemaIndex;
+    unsigned int jSchemaIndex;
+    unsigned int currentIndice;
+    FileInfo currentFileInfo;
+
+
+
+    float miny(10000.0),maxy(0.0); // Altitude min and max for find the median
     std::stringstream iss;
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-    std::vector<glm::vec3> normalFace;
     std::string value;
+    std::vector<FileInfo> fileInfos = getFileInfosFromFiles(filepaths);
+    std::vector<std::vector<unsigned int>> schema = setupSchema(fileInfos);
+    float xSizeSlab = fileInfos[0].ncols*fileInfos[0].offset;
+    float zSizeSlab = fileInfos[0].nrows*fileInfos[0].offset;
 
+    // Reading the 1st line of files all at the top
+    /*  1  2  3  | 4  5  6     <-- this
+     *  7  8  9  | 10 11 12
+     *  13 14 15 | 16 17 18
+     * --------------------
+     *  19 20 21 | 22 23 24
+     *  25 26 27 | 28 29 30
+     *  31 32 33 | 34 35 36
+     **/
 
+    for(jSchemaIndex = 0 ; jSchemaIndex < schema[0].size() ; jSchemaIndex++){
+        currentFileInfo = fileInfos[schema[0][jSchemaIndex]];
+        getline(currentFileInfo.filestream ,value);
+        iss << value;
+        getline(iss,value,' '); // Throw the first ' '
+        for(unsigned int j=0;j<currentFileInfo.ncols;j++){
+            getline(iss,value,' ');
 
-    std::ifstream file(path,std::ios::in);
-
-
-
-    if(!file){
-        std::cerr << "Impossible to open the file from " << path << std::endl;
-        exit(0);
+            Vertex v = Vertex(j*currentFileInfo.offset+xSizeSlab*jSchemaIndex,stof(value),0.0f,float(j+jSchemaIndex*xSizeSlab)/float(schema[0].size()*currentFileInfo.ncols),0.0f);
+            vertices.push_back(v);
+            if(stof(value) > maxy) maxy = stof(value);
+            if(stof(value) < miny) miny = stof(value);
+            //Push vertex to vertices
+        }
+        iss.clear();
     }
 
-    // Read header
+//todo
+    for(iSchemaIndex = 1 ; iSchemaIndex < schema.size() ; iSchemaIndex++){
 
-    getline(file,value,' ');
-    checkHeader(value,"ncols");
-    getline(file,value);
-    ncols = std::stoi(value);
-    getline(file,value,' ');
-    checkHeader(value,"nrows");
-    getline(file,value);
-    nrows = std::stoi(value);
-    getline(file,value,' ');
-
-    // xllcorner and yallcorner are unsave
-    checkHeader(value,"xllcorner");
-    getline(file,value);
-    getline(file,value,' ');
-    checkHeader(value,"yllcorner");
-    getline(file,value);
-
-    getline(file,value,' ');
-    checkHeader(value,"cellsize");
-    getline(file,value);
-    offset = std::stof(value);
-    getline(file,value,' ');
-    checkHeader(value,"NODATA_value");
-    getline(file,value);
-    noDataValue = std::stof(value);
-
-    // Read the first line
-
-    getline(file,value);
-    iss << value;
-    getline(iss,value,' '); // Throw the first ' '
-    for(unsigned int j=0;j<ncols;j++){
-        getline(iss,value,' ');
-
-        Vertex v = Vertex(j*offset,stof(value),0.0f,float(j)/float(nrows),0.0f);
-        vertices.push_back(v);
-        if(stof(value) > maxy) maxy = stof(value);
-        if(stof(value) < miny) miny = stof(value);
-        //Push vertex to vertices
     }
-    iss.clear();
+
     //Read all data
-    for(unsigned int i=1;i<nrows;i++){
-        getline(file,value);
+    for(unsigned int i=1;i<fileInfo.nrows;i++){
+        getline(fileInfo.filestream,value);
         iss << value;
         getline(iss,value,' ');// Throw the first ' '
-        for(unsigned int j=0;j<ncols;j++){
+        for(unsigned int j=0;j<fileInfo.ncols;j++){
             getline(iss,value,' ');
-            Vertex v = Vertex(j*offset,stof(value),i*offset,float(j)/float(nrows),float(i)/float(ncols));
+            Vertex v = Vertex(j*fileInfo.offset,stof(value),i*fileInfo.offset,float(j)/float(fileInfo.ncols),float(i)/float(fileInfo.nrows));
             vertices.push_back(v);
 
             if(stof(value) > maxy) maxy = stof(value);
             if(stof(value) < miny) miny = stof(value);
 
-            currentIndice = ncols*i + j;
+            currentIndice = fileInfo.ncols*i + j;
 
             // Inserting in the counterclockwise direction
             if(j!=0){
                 indices.push_back(currentIndice);
-                indices.push_back(currentIndice-ncols);
+                indices.push_back(currentIndice-fileInfo.ncols);
                 indices.push_back(currentIndice-1);
 
                 //Compute normal of the face and recompute the normal of each vertex of the face;
-                computeNormal(&vertices[currentIndice],&vertices[currentIndice-ncols],&vertices[currentIndice-1]);
+                computeNormal(&vertices[currentIndice],&vertices[currentIndice-fileInfo.ncols],&vertices[currentIndice-1]);
 
             }
-            if(j!=ncols-1){
+            if(j!=fileInfo.ncols-1){
 
                 indices.push_back(currentIndice);
-                indices.push_back(currentIndice-ncols+1);
-                indices.push_back(currentIndice-ncols);
+                indices.push_back(currentIndice-fileInfo.ncols+1);
+                indices.push_back(currentIndice-fileInfo.ncols);
 
 
                 //Compute normal of the face and recompute the normal of each vertex of the face;
-                computeNormal(&vertices[currentIndice],&vertices[currentIndice-ncols+1],&vertices[currentIndice-ncols]);
+                computeNormal(&vertices[currentIndice],&vertices[currentIndice-fileInfo.ncols+1],&vertices[currentIndice-fileInfo.ncols]);
             }
 
         }
         iss.clear();
     }
 
-    glm::vec3 shift_Pos(ncols/2*offset,(miny+maxy)/2,nrows/2*offset);
+    glm::vec3 shift_Pos(fileInfo.ncols/2*fileInfo.offset,(miny+maxy)/2,fileInfo.nrows/2*fileInfo.offset);
     for(unsigned int i=0;i<vertices.size();i++){
         vertices[i].Normal = glm::normalize(vertices[i].Normal);
         vertices[i].Position -= shift_Pos;
@@ -369,3 +364,107 @@ void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
     v2->Normal+=nf;
     v3->Normal+=nf;
 }
+
+
+//TODO remonter l'erreur pour l'afficher en graphique
+std::vector<MeshLoader::FileInfo> MeshLoader::getFileInfosFromFiles(const std::vector<std::string> &filepaths){
+    std::vector<FileInfo> fileInfos;
+
+
+    for(unsigned int i=0; i<filepaths.size();i++){
+
+        fileInfos.push_back(FileInfo());
+        fileInfos[i].filestream = std::ifstream(filepaths[i],std::ios::in);
+        if(!fileInfos[i].filestream){
+            std::cerr << "Impossible to open the file from " << filepaths[i] << std::endl;
+            exit(0);
+        }
+        readHeader(&fileInfos[i]);
+    }
+
+    //check info
+
+    for(unsigned int i=1;i<fileInfos.size();i++){
+        if(fileInfos[i].ncols != fileInfos[0].ncols|| fileInfos[i].nrows!=fileInfos[0].nrows || fileInfos[i].offset!=fileInfos[0].offset )
+        {
+            std::cerr << "Can not read files with different headers (nrows, ncols and offset)" << std::endl;
+        }
+    }
+    return fileInfos;
+}
+
+
+void MeshLoader::readHeader(MeshLoader::FileInfo *fileInfo)
+{
+
+    // Read header
+    std::string value;
+    getline(fileInfo->filestream,value,' ');
+    checkHeader(value,"ncols");
+    getline(fileInfo->filestream,value);
+    fileInfo->ncols = std::stoi(value);
+    getline(fileInfo->filestream,value,' ');
+    checkHeader(value,"nrows");
+    getline(fileInfo->filestream,value);
+    fileInfo->nrows = std::stoi(value);
+    getline(fileInfo->filestream,value,' ');
+
+    // xllcorner and yallcorner are unsave
+    checkHeader(value,"xllcorner");
+    getline(fileInfo->filestream,value);
+    getline(fileInfo->filestream,value,' ');
+    checkHeader(value,"yllcorner");
+    getline(fileInfo->filestream,value);
+
+    getline(fileInfo->filestream,value,' ');
+    checkHeader(value,"cellsize");
+    getline(fileInfo->filestream,value);
+    fileInfo->offset = std::stof(value);
+    getline(fileInfo->filestream,value,' ');
+    checkHeader(value,"NODATA_value");
+    getline(fileInfo->filestream,value);
+    fileInfo->noDataValue = std::stof(value);
+}
+
+
+//Peu opti mais peu de fichier (<100) donc osef
+std::vector<std::vector<unsigned int>> MeshLoader::setupSchema(const std::vector<FileInfo> &fileInfos){
+    unsigned int i,j,k;
+    float xSizeSlab = fileInfos[0].ncols*fileInfos[0].offset;
+    float ySizeSlab = fileInfos[0].nrows*fileInfos[0].offset;
+    float xmin = fileInfos[0].xllcorner,
+          xmax = fileInfos[0].xllcorner,
+          ymin = fileInfos[0].yllcorner,
+          ymax = fileInfos[0].yllcorner;
+
+    for(i=1;i<fileInfos.size();i++){
+        if(fileInfos[i].xllcorner < xmin) xmin = fileInfos[i].xllcorner;
+        if(fileInfos[i].xllcorner > xmax) xmax = fileInfos[i].xllcorner;
+        if(fileInfos[i].yllcorner < ymin) ymin = fileInfos[i].yllcorner;
+        if(fileInfos[i].yllcorner > ymax) ymax = fileInfos[i].yllcorner;
+    }
+
+    unsigned int ncols = (xmax - xmin)/(xSizeSlab) + 1;
+    unsigned int nrows = (ymax - ymin)/(ySizeSlab) + 1;
+
+    std::vector<std::vector<unsigned int>> schema;
+
+
+    for(i=0 ; i<nrows ; i++){
+        for(j=0 ; j<ncols ; j++){
+            std::vector<int> schemaLine;
+            for(k=0 ; k<fileInfos.size() ; k++){
+                if(fileInfos[k].xllcorner == xmin+j*xSizeSlab && fileInfos[k].yllcorner == ymax - i*ySizeSlab){
+                    schemaLine.push_back(k);
+                    //schema[i][j]=k;
+                }
+            }
+            std::cout<< schemaLine[j] << " | " ;
+        }
+        schema.push_back(schemaLine);
+        std::cout << "---" << std::endl;
+    }
+
+    return schema;
+}
+

@@ -65,7 +65,7 @@ public:
     virtual void mouseMoveEvent(QMouseEvent *me);
 
 
-    bool loadModelFromFile(const QString &path);
+    bool loadModelFromFile(const QStringList &fileNames);
 
 
 
@@ -78,7 +78,7 @@ private:
     Camera      *_cam;
     glm::vec3   _lightPosition;
     bool        _lightMode;
-    std::string _path;
+    std::vector<std::string> _filepaths;
     Model::TYPE_FILE _typeModel;
 
     QTime _timer;

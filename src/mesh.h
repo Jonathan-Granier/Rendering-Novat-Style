@@ -34,6 +34,8 @@ public:
     Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
     ~Mesh();
 
+
+
     /*  Mesh Data  */
     std::vector<Vertex> _vertices;
     std::vector<unsigned int> _indices;
@@ -43,6 +45,8 @@ public:
     /* Function */
     void Draw();
     void setupMesh();
+
+
 
 private :
 

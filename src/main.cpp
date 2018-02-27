@@ -12,8 +12,7 @@
 
 //TODO
 /*
- * Bar de progression
- * Save screenshot
+ * tisser les liens entre differente MNT
 */
 
 /**

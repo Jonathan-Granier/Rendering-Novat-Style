@@ -51,11 +51,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::open()
 {
     QFileDialog browser;
-    QString fileName = browser.getOpenFileName(this, tr("Open Models"), QDir::currentPath()+"/Models",tr("Models (*.asc *.obj)"));
-    browser.close(); // FIXME , didn't always work
-    if(!fileName.isEmpty())
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open Models"), QDir::currentPath()+"/Models",tr("Models (*.asc *.obj)"));
+    browser.close(); // FIXME , don't always work
+    if(!fileNames.isEmpty())
     {
-        if(!_viewer->loadModelFromFile(fileName)){
+        if(!_viewer->loadModelFromFile(fileNames)){
             QMessageBox::warning(this,tr("MainWindow"),tr("unknow type file !"),QMessageBox::Ok);
         }
     }

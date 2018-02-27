@@ -1,11 +1,13 @@
 #include "viewer.h"
+#include <QStringList>
+#include <QString>
+
 
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
-    _path(""),
-    _typeModel(Model::NONE),
     _lightPosition(glm::vec3(0,0,1)),
-    _lightMode(false)
+    _lightMode(false),
+    _typeModel(Model::NONE)
 {
 
     QSurfaceFormat format;
@@ -127,36 +129,48 @@ void Viewer::loadModel()
 {
 
     MeshLoader ml(_progressInfo);
-    _model = new Model(ml,_typeModel,_path);
+    _model = new Model(ml,_filepaths,_typeModel);
     _cam = new Camera(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
 
 
 }
 
-bool Viewer::loadModelFromFile(const QString &path)
+bool Viewer::loadModelFromFile(const QStringList &fileNames)
 {
 
     if(_model){
         delete _model;
     }
-    QString ext = path.section('.',-1);
 
-    std::cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << std::endl;
+    _filepaths.clear();
 
-    if(ext.compare("obj")==0){
+
+    QString ext_ref = fileNames.at(0).section('.',-1);
+    //std::cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << std::endl;
+
+    if(ext_ref.compare("obj")==0){
         std::cout << "OJB" << std::endl;
-        _path = path.toStdString();
+        _filepaths.push_back(fileNames.at(0).toStdString());
         _typeModel = Model::OBJ;
     }
-    else if(ext.compare("asc")==0){
+    else if(ext_ref.compare("asc")==0){
         std::cout << "MNT" << std::endl;
-        _path = path.toStdString();
+        _filepaths.push_back(fileNames.at(0).toStdString());
         _typeModel = Model::MNT;
     }
     else{
         return false;
     }
+
+    for(int i=1; i <fileNames.size();i++){
+        QString ext = fileNames.at(i).section('.',-1);
+        if(ext.compare(ext_ref)==0 && ext.compare("obj")!=0)
+            _filepaths.push_back(fileNames.at(0).toStdString());
+        else
+            return false;
+    }
+
     initializeGL();
     update();
     return true;
