@@ -1,0 +1,347 @@
+\hypertarget{class_camera}{}\section{Camera Class Reference}
+\label{class_camera}\index{Camera@{Camera}}
+
+
+Define a camera link to a trackball for move the model arround the trackball. Compute model-\/view matrix, projection matrix and normal matrix. ! The center must be (0,0,0) (B\+UG).  
+
+
+
+
+{\ttfamily \#include $<$camera.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_camera_a23162b5412510d749aad470789806872}\label{class_camera_a23162b5412510d749aad470789806872}} 
+enum \{ {\bfseries N\+O\+NE}, 
+{\bfseries R\+O\+T\+A\+TE}, 
+{\bfseries M\+O\+V\+E\+XY}, 
+{\bfseries M\+O\+V\+EZ}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_camera_a9dcca190d009dad8bf772a7eee20c3b0}{Camera}} (float radius=1, const glm\+::vec3 \&center=glm\+::vec3(0, 0, 0), int mode=\mbox{\hyperlink{class_camera_a522ee90309c2918e4b9695fcdccd061c}{P\+E\+R\+SP}})
+\item 
+void \mbox{\hyperlink{class_camera_a01a5063edbbce200df991b5fd8761621}{initialize}} (int \mbox{\hyperlink{class_camera_a8695ceeb4597517ca9f2e09284f2506f}{w}}, int \mbox{\hyperlink{class_camera_a6a6e5717e8dd4bfaf6c9546a5cc09dc4}{h}}, bool replace=true)
+\item 
+void \mbox{\hyperlink{class_camera_ac21d2ee509fb8df94333a839b0892d54}{set\+Fovy}} (float f)
+\item 
+void \mbox{\hyperlink{class_camera_a9a436317f1a6e867f8eaa6affd6e80e5}{set\+Mode}} (int m)
+\item 
+void \mbox{\hyperlink{class_camera_af24fe5e14b2ba41196b95ad4a2eabb7c}{init\+Rotation}} (const glm\+::vec2 \&p)
+\item 
+void \mbox{\hyperlink{class_camera_a9f48e576aa251e716d97c32ac85bd7c4}{init\+Move\+XY}} (const glm\+::vec2 \&p)
+\item 
+void \mbox{\hyperlink{class_camera_a89c903f8ff8b16fccd8544af273ece2d}{init\+MoveZ}} (const glm\+::vec2 \&p)
+\item 
+void \mbox{\hyperlink{class_camera_a7ac215b4c76c1864c8c339127f4586ef}{move}} (const glm\+::vec2 \&p)
+\item 
+int \mbox{\hyperlink{class_camera_a8695ceeb4597517ca9f2e09284f2506f}{w}} () const
+\item 
+int \mbox{\hyperlink{class_camera_a6a6e5717e8dd4bfaf6c9546a5cc09dc4}{h}} () const
+\item 
+const glm\+::vec3 \mbox{\hyperlink{class_camera_adbbc2231e34b78b5b5b08a2aa16fc71d}{up}} () const
+\item 
+const glm\+::vec3 \mbox{\hyperlink{class_camera_a0f9545b5f7787ddc62f2d3a0f1e3c6d6}{right}} () const
+\item 
+const glm\+::vec3 \mbox{\hyperlink{class_camera_abbd1a0e73fd627b08d357524a7f1b8ab}{view}} () const
+\item 
+float \mbox{\hyperlink{class_camera_adf4779e2bc0dac7b719f4350c0db07f3}{zmin}} () const
+\item 
+float \mbox{\hyperlink{class_camera_a9f4ee36190bc2ef829efe11a8947dd5e}{zmax}} () const
+\item 
+float \mbox{\hyperlink{class_camera_ab437eb669d4bff47c4496933d06c5f9d}{fovy}} () const
+\item 
+const glm\+::vec2 \mbox{\hyperlink{class_camera_ae8cd001188c4b4381cd78a30f2669151}{pt}} () const
+\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_a30d3392172776022c53909e8b846995a}{proj\+Matrix}} () const
+\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_ac6671aeaa88d6cc673864f0183d5046b}{mdv\+Matrix}} () const
+\item 
+glm\+::mat3 \mbox{\hyperlink{class_camera_a2032bd7b990ca809759feabf2e54c612}{normal\+Matrix}} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \mbox{\hyperlink{class_camera_a522ee90309c2918e4b9695fcdccd061c}{P\+E\+R\+SP}} =0
+\item 
+static const int \mbox{\hyperlink{class_camera_a7244b2a4baebe084d16492758d16451c}{O\+R\+T\+HO}} =1
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_camera_a46f849a8ee9514d0e35269f5fce48096}{rotate}} (const glm\+::vec2 \&p)
+\item 
+void \mbox{\hyperlink{class_camera_a53a4ce8177d8622bcc01ae9a8f8fe391}{move\+XY}} (const glm\+::vec2 \&p)
+\item 
+void \mbox{\hyperlink{class_camera_a7c6676296255f1aef549228bf1c0a715}{moveZ}} (const glm\+::vec2 \&p)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Define a camera link to a trackball for move the model arround the trackball. Compute model-\/view matrix, projection matrix and normal matrix. ! The center must be (0,0,0) (B\+UG). 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_camera_a9dcca190d009dad8bf772a7eee20c3b0}\label{class_camera_a9dcca190d009dad8bf772a7eee20c3b0}} 
+\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{Camera()}{Camera()}}
+{\footnotesize\ttfamily Camera\+::\+Camera (\begin{DoxyParamCaption}\item[{float}]{radius = {\ttfamily 1},  }\item[{const glm\+::vec3 \&}]{center = {\ttfamily glm\+:\+:vec3(0,0,0)},  }\item[{int}]{mode = {\ttfamily \mbox{\hyperlink{class_camera_a522ee90309c2918e4b9695fcdccd061c}{P\+E\+R\+SP}}} }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & \\
+\hline
+{\em center} & \\
+\hline
+{\em mode} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_camera_ab437eb669d4bff47c4496933d06c5f9d}\label{class_camera_ab437eb669d4bff47c4496933d06c5f9d}} 
+\index{Camera@{Camera}!fovy@{fovy}}
+\index{fovy@{fovy}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{fovy()}{fovy()}}
+{\footnotesize\ttfamily float Camera\+::fovy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a6a6e5717e8dd4bfaf6c9546a5cc09dc4}\label{class_camera_a6a6e5717e8dd4bfaf6c9546a5cc09dc4}} 
+\index{Camera@{Camera}!h@{h}}
+\index{h@{h}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{h()}{h()}}
+{\footnotesize\ttfamily int Camera\+::h (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a01a5063edbbce200df991b5fd8761621}\label{class_camera_a01a5063edbbce200df991b5fd8761621}} 
+\index{Camera@{Camera}!initialize@{initialize}}
+\index{initialize@{initialize}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void Camera\+::initialize (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h,  }\item[{bool}]{replace = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & \\
+\hline
+{\em h} & \\
+\hline
+{\em replace} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a9f48e576aa251e716d97c32ac85bd7c4}\label{class_camera_a9f48e576aa251e716d97c32ac85bd7c4}} 
+\index{Camera@{Camera}!init\+Move\+XY@{init\+Move\+XY}}
+\index{init\+Move\+XY@{init\+Move\+XY}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{init\+Move\+X\+Y()}{initMoveXY()}}
+{\footnotesize\ttfamily void Camera\+::init\+Move\+XY (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a89c903f8ff8b16fccd8544af273ece2d}\label{class_camera_a89c903f8ff8b16fccd8544af273ece2d}} 
+\index{Camera@{Camera}!init\+MoveZ@{init\+MoveZ}}
+\index{init\+MoveZ@{init\+MoveZ}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{init\+Move\+Z()}{initMoveZ()}}
+{\footnotesize\ttfamily void Camera\+::init\+MoveZ (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_af24fe5e14b2ba41196b95ad4a2eabb7c}\label{class_camera_af24fe5e14b2ba41196b95ad4a2eabb7c}} 
+\index{Camera@{Camera}!init\+Rotation@{init\+Rotation}}
+\index{init\+Rotation@{init\+Rotation}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{init\+Rotation()}{initRotation()}}
+{\footnotesize\ttfamily void Camera\+::init\+Rotation (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_ac6671aeaa88d6cc673864f0183d5046b}\label{class_camera_ac6671aeaa88d6cc673864f0183d5046b}} 
+\index{Camera@{Camera}!mdv\+Matrix@{mdv\+Matrix}}
+\index{mdv\+Matrix@{mdv\+Matrix}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{mdv\+Matrix()}{mdvMatrix()}}
+{\footnotesize\ttfamily glm\+::mat4 Camera\+::mdv\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+glm\+::mat4 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a7ac215b4c76c1864c8c339127f4586ef}\label{class_camera_a7ac215b4c76c1864c8c339127f4586ef}} 
+\index{Camera@{Camera}!move@{move}}
+\index{move@{move}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{move()}{move()}}
+{\footnotesize\ttfamily void Camera\+::move (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a53a4ce8177d8622bcc01ae9a8f8fe391}\label{class_camera_a53a4ce8177d8622bcc01ae9a8f8fe391}} 
+\index{Camera@{Camera}!move\+XY@{move\+XY}}
+\index{move\+XY@{move\+XY}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{move\+X\+Y()}{moveXY()}}
+{\footnotesize\ttfamily void Camera\+::move\+XY (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a7c6676296255f1aef549228bf1c0a715}\label{class_camera_a7c6676296255f1aef549228bf1c0a715}} 
+\index{Camera@{Camera}!moveZ@{moveZ}}
+\index{moveZ@{moveZ}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{move\+Z()}{moveZ()}}
+{\footnotesize\ttfamily void Camera\+::moveZ (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a2032bd7b990ca809759feabf2e54c612}\label{class_camera_a2032bd7b990ca809759feabf2e54c612}} 
+\index{Camera@{Camera}!normal\+Matrix@{normal\+Matrix}}
+\index{normal\+Matrix@{normal\+Matrix}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{normal\+Matrix()}{normalMatrix()}}
+{\footnotesize\ttfamily glm\+::mat3 Camera\+::normal\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+glm\+::mat3 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a30d3392172776022c53909e8b846995a}\label{class_camera_a30d3392172776022c53909e8b846995a}} 
+\index{Camera@{Camera}!proj\+Matrix@{proj\+Matrix}}
+\index{proj\+Matrix@{proj\+Matrix}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{proj\+Matrix()}{projMatrix()}}
+{\footnotesize\ttfamily glm\+::mat4 Camera\+::proj\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+glm\+::mat4 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_ae8cd001188c4b4381cd78a30f2669151}\label{class_camera_ae8cd001188c4b4381cd78a30f2669151}} 
+\index{Camera@{Camera}!pt@{pt}}
+\index{pt@{pt}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{pt()}{pt()}}
+{\footnotesize\ttfamily const glm\+::vec2 Camera\+::pt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+const glm\+::vec2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a0f9545b5f7787ddc62f2d3a0f1e3c6d6}\label{class_camera_a0f9545b5f7787ddc62f2d3a0f1e3c6d6}} 
+\index{Camera@{Camera}!right@{right}}
+\index{right@{right}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{right()}{right()}}
+{\footnotesize\ttfamily const glm\+::vec3 Camera\+::right (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+const glm\+::vec3 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a46f849a8ee9514d0e35269f5fce48096}\label{class_camera_a46f849a8ee9514d0e35269f5fce48096}} 
+\index{Camera@{Camera}!rotate@{rotate}}
+\index{rotate@{rotate}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily void Camera\+::rotate (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_ac21d2ee509fb8df94333a839b0892d54}\label{class_camera_ac21d2ee509fb8df94333a839b0892d54}} 
+\index{Camera@{Camera}!set\+Fovy@{set\+Fovy}}
+\index{set\+Fovy@{set\+Fovy}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{set\+Fovy()}{setFovy()}}
+{\footnotesize\ttfamily void Camera\+::set\+Fovy (\begin{DoxyParamCaption}\item[{float}]{f }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_a9a436317f1a6e867f8eaa6affd6e80e5}\label{class_camera_a9a436317f1a6e867f8eaa6affd6e80e5}} 
+\index{Camera@{Camera}!set\+Mode@{set\+Mode}}
+\index{set\+Mode@{set\+Mode}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{set\+Mode()}{setMode()}}
+{\footnotesize\ttfamily void Camera\+::set\+Mode (\begin{DoxyParamCaption}\item[{int}]{m }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_camera_adbbc2231e34b78b5b5b08a2aa16fc71d}\label{class_camera_adbbc2231e34b78b5b5b08a2aa16fc71d}} 
+\index{Camera@{Camera}!up@{up}}
+\index{up@{up}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{up()}{up()}}
+{\footnotesize\ttfamily const glm\+::vec3 Camera\+::up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+const glm\+::vec3 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_abbd1a0e73fd627b08d357524a7f1b8ab}\label{class_camera_abbd1a0e73fd627b08d357524a7f1b8ab}} 
+\index{Camera@{Camera}!view@{view}}
+\index{view@{view}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{view()}{view()}}
+{\footnotesize\ttfamily const glm\+::vec3 Camera\+::view (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+const glm\+::vec3 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a8695ceeb4597517ca9f2e09284f2506f}\label{class_camera_a8695ceeb4597517ca9f2e09284f2506f}} 
+\index{Camera@{Camera}!w@{w}}
+\index{w@{w}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{w()}{w()}}
+{\footnotesize\ttfamily int Camera\+::w (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_a9f4ee36190bc2ef829efe11a8947dd5e}\label{class_camera_a9f4ee36190bc2ef829efe11a8947dd5e}} 
+\index{Camera@{Camera}!zmax@{zmax}}
+\index{zmax@{zmax}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{zmax()}{zmax()}}
+{\footnotesize\ttfamily float Camera\+::zmax (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_camera_adf4779e2bc0dac7b719f4350c0db07f3}\label{class_camera_adf4779e2bc0dac7b719f4350c0db07f3}} 
+\index{Camera@{Camera}!zmin@{zmin}}
+\index{zmin@{zmin}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{zmin()}{zmin()}}
+{\footnotesize\ttfamily float Camera\+::zmin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_camera_a7244b2a4baebe084d16492758d16451c}\label{class_camera_a7244b2a4baebe084d16492758d16451c}} 
+\index{Camera@{Camera}!O\+R\+T\+HO@{O\+R\+T\+HO}}
+\index{O\+R\+T\+HO@{O\+R\+T\+HO}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{O\+R\+T\+HO}{ORTHO}}
+{\footnotesize\ttfamily const int Camera\+::\+O\+R\+T\+HO =1\hspace{0.3cm}{\ttfamily [static]}}
+
+T\+O\+DO\+: describe \mbox{\Hypertarget{class_camera_a522ee90309c2918e4b9695fcdccd061c}\label{class_camera_a522ee90309c2918e4b9695fcdccd061c}} 
+\index{Camera@{Camera}!P\+E\+R\+SP@{P\+E\+R\+SP}}
+\index{P\+E\+R\+SP@{P\+E\+R\+SP}!Camera@{Camera}}
+\subsubsection{\texorpdfstring{P\+E\+R\+SP}{PERSP}}
+{\footnotesize\ttfamily const int Camera\+::\+P\+E\+R\+SP =0\hspace{0.3cm}{\ttfamily [static]}}
+
+T\+O\+DO\+: describe 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{camera_8h}{camera.\+h}}\item 
+src/camera.\+cpp\end{DoxyCompactItemize}

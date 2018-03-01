@@ -52,7 +52,8 @@ SOURCES += \
     src/trackball.cpp \
     src/mainwindow.cpp \
     src/progressinfo.cpp \
-    src/meshloader.cpp
+    src/meshloader.cpp \
+    src/texture.cpp
 
 
 HEADERS += \
@@ -67,7 +68,8 @@ HEADERS += \
     src/trackball.h \
     src/mainwindow.h \
     src/progressinfo.h \
-    src/meshloader.h
+    src/meshloader.h \
+    src/texture.h
 
 DISTFILES += \
     shaders/fragmentshader.frag \

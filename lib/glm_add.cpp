@@ -1,4 +1,7 @@
 #include "glm_add.h"
+#include <math.h>
+
+
 namespace gml_add {
 
 glm::vec3 normal(glm::vec3 v){

@@ -1,0 +1,12 @@
+<map id="src/main.cpp" name="src/main.cpp">
+<area shape="rect" id="node2" href="$mainwindow_8h_source.html" title="mainwindow.h" alt="" coords="1587,80,1703,107"/>
+<area shape="rect" id="node3" href="$viewer_8h_source.html" title="viewer.h" alt="" coords="1486,155,1563,181"/>
+<area shape="rect" id="node13" href="$shader_8h_source.html" title="shader.h" alt="" coords="1410,304,1487,331"/>
+<area shape="rect" id="node15" href="$camera_8h.html" title="camera.h" alt="" coords="646,379,729,405"/>
+<area shape="rect" id="node25" href="$model_8h_source.html" title="model.h" alt="" coords="1575,229,1650,256"/>
+<area shape="rect" id="node32" href="$progressinfo_8h_source.html" title="progressinfo.h" alt="" coords="2015,379,2130,405"/>
+<area shape="rect" id="node16" href="$trackball_8h_source.html" title="trackball.h" alt="" coords="231,453,322,480"/>
+<area shape="rect" id="node27" href="$meshloader_8h_source.html" title="meshloader.h" alt="" coords="1664,304,1775,331"/>
+<area shape="rect" id="node30" href="$mesh_8h_source.html" title="mesh.h" alt="" coords="1920,379,1991,405"/>
+<area shape="rect" id="node31" href="$vertex_8h_source.html" title="vertex.h" alt="" coords="1845,453,1921,480"/>
+</map>

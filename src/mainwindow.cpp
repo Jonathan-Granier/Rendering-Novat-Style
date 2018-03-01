@@ -44,18 +44,33 @@ void MainWindow::closeEvent(QCloseEvent *event)
     this->disconnect();
     _viewer->progressInfo()->disconnect();
     deleteLoadingBar();
-      event->accept();
+    event->accept();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ke)
+{
+
+    // key i: init camera
+    if(ke->key()==Qt::Key_I) {
+      _viewer->resetTheCameraPosition();
+
+    }
+    //key r : reload shader
+    if(ke->key()==Qt::Key_R){
+       _viewer->reloadShader();
+    }
 }
 
 
 void MainWindow::open()
 {
     QFileDialog browser;
-    QString fileName = browser.getOpenFileName(this, tr("Open Models"), QDir::currentPath()+"/Models",tr("Models (*.asc *.obj)"));
-    browser.close(); // FIXME , didn't always work
-    if(!fileName.isEmpty())
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open Models"), QDir::currentPath()+"/models",tr("Models (*.asc *.obj)"));
+    browser.close(); // FIXME , don't always work
+    if(!fileNames.isEmpty())
     {
-        if(!_viewer->loadModelFromFile(fileName)){
+
+        if(!_viewer->loadModelFromFile(fileNames)){
             QMessageBox::warning(this,tr("MainWindow"),tr("unknow type file !"),QMessageBox::Ok);
         }
     }

@@ -1,0 +1,63 @@
+\hypertarget{class_mesh}{}\section{Mesh Class Reference}
+\label{class_mesh}\index{Mesh@{Mesh}}
+
+
+A \mbox{\hyperlink{class_mesh}{Mesh}} is a vector of vertex and a vector of int that define the indices of vertex of polygons of the mesh.  
+
+
+
+
+{\ttfamily \#include $<$mesh.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_mesh_a9471cc66749be2d05a9e2bdf77090450}{Mesh}} (std\+::vector$<$ \mbox{\hyperlink{class_vertex}{Vertex}} $>$ vertices, std\+::vector$<$ unsigned int $>$ indices)
+\begin{DoxyCompactList}\small\item\em set \+\_\+vertices and \+\_\+indices and start setup\+Mesh. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_mesh_afdd95c079fd0442afef8a6c421c8bfc9}\label{class_mesh_afdd95c079fd0442afef8a6c421c8bfc9}} 
+void \mbox{\hyperlink{class_mesh_afdd95c079fd0442afef8a6c421c8bfc9}{Draw}} ()
+\begin{DoxyCompactList}\small\item\em Draw the mesh. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}\label{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}} 
+void \mbox{\hyperlink{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}{setup\+Mesh}} ()
+\begin{DoxyCompactList}\small\item\em load the mesh data into the G\+PU with a V\+AO, V\+BO and E\+BO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_mesh_ac8bc82604ad2b353e0f3f22edb166960}\label{class_mesh_ac8bc82604ad2b353e0f3f22edb166960}} 
+std\+::vector$<$ \mbox{\hyperlink{class_vertex}{Vertex}} $>$ \mbox{\hyperlink{class_mesh_ac8bc82604ad2b353e0f3f22edb166960}{\+\_\+vertices}}
+\begin{DoxyCompactList}\small\item\em a vector of vertex. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_mesh_a79f0d5bbd4dba6a7f6cb3b9eb6854ddf}\label{class_mesh_a79f0d5bbd4dba6a7f6cb3b9eb6854ddf}} 
+std\+::vector$<$ unsigned int $>$ \mbox{\hyperlink{class_mesh_a79f0d5bbd4dba6a7f6cb3b9eb6854ddf}{\+\_\+indices}}
+\begin{DoxyCompactList}\small\item\em a vector of int that define the indices of vertex of polygons of the mesh. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_mesh_a88114ad56bdd0ff198a39aaf7c5ea12e}\label{class_mesh_a88114ad56bdd0ff198a39aaf7c5ea12e}} 
+unsigned int \mbox{\hyperlink{class_mesh_a88114ad56bdd0ff198a39aaf7c5ea12e}{\+\_\+\+V\+AO}}
+\begin{DoxyCompactList}\small\item\em a \mbox{\hyperlink{class_vertex}{Vertex}} Array Object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A \mbox{\hyperlink{class_mesh}{Mesh}} is a vector of vertex and a vector of int that define the indices of vertex of polygons of the mesh. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_mesh_a9471cc66749be2d05a9e2bdf77090450}\label{class_mesh_a9471cc66749be2d05a9e2bdf77090450}} 
+\index{Mesh@{Mesh}!Mesh@{Mesh}}
+\index{Mesh@{Mesh}!Mesh@{Mesh}}
+\subsubsection{\texorpdfstring{Mesh()}{Mesh()}}
+{\footnotesize\ttfamily Mesh\+::\+Mesh (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{class_vertex}{Vertex}} $>$}]{vertices,  }\item[{std\+::vector$<$ unsigned int $>$}]{indices }\end{DoxyParamCaption})}
+
+
+
+set \+\_\+vertices and \+\_\+indices and start setup\+Mesh. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertices} & \+: a vector of vertex. \\
+\hline
+{\em indices} & \+: a vector of int that define the indices of vertex of polygons of the mesh. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/mesh.\+h\item 
+src/mesh.\+cpp\end{DoxyCompactItemize}
