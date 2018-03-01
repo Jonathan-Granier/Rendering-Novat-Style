@@ -1,0 +1,123 @@
+\hypertarget{class_model}{}\section{Model Class Reference}
+\label{class_model}\index{Model@{Model}}
+
+
+A model is defined by his mesh and his textures. It can load and draw a mesh and textures.  
+
+
+
+
+{\ttfamily \#include $<$model.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_model_afafb51284e4304b85ccb57452e560318}{T\+Y\+P\+E\+\_\+\+F\+I\+LE}} \{ {\bfseries O\+BJ}, 
+{\bfseries M\+NT}, 
+{\bfseries N\+O\+NE}
+ \}
+\begin{DoxyCompactList}\small\item\em Define the type of the mesh to load \+: \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_model_a2ce427936d8b9659f0d269c01481f3bf}{Model}} (\mbox{\hyperlink{class_mesh_loader}{Mesh\+Loader}} ml, std\+::vector$<$ std\+::string $>$ const \&filepaths, \mbox{\hyperlink{class_model_afafb51284e4304b85ccb57452e560318}{T\+Y\+P\+E\+\_\+\+F\+I\+LE}} type\+File=N\+O\+NE)
+\begin{DoxyCompactList}\small\item\em Loads a mesh with ml , loads the differents textures and compute the center and the radius of the model. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_model_ae83ef40bd304017057327b0352127041}{draw}} (\mbox{\hyperlink{class_shader}{Shader}} $\ast$shader)
+\begin{DoxyCompactList}\small\item\em Draw the model from an shader. \end{DoxyCompactList}\item 
+glm\+::vec3 \mbox{\hyperlink{class_model_aa3621b0f2a645bdb3aec762b401b1871}{center}} () const
+\begin{DoxyCompactList}\small\item\em get \+\_\+center \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_model_afffc3ad861607c174b32a5f0b7ca9a65}{radius}} () const
+\begin{DoxyCompactList}\small\item\em get \+\_\+radius \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A model is defined by his mesh and his textures. It can load and draw a mesh and textures. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_model_afafb51284e4304b85ccb57452e560318}\label{class_model_afafb51284e4304b85ccb57452e560318}} 
+\index{Model@{Model}!T\+Y\+P\+E\+\_\+\+F\+I\+LE@{T\+Y\+P\+E\+\_\+\+F\+I\+LE}}
+\index{T\+Y\+P\+E\+\_\+\+F\+I\+LE@{T\+Y\+P\+E\+\_\+\+F\+I\+LE}!Model@{Model}}
+\subsubsection{\texorpdfstring{T\+Y\+P\+E\+\_\+\+F\+I\+LE}{TYPE\_FILE}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_model_afafb51284e4304b85ccb57452e560318}{Model\+::\+T\+Y\+P\+E\+\_\+\+F\+I\+LE}}}
+
+
+
+Define the type of the mesh to load \+: 
+
+
+\begin{DoxyItemize}
+\item O\+BJ (.obj) \+: classic mesh,
+\item M\+NT (.asc) \+: a height map of a mountains
+\item N\+O\+NE \+: just for load a hard code mesh (D\+E\+B\+UG). 
+\end{DoxyItemize}
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_model_a2ce427936d8b9659f0d269c01481f3bf}\label{class_model_a2ce427936d8b9659f0d269c01481f3bf}} 
+\index{Model@{Model}!Model@{Model}}
+\index{Model@{Model}!Model@{Model}}
+\subsubsection{\texorpdfstring{Model()}{Model()}}
+{\footnotesize\ttfamily Model\+::\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_mesh_loader}{Mesh\+Loader}}}]{ml,  }\item[{std\+::vector$<$ std\+::string $>$ const \&}]{filepaths,  }\item[{\mbox{\hyperlink{class_model_afafb51284e4304b85ccb57452e560318}{T\+Y\+P\+E\+\_\+\+F\+I\+LE}}}]{type\+File = {\ttfamily NONE} }\end{DoxyParamCaption})}
+
+
+
+Loads a mesh with ml , loads the differents textures and compute the center and the radius of the model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ml} & \+: a mesh loader for load a mesh \\
+\hline
+{\em filepaths} & \+: the path of the mesh \\
+\hline
+{\em type\+File} & \+: the type of the mesh \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_model_aa3621b0f2a645bdb3aec762b401b1871}\label{class_model_aa3621b0f2a645bdb3aec762b401b1871}} 
+\index{Model@{Model}!center@{center}}
+\index{center@{center}!Model@{Model}}
+\subsubsection{\texorpdfstring{center()}{center()}}
+{\footnotesize\ttfamily vec3 Model\+::center (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+get \+\_\+center 
+
+\begin{DoxyReturn}{Returns}
+the center of the model 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_model_ae83ef40bd304017057327b0352127041}\label{class_model_ae83ef40bd304017057327b0352127041}} 
+\index{Model@{Model}!draw@{draw}}
+\index{draw@{draw}!Model@{Model}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Model\+::draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_shader}{Shader}} $\ast$}]{shader }\end{DoxyParamCaption})}
+
+
+
+Draw the model from an shader. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shader} & \+: the shader to use for draw the model \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_model_afffc3ad861607c174b32a5f0b7ca9a65}\label{class_model_afffc3ad861607c174b32a5f0b7ca9a65}} 
+\index{Model@{Model}!radius@{radius}}
+\index{radius@{radius}!Model@{Model}}
+\subsubsection{\texorpdfstring{radius()}{radius()}}
+{\footnotesize\ttfamily float Model\+::radius (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+get \+\_\+radius 
+
+\begin{DoxyReturn}{Returns}
+the radius of the model 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/model.\+h\item 
+src/model.\+cpp\end{DoxyCompactItemize}

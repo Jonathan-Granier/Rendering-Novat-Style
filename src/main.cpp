@@ -1,19 +1,19 @@
-// TODO faire une description de chaque classe
-// TODO Descendre le maximum d'include dans les cpp
-
-
 //TODO : Les questions à romain de type technique
 
 /*
- *   Prevenir romain que ça camera pu.
+ *   Ya ma progress Bar qui pu
  *
  */
 
 
 //TODO
 /*
- * tisser les liens entre differente MNT
-*/
+ * TOON 1D
+ * Point de vue camera/ligth fixe
+ * Courber la montagne selon le point de vue.
+ * Pile de shader
+ *
+ */
 
 /**
 *   \file main.cpp
@@ -36,7 +36,7 @@
 int main(int argc,char** argv)
 {
     QApplication application(argc,argv);
-    application.setWindowIcon(QIcon("Images/RSN.ico"));
+    application.setWindowIcon(QIcon("images/RSN.ico"));
     application.setApplicationName("Rendu Style Novat");
 
     MainWindow window;

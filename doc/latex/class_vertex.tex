@@ -1,0 +1,162 @@
+\hypertarget{class_vertex}{}\section{Vertex Class Reference}
+\label{class_vertex}\index{Vertex@{Vertex}}
+
+
+A Type class that define a vertex with his position , his normal and his texture coordinates.  
+
+
+
+
+{\ttfamily \#include $<$vertex.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vertex_a4688b182b5b52ed10c978f5c11399d1f}{Vertex}} (glm\+::vec3 position, glm\+::vec3 normal, glm\+::vec2 tex\+Coords)
+\begin{DoxyCompactList}\small\item\em Constructor with 3 3D vectors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vertex_ac20c5ee4fd9eab3c9dbf36e0a3a5b276}{Vertex}} (float px, float py, float pz, float nx, float ny, float nz, float tu, float tv)
+\begin{DoxyCompactList}\small\item\em Constructor with each value of each vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vertex_a81b6330b9b8bf45e357b1c9d3c7d37dc}{Vertex}} (float px, float py, float pz, float tu, float tv)
+\begin{DoxyCompactList}\small\item\em Constructor with position and texture coordinates , the normal is initialized to (0,0,0). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vertex_a5833a02aa7d93a5fafb6d84f8065322f}{Vertex}} (float px, float py, float pz)
+\begin{DoxyCompactList}\small\item\em Constructor with only the position, the normal is initialized to (0,0,0) and texture coordinates are initilized to 0. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_vertex_af8eb8e095d89b9ab47d1e8814d9e353b}{operator$<$}} (const \mbox{\hyperlink{class_vertex}{Vertex}} that) const
+\begin{DoxyCompactList}\small\item\em test if that is superior to this \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_vertex_abc2531c8f9b2eed32478f4fba4603e88}\label{class_vertex_abc2531c8f9b2eed32478f4fba4603e88}} 
+void \mbox{\hyperlink{class_vertex_abc2531c8f9b2eed32478f4fba4603e88}{print}} ()
+\begin{DoxyCompactList}\small\item\em Print the actual vertex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_vertex_abb3cfacd96b5955b0cec9359840ee49f}\label{class_vertex_abb3cfacd96b5955b0cec9359840ee49f}} 
+glm\+::vec3 \mbox{\hyperlink{class_vertex_abb3cfacd96b5955b0cec9359840ee49f}{Position}}
+\begin{DoxyCompactList}\small\item\em The position of the vertex. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_vertex_a9ab4dc431b41509f0b1bb1a4bf09d4e2}\label{class_vertex_a9ab4dc431b41509f0b1bb1a4bf09d4e2}} 
+glm\+::vec3 \mbox{\hyperlink{class_vertex_a9ab4dc431b41509f0b1bb1a4bf09d4e2}{Normal}}
+\begin{DoxyCompactList}\small\item\em The normal of the vertex. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_vertex_a921a513c1e6d1e63e99d477fa837a317}\label{class_vertex_a921a513c1e6d1e63e99d477fa837a317}} 
+glm\+::vec2 \mbox{\hyperlink{class_vertex_a921a513c1e6d1e63e99d477fa837a317}{Tex\+Coords}}
+\begin{DoxyCompactList}\small\item\em the texture coordinates of the vertex \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A Type class that define a vertex with his position , his normal and his texture coordinates. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_vertex_a4688b182b5b52ed10c978f5c11399d1f}\label{class_vertex_a4688b182b5b52ed10c978f5c11399d1f}} 
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{glm\+::vec3}]{position,  }\item[{glm\+::vec3}]{normal,  }\item[{glm\+::vec2}]{tex\+Coords }\end{DoxyParamCaption})}
+
+
+
+Constructor with 3 3D vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & 3D vectors that define the position. \\
+\hline
+{\em normal} & 3D vectors that define the normal. \\
+\hline
+{\em tex\+Coords} & 2D vectors that define the texture coordinates. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_vertex_ac20c5ee4fd9eab3c9dbf36e0a3a5b276}\label{class_vertex_ac20c5ee4fd9eab3c9dbf36e0a3a5b276}} 
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{float}]{px,  }\item[{float}]{py,  }\item[{float}]{pz,  }\item[{float}]{nx,  }\item[{float}]{ny,  }\item[{float}]{nz,  }\item[{float}]{tu,  }\item[{float}]{tv }\end{DoxyParamCaption})}
+
+
+
+Constructor with each value of each vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em px} & \+: the x of the position. \\
+\hline
+{\em py} & \+: the y of the position. \\
+\hline
+{\em pz} & \+: the z of the position. \\
+\hline
+{\em nx} & \+: the x of the normal. \\
+\hline
+{\em ny} & \+: the y of the normal. \\
+\hline
+{\em nz} & \+: the z of the normal. \\
+\hline
+{\em tu} & \+: the u of the texture coordinates. \\
+\hline
+{\em tv} & \+: the v of the texture coordinates. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_vertex_a81b6330b9b8bf45e357b1c9d3c7d37dc}\label{class_vertex_a81b6330b9b8bf45e357b1c9d3c7d37dc}} 
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{float}]{px,  }\item[{float}]{py,  }\item[{float}]{pz,  }\item[{float}]{tu,  }\item[{float}]{tv }\end{DoxyParamCaption})}
+
+
+
+Constructor with position and texture coordinates , the normal is initialized to (0,0,0). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em px} & \+: the x of the position. \\
+\hline
+{\em py} & \+: the y of the position. \\
+\hline
+{\em pz} & \+: the z of the position. \\
+\hline
+{\em tu} & \+: the u of the texture coordinates. \\
+\hline
+{\em tv} & \+: the v of the texture coordinates. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_vertex_a5833a02aa7d93a5fafb6d84f8065322f}\label{class_vertex_a5833a02aa7d93a5fafb6d84f8065322f}} 
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\index{Vertex@{Vertex}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{Vertex()}{Vertex()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Vertex\+::\+Vertex (\begin{DoxyParamCaption}\item[{float}]{px,  }\item[{float}]{py,  }\item[{float}]{pz }\end{DoxyParamCaption})}
+
+
+
+Constructor with only the position, the normal is initialized to (0,0,0) and texture coordinates are initilized to 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em px} & \+: the x of the position. \\
+\hline
+{\em py} & \+: the y of the position. \\
+\hline
+{\em pz} & \+: the z of the position. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_vertex_af8eb8e095d89b9ab47d1e8814d9e353b}\label{class_vertex_af8eb8e095d89b9ab47d1e8814d9e353b}} 
+\index{Vertex@{Vertex}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!Vertex@{Vertex}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool Vertex\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vertex}{Vertex}}}]{that }\end{DoxyParamCaption}) const}
+
+
+
+test if that is superior to this 
+
+
+\begin{DoxyParams}{Parameters}
+{\em that} & \+: a vertex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if that $>$ this, else otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/vertex.\+h\item 
+src/vertex.\+cpp\end{DoxyCompactItemize}

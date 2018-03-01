@@ -9,8 +9,8 @@ in vec4 NormalTest;
 
 
 uniform vec3 lightPosition;
-uniform sampler2D texture_normal1;
-uniform sampler2D texture_normal2;
+uniform sampler2D container;
+uniform sampler2D awesomeface;
 
 
 /**
@@ -41,7 +41,7 @@ void main()
 {
 
 
-  vec4 colorObj = mix(texture(texture_normal1,TexCoord),texture(texture_normal2,TexCoord),0.2);
+  vec4 colorObj = mix(texture(container,TexCoord),texture(awesomeface,TexCoord),0.2);
 
   float Ka = 0.5;
   float Kd = 0.5;
@@ -53,7 +53,8 @@ void main()
   vec4 Ca = Ambientlighting(Ka,colorObj,lightIntensity);
   vec4 Cd = DiffuseLighting(Kd,colorObj,n,l,lightIntensity);
 
+  FragColor = colorObj;
   //FragColor = Ca+Cd;
   //FragColor = vec4(0.4,0.1,0.7,1.0);
-  FragColor = n;
+  //FragColor = n;
 }

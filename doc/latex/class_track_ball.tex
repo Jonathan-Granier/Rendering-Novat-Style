@@ -1,0 +1,136 @@
+\hypertarget{class_track_ball}{}\section{Track\+Ball Class Reference}
+\label{class_track_ball}\index{Track\+Ball@{Track\+Ball}}
+
+
+A sphere that can move around his center.  
+
+
+
+
+{\ttfamily \#include $<$trackball.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_track_ball_a9e524069acc51788c7712765521bc3ce}{Track\+Ball}} (float radius, const glm\+::vec2 \&center)
+\item 
+\mbox{\hyperlink{class_track_ball_ae391da576b739343d488dbe80302cc0c}{Track\+Ball}} (const \mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&t)
+\item 
+\mbox{\hyperlink{class_track_ball}{Track\+Ball}} \& \mbox{\hyperlink{class_track_ball_a8a34d15e31c43046f5e12e596ff91b63}{operator=}} (const \mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&t)
+\item 
+void \mbox{\hyperlink{class_track_ball_a98dca62dce061a1f880278e55bbc1afb}{begin\+Tracking}} (const glm\+::vec2 \&pt)
+\item 
+glm\+::quat \mbox{\hyperlink{class_track_ball_aa562dadd39fcb9b859026ba14a5ea75f}{track}} (const glm\+::vec2 \&pt)
+\item 
+void \mbox{\hyperlink{class_track_ball_adf981d2f821a0ba5399289291d0dc646}{set\+Center}} (const glm\+::vec2 \&center)
+\item 
+void \mbox{\hyperlink{class_track_ball_ab4d35e045512cb2d6d1081f171fbf7d4}{set\+Radius}} (float radius)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A sphere that can move around his center. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_track_ball_a9e524069acc51788c7712765521bc3ce}\label{class_track_ball_a9e524069acc51788c7712765521bc3ce}} 
+\index{Track\+Ball@{Track\+Ball}!Track\+Ball@{Track\+Ball}}
+\index{Track\+Ball@{Track\+Ball}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{Track\+Ball()}{TrackBall()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Track\+Ball\+::\+Track\+Ball (\begin{DoxyParamCaption}\item[{float}]{radius,  }\item[{const glm\+::vec2 \&}]{center }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & \\
+\hline
+{\em center} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_track_ball_ae391da576b739343d488dbe80302cc0c}\label{class_track_ball_ae391da576b739343d488dbe80302cc0c}} 
+\index{Track\+Ball@{Track\+Ball}!Track\+Ball@{Track\+Ball}}
+\index{Track\+Ball@{Track\+Ball}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{Track\+Ball()}{TrackBall()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Track\+Ball\+::\+Track\+Ball (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&}]{t }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_track_ball_a98dca62dce061a1f880278e55bbc1afb}\label{class_track_ball_a98dca62dce061a1f880278e55bbc1afb}} 
+\index{Track\+Ball@{Track\+Ball}!begin\+Tracking@{begin\+Tracking}}
+\index{begin\+Tracking@{begin\+Tracking}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{begin\+Tracking()}{beginTracking()}}
+{\footnotesize\ttfamily void Track\+Ball\+::begin\+Tracking (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pt} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_track_ball_a8a34d15e31c43046f5e12e596ff91b63}\label{class_track_ball_a8a34d15e31c43046f5e12e596ff91b63}} 
+\index{Track\+Ball@{Track\+Ball}!operator=@{operator=}}
+\index{operator=@{operator=}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_track_ball}{Track\+Ball}} \& Track\+Ball\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&operator
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_track_ball}{Track\+Ball}} \&Track\+Ball\+::operator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_track_ball_adf981d2f821a0ba5399289291d0dc646}\label{class_track_ball_adf981d2f821a0ba5399289291d0dc646}} 
+\index{Track\+Ball@{Track\+Ball}!set\+Center@{set\+Center}}
+\index{set\+Center@{set\+Center}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{set\+Center()}{setCenter()}}
+{\footnotesize\ttfamily void Track\+Ball\+::set\+Center (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{center }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em center} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_track_ball_ab4d35e045512cb2d6d1081f171fbf7d4}\label{class_track_ball_ab4d35e045512cb2d6d1081f171fbf7d4}} 
+\index{Track\+Ball@{Track\+Ball}!set\+Radius@{set\+Radius}}
+\index{set\+Radius@{set\+Radius}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{set\+Radius()}{setRadius()}}
+{\footnotesize\ttfamily void Track\+Ball\+::set\+Radius (\begin{DoxyParamCaption}\item[{float}]{radius }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_track_ball_aa562dadd39fcb9b859026ba14a5ea75f}\label{class_track_ball_aa562dadd39fcb9b859026ba14a5ea75f}} 
+\index{Track\+Ball@{Track\+Ball}!track@{track}}
+\index{track@{track}!Track\+Ball@{Track\+Ball}}
+\subsubsection{\texorpdfstring{track()}{track()}}
+{\footnotesize\ttfamily glm\+::quat Track\+Ball\+::track (\begin{DoxyParamCaption}\item[{const glm\+::vec2 \&}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pt} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+glm\+::quat 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/trackball.\+h\item 
+src/trackball.\+cpp\end{DoxyCompactItemize}
