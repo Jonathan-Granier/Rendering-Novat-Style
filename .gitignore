@@ -2,7 +2,8 @@
 
 
 #Binary files
-bin\*
+bin/*
+
 # Prerequisites
 *.d
 
