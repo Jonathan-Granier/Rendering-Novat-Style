@@ -5,7 +5,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "meshloader.h"
+#include "src/OpenGl/meshloader.h"
 #include "glm/gtx/string_cast.hpp"
 
 using namespace std;

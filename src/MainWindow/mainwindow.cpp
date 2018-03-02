@@ -1,6 +1,6 @@
 
 #include "mainwindow.h"
-#include "progressinfo.h"
+#include "src/OpenGl/progressinfo.h"
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>

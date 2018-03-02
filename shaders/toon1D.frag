@@ -40,21 +40,16 @@ vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
 void main()
 {
 
-
-  vec4 colorObj = mix(texture(container,TexCoord),texture(awesomeface,TexCoord),0.2);
-
-  float Ka = 0.5;
-  float Kd = 0.5;
-  float lightIntensity = 1.0;
-
   vec4 n = normalize(Normal);
   vec4 l= vec4(normalize(lightPosition),0.0);
+    float intensity;
 
-  vec4 Ca = Ambientlighting(Ka,colorObj,lightIntensity);
-  vec4 Cd = DiffuseLighting(Kd,colorObj,n,l,lightIntensity);
+    intensity = dot(l,n);
+    vec4 color = vec4(intensity,intensity,intensity,1.0);
+    if(intensity > 0.20 && intensity < 0.30){
+        color = vec4(0.7,0.7,0.7,1.0f);
+        //color = vec4(1.0,0,0,1.0);
+    }
 
-  //FragColor = colorObj;
-  //FragColor = Ca+Cd;
-  //FragColor = vec4(0.4,0.1,0.7,1.0);
-  FragColor = n;
+    FragColor = color;
 }

@@ -22,11 +22,12 @@
 #include <QKeyEvent>
 #include <QTime>
 
-#include "shader.h"
-#include "camera.h"
-#include "model.h"
-#include "progressinfo.h"
-#include "light.h"
+
+#include "src/OpenGl/shader.h"
+#include "src/OpenGl/progressinfo.h"
+#include "src/OpenGl/model.h"
+#include "src/Light&Camera/camera.h"
+#include "src/Light&Camera/light.h"
 
 /**
  * @brief The Open GL widget , init openGL, setup a model, a camera, a light and shaders and draw it.

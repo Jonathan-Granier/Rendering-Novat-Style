@@ -50,38 +50,38 @@ OBJECTS_DIR   = bin/debug/
 
 ####### Files
 
-SOURCES       = src/main.cpp \
+SOURCES       = src/MainWindow/main.cpp \
+		src/MainWindow/viewer.cpp \
+		src/MainWindow/mainwindow.cpp \
+		src/OpenGl/shader.cpp \
+		src/OpenGl/mesh.cpp \
+		src/OpenGl/vertex.cpp \
+		src/OpenGl/model.cpp \
+		src/OpenGl/progressinfo.cpp \
+		src/OpenGl/meshloader.cpp \
+		src/OpenGl/texture.cpp \
+		src/Light&Camera/light.cpp \
+		src/Light&Camera/camera.cpp \
+		src/Light&Camera/trackball.cpp \
 		lib/glad.c \
-		src/shader.cpp \
-		src/viewer.cpp \
 		lib/stb_image.cpp \
-		lib/glm_add.cpp \
-		src/mesh.cpp \
-		src/vertex.cpp \
-		src/model.cpp \
-		src/camera.cpp \
-		src/trackball.cpp \
-		src/mainwindow.cpp \
-		src/progressinfo.cpp \
-		src/meshloader.cpp \
-		src/texture.cpp \
-		src/light.cpp moc_progressinfo.cpp
+		lib/glm_add.cpp moc_progressinfo.cpp
 OBJECTS       = bin/debug/main.o \
-		bin/debug/glad.o \
-		bin/debug/shader.o \
 		bin/debug/viewer.o \
-		bin/debug/stb_image.o \
-		bin/debug/glm_add.o \
+		bin/debug/mainwindow.o \
+		bin/debug/shader.o \
 		bin/debug/mesh.o \
 		bin/debug/vertex.o \
 		bin/debug/model.o \
-		bin/debug/camera.o \
-		bin/debug/trackball.o \
-		bin/debug/mainwindow.o \
 		bin/debug/progressinfo.o \
 		bin/debug/meshloader.o \
 		bin/debug/texture.o \
 		bin/debug/light.o \
+		bin/debug/camera.o \
+		bin/debug/trackball.o \
+		bin/debug/glad.o \
+		bin/debug/stb_image.o \
+		bin/debug/glm_add.o \
 		bin/debug/moc_progressinfo.o
 DIST          = shaders/basic.frag \
 		shaders/basic.vert \
@@ -215,35 +215,35 @@ DIST          = shaders/basic.frag \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		Rendu-Style-Novat.pro src/shader.h \
-		src/viewer.h \
+		Rendu-Style-Novat.pro src/MainWindow/mainwindow.h \
+		src/MainWindow/viewer.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/model.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/texture.h \
+		src/Light&Camera/light.h \
+		src/Light&Camera/camera.h \
+		src/Light&Camera/trackball.h \
 		lib/stb_image.h \
-		lib/glm_add.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/model.h \
-		src/camera.h \
-		src/trackball.h \
-		src/mainwindow.h \
-		src/progressinfo.h \
-		src/meshloader.h \
-		src/texture.h \
-		src/light.h src/main.cpp \
+		lib/glm_add.h src/MainWindow/main.cpp \
+		src/MainWindow/viewer.cpp \
+		src/MainWindow/mainwindow.cpp \
+		src/OpenGl/shader.cpp \
+		src/OpenGl/mesh.cpp \
+		src/OpenGl/vertex.cpp \
+		src/OpenGl/model.cpp \
+		src/OpenGl/progressinfo.cpp \
+		src/OpenGl/meshloader.cpp \
+		src/OpenGl/texture.cpp \
+		src/Light&Camera/light.cpp \
+		src/Light&Camera/camera.cpp \
+		src/Light&Camera/trackball.cpp \
 		lib/glad.c \
-		src/shader.cpp \
-		src/viewer.cpp \
 		lib/stb_image.cpp \
-		lib/glm_add.cpp \
-		src/mesh.cpp \
-		src/vertex.cpp \
-		src/model.cpp \
-		src/camera.cpp \
-		src/trackball.cpp \
-		src/mainwindow.cpp \
-		src/progressinfo.cpp \
-		src/meshloader.cpp \
-		src/texture.cpp \
-		src/light.cpp
+		lib/glm_add.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debugz/
 TARGET        = bin/debugz/Rendu-Style-Novat
@@ -538,8 +538,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/shader.h src/viewer.h lib/stb_image.h lib/glm_add.h src/mesh.h src/vertex.h src/model.h src/camera.h src/trackball.h src/mainwindow.h src/progressinfo.h src/meshloader.h src/texture.h src/light.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp lib/glad.c src/shader.cpp src/viewer.cpp lib/stb_image.cpp lib/glm_add.cpp src/mesh.cpp src/vertex.cpp src/model.cpp src/camera.cpp src/trackball.cpp src/mainwindow.cpp src/progressinfo.cpp src/meshloader.cpp src/texture.cpp src/light.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light&Camera/light.h src/Light&Camera/camera.h src/Light&Camera/trackball.h lib/stb_image.h lib/glm_add.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light&Camera/light.cpp src/Light&Camera/camera.cpp src/Light&Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -574,10 +574,10 @@ moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 compiler_moc_header_make_all: moc_progressinfo.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_progressinfo.cpp
-moc_progressinfo.cpp: src/progressinfo.h \
+moc_progressinfo.cpp: src/OpenGl/progressinfo.h \
 		moc_predefs.h \
 		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/disc/jgranier/source_code/Rendu-Style-Novat -I/usr/include/qt -I/usr/include/qt/QtOpenGL -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/7.3.0 -I/usr/include/c++/7.3.0/x86_64-pc-linux-gnu -I/usr/include/c++/7.3.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include-fixed -I/usr/include src/progressinfo.h -o moc_progressinfo.cpp
+	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/disc/jgranier/source_code/Rendu-Style-Novat -I/usr/include/qt -I/usr/include/qt/QtOpenGL -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/7.3.0 -I/usr/include/c++/7.3.0/x86_64-pc-linux-gnu -I/usr/include/c++/7.3.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include-fixed -I/usr/include src/OpenGl/progressinfo.h -o moc_progressinfo.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -595,103 +595,70 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-bin/debug/main.o: src/main.cpp src/mainwindow.h \
-		src/viewer.h \
-		src/shader.h \
-		src/camera.h \
-		src/trackball.h \
-		lib/glm_add.h \
-		src/model.h \
-		src/meshloader.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/progressinfo.h \
-		src/texture.h \
-		src/light.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/main.cpp
+bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
+		src/MainWindow/viewer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
+
+bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/MainWindow/viewer.cpp
+
+bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.h \
+		src/MainWindow/viewer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/MainWindow/mainwindow.cpp
+
+bin/debug/shader.o: src/OpenGl/shader.cpp src/OpenGl/shader.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shader.o src/OpenGl/shader.cpp
+
+bin/debug/mesh.o: src/OpenGl/mesh.cpp src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mesh.o src/OpenGl/mesh.cpp
+
+bin/debug/vertex.o: src/OpenGl/vertex.cpp src/OpenGl/vertex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/vertex.o src/OpenGl/vertex.cpp
+
+bin/debug/model.o: src/OpenGl/model.cpp src/OpenGl/model.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/texture.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/OpenGl/model.cpp
+
+bin/debug/progressinfo.o: src/OpenGl/progressinfo.cpp src/OpenGl/progressinfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/progressinfo.o src/OpenGl/progressinfo.cpp
+
+bin/debug/meshloader.o: src/OpenGl/meshloader.cpp src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/progressinfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/meshloader.o src/OpenGl/meshloader.cpp
+
+bin/debug/texture.o: src/OpenGl/texture.cpp src/OpenGl/texture.h \
+		src/OpenGl/shader.h \
+		lib/stb_image.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/texture.o src/OpenGl/texture.cpp
+
+bin/debug/light.o: src/Light&Camera/light.cpp src/Light&Camera/light.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/light.o src/Light&Camera/light.cpp
+
+bin/debug/camera.o: src/Light&Camera/camera.cpp src/Light&Camera/camera.h \
+		src/Light&Camera/trackball.h \
+		lib/glm_add.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/Light&Camera/camera.cpp
+
+bin/debug/trackball.o: src/Light&Camera/trackball.cpp src/Light&Camera/trackball.h \
+		lib/glm_add.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/Light&Camera/trackball.cpp
 
 bin/debug/glad.o: lib/glad.c 
 	$(CC) -c $(CFLAGS) $(INCPATH) -o bin/debug/glad.o lib/glad.c
-
-bin/debug/shader.o: src/shader.cpp src/shader.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shader.o src/shader.cpp
-
-bin/debug/viewer.o: src/viewer.cpp src/viewer.h \
-		src/shader.h \
-		src/camera.h \
-		src/trackball.h \
-		lib/glm_add.h \
-		src/model.h \
-		src/meshloader.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/progressinfo.h \
-		src/texture.h \
-		src/light.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/viewer.cpp
 
 bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/stb_image.o lib/stb_image.cpp
 
 bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o lib/glm_add.cpp
-
-bin/debug/mesh.o: src/mesh.cpp src/mesh.h \
-		src/vertex.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mesh.o src/mesh.cpp
-
-bin/debug/vertex.o: src/vertex.cpp src/vertex.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/vertex.o src/vertex.cpp
-
-bin/debug/model.o: src/model.cpp src/model.h \
-		src/meshloader.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/progressinfo.h \
-		src/shader.h \
-		src/texture.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/model.cpp
-
-bin/debug/camera.o: src/camera.cpp src/camera.h \
-		src/trackball.h \
-		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/camera.cpp
-
-bin/debug/trackball.o: src/trackball.cpp src/trackball.h \
-		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/trackball.cpp
-
-bin/debug/mainwindow.o: src/mainwindow.cpp src/mainwindow.h \
-		src/viewer.h \
-		src/shader.h \
-		src/camera.h \
-		src/trackball.h \
-		lib/glm_add.h \
-		src/model.h \
-		src/meshloader.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/progressinfo.h \
-		src/texture.h \
-		src/light.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/mainwindow.cpp
-
-bin/debug/progressinfo.o: src/progressinfo.cpp src/progressinfo.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/progressinfo.o src/progressinfo.cpp
-
-bin/debug/meshloader.o: src/meshloader.cpp src/meshloader.h \
-		src/mesh.h \
-		src/vertex.h \
-		src/progressinfo.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/meshloader.o src/meshloader.cpp
-
-bin/debug/texture.o: src/texture.cpp src/texture.h \
-		src/shader.h \
-		lib/stb_image.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/texture.o src/texture.cpp
-
-bin/debug/light.o: src/light.cpp src/light.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/light.o src/light.cpp
 
 bin/debug/moc_progressinfo.o: moc_progressinfo.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/moc_progressinfo.o moc_progressinfo.cpp

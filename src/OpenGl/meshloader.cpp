@@ -5,6 +5,10 @@
 using namespace std;
 using namespace glm;
 
+
+#define NUMBEROFTEX 20
+
+
 MeshLoader::MeshLoader(ProgressInfo *p) :
     _progressInfo(p)
 {}
@@ -241,21 +245,19 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
             floatValue = stof(value);
             //Insert x,y,z coord and uv TexCoord;
             Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                  //x
-                              floatValue,                                                                       //y (altitude)
-                              0.0f,                                                                             //z
-                              float(j+jSchemaIndex*xSizeSlab)/float(schema[0].size()*currentFileInfo->ncols),    //u
-                              0.0f);                                                                            //v
+                              floatValue,                                                                        //y (altitude)
+                              0.0f,                                                                              //z
+                              float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[0].size()*currentFileInfo->ncols/NUMBEROFTEX),    //u
+                              0.0f);                                                                             //v
             vertices.push_back(v);
-
             if(floatValue > maxy) maxy = floatValue;
             if(floatValue < miny) miny = floatValue;
-            //Push vertex to vertices
         }
         iss.clear();
     }
     /*
     Check if we already read the first line : 1 - yes , 0 - no
-    we init i of the 3rd for with this variable
+    we init i of the 2rd for with this variable
     */
     unsigned int jumpTheFirstLine=1; //
 
@@ -280,11 +282,11 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                     getline(iss,value,' ');
                     floatValue = stof(value);
                     //Insert x,y,z coord and uv TexCoord;
-                    Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                              //x
-                                      floatValue,                                                                   //y (altitude)
-                                      i*currentFileInfo->offset+zSizeSlab*iSchemaIndex,                              //z
-                                      float(j+jSchemaIndex*xSizeSlab)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols),//u
-                                      float(i+iSchemaIndex*zSizeSlab)/float(schema[iSchemaIndex].size()*currentFileInfo->nrows));//v
+                    Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                                          //x
+                                      floatValue,                                                                                                //y (altitude)
+                                      i*currentFileInfo->offset+zSizeSlab*iSchemaIndex,                                                          //z
+                                      float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols/NUMBEROFTEX),    //u
+                                      float(i+iSchemaIndex*currentFileInfo->nrows)/float(schema.size()*currentFileInfo->nrows/NUMBEROFTEX));                 //v
                     vertices.push_back(v);
 
                     if(floatValue > maxy) maxy = floatValue;
@@ -372,8 +374,6 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                 }
                 iss.clear();
             }
-
-
         }
         jumpTheFirstLine -=jumpTheFirstLine; // For the first loop we need to avoid the first line that is already read
     }
@@ -385,6 +385,9 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
         vertices[i].Normal = normalize(vertices[i].Normal);
         vertices[i].Position -= shift_Pos;
     }
+
+    cout << "number of vertice : " << vertices.size() << endl;
+    cout << "number of polygone : " << indices.size()/3 << endl;
 
     return new Mesh(vertices,indices);
 }

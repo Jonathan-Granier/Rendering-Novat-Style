@@ -39,39 +39,39 @@ LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -
 
 
 SOURCES += \
-    src/main.cpp \
+    src/MainWindow/main.cpp \
+    src/MainWindow/viewer.cpp \
+    src/MainWindow/mainwindow.cpp \
+    src/OpenGl/shader.cpp \
+    src/OpenGl/mesh.cpp \
+    src/OpenGl/vertex.cpp \
+    src/OpenGl/model.cpp \
+    src/OpenGl/progressinfo.cpp \
+    src/OpenGl/meshloader.cpp \
+    src/OpenGl/texture.cpp \
+    src/Light&Camera/light.cpp \
+    src/Light&Camera/camera.cpp \
+    src/Light&Camera/trackball.cpp \
     lib/glad.c \
-    src/shader.cpp \
-    src/viewer.cpp \
     lib/stb_image.cpp \
-    lib/glm_add.cpp \
-    src/mesh.cpp \
-    src/vertex.cpp \
-    src/model.cpp \
-    src/camera.cpp \
-    src/trackball.cpp \
-    src/mainwindow.cpp \
-    src/progressinfo.cpp \
-    src/meshloader.cpp \
-    src/texture.cpp \
-    src/light.cpp
+    lib/glm_add.cpp
 
 
 HEADERS += \
-    src/shader.h \
-    src/viewer.h \
+    src/MainWindow/mainwindow.h \
+    src/MainWindow/viewer.h \
+    src/OpenGl/shader.h \
+    src/OpenGl/mesh.h \
+    src/OpenGl/vertex.h \
+    src/OpenGl/model.h \
+    src/OpenGl/progressinfo.h \
+    src/OpenGl/meshloader.h \
+    src/OpenGl/texture.h \
+    src/Light&Camera/light.h \
+    src/Light&Camera/camera.h \
+    src/Light&Camera/trackball.h \
     lib/stb_image.h \
-    lib/glm_add.h \
-    src/mesh.h \
-    src/vertex.h \
-    src/model.h \
-    src/camera.h \
-    src/trackball.h \
-    src/mainwindow.h \
-    src/progressinfo.h \
-    src/meshloader.h \
-    src/texture.h \
-    src/light.h
+    lib/glm_add.h
 
 DISTFILES += \
     shaders/basic.frag \
