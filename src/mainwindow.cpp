@@ -59,6 +59,20 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_R){
        _viewer->reloadShader();
     }
+
+    if(ke->key()==Qt::Key_P){
+        _viewer->printCamAndLight();
+    }
+
+    if(ke->key()==Qt::Key_F){
+        _viewer->fixeCamAndLight();
+    }
+    if(ke->key()==Qt::Key_Q){
+        _viewer->previousShader();
+    }
+    if(ke->key()==Qt::Key_S){
+        _viewer->nextShader();
+    }
 }
 
 

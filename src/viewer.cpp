@@ -6,13 +6,12 @@
 #include <QString>
 
 #include "meshloader.h"
+#include "glm/gtx/string_cast.hpp"
 
 using namespace std;
 using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
-    _lightPosition(vec3(0,0,1)),
-    _lightMode(false),
     _typeModel(Model::NONE)
 {
 
@@ -31,6 +30,7 @@ Viewer::~Viewer() {
   delete _cam;
   delete _shader;
   delete _progressInfo;
+  delete _light;
 
 }
 
@@ -50,7 +50,7 @@ void Viewer::initializeGL(){
 
     // init OpenGL settings
     glEnable(GL_MULTISAMPLE);
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.082f, 0.376f, 0.741f, 1.0f); //  Bleu denim
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
@@ -58,7 +58,8 @@ void Viewer::initializeGL(){
 
 
     loadModel();
-    _shader = new Shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
+    _shader = new Shader("shaders/basic.vert", "shaders/basic.frag");
+    _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
     _timer.start();
 
 }
@@ -74,7 +75,7 @@ void Viewer::paintGL(){
     _shader->setMat4("mdvMat",_cam->mdvMatrix());
     _shader->setMat4("projMat",_cam->projMatrix());
     _shader->setMat3("normalMat",_cam->normalMatrix());
-    _shader->setVec3("lightPosition",_lightPosition);
+    _shader->setVec3("lightPosition",_light->position());
 
     _model->draw(_shader);
 
@@ -95,21 +96,21 @@ void Viewer::resizeGL(int width,int height){
 void Viewer::mousePressEvent(QMouseEvent *me){
     const vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
-        _lightMode = false;
+        _light->_mode = false;
         _cam->initRotation(p);
     } else if(me->button()==Qt::MidButton) {
-        _lightMode = false;
+        _light->_mode = false;
         _cam->initMoveZ(p);
     } else if(me->button()==Qt::RightButton) {
-        _lightMode = true;
-        moveLight(p);
+        _light->_mode = true;
+        _light->move(p,(float)width(),(float)height());
     }
     update();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
     const vec2 p((float)me->x(),(float)(height()-me->y()));
-    if(_lightMode)
-        moveLight(p);
+    if(_light->_mode)
+        _light->move(p,(float)width(),(float)height());
     else
         _cam->move(p);
 
@@ -129,6 +130,33 @@ void Viewer::reloadShader(){
 
 
 
+void Viewer::printCamAndLight(){
+    cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
+    cout << "mdv mat : " << glm::to_string(_cam->mdvMatrix()) << endl;
+    cout << "normal mat : " << glm::to_string(_cam ->normalMatrix()) << endl;
+    cout << " light vec : " << glm::to_string(_light->position()) << endl;
+}
+
+void Viewer::fixeCamAndLight()
+{
+    _cam->setFixePosition();
+    _light->setFixePosition();
+    update();
+}
+
+void Viewer::nextShader()
+{
+    _shader->next();
+    update();
+}
+
+void Viewer::previousShader()
+{
+    _shader->previous();
+    update();
+}
+
+
 void Viewer::loadModel()
 {
 
@@ -136,6 +164,7 @@ void Viewer::loadModel()
     _model = new Model(ml,_filepaths,_typeModel);
     _cam = new Camera(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
+    _light = new Light();
 
 
 }
@@ -186,12 +215,4 @@ ProgressInfo *Viewer::progressInfo() const
 
 
 
-
-void Viewer::moveLight(vec2 p)
-{
-    _lightPosition[0] = (p[0]-(float)(width()/2))/((float)(width()/2));
-    _lightPosition[1] = (p[1]-(float)(height()/2))/((float)(height()/2));
-    _lightPosition[2] = 1.0f-std::max(fabs(_lightPosition[0]),fabs(_lightPosition[1]));
-    _lightPosition = normalize(_lightPosition);
-}
 

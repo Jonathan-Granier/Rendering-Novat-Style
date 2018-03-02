@@ -16,7 +16,7 @@ CONFIG(release, release|debug) {
   DESTDIR = bin/release
 } else {
   OBJECTS_DIR = bin/debug
-  DESTDIR = bin/debug
+  DESTDIR = bin/debugz
 }
 
 
@@ -53,7 +53,8 @@ SOURCES += \
     src/mainwindow.cpp \
     src/progressinfo.cpp \
     src/meshloader.cpp \
-    src/texture.cpp
+    src/texture.cpp \
+    src/light.cpp
 
 
 HEADERS += \
@@ -69,8 +70,11 @@ HEADERS += \
     src/mainwindow.h \
     src/progressinfo.h \
     src/meshloader.h \
-    src/texture.h
+    src/texture.h \
+    src/light.h
 
 DISTFILES += \
-    shaders/fragmentshader.frag \
-    shaders/vertexshader.vert
+    shaders/basic.frag \
+    shaders/basic.vert \
+    shaders/toon1D.frag \
+    shaders/toon1D.vert

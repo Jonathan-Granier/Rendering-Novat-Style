@@ -26,6 +26,7 @@
 #include "camera.h"
 #include "model.h"
 #include "progressinfo.h"
+#include "light.h"
 
 /**
  * @brief The Open GL widget , init openGL, setup a model, a camera, a light and shaders and draw it.
@@ -84,6 +85,24 @@ public:
      */
     void reloadShader();
 
+    /**
+     * @brief Print the camera and light data
+     */
+    void printCamAndLight();
+
+    /**
+     * @brief Fixe the camera and the light to hard code positions.
+     */
+    void fixeCamAndLight();
+
+    /**
+     * @brief Switch to the next shader.
+     */
+    void nextShader();
+    /**
+     * @brief Switch to the previous shader.
+     */
+    void previousShader();
 
     /**
      * @brief check and copy a stack file in _filepaths.
@@ -100,55 +119,27 @@ public:
     ProgressInfo *progressInfo() const;
 
 
+
+
+
 private:
 
-    /**
-     * @brief A Shader pointer.
-     */
-    Shader      *_shader;
-    /**
-     * @brief A model pointer.
-     */
-    Model       *_model;
-    /**
-     * @brief A camera pointer
-     */
-    Camera      *_cam;
-    /**
-     * @brief the light position
-     */
-    glm::vec3   _lightPosition;
-    /**
-     * @brief For the mousse , true if we move the light , false otherwise.
-     */
-    bool        _lightMode;
-    /**
-     * @brief a vector of mesh file
-     */
-    std::vector<std::string> _filepaths;
-    /**
-     * @brief type of the _filepaths (OBJ,MNT or NONE).
-     */
-    Model::TYPE_FILE _typeModel;
 
-    /**
-     * @brief a Qt timer
-     */
-    QTime _timer;
-    /**
-     * @brief the progress of the meshloader
-     */
-    ProgressInfo *_progressInfo;
+    Shader      *_shader;   /** < A Shader pointer. */
+    Model       *_model;    /** < A Model pointer.  */
+    Camera      *_cam;      /** < A Camera pointer. */
+    Light       *_light; /** < A Light pointer      */
+    std::vector<std::string> _filepaths; /** < A vector of mesh file.*/
+    Model::TYPE_FILE _typeModel; /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
+    QTime _timer; /** < A Qt timer.*/
+    ProgressInfo *_progressInfo; /** < The progress of the meshloader. */
+
 
     /**
      * @brief load Model from _filepaths and of type _typeModel
      */
     void loadModel();
-    /**
-     * @brief Move the light
-     * @param the new position of light.
-     */
-    void moveLight(glm::vec2 p);  
+
 };
 
 #endif // VIEWER_H

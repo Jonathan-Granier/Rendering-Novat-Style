@@ -163,7 +163,11 @@ class Camera {
    */
   inline glm::mat3 normalMatrix () const {return glm::mat3(glm::inverseTranspose(mdvMatrix()));}
 
- protected:
+  /**
+   * @brief Set the camera to a hard code fixe point.
+   */
+  void setFixePosition();
+protected:
   /**
    * @brief
    *
@@ -197,16 +201,16 @@ class Camera {
    */
   inline void updateCamDists    (const glm::mat4 &m);
 
-  int           _m; // moving mode /**< TODO: describe */
-  int           _w; // width /**< TODO: describe */
-  int           _h; // height /**< TODO: describe */
-  glm::vec2     _p; // departure point when moving /**< TODO: describe */
-  glm::vec3     _c; // center /**< TODO: describe */
-  float         _r; // radius /**< TODO: describe */
-  TrackBall     _t; // trackball /**< TODO: describe */
-  float         _f; // fovy /**< TODO: describe */
-  glm::ivec4    _v; // viewport /**< TODO: describe */
-  int           _d; // mode (persp or ortho) /**< TODO: describe */
+  int           _m; /**< moving mode */
+  int           _w; /**< width */
+  int           _h; /**< height */
+  glm::vec2     _p; /**< departure point when moving  */
+  glm::vec3     _c; /**< center */
+  float         _r; /**< radius */
+  TrackBall     _t; /**< trackball */
+  float         _f; /**< fovy */
+  glm::ivec4    _v; /**< viewport */
+  int           _d; /**< mode (persp or ortho) */
 
   glm::vec3     _up; /**< TODO: describe */
   glm::vec3     _right; /**< TODO: describe */

@@ -9,7 +9,7 @@
 //TODO
 /*
  * TOON 1D
- * Point de vue camera/ligth fixe
+ * Point de vue camera/ligth fixe done
  * Courber la montagne selon le point de vue dans le vertex shader.
  * Pile de shader
  *
