@@ -49,9 +49,9 @@ SOURCES += \
     src/OpenGl/progressinfo.cpp \
     src/OpenGl/meshloader.cpp \
     src/OpenGl/texture.cpp \
-    src/Light&Camera/light.cpp \
-    src/Light&Camera/camera.cpp \
-    src/Light&Camera/trackball.cpp \
+    src/Light_Camera/light.cpp \
+    src/Light_Camera/camera.cpp \
+    src/Light_Camera/trackball.cpp \
     lib/glad.c \
     lib/stb_image.cpp \
     lib/glm_add.cpp
@@ -67,9 +67,9 @@ HEADERS += \
     src/OpenGl/progressinfo.h \
     src/OpenGl/meshloader.h \
     src/OpenGl/texture.h \
-    src/Light&Camera/light.h \
-    src/Light&Camera/camera.h \
-    src/Light&Camera/trackball.h \
+    src/Light_Camera/light.h \
+    src/Light_Camera/camera.h \
+    src/Light_Camera/trackball.h \
     lib/stb_image.h \
     lib/glm_add.h
 

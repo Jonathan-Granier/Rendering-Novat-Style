@@ -12,7 +12,9 @@ using namespace std;
 using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
+    _lightMode(false),
     _typeModel(Model::NONE)
+
 {
 
     QSurfaceFormat format;
@@ -96,21 +98,26 @@ void Viewer::resizeGL(int width,int height){
 void Viewer::mousePressEvent(QMouseEvent *me){
     const vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
-        _light->_mode = false;
+        _lightMode = false;
         _cam->initRotation(p);
     } else if(me->button()==Qt::MidButton) {
-        _light->_mode = false;
+        _lightMode = false;
         _cam->initMoveZ(p);
     } else if(me->button()==Qt::RightButton) {
-        _light->_mode = true;
-        _light->move(p,(float)width(),(float)height());
+        _lightMode = true;
+        _light->startMoveAroundYAxe(p,width(),height());
+        //_light->moveAroundYAxe(p);
+        //_light->move(p,(float)width(),(float)height());
     }
     update();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
     const vec2 p((float)me->x(),(float)(height()-me->y()));
-    if(_light->_mode)
-        _light->move(p,(float)width(),(float)height());
+
+
+    if(_lightMode)
+        //_light->move(p,(float)width(),(float)height());
+        _light->moveAroundYAxe(p,width(),height());
     else
         _cam->move(p);
 
@@ -123,6 +130,7 @@ void Viewer::resetTheCameraPosition(){
 }
 
 void Viewer::reloadShader(){
+    cout << "Refresh the current shader" << endl;
     _shader->initialize();
     update();
 }
@@ -144,16 +152,18 @@ void Viewer::fixeCamAndLight()
     update();
 }
 
-void Viewer::nextShader()
+string Viewer::nextShader()
 {
     _shader->next();
     update();
+    return _shader->name();
 }
 
-void Viewer::previousShader()
+string Viewer::previousShader()
 {
     _shader->previous();
     update();
+    return _shader->name();
 }
 
 

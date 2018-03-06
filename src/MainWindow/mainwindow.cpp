@@ -15,7 +15,7 @@
 #include <QStatusBar>
 #include <QApplication>
 
-
+using namespace std;
 MainWindow::MainWindow()
 {
 
@@ -50,6 +50,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::keyPressEvent(QKeyEvent *ke)
 {
 
+
     // key i: init camera
     if(ke->key()==Qt::Key_I) {
       _viewer->resetTheCameraPosition();
@@ -58,6 +59,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     //key r : reload shader
     if(ke->key()==Qt::Key_R){
        _viewer->reloadShader();
+
     }
 
     if(ke->key()==Qt::Key_P){
@@ -68,10 +70,12 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         _viewer->fixeCamAndLight();
     }
     if(ke->key()==Qt::Key_Q){
-        _viewer->previousShader();
+        QString currentShader=QString::fromStdString(_viewer->previousShader());
+        statusBar()->showMessage(currentShader);
     }
     if(ke->key()==Qt::Key_S){
-        _viewer->nextShader();
+        QString currentShader=QString::fromStdString(_viewer->nextShader());
+        statusBar()->showMessage(currentShader);
     }
 }
 
@@ -95,8 +99,6 @@ void MainWindow::saveScreenshot()
 {
 
     QImage screenshot =_viewer->grabFramebuffer();
-
-
     QFileDialog dialog(this, "Sauvegarder la capture d'ecran", QDir::currentPath()+"/screenshots","*.png *.jpg");
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     QString filename;

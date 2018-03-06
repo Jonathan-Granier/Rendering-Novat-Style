@@ -24,6 +24,10 @@ public:
      */
     glm::vec2 TexCoords;
 
+    /**
+     * @brief Basic constructor , all equal 0
+     */
+    Vertex();
 
     /**
      * @brief Constructor with 3 3D vectors.
@@ -32,6 +36,13 @@ public:
      * @param texCoords 2D vectors that define the texture coordinates.
      */
     Vertex(glm::vec3 position,glm::vec3 normal,glm::vec2 texCoords);
+    /**
+     * @brief Constructor with 3 3D vectors.
+     * @param position 3D vectors that define the position.
+     * @param normal 3D vectors that define the normal.
+     */
+    Vertex(glm::vec3 position,glm::vec3 normal);
+
     /**
      * @brief Constructor with each value of each vector
      * @param px : the x of the position.
@@ -65,6 +76,8 @@ public:
      * @param that : a vertex
      * @return true if that > this, else otherwise.
      */
+
+
     bool operator<(const Vertex that) const;
     /**
      * @brief Print the actual vertex.

@@ -12,14 +12,12 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     ShaderInfo s;
     s.fragmentPath = fragmentPath;
     s.vertexPath = vertexPath;
+    s.name = getName(vertexPath);
+
     _shaderInfos.push_back(s);
     _currentIndexShader = 0;
 
-    //_vertexPath = vertexPath;
-    //_fragmentPath = fragmentPath;
-
     initialize();
-
 }
 
 
@@ -40,6 +38,7 @@ void Shader::add(const GLchar *vertexPath, const GLchar *fragmentPath)
     ShaderInfo s;
     s.fragmentPath = fragmentPath;
     s.vertexPath = vertexPath;
+    s.name = getName(vertexPath);
     _shaderInfos.push_back(s);
     unsigned int saveIndex = _currentIndexShader;
     _currentIndexShader = _shaderInfos.size() -1;
@@ -137,6 +136,11 @@ unsigned int Shader::ID() const
     return _shaderInfos[_currentIndexShader].id ;
 }
 
+
+string Shader::name() const{
+    return _shaderInfos[_currentIndexShader].name;
+}
+
 // utility uniform functions
 // ------------------------------------------------------------------------
 void Shader::setBool(const string &name, bool value) const
@@ -221,6 +225,13 @@ void Shader::checkCompileErrors(GLuint shader, string type)
             cerr << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n ------------------------------------------------------- " << endl;
         }
     }
+}
+
+string Shader::getName(const GLchar *vertexPath)
+{
+    string name(vertexPath);
+    size_t lastindex = name.find_last_of(".");
+    return name.substr(0, lastindex);
 }
 
 

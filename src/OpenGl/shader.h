@@ -71,6 +71,12 @@ public:
      */
     unsigned int ID() const;
 
+    /**
+     * @brief get the current name program.
+     * @return the current name program.
+     */
+    std::string name() const;
+
     // utility uniform functions
     /**
      * @brief set a boolean like a uniform value into the current sharders.
@@ -154,12 +160,14 @@ public:
 
 
 
+
 private:
 
     struct ShaderInfo{
         unsigned int id;                /** < the program ID*/
-        const GLchar* vertexPath;      /** < the path of the vertex shader*/
-        const GLchar* fragmentPath;    /** < the path of the fragment shader*/
+        const GLchar* vertexPath;       /** < the path of the vertex shader*/
+        const GLchar* fragmentPath;     /** < the path of the fragment shader*/
+        std::string name;         /** < Name of the shader */
     };
     unsigned int _currentIndexShader;   /** < The index of the current shader */
     std::vector<ShaderInfo> _shaderInfos;   /** < A Stack of shaderInfo */
@@ -176,6 +184,13 @@ private:
      */
     void checkCompileErrors(GLuint shader, std::string type);
     //TODO remonter les erreurs
+
+    /**
+     * @brief Get the name of the shader from the vertexPath.
+     * @param The path of the vertex shader.
+     * @return the name of the shader.
+     */
+    std::string getName(const GLchar *vertexPath);
 };
 
 #endif // SHADER_H

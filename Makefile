@@ -60,9 +60,9 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/OpenGl/progressinfo.cpp \
 		src/OpenGl/meshloader.cpp \
 		src/OpenGl/texture.cpp \
-		src/Light&Camera/light.cpp \
-		src/Light&Camera/camera.cpp \
-		src/Light&Camera/trackball.cpp \
+		src/Light_Camera/light.cpp \
+		src/Light_Camera/camera.cpp \
+		src/Light_Camera/trackball.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp moc_progressinfo.cpp
@@ -224,9 +224,9 @@ DIST          = shaders/basic.frag \
 		src/OpenGl/progressinfo.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/texture.h \
-		src/Light&Camera/light.h \
-		src/Light&Camera/camera.h \
-		src/Light&Camera/trackball.h \
+		src/Light_Camera/light.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
 		lib/stb_image.h \
 		lib/glm_add.h src/MainWindow/main.cpp \
 		src/MainWindow/viewer.cpp \
@@ -238,9 +238,9 @@ DIST          = shaders/basic.frag \
 		src/OpenGl/progressinfo.cpp \
 		src/OpenGl/meshloader.cpp \
 		src/OpenGl/texture.cpp \
-		src/Light&Camera/light.cpp \
-		src/Light&Camera/camera.cpp \
-		src/Light&Camera/trackball.cpp \
+		src/Light_Camera/light.cpp \
+		src/Light_Camera/camera.cpp \
+		src/Light_Camera/trackball.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp
@@ -538,8 +538,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light&Camera/light.h src/Light&Camera/camera.h src/Light&Camera/trackball.h lib/stb_image.h lib/glm_add.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light&Camera/light.cpp src/Light&Camera/camera.cpp src/Light&Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -596,14 +596,35 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 ####### Compile
 
 bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
-		src/MainWindow/viewer.h
+		src/MainWindow/viewer.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/model.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/texture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
 
-bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h
+bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/model.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/texture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/MainWindow/viewer.cpp
 
 bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.h \
-		src/MainWindow/viewer.h
+		src/MainWindow/viewer.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/model.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/texture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/MainWindow/mainwindow.cpp
 
 bin/debug/shader.o: src/OpenGl/shader.cpp src/OpenGl/shader.h
@@ -639,17 +660,17 @@ bin/debug/texture.o: src/OpenGl/texture.cpp src/OpenGl/texture.h \
 		lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/texture.o src/OpenGl/texture.cpp
 
-bin/debug/light.o: src/Light&Camera/light.cpp src/Light&Camera/light.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/light.o src/Light&Camera/light.cpp
+bin/debug/light.o: src/Light_Camera/light.cpp src/Light_Camera/light.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/light.o src/Light_Camera/light.cpp
 
-bin/debug/camera.o: src/Light&Camera/camera.cpp src/Light&Camera/camera.h \
-		src/Light&Camera/trackball.h \
+bin/debug/camera.o: src/Light_Camera/camera.cpp src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
 		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/Light&Camera/camera.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/Light_Camera/camera.cpp
 
-bin/debug/trackball.o: src/Light&Camera/trackball.cpp src/Light&Camera/trackball.h \
+bin/debug/trackball.o: src/Light_Camera/trackball.cpp src/Light_Camera/trackball.h \
 		lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/Light&Camera/trackball.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/Light_Camera/trackball.cpp
 
 bin/debug/glad.o: lib/glad.c 
 	$(CC) -c $(CFLAGS) $(INCPATH) -o bin/debug/glad.o lib/glad.c

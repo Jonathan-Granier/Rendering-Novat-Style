@@ -4,11 +4,25 @@
 
 using namespace std;
 using namespace glm;
+Vertex::Vertex()
+{
+    this->Position = vec3(0.0f,0.0f,0.0f);
+    this->Normal = vec3(0.0f,0.0f,0.0f);
+    this->TexCoords = vec2(0.0f,0.0f);
+}
+
 Vertex::Vertex(vec3 position, vec3 normal, vec2 texCoords)
 {
     this->Position=position;
     this->Normal=normal;
     this->TexCoords=texCoords;
+}
+
+Vertex::Vertex(vec3 position, vec3 normal)
+{
+    this->Position=position;
+    this->Normal=normal;
+    this->TexCoords = vec2(0.0f,0.0f);
 }
 
 Vertex::Vertex(float px, float py, float pz, float nx, float ny, float nz, float tu, float tv)

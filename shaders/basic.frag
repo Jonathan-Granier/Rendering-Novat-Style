@@ -40,9 +40,8 @@ vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
 void main()
 {
 
-
-  vec4 colorObj = mix(texture(container,TexCoord),texture(awesomeface,TexCoord),0.2);
-
+  vec4 colorObj = vec4(0.5,0.5,0.5,1.0);
+  //vec4 colorObj = mix(texture(container,TexCoord),texture(awesomeface,TexCoord),0.2);
   float Ka = 0.5;
   float Kd = 0.5;
   float lightIntensity = 1.0;

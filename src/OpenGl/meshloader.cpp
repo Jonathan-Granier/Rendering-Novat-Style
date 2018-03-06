@@ -6,8 +6,8 @@ using namespace std;
 using namespace glm;
 
 
-#define NUMBEROFTEX 20
-
+#define NUMBEROFTEX 1
+#define NOTEXTUREOBJ 1
 
 MeshLoader::MeshLoader(ProgressInfo *p) :
     _progressInfo(p)
@@ -117,19 +117,29 @@ Mesh* MeshLoader::vertexFromObj(const string &path)
             getline(file,lineFace,'/');
             positionIndex[0] = stoi(lineFace);
             getline(file,lineFace,'/');
-            texCoordIndex[0] = stoi(lineFace);
+            if(NOTEXTUREOBJ)
+                texCoordIndex[0]=0;
+            else
+                texCoordIndex[0] = stoi(lineFace);
             getline(file,lineFace,' ');
             normalIndex[0] = stoi(lineFace);
             getline(file,lineFace,'/');
             positionIndex[1] = stoi(lineFace);
             getline(file,lineFace,'/');
-            texCoordIndex[1] = stoi(lineFace);
+
+            if(NOTEXTUREOBJ)
+                texCoordIndex[1]=0;
+            else
+                texCoordIndex[1] = stoi(lineFace);
             getline(file,lineFace,' ');
             normalIndex[1] = stoi(lineFace);
             getline(file,lineFace,'/');
             positionIndex[2] = stoi(lineFace);
             getline(file,lineFace,'/');
-            texCoordIndex[2] = stoi(lineFace);
+            if(NOTEXTUREOBJ)
+                texCoordIndex[2]=0;
+            else
+                texCoordIndex[2] = stoi(lineFace);
             getline(file,lineFace);
             normalIndex[2] = stoi(lineFace);
             /*
@@ -162,7 +172,11 @@ Mesh* MeshLoader::vertexFromObj(const string &path)
         unsigned int normalIndex    = normalIndices[i];
 
         // Get the attributes thanks to the index
-        Vertex v = Vertex(positions[ positionIndex-1 ],normals[ normalIndex-1 ],texCoords[ texCoordIndex-1 ]);
+        Vertex v;
+        if(NOTEXTUREOBJ)
+            v = Vertex(positions[ positionIndex-1],normals[ normalIndex-1]);
+        else
+            v = Vertex(positions[ positionIndex-1],normals[ normalIndex-1 ],texCoords[ texCoordIndex-1 ]);
         vertices.push_back(v);
 
 

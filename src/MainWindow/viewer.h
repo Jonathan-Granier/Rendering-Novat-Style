@@ -26,8 +26,8 @@
 #include "src/OpenGl/shader.h"
 #include "src/OpenGl/progressinfo.h"
 #include "src/OpenGl/model.h"
-#include "src/Light&Camera/camera.h"
-#include "src/Light&Camera/light.h"
+#include "src/Light_Camera/camera.h"
+#include "src/Light_Camera/light.h"
 
 /**
  * @brief The Open GL widget , init openGL, setup a model, a camera, a light and shaders and draw it.
@@ -98,12 +98,15 @@ public:
 
     /**
      * @brief Switch to the next shader.
+     * @return The current name of the shader.
      */
-    void nextShader();
+    std::string nextShader();
+
     /**
      * @brief Switch to the previous shader.
+     * @return The currant name of the shader.
      */
-    void previousShader();
+    std::string previousShader();
 
     /**
      * @brief check and copy a stack file in _filepaths.
@@ -130,6 +133,7 @@ private:
     Model       *_model;    /** < A Model pointer.  */
     Camera      *_cam;      /** < A Camera pointer. */
     Light       *_light; /** < A Light pointer      */
+    bool        _lightMode;
     std::vector<std::string> _filepaths; /** < A vector of mesh file.*/
     Model::TYPE_FILE _typeModel; /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
     QTime _timer; /** < A Qt timer.*/
