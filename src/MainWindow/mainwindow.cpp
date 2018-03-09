@@ -66,7 +66,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         _viewer->printCamAndLight();
     }
 
-    if(ke->key()==Qt::Key_F){
+    if(ke->key()==Qt::Key_D){
         _viewer->fixeCamAndLight();
     }
     if(ke->key()==Qt::Key_Q){

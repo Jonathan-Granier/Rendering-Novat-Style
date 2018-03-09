@@ -82,7 +82,7 @@ public:
      */
     void resetTheCameraPosition();
     /**
-     * @brief Reload the shader.
+     * @brief Read and compile all shaders.
      */
     void reloadShader();
 
@@ -129,10 +129,11 @@ public:
 private:
 
 
-    Shader      *_shader;   /** < A Shader pointer. */
-    Model       *_model;    /** < A Model pointer.  */
-    Camera      *_cam;      /** < A Camera pointer. */
-    Light       *_light; /** < A Light pointer      */
+    Shader      *_shader;           /** < Shaders for compute the light. */
+    Shader      *_shaderDepthMap;   /** < A Shader for compute the depth map */
+    Model       *_model;            /** < A Model pointer.  */
+    Camera      *_cam;              /** < A Camera pointer. */
+    Light       *_light;            /** < A Light pointer      */
     bool        _lightMode;
     std::vector<std::string> _filepaths; /** < A vector of mesh file.*/
     Model::TYPE_FILE _typeModel; /** < Type of the _filepaths (OBJ,MNT or NONE)..*/

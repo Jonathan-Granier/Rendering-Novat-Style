@@ -14,57 +14,192 @@ MeshLoader::MeshLoader(ProgressInfo *p) :
 {}
 
 
-Mesh* MeshLoader::vertexFromHardCode()
+Mesh* MeshLoader::cubeFromHardCode()
 {
     // A cube without normal
     vector<Vertex> vertices;
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f)); // 1
-    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f,  1.0f, 0.0f)); // 2
-    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f)); // 3
-    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f)); // 3
-    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  0.0f, 1.0f)); // 1
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 0.0f)); // 1
+    //back face
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  0.0f, 0.0f)); // 1
+    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  1.0f, 0.0f)); // 2
+    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  1.0f, 1.0f)); // 3
+    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  1.0f, 1.0f)); // 3
+    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  0.0f, 1.0f)); // 1
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,  0.0f, 0.0f)); // 1
+    //front face
+    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f));
 
-    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
+    //left face
+    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
 
+    //right face
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
 
-    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
+    //bottom face
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, -1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f, -1.0f,  0.0f, 0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f, -1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f, -1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f, -1.0f,  0.0f, 0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f, -1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
 
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
-
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f, -0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f, -0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f,  0.5f,  0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f, -0.5f, -0.5f,  0.0f, 1.0f));
-
-    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f,  0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  0.0f, 1.0f));
+    //top face
+    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f, -0.5f,  1.0f,  0.0f, 0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.5f,  0.5f,  0.5f,  1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f,  0.5f,  0.5f,  1.0f,  0.0f, 0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.5f,  0.5f, -0.5f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
 
 
     return indexVBO(vertices);
 
 }
+
+
+
+Mesh* MeshLoader::planeFromHardCode(){
+    vector<Vertex> vertices;
+    vertices.push_back(Vertex(25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f));
+    vertices.push_back(Vertex(-25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f));
+    vertices.push_back(Vertex(-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f));
+
+    vertices.push_back(Vertex(25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f));
+    vertices.push_back(Vertex(-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f));
+    vertices.push_back(Vertex(25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f));
+    return indexVBO(vertices);
+}
+
+
+Mesh* MeshLoader::yAxisFromHardCode(){
+    vector<Vertex> vertices;
+
+    //Derriere
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 0.0f));
+
+    //Devant
+    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 0.0f));
+
+    //Face gauche
+    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+
+    //Face droite
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+
+    //En Bas
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
+
+    //En Haut
+    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
+
+    return indexVBO(vertices);
+
+}
+
+
+
+Mesh* MeshLoader::xAxisFromHardCode(){
+    vector<Vertex> vertices;
+
+    //Devant
+    vertices.push_back(Vertex(  0.0f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 0.0f));
+
+    //Derriere
+    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f));
+
+    //Face gauche
+    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+
+    //Face droite
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
+
+    //En Bas
+    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
+
+    //En Haut
+    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
+
+    return indexVBO(vertices);
+
+}
+
+
+
+
 //TODO translate c reader to c++ reader (FILE to ifstream)
 Mesh* MeshLoader::vertexFromObj(const string &path)
 {
@@ -466,7 +601,7 @@ void MeshLoader::checkHeader(string value,string goal){
 void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
     vec3 v12 = v2->Position - v1->Position;
     vec3 v13 = v3->Position - v1->Position;
-    vec3 nf  = normalize(cross(v13,v12));
+    vec3 nf  = normalize(cross(v12,v13));
     v1->Normal+=nf;
     v2->Normal+=nf;
     v3->Normal+=nf;

@@ -13,7 +13,7 @@ public:
      * @param position : the position of the light
      * @param mode :  if we move the light , false by default.
      */
-    Light(glm::vec3 position=glm::vec3(0,1,1), bool mode=false);
+    Light(glm::vec3 position=glm::vec3(10.0f,0.0f,0.0f), bool mode=false);
 
     /**
      * @brief Move the light

@@ -15,7 +15,8 @@ Light::Light(vec3 position, bool mode) :
 
 void Light::setFixePosition()
 {
-    _position = vec3(-0.877768, -0.459660, 0.135041);
+    //_position = vec3(1.0, -3.0, 0);
+    _position =  vec3(10000.0, 14000.000000, -10000.0);
 }
 
 glm::vec3 Light::position() const
@@ -29,7 +30,7 @@ void Light::move(vec2 p,float width,float height)
 {
     _position.x = (p[0]-(float)(width/2))/((float)(width/2));
     _position.y = (p[1]-(float)(height/2))/((float)(height/2));
-    _position.z = 1.0f-glm::max(fabs(_position[0]),fabs(_position[1]));
+    _position.z = 1.0f-std::max(fabs(_position[0]),fabs(_position[1]));
     _position = normalize(_position);
 }
 
@@ -46,7 +47,8 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     float theta= orientedAngle(_oldmoussePosition,moussePos);
 
     cout << "theta : " << theta << " old pos : " << to_string(_position);
-    _position = rotateY(_position,theta);
+    vec3 axis(0.0,1.0,0.0);
+    _position = rotate(_position,theta,axis);
 
 
 

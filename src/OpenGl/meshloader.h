@@ -23,12 +23,25 @@ public:
     MeshLoader(ProgressInfo *progressInfo);
 
     /**
-     * @brief Load and index a vertex from a hard code tab (a cube without normal)
+     * @brief Load and index a cube from a hard code tab (without normal)
      * @return a indexed Mesh pointer
      */
-    Mesh* vertexFromHardCode();
+    Mesh* cubeFromHardCode();
+
+    /**
+     * @brief Load and index a plane from a hard code tab
+     * @return a indexed Mesh pointer
+     */
+    Mesh *planeFromHardCode();
+
+    /**
+     * @brief yAxisFromHardCode
+     * @return
+     */
+    Mesh *yAxisFromHardCode();
 
 
+    Mesh *xAxisFromHardCode();
     /**
      * @brief Load and index a unique OBJ from a file
      * @param path : the path of the OBJ
@@ -41,6 +54,9 @@ public:
      * @return a indexed Mesh pointer
      */
     Mesh* vertexFromMNT(const std::vector<std::string> &filepaths);
+
+
+
 
 
 private:

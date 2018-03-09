@@ -62,33 +62,13 @@ public:
     float radius() const;
 
 private :
-    /**
-     * @brief a Vertex Buffer Object.
-     */
-    unsigned _VBO;
-    /**
-     * @brief a Element Buffer Object.
-     */
-    unsigned _EBO;
 
-    /**
-     * @brief a vector of vertex.
-     */
-    std::vector<Vertex> _vertices;
-    /**
-     * @brief a vector of int that define the indices of vertex of polygons of the mesh.
-     */
-    std::vector<unsigned int> _indices;
-
-    /**
-     * @brief The center of the mesh.
-     */
-    glm::vec3 _center;
-
-    /**
-     * @brief The radius of the mesh.
-     */
-    float _radius;
+    unsigned _VBO;                      /** < a Vertex Buffer Object.*/
+    unsigned _EBO;                      /** < a Element Buffer Object.*/
+    std::vector<Vertex> _vertices;      /** < a vector of vertex.*/
+    std::vector<unsigned int> _indices; /** <  a vector of int that define the indices of vertex of polygons of the mesh.*/
+    glm::vec3 _center;                  /** < The radius of the mesh.*/
+    float _radius;                      /** < The radius of the mesh.*/
 
 
 };

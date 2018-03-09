@@ -37,7 +37,7 @@ public:
      * @brief Draw the model from an shader
      * @param shader :  the shader to use for draw the model
      */
-    void draw(Shader *shader);
+    void draw(Shader *shader,glm::vec3 lightPosition);
 
     /**
      * @brief get _center
@@ -50,22 +50,27 @@ public:
      */
     float radius() const;
 
+    void initShadowMap();
+
+    glm::mat4 RenderFromLight(glm::vec3 lightPosition, Shader *shader, float width, float height);
+
+    glm::mat4 getLightSpaceMatrix() const;
+
+    void DebugShadowMap(Shader *shader);
 private:
 
-    unsigned int loadTexture(const std::string &path);
+    Mesh        *_mesh; /** < the mesh of the model */
+    Mesh        *_meshPlane;
+    Mesh        *_meshSphere;
+    std::vector<Texture> _textures; /** < the textures of the model*/
+    unsigned int _depthMapFBO;
+    const unsigned int _SHADOW_WIDTH =1024, _SHADOW_HEIGHT = 1024;
+    glm::mat4 _lightSpaceMatrix;
 
-    /**
-     * @brief Number of texture
-     */
-    const int   NB_TEX = 2;
-    /**
-     * @brief the mesh of the model
-     */
-    Mesh        *_mesh;
-    /**
-     * @brief the textures of the model
-     */
-    std::vector<Texture> _textures;
+
+    GLint _oldFBO;
+
+    void renderQuad();
 };
 
 #endif // MODEL_H

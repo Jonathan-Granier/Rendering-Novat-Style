@@ -35,10 +35,10 @@ public:
 protected:
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
-     * @details R : reload the shaders,
+     * @details R : reload all shaders,
      *          I : init the camera,
      *          P : print the camera and light position,
-     *          F : fixe the camera and the light to hard code positions.
+     *          D : fixe the camera and the light to hard code positions.
      *          Q : Switch to the previous shader
      *          S : Switch to the next shader
      * @param event

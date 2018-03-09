@@ -44,7 +44,7 @@ void Camera::initialize(int w,int h,bool replace) {
     return;
 
   // camera transformations
-  _matm = glm::lookAt(glm::vec3(_c[0],_c[1],_c[2]-tmp2*_r),
+  _matm = glm::lookAt(glm::vec3(_c[0],_c[1],_c[2]+tmp2*_r),
                 glm::vec3(_c[0],_c[1],_c[2]),
                 glm::vec3(0.0,1.0,0.0));
 
@@ -75,5 +75,6 @@ void Camera::setFixePosition(){
                       0.045663,  0.996309,  0.072668, 0.000000,
                       0.416437, -0.085106,  0.905171, 0.000000,
                       -12.499985, 71.372101, -12304.133789, 1.000000);
+    updateCamVectors(_matm);
 }
 

@@ -103,7 +103,7 @@ class Camera {
    *
    * @return const glm::vec3
    */
-  inline const glm::vec3 up()    const { return _view;  } // up vector
+  inline const glm::vec3 up()    const { return _up;  } // up vector
   /**
    * @brief
    *
@@ -115,7 +115,7 @@ class Camera {
    *
    * @return const glm::vec3
    */
-  inline const glm::vec3 view()  const { return _up;    } // view vector
+  inline const glm::vec3 view()  const { return _view;    } // view vector
 
   /**
    * @brief

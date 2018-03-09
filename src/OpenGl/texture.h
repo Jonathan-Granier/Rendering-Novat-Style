@@ -18,12 +18,24 @@ public:
      */
     Texture(const std::string &path, const std::string &name);
 
+
+    Texture(unsigned int id, const std::string name);
+
+
     /**
      * @brief Draw the i th texture with the shader.
      * @param shader :  the shader where to send the texture.
      * @param i : the number of the texture.
      */
     void draw(Shader *shader, unsigned int i);
+
+
+    /**
+     * @brief get the id of the texture.
+     * @return The id of the texture.
+     */
+    unsigned int ID() const;
+
 private :
 
     unsigned int _ID;  /*!< ID of the texture assign by glGenTextures().*/

@@ -83,10 +83,18 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/stb_image.o \
 		bin/debug/glm_add.o \
 		bin/debug/moc_progressinfo.o
-DIST          = shaders/basic.frag \
-		shaders/basic.vert \
-		shaders/toon1D.frag \
+DIST          = shaders/toon1D.frag \
 		shaders/toon1D.vert \
+		shaders/debug.vert \
+		shaders/debug.frag \
+		shaders/phong.frag \
+		shaders/phong.vert \
+		shaders/phongspec.frag \
+		shaders/phongspec.vert \
+		shaders/shadowmap.frag \
+		shaders/shadowmap.vert \
+		shaders/shadowmapdebug.frag \
+		shaders/shadowmapdebug.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -603,7 +611,11 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h
+		src/OpenGl/texture.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
+		lib/glm_add.h \
+		src/Light_Camera/light.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
 
 bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
@@ -613,7 +625,11 @@ bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h
+		src/OpenGl/texture.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
+		lib/glm_add.h \
+		src/Light_Camera/light.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/MainWindow/viewer.cpp
 
 bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.h \
@@ -624,7 +640,11 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h
+		src/OpenGl/texture.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
+		lib/glm_add.h \
+		src/Light_Camera/light.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/MainWindow/mainwindow.cpp
 
 bin/debug/shader.o: src/OpenGl/shader.cpp src/OpenGl/shader.h

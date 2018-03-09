@@ -4,11 +4,8 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 in vec4 Normal;
-in vec3 eyeVector;
-in vec4 NormalTest;
+in vec4 lightVector;
 
-
-uniform vec3 lightPosition;
 uniform sampler2D container;
 uniform sampler2D awesomeface;
 uniform sampler2D neige_ombre;
@@ -38,19 +35,28 @@ vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
 }
 
 
+
+
+
 void main()
 {
 
     vec4 n = normalize(Normal);
-    vec4 l= vec4(normalize(lightPosition),0.2);
+    vec4 l = normalize(lightVector);
     float intensity;
 
     intensity = dot(l,n);
+    if(intensity <= 0.0f){
+      intensity = 0.001f;
+    }
+    // ma texture est inversé , TODO la refaire
+    intensity = intensity * -1.0f +1.0f;
+
     //vec4 colorObj = mix(texture(container,TexCoord),texture(awesomeface,TexCoord),0.2);
     vec2 coordToon1D = vec2(intensity,0);
 
 
-    vec4 color = texture(awesomeface,TexCoord);
-    //color = vec4(coordToon1D,0,1.0);
+    vec4 color = texture(neige_ombre,coordToon1D);
+    //vec4 color = vec4(-1*coordToon1D,0,1.0);
     FragColor = color;
 }

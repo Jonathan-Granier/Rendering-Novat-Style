@@ -57,10 +57,21 @@ Texture::Texture(const string &path, const string &name) :
 
 }
 
+Texture::Texture(unsigned int id, const string name)
+{
+    _ID = id;
+    _name = name;
+}
+
 void Texture::draw(Shader *shader,unsigned int i)
 {
 
     glActiveTexture(GL_TEXTURE0 + i);
     shader->setInt(_name,i);
     glBindTexture(GL_TEXTURE_2D, _ID);
+}
+
+unsigned int Texture::ID() const
+{
+    return _ID;
 }

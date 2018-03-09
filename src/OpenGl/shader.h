@@ -43,11 +43,6 @@ public:
     void add(const GLchar* vertexPath, const GLchar* fragmentPath);
 
     /**
-     * @brief Reads, compiles the vertex and the fragment of the current shader and store the id
-     */
-    void initialize();
-
-    /**
      * @brief activate the current shader.
      */
     void use();
@@ -64,6 +59,11 @@ public:
      * @brief Switch to the previous shader. if the current shader is the first, go to the last shader in the array.
      */
     void previous();
+
+    /**
+     * @brief Read and compile all shaders
+     */
+    void reload();
 
     /**
      * @brief get the current id program.
@@ -170,19 +170,23 @@ private:
         std::string name;         /** < Name of the shader */
     };
     unsigned int _currentIndexShader;   /** < The index of the current shader */
-    std::vector<ShaderInfo> _shaderInfos;   /** < A Stack of shaderInfo */
+    std::vector<ShaderInfo*> _shaderInfos;   /** < A Stack of shaderInfo */
 
 
-//    unsigned int _ID; /** < the program ID*/
-//    const GLchar* _vertexPath; /** < the path of the vertex shader*/
-//    const GLchar* _fragmentPath; /** < the path of the fragment shader*/
+    /**
+     * @brief Reads, compiles the vertex and the fragment of the current shader and store the id
+     * @shaderInfo : The current shader
+     */
+    void initialize(ShaderInfo *shaderInfo);
+
 
     /**
      * @brief Check if the compilation or the linkage went fine.
      * @param shader : the id of the shader or the program.
      * @param type : the type of the shader : PROGRAMME , VERTEX or FRAGMENT.
+     * @param name : name of the shader.
      */
-    void checkCompileErrors(GLuint shader, std::string type);
+    void checkCompileErrors(GLuint shader, std::string type, std::string name);
     //TODO remonter les erreurs
 
     /**

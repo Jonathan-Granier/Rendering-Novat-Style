@@ -60,8 +60,14 @@ void Viewer::initializeGL(){
 
 
     loadModel();
-    _shader = new Shader("shaders/basic.vert", "shaders/basic.frag");
+    _shader = new Shader("shaders/debug.vert", "shaders/debug.frag");
+    _shader->add("shaders/phong.vert", "shaders/phong.frag");
+    _shader->add("shaders/phongspec.vert", "shaders/phongspec.frag");
     _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
+
+    _shaderDepthMap = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
+    _shaderDepthMap->add("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
+
     _timer.start();
 
 }
@@ -69,17 +75,26 @@ void Viewer::initializeGL(){
 // Rendu loop
 void Viewer::paintGL(){
 
-    //printFPS();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    _model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
+
+
+
+//    _model->DebugShadowMap(_shaderDepthMap);
+
     _shader->use();
 
     _shader->setMat4("mdvMat",_cam->mdvMatrix());
     _shader->setMat4("projMat",_cam->projMatrix());
     _shader->setMat3("normalMat",_cam->normalMatrix());
     _shader->setVec3("lightPosition",_light->position());
+    _shader->setVec3("cameraPosition",_cam->view());
+    _shader->setMat4("ligthSpaceMat",_model->getLightSpaceMatrix());
 
-    _model->draw(_shader);
+    _model->draw(_shader,_light->position());
 
     _shader->disable();
 
@@ -126,12 +141,13 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
+    _light = new Light(vec3(0.0,10.0f,3*_model->radius()));
     update();
 }
 
 void Viewer::reloadShader(){
-    cout << "Refresh the current shader" << endl;
-    _shader->initialize();
+    _shader->reload();
+    _shaderDepthMap->reload();
     update();
 }
 
@@ -174,9 +190,10 @@ void Viewer::loadModel()
     _model = new Model(ml,_filepaths,_typeModel);
     _cam = new Camera(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
-    _light = new Light();
+    _light = new Light(vec3(0.0,_model->radius(),_model->radius()));
+    //_light = new Light(vec3(5, 20, 20));
 
-
+    _model->initShadowMap();
 }
 
 bool Viewer::loadModelFromFile(const QStringList &fileNames)
@@ -222,7 +239,6 @@ ProgressInfo *Viewer::progressInfo() const
 {
     return _progressInfo;
 }
-
 
 
 

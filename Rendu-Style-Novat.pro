@@ -74,7 +74,15 @@ HEADERS += \
     lib/glm_add.h
 
 DISTFILES += \
-    shaders/basic.frag \
-    shaders/basic.vert \
     shaders/toon1D.frag \
-    shaders/toon1D.vert
+    shaders/toon1D.vert \
+    shaders/debug.vert \
+    shaders/debug.frag \
+    shaders/phong.frag \
+    shaders/phong.vert \
+    shaders/phongspec.frag \
+    shaders/phongspec.vert \
+    shaders/shadowmap.frag \
+    shaders/shadowmap.vert \
+    shaders/shadowmapdebug.frag \
+    shaders/shadowmapdebug.vert
