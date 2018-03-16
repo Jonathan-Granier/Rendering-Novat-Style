@@ -108,6 +108,9 @@ public:
      */
     std::string previousShader();
 
+
+    void showShadowMap();
+
     /**
      * @brief check and copy a stack file in _filepaths.
      * @param fileNames a stack of path file.
@@ -126,6 +129,7 @@ public:
 
 
 
+
 private:
 
 
@@ -135,6 +139,7 @@ private:
     Camera      *_cam;              /** < A Camera pointer. */
     Light       *_light;            /** < A Light pointer      */
     bool        _lightMode;
+    bool        _shadowMap;
     std::vector<std::string> _filepaths; /** < A vector of mesh file.*/
     Model::TYPE_FILE _typeModel; /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
     QTime _timer; /** < A Qt timer.*/

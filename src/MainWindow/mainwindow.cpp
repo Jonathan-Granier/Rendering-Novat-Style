@@ -77,6 +77,10 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         QString currentShader=QString::fromStdString(_viewer->nextShader());
         statusBar()->showMessage(currentShader);
     }
+
+    if(ke->key()==Qt::Key_H){
+        _viewer->showShadowMap();
+    }
 }
 
 

@@ -36,22 +36,38 @@ vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
 
 
 
-float ShadowCalculation(vec4 fragPosLightSpace){
-  /*
+float ShadowCalculation(vec4 fragPosLightSpace,vec4 normal,vec4 lightDir){
+
   // perform perspective divide
   vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
   // transform to [0,1] range
   projCoords = projCoords * 0.5 + 0.5;
+
+
+
   // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-  float closestDepth = texture(depthMap, projCoords.xy).r;
+  //float closestDepth = texture(depthMap, projCoords.xy).r;
   // get depth of current fragment from light's perspective
   float currentDepth = projCoords.z;
   // check whether current frag pos is in shadow
-  float bias = 0.005;
-  float shadow = currentDepth-bias > closestDepth  ? 1.0 : 0.0;
+  float bias = max(0.05 * (1.0 - dot(normal,lightDir)),0.005);
+
+
+  float shadow = 0;
+  vec2 texelSize = 1.0 / textureSize(depthMap, 0);
+  for(int x = -1; x <= 1; x++){
+    for(int y = -1 ; y <= 1; y++){
+      float pcfDepth = texture (depthMap,projCoords.xy + vec2(x,y) * texelSize).r;
+      shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+    }
+  }
+  shadow /= 9.0;
+
+  if(projCoords.z > 1.0)
+          shadow = 0.0;
   return shadow;
-  */
-  return texture(depthMap,fragPosLightSpace.xy).z < fragPosLightSpace.z ? 1.0 : 0.0;
+
+//  return texture(depthMap,fragPosLightSpace.xy).z < fragPosLightSpace.z ? 1.0 : 0.0;
 
 
 }
@@ -72,10 +88,19 @@ void main()
     vec4 l=  normalize(fs_in.lightDir);
 
 
-    float shadow = ShadowCalculation(fs_in.FragPosLightSpace);
+    float shadow = ShadowCalculation(fs_in.FragPosLightSpace,n,l);
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    FragColor = Ca+(Cd * (1.0-shadow));
+
+
+    if(shadow == 1.0){
+        FragColor = vec4(1.0,0,0,1.0);
+    }
+    else
+    {
+        FragColor = Ca+(Cd * (1.0-shadow));
+    }
+
     //FragColor = vec4(1.0,0.0,0.0,1.0);
 }
 

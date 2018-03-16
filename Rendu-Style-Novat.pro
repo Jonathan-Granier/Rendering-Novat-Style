@@ -54,7 +54,8 @@ SOURCES += \
     src/Light_Camera/trackball.cpp \
     lib/glad.c \
     lib/stb_image.cpp \
-    lib/glm_add.cpp
+    lib/glm_add.cpp \
+    src/OpenGl/shadowmap.cpp
 
 
 HEADERS += \
@@ -71,7 +72,8 @@ HEADERS += \
     src/Light_Camera/camera.h \
     src/Light_Camera/trackball.h \
     lib/stb_image.h \
-    lib/glm_add.h
+    lib/glm_add.h \
+    src/OpenGl/shadowmap.h
 
 DISTFILES += \
     shaders/toon1D.frag \

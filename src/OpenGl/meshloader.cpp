@@ -74,13 +74,13 @@ Mesh* MeshLoader::cubeFromHardCode()
 
 Mesh* MeshLoader::planeFromHardCode(){
     vector<Vertex> vertices;
-    vertices.push_back(Vertex(25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f));
-    vertices.push_back(Vertex(-25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f));
-    vertices.push_back(Vertex(-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f,  0.0f));
+    vertices.push_back(Vertex(-1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f));
+    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1000.0f));
 
-    vertices.push_back(Vertex(25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f));
-    vertices.push_back(Vertex(-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f));
-    vertices.push_back(Vertex(25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f,  0.0f));
+    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1000.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f, 1000.0f));
     return indexVBO(vertices);
 }
 

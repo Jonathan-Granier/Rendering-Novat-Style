@@ -13,6 +13,7 @@ using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
+    _shadowMap(false),
     _typeModel(Model::NONE)
 
 {
@@ -81,22 +82,24 @@ void Viewer::paintGL(){
 
     _model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
 
+    if(_shadowMap){
+        _model->DebugShadowMap(_shaderDepthMap);
+    }
+    else{
+        _shader->use();
 
+        _shader->setMat4("mdvMat",_cam->mdvMatrix());
+        _shader->setMat4("projMat",_cam->projMatrix());
+        _shader->setMat3("normalMat",_cam->normalMatrix());
+        _shader->setVec3("lightPosition",_light->position());
+        _shader->setVec3("cameraPosition",_cam->view());
+        _shader->setMat4("ligthSpaceMat",_model->getLightSpaceMatrix());
 
-//    _model->DebugShadowMap(_shaderDepthMap);
+        _model->draw(_shader,_light->position());
 
-    _shader->use();
+        _shader->disable();
+    }
 
-    _shader->setMat4("mdvMat",_cam->mdvMatrix());
-    _shader->setMat4("projMat",_cam->projMatrix());
-    _shader->setMat3("normalMat",_cam->normalMatrix());
-    _shader->setVec3("lightPosition",_light->position());
-    _shader->setVec3("cameraPosition",_cam->view());
-    _shader->setMat4("ligthSpaceMat",_model->getLightSpaceMatrix());
-
-    _model->draw(_shader,_light->position());
-
-    _shader->disable();
 
 
 }
@@ -141,7 +144,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
-    _light = new Light(vec3(0.0,10.0f,3*_model->radius()));
+    _light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
     update();
 }
 
@@ -183,6 +186,12 @@ string Viewer::previousShader()
 }
 
 
+
+void Viewer::showShadowMap(){
+    _shadowMap = !_shadowMap;
+    update();
+}
+
 void Viewer::loadModel()
 {
 
@@ -190,7 +199,7 @@ void Viewer::loadModel()
     _model = new Model(ml,_filepaths,_typeModel);
     _cam = new Camera(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
-    _light = new Light(vec3(0.0,_model->radius(),_model->radius()));
+    _light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
     //_light = new Light(vec3(5, 20, 20));
 
     _model->initShadowMap();

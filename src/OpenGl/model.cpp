@@ -5,6 +5,8 @@
 #include "vertex.h"
 #include "iostream"
 
+
+
 using namespace std;
 using namespace glm;
 
@@ -21,7 +23,7 @@ Model::Model(MeshLoader ml, const vector<string> &filepaths,TYPE_FILE typeFile)
         break;
     }
     _meshPlane = ml.planeFromHardCode();
-   //  _meshSphere = ml.vertexFromObj("models/cube.obj");
+    _meshSphere = ml.vertexFromObj("models/cube.obj");
 
 
     Texture texture1("textures/container.jpg","container");
@@ -34,6 +36,7 @@ Model::Model(MeshLoader ml, const vector<string> &filepaths,TYPE_FILE typeFile)
     _textures.push_back(texture3);
     _textures.push_back(texture4);
     _textures.push_back(texture5);
+
 
 }
 
@@ -72,7 +75,7 @@ void Model::draw(Shader *shader,vec3 lightPosition)
 
 
     // always good practice to set everything back to defaults once configured.
-    glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
 }
 
 
@@ -81,25 +84,41 @@ void Model::initShadowMap(){
     // -----------------------
 
     glGenFramebuffers(1,&_depthMapFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER,_depthMapFBO);
     // create depth texture
 
     unsigned int depthMap;
     glGenTextures(1,&depthMap);
     glBindTexture(GL_TEXTURE_2D,depthMap);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH_COMPONENT,_SHADOW_WIDTH,_SHADOW_HEIGHT,0,GL_DEPTH_COMPONENT,GL_FLOAT,NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH_COMPONENT16,_SHADOW_WIDTH,_SHADOW_HEIGHT,0,GL_DEPTH_COMPONENT,GL_FLOAT,0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+    float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+  //  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+  //  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+
+
+    //float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
     // attach depth texture as FBO's depth buffer
-    glBindFramebuffer(GL_FRAMEBUFFER,_depthMapFBO);
+
+
+    //glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D,depthMap,0);
     glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
-    glBindFramebuffer(GL_FRAMEBUFFER,0);
+    //glReadBuffer(GL_NONE);
+    //glBindFramebuffer(GL_FRAMEBUFFER,0);
+
+   // glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
+
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+        cerr << "ERROR IN FRAMBUFFER OF SHADOW MAP" << endl;
+    }
 
 
     Texture depthTex(depthMap,"depthMap");
@@ -107,28 +126,37 @@ void Model::initShadowMap(){
 }
 
 mat4 Model::RenderFromLight(vec3 lightPosition,Shader *shader,float width,float height){
+
+
+    glCullFace(GL_FRONT); //TODO TEST
     glm::mat4 lightProjection , lightView;
     float near_plane =1.0f, far_plane=7.5f;
 
-
-    lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+    //lightPosition = vec3(0.0,10.0,0.0);
+    float radius = _mesh->radius();
+    lightProjection = glm::ortho(-radius, radius, -radius, radius, near_plane, radius*10);
     lightView =  glm::lookAt(lightPosition, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
     _lightSpaceMatrix = lightProjection * lightView;
     // render scene from light's point of view
     shader->use();
-    shader->setMat4("_lightSpaceMatrix",_lightSpaceMatrix);
+    shader->setMat4("lightSpaceMatrix",_lightSpaceMatrix);
 
     glViewport(0,0,_SHADOW_WIDTH,_SHADOW_HEIGHT);
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO); // In Qt we have only one framebuffer actif!
 
     glBindFramebuffer(GL_FRAMEBUFFER,_depthMapFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
-    for(unsigned int i=0;i<_textures.size();i++){
+
+
+    //_textures[_textures.size()-1].draw(shader,0);
+
+    /*for(unsigned int i=0;i<_textures.size();i++){
         _textures[i].draw(shader,i);
-    }
+    }*/
     _meshPlane->Draw();
     _mesh->Draw();
+    glBindFramebuffer(GL_FRAMEBUFFER,0);
 
     glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
 
@@ -138,14 +166,8 @@ mat4 Model::RenderFromLight(vec3 lightPosition,Shader *shader,float width,float 
     shader->disable();
 
 
-    mat4 biasMatrix(
-                0.5, 0.0, 0.0, 0.0,
-                0.0, 0.5, 0.0, 0.0,
-                0.0, 0.0, 0.5, 0.0,
-                0.5, 0.5, 0.5, 1.0
-            );
-
-    _lightSpaceMatrix = biasMatrix*_lightSpaceMatrix;
+    glCullFace(GL_BACK);
+    //_lightSpaceMatrix = biasMatrix*_lightSpaceMatrix;
 
     return _lightSpaceMatrix;
 }
@@ -154,10 +176,12 @@ mat4 Model::RenderFromLight(vec3 lightPosition,Shader *shader,float width,float 
 void Model::DebugShadowMap(Shader *shader){
     shader->next();
     shader->use();
+
     for(unsigned int i=0;i<_textures.size();i++){
         _textures[i].draw(shader,i);
     }
 
+       // _textures[_textures.size()-1].draw(shader,0);
     renderQuad();
     shader->disable();
     shader->previous();
