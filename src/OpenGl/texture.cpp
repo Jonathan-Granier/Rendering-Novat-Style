@@ -65,9 +65,8 @@ Texture::Texture(unsigned int id, const string name)
 
 void Texture::draw(Shader *shader,unsigned int i)
 {
-
-    glActiveTexture(GL_TEXTURE0 + i);
-    shader->setInt(_name,i);
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    shader->setInt(_name,_ID);
     glBindTexture(GL_TEXTURE_2D, _ID);
 }
 

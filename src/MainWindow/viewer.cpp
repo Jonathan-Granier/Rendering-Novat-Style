@@ -13,7 +13,7 @@ using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
-    _shadowMap(false),
+    _showShadowMap(false),
     _typeModel(Model::NONE)
 
 {
@@ -79,23 +79,24 @@ void Viewer::paintGL(){
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
+    //_model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
 
-    _model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
-
-    if(_shadowMap){
-        _model->DebugShadowMap(_shaderDepthMap);
+    if(_showShadowMap){
+        _shadowMap->DebugShadowMap();
+        //_model->DebugShadowMap(_shaderDepthMap);
     }
     else{
         _shader->use();
-
         _shader->setMat4("mdvMat",_cam->mdvMatrix());
         _shader->setMat4("projMat",_cam->projMatrix());
         _shader->setMat3("normalMat",_cam->normalMatrix());
         _shader->setVec3("lightPosition",_light->position());
         _shader->setVec3("cameraPosition",_cam->view());
-        _shader->setMat4("ligthSpaceMat",_model->getLightSpaceMatrix());
+        _shader->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
 
-        _model->draw(_shader,_light->position());
+        _shadowMap->draw(_shader);
+        _model->draw(_shader);
 
         _shader->disable();
     }
@@ -188,12 +189,13 @@ string Viewer::previousShader()
 
 
 void Viewer::showShadowMap(){
-    _shadowMap = !_shadowMap;
+    _showShadowMap = !_showShadowMap;
     update();
 }
 
 void Viewer::loadModel()
 {
+
 
     MeshLoader ml(_progressInfo);
     _model = new Model(ml,_filepaths,_typeModel);
@@ -202,7 +204,10 @@ void Viewer::loadModel()
     _light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
     //_light = new Light(vec3(5, 20, 20));
 
-    _model->initShadowMap();
+    _shadowMap = new ShadowMap("depthMap");
+
+
+    //_model->initShadowMap();
 }
 
 bool Viewer::loadModelFromFile(const QStringList &fileNames)

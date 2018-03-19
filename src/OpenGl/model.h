@@ -37,7 +37,9 @@ public:
      * @brief Draw the model from an shader
      * @param shader :  the shader to use for draw the model
      */
-    void draw(Shader *shader,glm::vec3 lightPosition);
+    void draw(Shader *shader);
+
+    void drawOnlyMesh();
 
     /**
      * @brief get _center
@@ -50,13 +52,7 @@ public:
      */
     float radius() const;
 
-    void initShadowMap();
 
-    glm::mat4 RenderFromLight(glm::vec3 lightPosition, Shader *shader, float width, float height);
-
-    glm::mat4 getLightSpaceMatrix() const;
-
-    void DebugShadowMap(Shader *shader);
 private:
 
     Mesh        *_mesh; /** < the mesh of the model */

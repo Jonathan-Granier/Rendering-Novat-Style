@@ -65,7 +65,8 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/Light_Camera/trackball.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
-		lib/glm_add.cpp moc_progressinfo.cpp
+		lib/glm_add.cpp \
+		src/OpenGl/shadowmap.cpp moc_progressinfo.cpp
 OBJECTS       = bin/debug/main.o \
 		bin/debug/viewer.o \
 		bin/debug/mainwindow.o \
@@ -82,6 +83,7 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/stb_image.o \
 		bin/debug/glm_add.o \
+		bin/debug/shadowmap.o \
 		bin/debug/moc_progressinfo.o
 DIST          = shaders/toon1D.frag \
 		shaders/toon1D.vert \
@@ -236,7 +238,8 @@ DIST          = shaders/toon1D.frag \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/stb_image.h \
-		lib/glm_add.h src/MainWindow/main.cpp \
+		lib/glm_add.h \
+		src/OpenGl/shadowmap.h src/MainWindow/main.cpp \
 		src/MainWindow/viewer.cpp \
 		src/MainWindow/mainwindow.cpp \
 		src/OpenGl/shader.cpp \
@@ -251,7 +254,8 @@ DIST          = shaders/toon1D.frag \
 		src/Light_Camera/trackball.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
-		lib/glm_add.cpp
+		lib/glm_add.cpp \
+		src/OpenGl/shadowmap.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debugz/
 TARGET        = bin/debugz/Rendu-Style-Novat
@@ -546,8 +550,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -700,6 +704,16 @@ bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
 
 bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o lib/glm_add.cpp
+
+bin/debug/shadowmap.o: src/OpenGl/shadowmap.cpp src/OpenGl/shadowmap.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/model.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/progressinfo.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shadowmap.o src/OpenGl/shadowmap.cpp
 
 bin/debug/moc_progressinfo.o: moc_progressinfo.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/moc_progressinfo.o moc_progressinfo.cpp
