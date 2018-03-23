@@ -87,4 +87,8 @@ DISTFILES += \
     shaders/shadowmap.frag \
     shaders/shadowmap.vert \
     shaders/shadowmapdebug.frag \
-    shaders/shadowmapdebug.vert
+    shaders/shadowmapdebug.vert \
+    shaders/heightmap.vert \
+    shaders/heightmap.frag \
+    shaders/normalmap.frag \
+    shaders/normalmap.vert

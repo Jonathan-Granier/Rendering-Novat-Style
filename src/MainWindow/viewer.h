@@ -139,7 +139,8 @@ private:
 
     Shader      *_shader;           /** < Shaders for compute the light. */
     Shader      *_shaderDepthMap;   /** < A Shader for compute the depth map */
-
+    Shader      *_shaderHeightMap;
+    Shader      *_shaderNormalMap;
     ShadowMap   *_shadowMap;
 
     Model       *_model;            /** < A Model pointer.  */

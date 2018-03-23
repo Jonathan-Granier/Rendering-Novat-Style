@@ -15,7 +15,6 @@ Light::Light(vec3 position, bool mode) :
 
 void Light::setFixePosition()
 {
-    //_position = vec3(1.0, -3.0, 0);
     _position =  vec3(10000.0, 14000.000000, -10000.0);
 }
 
@@ -46,14 +45,9 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
 
     float theta= orientedAngle(_oldmoussePosition,moussePos);
 
-    cout << "theta : " << theta << " old pos : " << to_string(_position);
+
     vec3 axis(0.0,1.0,0.0);
     _position = rotate(_position,theta,axis);
-
-
-
-    cout << " New pos : " << to_string(_position) << endl;
-
 
     _oldmoussePosition = moussePos;
 }

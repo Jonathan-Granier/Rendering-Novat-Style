@@ -48,6 +48,9 @@ public:
      * @brief return the MVP matrix of the light.
      * @return the MVP matrix of the light.
      */
+
+    void reloadShader();
+
     glm::mat4 lightSpaceMatrix() const;
 
 private:

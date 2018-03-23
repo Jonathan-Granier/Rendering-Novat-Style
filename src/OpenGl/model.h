@@ -39,7 +39,23 @@ public:
      */
     void draw(Shader *shader);
 
+    /**
+     * @brief draw only the mesh in the model, not the texture
+     */
     void drawOnlyMesh();
+
+
+    /**
+     * @brief Draw the height map with the shader in parameter
+     * @param shader to draw
+     */
+    void drawHeightMap(Shader *shader);
+
+    /**
+     * @brief Draw the normal map with the shader in parameter.
+     * @param shader to draw
+     */
+    void drawNormalMap(Shader *shader);
 
     /**
      * @brief get _center
@@ -53,12 +69,16 @@ public:
     float radius() const;
 
 
+
 private:
 
     Mesh        *_mesh; /** < the mesh of the model */
     Mesh        *_meshPlane;
     Mesh        *_meshSphere;
     std::vector<Texture> _textures; /** < the textures of the model*/
+    Texture *_heightMap;
+    Texture *_normalMap;
+
     unsigned int _depthMapFBO;
     const unsigned int _SHADOW_WIDTH =1024, _SHADOW_HEIGHT = 1024;
     glm::mat4 _lightSpaceMatrix;
@@ -68,7 +88,7 @@ private:
 
     GLint _oldFBO;
 
-    void renderQuad();
+    void getMapFromMNT();
 };
 
 #endif // MODEL_H

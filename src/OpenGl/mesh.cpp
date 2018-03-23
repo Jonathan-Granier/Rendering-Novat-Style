@@ -7,16 +7,34 @@
 
 // OpenGL Utility library
 #include <GL/glu.h>
-
+#include <iostream>
 
 using namespace std;
 /* Public Function */
 
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices)
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices) :
+   _width(0),
+   _height(0),
+   _ymin(0),
+   _ymax(0)
 {
-    this->_vertices = vertices;
-    this->_indices = indices;
+    _vertices = vertices;
+    _indices = indices;
+    computeCenter();
+    computeRadius();
+    setupMesh();
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height, int ymin, int ymax) :
+    _width(width),
+    _height(height),
+    _ymin(ymin),
+    _ymax(ymax)
+{
+
+    _vertices = vertices;
+    _indices = indices;
     computeCenter();
     computeRadius();
     setupMesh();
@@ -89,6 +107,11 @@ void Mesh::computeCenter(){
 
 }
 
+
+
+
+
+
 void Mesh::computeRadius(){
     // computing radius
     glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
@@ -104,6 +127,30 @@ void Mesh::computeRadius(){
     }
 }
 
+
+vector<float> Mesh::getNormalMap(){
+
+    vector<float> normalMap;
+
+    for(Vertex v : _vertices){
+        normalMap.push_back(v.Normal.x);
+        normalMap.push_back(v.Normal.y);
+        normalMap.push_back(v.Normal.z);
+    }
+    return normalMap;
+}
+
+vector<float> Mesh::getHeightMap()
+{
+    vector<float> heightMap;
+
+    for(Vertex v : _vertices){
+        heightMap.push_back(v.Position.y);
+    }
+    return heightMap;
+}
+
+
 glm::vec3 Mesh::center() const
 {
     return _center;
@@ -113,3 +160,24 @@ float Mesh::radius() const
 {
     return _radius;
 }
+
+int Mesh::getWidth() const
+{
+    return _width;
+}
+
+int Mesh::getHeight() const
+{
+    return _height;
+}
+
+int Mesh::getYmin() const
+{
+    return _ymin;
+}
+
+int Mesh::getYmax() const
+{
+    return _ymax;
+}
+

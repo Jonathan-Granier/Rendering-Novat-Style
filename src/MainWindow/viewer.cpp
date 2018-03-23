@@ -14,7 +14,7 @@ Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
     _showShadowMap(false),
-    _typeModel(Model::NONE)
+    _typeModel(Model::MNT)
 
 {
 
@@ -26,6 +26,7 @@ Viewer::Viewer(QWidget *parent) :
     this->setFormat(format);
 
     _progressInfo = new ProgressInfo();
+    _filepaths.push_back("models/MNT_basic.asc");
 }
 
 Viewer::~Viewer() {
@@ -66,8 +67,11 @@ void Viewer::initializeGL(){
     _shader->add("shaders/phongspec.vert", "shaders/phongspec.frag");
     _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
 
-    _shaderDepthMap = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
-    _shaderDepthMap->add("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
+  //  _shaderDepthMap = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
+  //  _shaderDepthMap->add("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
+
+    _shaderHeightMap = new Shader("shaders/heightmap.vert","shaders/heightmap.frag");
+    _shaderNormalMap = new Shader("shaders/normalmap.vert","shaders/normalmap.frag");
 
     _timer.start();
 
@@ -78,7 +82,7 @@ void Viewer::paintGL(){
 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+/**
     _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
     //_model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
 
@@ -101,8 +105,15 @@ void Viewer::paintGL(){
         _shader->disable();
     }
 
-
-
+/**
+    _shaderHeightMap->use();
+    _model->drawHeightMap(_shaderHeightMap);
+    _shaderHeightMap->disable();
+/**/
+    _shaderNormalMap->use();
+    _model->drawNormalMap(_shaderNormalMap);
+    _shaderNormalMap->disable();
+/**/
 }
 
 void Viewer::resizeGL(int width,int height){
@@ -151,7 +162,10 @@ void Viewer::resetTheCameraPosition(){
 
 void Viewer::reloadShader(){
     _shader->reload();
-    _shaderDepthMap->reload();
+    //_shaderDepthMap->reload();
+    _shadowMap->reloadShader();
+    _shaderHeightMap->reload();
+    _shaderNormalMap->reload();
     update();
 }
 

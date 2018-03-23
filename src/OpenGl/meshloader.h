@@ -8,7 +8,7 @@
 
 #include "mesh.h"
 #include "progressinfo.h"
-
+#include "texture.h"
 
 /**
  * @brief A class for loading a mesh from differentes files type.
@@ -34,14 +34,8 @@ public:
      */
     Mesh *planeFromHardCode();
 
-    /**
-     * @brief yAxisFromHardCode
-     * @return
-     */
-    Mesh *yAxisFromHardCode();
 
 
-    Mesh *xAxisFromHardCode();
     /**
      * @brief Load and index a unique OBJ from a file
      * @param path : the path of the OBJ
@@ -56,6 +50,7 @@ public:
     Mesh* vertexFromMNT(const std::vector<std::string> &filepaths);
 
 
+ //   Texture* textureFromMNT(const std::vector<std::string> &filepaths,std::string name);
 
 
 

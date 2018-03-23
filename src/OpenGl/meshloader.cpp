@@ -85,117 +85,6 @@ Mesh* MeshLoader::planeFromHardCode(){
 }
 
 
-Mesh* MeshLoader::yAxisFromHardCode(){
-    vector<Vertex> vertices;
-
-    //Derriere
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f,  0.0f,  -1.0f, 0.0f, 0.0f));
-
-    //Devant
-    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f,  0.0f, 1.0f,  0.0f, 0.0f));
-
-    //Face gauche
-    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-
-    //Face droite
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-
-    //En Bas
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f,  0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f, -2.5f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
-
-    //En Haut
-    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f,  0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  2.5f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
-
-    return indexVBO(vertices);
-
-}
-
-
-
-Mesh* MeshLoader::xAxisFromHardCode(){
-    vector<Vertex> vertices;
-
-    //Devant
-    vertices.push_back(Vertex(  0.0f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f,  0.0f,  1.0f, 0.0f, 0.0f));
-
-    //Derriere
-    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f,  0.0f, -1.0f,  0.0f, 0.0f));
-
-    //Face gauche
-    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-
-    //Face droite
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 1.0f,  0.0f,  0.0f, 1.0f, 0.0f));
-
-    //En Bas
-    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f,  0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f, -0.2f, -0.2f, 0.0f, -1.0f,  0.0f, 0.0f, 1.0f));
-
-    //En Haut
-    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 1.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex( 0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f,  0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 0.0f));
-    vertices.push_back(Vertex(-0.2f,  0.2f, -0.2f, 0.0f,  1.0f,  0.0f, 0.0f, 1.0f));
-
-    return indexVBO(vertices);
-
-}
 
 
 
@@ -532,14 +421,75 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                         currentFileInfo->nrows*schema.size()/2 * currentFileInfo->offset);
     for(unsigned int i=0;i<vertices.size();i++){
         vertices[i].Normal = normalize(vertices[i].Normal);
-        vertices[i].Position -= shift_Pos;
+        //vertices[i].Position -= shift_Pos;
     }
 
     cout << "number of vertice : " << vertices.size() << endl;
     cout << "number of polygone : " << indices.size()/3 << endl;
 
-    return new Mesh(vertices,indices);
+    int width = fileInfos[0]->ncols*schema[0].size();
+    int height = fileInfos[0]->nrows*schema.size();
+    return new Mesh(vertices,indices,width,height,miny,maxy);
 }
+/**
+Texture* MeshLoader::textureFromMNT(const std::vector<string> &filepaths, string name)
+{
+    /**
+
+    Format d'un fichier MNT
+
+    ncols       int
+    nrows       int
+    xllcorner   float
+    yllcorner   float
+    cellsize    float
+    NODATA_value
+    *DATA*
+    /**
+
+
+
+    unsigned int iSchemaIndex;
+    unsigned int jSchemaIndex;
+    FileInfo* currentFileInfo;
+
+    stringstream iss;
+
+
+    string value;
+    vector<FileInfo*> fileInfos = getFileInfosFromFiles(filepaths);
+    vector<vector<unsigned int>> schema = setupSchema(fileInfos);
+
+    int width = schema[0].size()*fileInfos[schema[0][0]]->ncols;
+    int height = schema.size()*fileInfos[schema[0][0]]->nrows;
+    float data[width*height];
+    int currentIndex = 0;
+
+
+    for(iSchemaIndex = 0 ; iSchemaIndex < schema.size() ; iSchemaIndex++){
+        for(unsigned int i=0;i<fileInfos[0]->nrows;i++){
+            for(jSchemaIndex = 0; jSchemaIndex < schema[iSchemaIndex].size(); jSchemaIndex++){
+                currentFileInfo = fileInfos[schema[iSchemaIndex][jSchemaIndex]];
+                getline(currentFileInfo->filestream,value);
+                iss << value;
+                getline(iss,value,' ');// Throw the first ' '
+                for(unsigned int j=0;j<currentFileInfo->ncols;j++){
+                    getline(iss,value,' ');
+                    float floatValue = stof(value);
+                    data[currentIndex] = floatValue;
+                    currentIndex++;
+                }
+                iss.clear();
+            }
+        }
+    }
+
+    return new Texture(data,width,height,name);
+}
+
+/**/
+
+
 
 
 /*Private */

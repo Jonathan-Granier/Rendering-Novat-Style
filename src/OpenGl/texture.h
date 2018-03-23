@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include <string>
+#include <vector>
 #include "shader.h"
 /**
  * @brief The name and the ID of a texture.
@@ -18,6 +19,7 @@ public:
      */
     Texture(const std::string &path, const std::string &name);
 
+    Texture(std::vector<float> data, GLint internalFormat , GLenum format, const int &width, const int &height,std::string name);
 
     Texture(unsigned int id, const std::string name);
 
@@ -27,8 +29,10 @@ public:
      * @param shader :  the shader where to send the texture.
      * @param i : the number of the texture.
      */
-    void draw(Shader *shader, unsigned int i);
+    void draw(Shader *shader);
 
+
+    void print(Shader *shader);
 
     /**
      * @brief get the id of the texture.
@@ -38,8 +42,13 @@ public:
 
 private :
 
-    unsigned int _ID;  /*!< ID of the texture assign by glGenTextures().*/
-    std::string _name; /*!< The name of the texture. */
+    unsigned int _ID;       /*!< ID of the texture assign by glGenTextures().*/
+    std::string _name;      /*!< The name of the texture. */
+    int _width, _height;    /*!< Size of the texture      */
+
+
+
+    void renderQuad();
 
 };
 

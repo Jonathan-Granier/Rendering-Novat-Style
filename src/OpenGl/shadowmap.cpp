@@ -99,7 +99,13 @@ glm::mat4 ShadowMap::RenderFromLight(Model *model, glm::vec3 lightPosition, floa
 
 
 void ShadowMap::draw(Shader *shader){
-    _shadowMap->draw(shader,0);
+    _shadowMap->draw(shader);
+}
+
+void ShadowMap::reloadShader()
+{
+    _generatorShader->reload();
+    _debugShader->reload();
 }
 
 glm::mat4 ShadowMap::lightSpaceMatrix() const
@@ -112,8 +118,8 @@ void ShadowMap::DebugShadowMap()
 {
     _debugShader->use();
     //Draw the texture
-    _shadowMap->draw(_debugShader,0);
-    renderQuad();
+    _shadowMap->print(_debugShader);
+    //renderQuad();
 
     _debugShader->disable();
 }
