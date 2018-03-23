@@ -23,20 +23,20 @@ MainWindow::MainWindow()
     // TODO set Icon
     // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
 
-    _viewer = new Viewer();
-
+    //Allocation
+    _viewer = make_unique<Viewer>();
 
 
     setupMenu();
     setupLoadingBar();
-    setCentralWidget(_viewer);
+    setCentralWidget(_viewer.get());
 
 }
 
 MainWindow::~MainWindow()
 {
     //deleteLoadingBar();
-    delete _viewer;
+    //delete _viewer;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -79,7 +79,10 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     }
 
     if(ke->key()==Qt::Key_H){
-        _viewer->showShadowMap();
+        _viewer->previousDrawMode();
+    }
+    if(ke->key()==Qt::Key_J){
+        _viewer->nextDrawMode();
     }
 }
 

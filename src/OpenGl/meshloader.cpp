@@ -14,7 +14,7 @@ MeshLoader::MeshLoader(ProgressInfo *p) :
 {}
 
 
-Mesh* MeshLoader::cubeFromHardCode()
+shared_ptr<Mesh> MeshLoader::cubeFromHardCode()
 {
     // A cube without normal
     vector<Vertex> vertices;
@@ -72,7 +72,7 @@ Mesh* MeshLoader::cubeFromHardCode()
 
 
 
-Mesh* MeshLoader::planeFromHardCode(){
+shared_ptr<Mesh> MeshLoader::planeFromHardCode(){
     vector<Vertex> vertices;
     vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f,  0.0f));
     vertices.push_back(Vertex(-1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f));
@@ -90,7 +90,7 @@ Mesh* MeshLoader::planeFromHardCode(){
 
 
 //TODO translate c reader to c++ reader (FILE to ifstream)
-Mesh* MeshLoader::vertexFromObj(const string &path)
+shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
 {
 
 
@@ -223,7 +223,7 @@ Mesh* MeshLoader::vertexFromObj(const string &path)
  *  31 32 33 | 34 35 36
 
 */
-Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
+shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
 {
     cout << "Loading MNT from : " << endl;
     for(unsigned int i=0;i< filepaths.size() ; i++ ){
@@ -248,7 +248,7 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
     unsigned int iSchemaIndex;
     unsigned int jSchemaIndex;
     unsigned int currentIndice;
-    FileInfo* currentFileInfo;
+    std::shared_ptr<FileInfo> currentFileInfo;
 
 
 
@@ -258,7 +258,7 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
     vector<unsigned int> indices;
     string value;
     float floatValue;
-    vector<FileInfo*> fileInfos = getFileInfosFromFiles(filepaths);
+    vector<std::shared_ptr<FileInfo>> fileInfos = getFileInfosFromFiles(filepaths);
     vector<vector<unsigned int>> schema = setupSchema(fileInfos);
     float xSizeSlab = fileInfos[0]->ncols*fileInfos[0]->offset;
     float zSizeSlab = fileInfos[0]->nrows*fileInfos[0]->offset;
@@ -429,7 +429,7 @@ Mesh* MeshLoader::vertexFromMNT(const vector<string> &filepaths)
 
     int width = fileInfos[0]->ncols*schema[0].size();
     int height = fileInfos[0]->nrows*schema.size();
-    return new Mesh(vertices,indices,width,height,miny,maxy);
+    return make_shared<Mesh>(vertices,indices,width,height,miny,maxy);
 }
 /**
 Texture* MeshLoader::textureFromMNT(const std::vector<string> &filepaths, string name)
@@ -495,7 +495,7 @@ Texture* MeshLoader::textureFromMNT(const std::vector<string> &filepaths, string
 /*Private */
 
 
-Mesh *MeshLoader::indexVBO(vector<Vertex> vertices){
+shared_ptr<Mesh> MeshLoader::indexVBO(vector<Vertex> vertices){
 
     unsigned int i;
     vector<unsigned int> indices;
@@ -522,7 +522,7 @@ Mesh *MeshLoader::indexVBO(vector<Vertex> vertices){
 
     }
     _progressInfo->progressEnd();
-    return new Mesh(indexVertices,indices);
+    return make_shared<Mesh>(indexVertices,indices);
 }
 
 
@@ -559,12 +559,12 @@ void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
 
 
 //TODO remonter l'erreur pour l'afficher en graphique
-vector<MeshLoader::FileInfo*> MeshLoader::getFileInfosFromFiles(const vector<string> &filepaths){
-    vector<FileInfo*> fileInfos;
+vector<std::shared_ptr<MeshLoader::FileInfo>> MeshLoader::getFileInfosFromFiles(const vector<string> &filepaths){
+    vector<std::shared_ptr<FileInfo>> fileInfos;
 
 
     for(unsigned int i=0; i<filepaths.size();i++){
-        FileInfo *f = new FileInfo();
+        std::shared_ptr<FileInfo> f = make_shared<FileInfo>();
 
         f->filestream = ifstream(filepaths[i],ios::in);
         if(!f->filestream){
@@ -581,56 +581,57 @@ vector<MeshLoader::FileInfo*> MeshLoader::getFileInfosFromFiles(const vector<str
         if(fileInfos[i]->ncols != fileInfos[0]->ncols|| fileInfos[i]->nrows!=fileInfos[0]->nrows || fileInfos[i]->offset!=fileInfos[0]->offset )
         {
             cerr << "Can not read files with different headers (nrows, ncols and offset)" << endl;
+            exit(0);
         }
     }
     return fileInfos;
 }
 
 
-void MeshLoader::readHeader(MeshLoader::FileInfo *fileInfo)
+void MeshLoader::readHeader(std::shared_ptr<FileInfo> FileInfo)
 {
 
     string value;
     //Number of colomns
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"ncols");
-    getline(fileInfo->filestream,value);
-    fileInfo->ncols = stoi(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->ncols = stoi(value);
 
     //Number of lines
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"nrows");
-    getline(fileInfo->filestream,value);
-    fileInfo->nrows = stoi(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->nrows = stoi(value);
 
     //Position x of the corner
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"xllcorner");
-    getline(fileInfo->filestream,value);
-    fileInfo->xllcorner = stof(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->xllcorner = stof(value);
 
     //Position y of the corner
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"yllcorner");
-    getline(fileInfo->filestream,value);
-    fileInfo->yllcorner = stof(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->yllcorner = stof(value);
 
     //Size of a cell
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"cellsize");
-    getline(fileInfo->filestream,value);
-    fileInfo->offset = stof(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->offset = stof(value);
 
     //Error value TODO USE
-    getline(fileInfo->filestream,value,' ');
+    getline(FileInfo->filestream,value,' ');
     checkHeader(value,"NODATA_value");
-    getline(fileInfo->filestream,value);
-    fileInfo->noDataValue = stof(value);
+    getline(FileInfo->filestream,value);
+    FileInfo->noDataValue = stof(value);
 }
 
 
 //Peu opti mais peu de fichier (<100) donc osef
-vector<vector<unsigned int>> MeshLoader::setupSchema(const vector<FileInfo*> &fileInfos){
+vector<vector<unsigned int>> MeshLoader::setupSchema(const std::vector<std::shared_ptr<FileInfo> > &fileInfos){
     unsigned int i,j,k;
     float xSizeSlab = fileInfos[0]->ncols*fileInfos[0]->offset;
     float ySizeSlab = fileInfos[0]->nrows*fileInfos[0]->offset;

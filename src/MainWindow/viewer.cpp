@@ -13,7 +13,7 @@ using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
-    _showShadowMap(false),
+    _drawMode(HEIGHTMAP),
     _typeModel(Model::MNT)
 
 {
@@ -30,11 +30,7 @@ Viewer::Viewer(QWidget *parent) :
 }
 
 Viewer::~Viewer() {
-  delete _model;
-  delete _cam;
-  delete _shader;
-  delete _progressInfo;
-  delete _light;
+
 
 }
 
@@ -62,7 +58,7 @@ void Viewer::initializeGL(){
 
 
     loadModel();
-    _shader = new Shader("shaders/debug.vert", "shaders/debug.frag");
+    _shader = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
     _shader->add("shaders/phong.vert", "shaders/phong.frag");
     _shader->add("shaders/phongspec.vert", "shaders/phongspec.frag");
     _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
@@ -70,8 +66,8 @@ void Viewer::initializeGL(){
   //  _shaderDepthMap = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
   //  _shaderDepthMap->add("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
 
-    _shaderHeightMap = new Shader("shaders/heightmap.vert","shaders/heightmap.frag");
-    _shaderNormalMap = new Shader("shaders/normalmap.vert","shaders/normalmap.frag");
+    _shaderHeightMap = make_shared<Shader>("shaders/heightmap.vert","shaders/heightmap.frag");
+    _shaderNormalMap = make_shared<Shader>("shaders/normalmap.vert","shaders/normalmap.frag");
 
     _timer.start();
 
@@ -82,38 +78,38 @@ void Viewer::paintGL(){
 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-/**
-    _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
-    //_model->RenderFromLight(_light->position(),_shaderDepthMap,width(),height());
 
-    if(_showShadowMap){
-        _shadowMap->DebugShadowMap();
-        //_model->DebugShadowMap(_shaderDepthMap);
+
+    switch(_drawMode){
+    case CLASSICAL:
+             _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
+             _shader->use();
+             _shader->setMat4("mdvMat",_cam->mdvMatrix());
+             _shader->setMat4("projMat",_cam->projMatrix());
+             _shader->setMat3("normalMat",_cam->normalMatrix());
+             _shader->setVec3("lightPosition",_light->position());
+             _shader->setVec3("cameraPosition",_cam->view());
+             _shader->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
+             _shadowMap->draw(_shader);
+             _model->draw(_shader);
+             _shader->disable();
+        break;
+    case SHADOWMAP:
+             _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
+             _shadowMap->DebugShadowMap();
+        break;
+
+    case HEIGHTMAP:
+        _shaderHeightMap->use();
+        _model->drawHeightMap(_shaderHeightMap);
+        _shaderHeightMap->disable();
+        break;
+    case NORMALMAP:
+        _shaderNormalMap->use();
+        _model->drawNormalMap(_shaderNormalMap);
+        _shaderNormalMap->disable();
+        break;
     }
-    else{
-        _shader->use();
-        _shader->setMat4("mdvMat",_cam->mdvMatrix());
-        _shader->setMat4("projMat",_cam->projMatrix());
-        _shader->setMat3("normalMat",_cam->normalMatrix());
-        _shader->setVec3("lightPosition",_light->position());
-        _shader->setVec3("cameraPosition",_cam->view());
-        _shader->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
-
-        _shadowMap->draw(_shader);
-        _model->draw(_shader);
-
-        _shader->disable();
-    }
-
-/**
-    _shaderHeightMap->use();
-    _model->drawHeightMap(_shaderHeightMap);
-    _shaderHeightMap->disable();
-/**/
-    _shaderNormalMap->use();
-    _model->drawNormalMap(_shaderNormalMap);
-    _shaderNormalMap->disable();
-/**/
 }
 
 void Viewer::resizeGL(int width,int height){
@@ -156,7 +152,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
-    _light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
+    _light = make_shared<Light>(vec3(0.0,3*_model->radius(),3*_model->radius()));
     update();
 }
 
@@ -201,9 +197,25 @@ string Viewer::previousShader()
 }
 
 
+void Viewer::nextDrawMode(){
+    switch(_drawMode){
+        case CLASSICAL: _drawMode = SHADOWMAP; break;
+        case SHADOWMAP: _drawMode = HEIGHTMAP; break;
+        case HEIGHTMAP: _drawMode = NORMALMAP; break;
+        case NORMALMAP: _drawMode = CLASSICAL; break;
+    }
 
-void Viewer::showShadowMap(){
-    _showShadowMap = !_showShadowMap;
+
+    update();
+}
+
+void Viewer::previousDrawMode(){
+    switch(_drawMode){
+        case CLASSICAL: _drawMode = NORMALMAP; break;
+        case SHADOWMAP: _drawMode = CLASSICAL; break;
+        case HEIGHTMAP: _drawMode = SHADOWMAP; break;
+        case NORMALMAP: _drawMode = HEIGHTMAP; break;
+    }
     update();
 }
 
@@ -212,13 +224,19 @@ void Viewer::loadModel()
 
 
     MeshLoader ml(_progressInfo);
-    _model = new Model(ml,_filepaths,_typeModel);
-    _cam = new Camera(_model->radius(),_model->center());
+
+    _model  = make_shared<Model>(ml,_filepaths,_typeModel);
+    _cam    = make_shared<Camera>(_model->radius(),_model->center());
     _cam->initialize(width(),height(),true);
-    _light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
+    _light  = make_shared<Light>(vec3(0.0,3*_model->radius(),3*_model->radius()));
+    _shadowMap = make_shared<ShadowMap>("depthMap");
+            //_model = new Model();
+    //_cam = new Camera();
+    //_cam->initialize(width(),height(),true);
+    //_light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
     //_light = new Light(vec3(5, 20, 20));
 
-    _shadowMap = new ShadowMap("depthMap");
+    //_shadowMap = new ShadowMap("depthMap");
 
 
     //_model->initShadowMap();
@@ -227,9 +245,7 @@ void Viewer::loadModel()
 bool Viewer::loadModelFromFile(const QStringList &fileNames)
 {
 
-    if(_model){
-        delete _model;
-    }
+
 
     _filepaths.clear();
 
@@ -262,6 +278,7 @@ bool Viewer::loadModelFromFile(const QStringList &fileNames)
     update();
     return true;
 }
+
 
 ProgressInfo *Viewer::progressInfo() const
 {

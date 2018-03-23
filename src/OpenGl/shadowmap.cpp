@@ -9,8 +9,8 @@ ShadowMap::ShadowMap(string name)
 {
     //Open the 2 shaders
 
-    _generatorShader = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
-    _debugShader = new Shader("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
+    _generatorShader = make_shared<Shader>("shaders/shadowmap.vert", "shaders/shadowmap.frag");
+    _debugShader = make_shared<Shader>("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
 
     initShadowMap(name);
 
@@ -53,11 +53,11 @@ void ShadowMap::initShadowMap(string name)
     }
 
 
-    _shadowMap = new Texture(depthMap,name);
+    _shadowMap = make_shared<Texture>(depthMap,name);
 
 }
 
-glm::mat4 ShadowMap::RenderFromLight(Model *model, glm::vec3 lightPosition, float width, float height)
+glm::mat4 ShadowMap::RenderFromLight(std::shared_ptr<Model> model, glm::vec3 lightPosition, float width, float height)
 {
     glCullFace(GL_FRONT); //TODO TEST
     glm::mat4 lightProjection , lightView;
@@ -98,7 +98,7 @@ glm::mat4 ShadowMap::RenderFromLight(Model *model, glm::vec3 lightPosition, floa
 
 
 
-void ShadowMap::draw(Shader *shader){
+void ShadowMap::draw(std::shared_ptr<Shader> shader){
     _shadowMap->draw(shader);
 }
 

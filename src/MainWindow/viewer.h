@@ -15,7 +15,7 @@
 //#include <unistd.h>
 #include <glm/glm.hpp>
 #include <vector>
-
+#include <memory>
 
 #include <QOpenGLWidget>
 #include <QMouseEvent>
@@ -40,6 +40,15 @@ class Viewer : public QOpenGLWidget
 {
 
 public:
+
+    enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the model with the camera and the ligth */
+                    SHADOWMAP,  /*!< Mode for draw only the shadow map of the model        */
+                    HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh      */
+                    NORMALMAP   /*!< Mode for draw the normal map of the current mesh      */
+                 };
+
+
+
     /**
      * @brief Classic QWidget constructor, set up a QSurfaceFormat.
      * @param parent the QWidget parent of Viewer.
@@ -113,7 +122,8 @@ public:
     std::string previousShader();
 
 
-    void showShadowMap();
+    void previousDrawMode();
+    void nextDrawMode();
 
     /**
      * @brief check and copy a stack file in _filepaths.
@@ -134,24 +144,28 @@ public:
 
 
 
+
+
 private:
 
 
-    Shader      *_shader;           /** < Shaders for compute the light. */
-    Shader      *_shaderDepthMap;   /** < A Shader for compute the depth map */
-    Shader      *_shaderHeightMap;
-    Shader      *_shaderNormalMap;
-    ShadowMap   *_shadowMap;
+    std::shared_ptr<Shader>     _shader;           /** < Shaders for compute the light. */
+    std::shared_ptr<Shader>     _shaderHeightMap;
+    std::shared_ptr<Shader>     _shaderNormalMap;
+    std::shared_ptr<ShadowMap>  _shadowMap;
 
-    Model       *_model;            /** < A Model pointer.  */
-    Camera      *_cam;              /** < A Camera pointer. */
-    Light       *_light;            /** < A Light pointer      */
+    std::shared_ptr<Model>      _model;            /** < A Model pointer.  */
+    std::shared_ptr<Camera>     _cam;              /** < A Camera pointer. */
+    std::shared_ptr<Light>      _light;            /** < A Light pointer      */
+
+
     bool        _lightMode;
-    bool        _showShadowMap;
-    std::vector<std::string> _filepaths; /** < A vector of mesh file.*/
-    Model::TYPE_FILE _typeModel; /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
-    QTime _timer; /** < A Qt timer.*/
-    ProgressInfo *_progressInfo; /** < The progress of the meshloader. */
+    DRAWMODE    _drawMode;
+
+    std::vector<std::string> _filepaths;           /** < A vector of mesh file.*/
+    Model::TYPE_FILE _typeModel;                   /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
+    QTime _timer;                                  /** < A Qt timer.*/
+    ProgressInfo *_progressInfo;                   /** < The progress of the meshloader. */
 
 
     /**

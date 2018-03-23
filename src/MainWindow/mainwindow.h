@@ -16,6 +16,7 @@
 #include "viewer.h"
 #include <QMainWindow>
 #include <QProgressBar>
+#include <memory>
 
 class QAction;
 class QMenu;
@@ -38,9 +39,11 @@ protected:
      * @details R : reload all shaders,
      *          I : init the camera,
      *          P : print the camera and light position,
-     *          D : fixe the camera and the light to hard code positions.
-     *          Q : Switch to the previous shader
-     *          S : Switch to the next shader
+     *          D : fixe the camera and the light to hard code positions,
+     *          Q : Switch to the previous shader,
+     *          S : Switch to the next shader,
+     *          H : Switch to the previous draw mode,
+     *          J : Switch to the previous draw mode.
      * @param event
      */
     void closeEvent(QCloseEvent *event) override;
@@ -93,7 +96,7 @@ private:
     /**
      * @brief the central openGl widget
      */
-    Viewer *_viewer;
+    std::unique_ptr<Viewer> _viewer;
     /**
      * @brief The application widget : only use for quitEvent
      */

@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <memory>
 
 #include "mesh.h"
 #include "progressinfo.h"
@@ -26,13 +27,13 @@ public:
      * @brief Load and index a cube from a hard code tab (without normal)
      * @return a indexed Mesh pointer
      */
-    Mesh* cubeFromHardCode();
+    std::shared_ptr<Mesh> cubeFromHardCode();
 
     /**
      * @brief Load and index a plane from a hard code tab
      * @return a indexed Mesh pointer
      */
-    Mesh *planeFromHardCode();
+    std::shared_ptr<Mesh> planeFromHardCode();
 
 
 
@@ -41,13 +42,13 @@ public:
      * @param path : the path of the OBJ
      * @return a indexed Mesh pointer
      */
-    Mesh* vertexFromObj(const std::string &path);
+    std::shared_ptr<Mesh> vertexFromObj(const std::string &path);
     /**
      * @brief Load and index a single mesh pointer from a set of MNT file
      * @param filepaths : a set of path of MNT file, the form described for all MNT files must be continuous and form a square or a rectangle.
      * @return a indexed Mesh pointer
      */
-    Mesh* vertexFromMNT(const std::vector<std::string> &filepaths);
+    std::shared_ptr<Mesh> vertexFromMNT(const std::vector<std::string> &filepaths);
 
 
  //   Texture* textureFromMNT(const std::vector<std::string> &filepaths,std::string name);
@@ -74,7 +75,7 @@ private:
      * @param vertices : A set of vertex
      * @return a indexed Mesh pointer
      */
-    Mesh *indexVBO(std::vector<Vertex> vertices);
+    std::shared_ptr<Mesh> indexVBO(std::vector<Vertex> vertices);
     /**
      * @brief Find a similar vertex of v already read and store his index in result.
      * @param v the vertex to find
@@ -103,12 +104,12 @@ private:
      * @param filepaths a set of MNT files
      * @return A set of FileInfo , one for each file in filepaths
      */
-    std::vector<FileInfo*> getFileInfosFromFiles(const std::vector<std::string> &filepaths);
+    std::vector<std::shared_ptr<FileInfo>> getFileInfosFromFiles(const std::vector<std::string> &filepaths);
     /**
      * @brief Read a MNT header and store the information in fileInfo
      * @param fileInfo : Where the information will be stored.
      */
-    void readHeader(FileInfo *fileInfo);
+    void readHeader(std::shared_ptr<FileInfo> FileInfo);
     /**
      * @brief From this : (0,1,2,3,4,5)(indice of fileInfos) and each upper corner position ; build a 2D vector with indice of fileInfos
      *  NW | N | NE
@@ -119,13 +120,13 @@ private:
      * @param fileInfos a set of FIleInfo
      * @return a schema with index of fileInfos in the cellules
      */
-    std::vector<std::vector<unsigned int>> setupSchema(const std::vector<FileInfo*> &fileInfos);
+    std::vector<std::vector<unsigned int>> setupSchema(const std::vector<std::shared_ptr<FileInfo>> &fileInfos);
 
     /**
      * @brief Compute the center and the radius of the mesh m
      * @param m : a Mesh pointer
      */
-    void computeCenterAndRadius(Mesh *m);
+    void computeCenterAndRadius(std::shared_ptr<Mesh> m);
 
     /**
      * @brief _progressInfo the loading informations

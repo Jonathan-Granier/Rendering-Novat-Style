@@ -45,10 +45,10 @@ Model::Model(MeshLoader ml, const vector<string> &filepaths,TYPE_FILE typeFile)
 
 Model::~Model()
 {
-    delete _mesh;
+    //delete _mesh;
 }
 
-void Model::draw(Shader *shader)
+void Model::draw(shared_ptr<Shader> shader)
 {
 
     for(unsigned int i=0;i<_textures.size();i++){
@@ -67,7 +67,7 @@ void Model::drawOnlyMesh()
 
 }
 
-void Model::drawHeightMap(Shader *shader){
+void Model::drawHeightMap(shared_ptr<Shader> shader){
 
     shader->setInt("ymin",_mesh->getYmin());
     shader->setInt("ymax",_mesh->getYmax());
@@ -76,7 +76,7 @@ void Model::drawHeightMap(Shader *shader){
     }
 }
 
-void Model::drawNormalMap(Shader *shader){
+void Model::drawNormalMap(shared_ptr<Shader> shader){
     if(_normalMap != NULL){
         _normalMap->print(shader);
     }
@@ -95,10 +95,9 @@ vec3 Model::center() const
 
 void Model::getMapFromMNT(){
     vector<float> dataHeightMap = _mesh->getHeightMap();
-    _heightMap = new Texture(dataHeightMap,GL_R32F,GL_RED,_mesh->getWidth(),_mesh->getHeight(),"heightMap");
+    _heightMap = make_shared<Texture>(dataHeightMap,GL_R32F,GL_RED,_mesh->getWidth(),_mesh->getHeight(),"heightMap");
     vector<float> dataNormalMap = _mesh->getNormalMap();
-    _normalMap = new Texture(dataNormalMap,GL_RGB,GL_RGB,_mesh->getWidth(),_mesh->getHeight(),"normalMap");
-
+    _normalMap = make_shared<Texture>(dataNormalMap,GL_RGB,GL_RGB,_mesh->getWidth(),_mesh->getHeight(),"normalMap");
 }
 
 

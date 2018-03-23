@@ -37,7 +37,7 @@ public:
      * @brief Draw the model from an shader
      * @param shader :  the shader to use for draw the model
      */
-    void draw(Shader *shader);
+    void draw(std::shared_ptr<Shader> shader);
 
     /**
      * @brief draw only the mesh in the model, not the texture
@@ -49,13 +49,13 @@ public:
      * @brief Draw the height map with the shader in parameter
      * @param shader to draw
      */
-    void drawHeightMap(Shader *shader);
+    void drawHeightMap(std::shared_ptr<Shader> shader);
 
     /**
      * @brief Draw the normal map with the shader in parameter.
      * @param shader to draw
      */
-    void drawNormalMap(Shader *shader);
+    void drawNormalMap(std::shared_ptr<Shader> shader);
 
     /**
      * @brief get _center
@@ -72,12 +72,12 @@ public:
 
 private:
 
-    Mesh        *_mesh; /** < the mesh of the model */
-    Mesh        *_meshPlane;
-    Mesh        *_meshSphere;
+    std::shared_ptr<Mesh>        _mesh; /** < the mesh of the model */
+    //Mesh        *_meshPlane;
+    //Mesh        *_meshSphere;
     std::vector<Texture> _textures; /** < the textures of the model*/
-    Texture *_heightMap;
-    Texture *_normalMap;
+    std::shared_ptr<Texture> _heightMap;
+    std::shared_ptr<Texture> _normalMap;
 
     unsigned int _depthMapFBO;
     const unsigned int _SHADOW_WIDTH =1024, _SHADOW_HEIGHT = 1024;

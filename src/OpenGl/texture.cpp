@@ -96,14 +96,14 @@ Texture::Texture(unsigned int id, const string name) :
     _name = name;
 }
 
-void Texture::draw(Shader *shader)
+void Texture::draw(shared_ptr<Shader> shader)
 {
     glActiveTexture(GL_TEXTURE0 + _ID);
     shader->setInt(_name,_ID);
     glBindTexture(GL_TEXTURE_2D, _ID);
 }
 
-void Texture::print(Shader *shader)
+void Texture::print(std::shared_ptr<Shader> shader)
 {
 
     draw(shader);
@@ -125,10 +125,10 @@ void Texture::renderQuad()
 
     float quadVertices[] = {
            // positions        // texture Coords
-           -x,  1.0f, 0.0f, 0.0f, 1.0f,
-           -x, -1.0f, 0.0f, 0.0f, 0.0f,
-            x,  1.0f, 0.0f, 1.0f, 1.0f,
-            x, -1.0f, 0.0f, 1.0f, 0.0f,
+           -x,  1.0f, 0.0f, 0.0f, 0.0f,
+           -x, -1.0f, 0.0f, 0.0f, 1.0f,
+            x,  1.0f, 0.0f, 1.0f, 0.0f,
+            x, -1.0f, 0.0f, 1.0f, 1.0f,
        };
    // setup plane VAO
    glGenVertexArrays(1, &quadVAO);

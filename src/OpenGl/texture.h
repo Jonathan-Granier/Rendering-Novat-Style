@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "shader.h"
 /**
  * @brief The name and the ID of a texture.
@@ -29,10 +30,10 @@ public:
      * @param shader :  the shader where to send the texture.
      * @param i : the number of the texture.
      */
-    void draw(Shader *shader);
+    void draw(std::shared_ptr<Shader> shader);
 
 
-    void print(Shader *shader);
+    void print(std::shared_ptr<Shader> shader);
 
     /**
      * @brief get the id of the texture.
