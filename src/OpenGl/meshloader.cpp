@@ -71,16 +71,74 @@ shared_ptr<Mesh> MeshLoader::cubeFromHardCode()
 }
 
 
+shared_ptr<Mesh> MeshLoader::axisFromHardCode()
+{
+    // A cube without normal
+    vector<Vertex> vertices;
+    //back face
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  0.0f, 0.0f)); // 1
+    vertices.push_back(Vertex( 0.2f, -5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  1.0f, 0.0f)); // 2
+    vertices.push_back(Vertex( 0.2f,  5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  1.0f, 1.0f)); // 3
+    vertices.push_back(Vertex( 0.2f,  5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  1.0f, 1.0f)); // 3
+    vertices.push_back(Vertex(-0.2f,  5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  0.0f, 1.0f)); // 1
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, 0.0f,  0.0f,  -1.0f,  0.0f, 0.0f)); // 1
+    //front face
+    vertices.push_back(Vertex(-0.2f, -5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f,  5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f,  0.2f, 0.0f,  0.0f,  1.0f,  0.0f, 0.0f));
+
+    //left face
+    vertices.push_back(Vertex(-0.2f,  5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+
+    //right face
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f, -0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f, 0.0f,  0.0f, 1.0f, 1.0f, 0.0f));
+
+    //bottom face
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, -1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f, -0.2f, -1.0f,  0.0f, 0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f,  0.2f, -1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f, -5.0f,  0.2f, -1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f,  0.2f, -1.0f,  0.0f, 0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f, -5.0f, -0.2f, -1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+
+    //top face
+    vertices.push_back(Vertex(-0.2f,  5.0f, -0.2f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f, -0.2f,  1.0f,  0.0f, 0.0f, 1.0f, 1.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f,  1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex( 0.2f,  5.0f,  0.2f,  1.0f,  0.0f, 0.0f, 1.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  5.0f,  0.2f,  1.0f,  0.0f, 0.0f, 0.0f, 0.0f));
+    vertices.push_back(Vertex(-0.2f,  5.0f, -0.2f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f));
+
+
+    return indexVBO(vertices);
+
+}
+
+
+
 
 shared_ptr<Mesh> MeshLoader::planeFromHardCode(){
     vector<Vertex> vertices;
-    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f,  0.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1.0f,  0.0f));
     vertices.push_back(Vertex(-1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f));
-    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1000.0f));
+    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1.0f));
 
-    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f,  0.0f));
-    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1000.0f));
-    vertices.push_back(Vertex(1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,  1000.0f, 1000.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f,  1000.0f,  0.0f, 1.0f, 0.0f,  1.0f,  0.0f));
+    vertices.push_back(Vertex(-1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1.0f));
+    vertices.push_back(Vertex(1000.0f, -0.5f, -1000.0f,  0.0f, 1.0f, 0.0f,  1.0f, 1.0f));
     return indexVBO(vertices);
 }
 
@@ -421,7 +479,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                         currentFileInfo->nrows*schema.size()/2 * currentFileInfo->offset);
     for(unsigned int i=0;i<vertices.size();i++){
         vertices[i].Normal = normalize(vertices[i].Normal);
-        //vertices[i].Position -= shift_Pos;
+        vertices[i].Position -= shift_Pos;
     }
 
     cout << "number of vertice : " << vertices.size() << endl;
@@ -429,7 +487,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
 
     int width = fileInfos[0]->ncols*schema[0].size();
     int height = fileInfos[0]->nrows*schema.size();
-    return make_shared<Mesh>(vertices,indices,width,height,miny,maxy);
+    return make_shared<Mesh>(vertices,indices,width,height);
 }
 /**
 Texture* MeshLoader::textureFromMNT(const std::vector<string> &filepaths, string name)

@@ -95,7 +95,7 @@ void MainWindow::open()
     if(!fileNames.isEmpty())
     {
 
-        if(!_viewer->loadModelFromFile(fileNames)){
+        if(!_viewer->loadSceneFromFile(fileNames)){
             QMessageBox::warning(this,tr("MainWindow"),tr("unknow type file !"),QMessageBox::Ok);
         }
     }

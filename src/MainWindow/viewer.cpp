@@ -13,8 +13,8 @@ using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
-    _drawMode(HEIGHTMAP),
-    _typeModel(Model::MNT)
+    _drawMode(CLASSICAL),
+    _typeMesh(Scene::MNT)
 
 {
 
@@ -57,17 +57,13 @@ void Viewer::initializeGL(){
 
 
 
-    loadModel();
+    loadScene();
     _shader = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
     _shader->add("shaders/phong.vert", "shaders/phong.frag");
     _shader->add("shaders/phongspec.vert", "shaders/phongspec.frag");
     _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
 
-  //  _shaderDepthMap = new Shader("shaders/shadowmap.vert", "shaders/shadowmap.frag");
-  //  _shaderDepthMap->add("shaders/shadowmapdebug.vert", "shaders/shadowmapdebug.frag");
-
-    _shaderHeightMap = make_shared<Shader>("shaders/heightmap.vert","shaders/heightmap.frag");
-    _shaderNormalMap = make_shared<Shader>("shaders/normalmap.vert","shaders/normalmap.frag");
+    _shaderDrawTexture = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
 
     _timer.start();
 
@@ -82,7 +78,8 @@ void Viewer::paintGL(){
 
     switch(_drawMode){
     case CLASSICAL:
-             _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
+             _shadowMap->startGenerate();
+             _shadowMap->generate(_Scene,_light->position(),width(),height());
              _shader->use();
              _shader->setMat4("mdvMat",_cam->mdvMatrix());
              _shader->setMat4("projMat",_cam->projMatrix());
@@ -90,24 +87,30 @@ void Viewer::paintGL(){
              _shader->setVec3("lightPosition",_light->position());
              _shader->setVec3("cameraPosition",_cam->view());
              _shader->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
-             _shadowMap->draw(_shader);
-             _model->draw(_shader);
-             _shader->disable();
+             _shadowMap->sendToShader(_shader);
+             _Scene->draw(_shader,_light->position());
+             _shader->disable();_shaderDrawTexture->setInt("selectTexture",1);
         break;
     case SHADOWMAP:
-             _shadowMap->RenderFromLight(_model,_light->position(),width(),height());
-             _shadowMap->DebugShadowMap();
+             _shadowMap->startGenerate();
+             _shadowMap->generate(_Scene,_light->position(),width(),height());
+             _shaderDrawTexture->use();
+             _shaderDrawTexture->setInt("selectTexture",0);
+             _shadowMap->draw(_shaderDrawTexture);
+             _shaderDrawTexture->disable();
         break;
 
     case HEIGHTMAP:
-        _shaderHeightMap->use();
-        _model->drawHeightMap(_shaderHeightMap);
-        _shaderHeightMap->disable();
+        _shaderDrawTexture->use();
+        _shaderDrawTexture->setInt("selectTexture",2);
+        _Scene->drawHeightMap(_shaderDrawTexture);
+        _shaderDrawTexture->disable();
         break;
     case NORMALMAP:
-        _shaderNormalMap->use();
-        _model->drawNormalMap(_shaderNormalMap);
-        _shaderNormalMap->disable();
+        _shaderDrawTexture->use();
+        _shaderDrawTexture->setInt("selectTexture",1);
+        _Scene->drawNormalMap(_shaderDrawTexture);
+        _shaderDrawTexture->disable();
         break;
     }
 }
@@ -152,7 +155,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
-    _light = make_shared<Light>(vec3(0.0,3*_model->radius(),3*_model->radius()));
+    _light = make_shared<Light>(vec3(0.0,3*_Scene->radius(),3*_Scene->radius()));
     update();
 }
 
@@ -160,8 +163,7 @@ void Viewer::reloadShader(){
     _shader->reload();
     //_shaderDepthMap->reload();
     _shadowMap->reloadShader();
-    _shaderHeightMap->reload();
-    _shaderNormalMap->reload();
+    _shaderDrawTexture->reload();
     update();
 }
 
@@ -219,30 +221,31 @@ void Viewer::previousDrawMode(){
     update();
 }
 
-void Viewer::loadModel()
+void Viewer::loadScene()
 {
 
 
     MeshLoader ml(_progressInfo);
 
-    _model  = make_shared<Model>(ml,_filepaths,_typeModel);
-    _cam    = make_shared<Camera>(_model->radius(),_model->center());
+    _Scene  = make_shared<Scene>(ml,_filepaths,_typeMesh);
+    _cam    = make_shared<Camera>(_Scene->radius(),_Scene->center());
     _cam->initialize(width(),height(),true);
-    _light  = make_shared<Light>(vec3(0.0,3*_model->radius(),3*_model->radius()));
-    _shadowMap = make_shared<ShadowMap>("depthMap");
-            //_model = new Model();
+    _light  = make_shared<Light>(vec3(0.0,_Scene->radius(),3.0*_Scene->radius()));
+    _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
+    _shadowMap->initialize();
+            //_Scene = new Scene();
     //_cam = new Camera();
     //_cam->initialize(width(),height(),true);
-    //_light = new Light(vec3(0.0,3*_model->radius(),3*_model->radius()));
+    //_light = new Light(vec3(0.0,3*_Scene->radius(),3*_Scene->radius()));
     //_light = new Light(vec3(5, 20, 20));
 
     //_shadowMap = new ShadowMap("depthMap");
 
 
-    //_model->initShadowMap();
+    //_Scene->initShadowMap();
 }
 
-bool Viewer::loadModelFromFile(const QStringList &fileNames)
+bool Viewer::loadSceneFromFile(const QStringList &fileNames)
 {
 
 
@@ -255,11 +258,11 @@ bool Viewer::loadModelFromFile(const QStringList &fileNames)
 
     if(ext_ref.compare("obj")==0){
         _filepaths.push_back(fileNames.at(0).toStdString());
-        _typeModel = Model::OBJ;
+        _typeMesh = Scene::OBJ;
     }
     else if(ext_ref.compare("asc")==0){
         _filepaths.push_back(fileNames.at(0).toStdString());
-        _typeModel = Model::MNT;
+        _typeMesh = Scene::MNT;
     }
     else{
         return false;

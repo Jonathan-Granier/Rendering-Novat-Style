@@ -56,7 +56,6 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/OpenGl/shader.cpp \
 		src/OpenGl/mesh.cpp \
 		src/OpenGl/vertex.cpp \
-		src/OpenGl/model.cpp \
 		src/OpenGl/progressinfo.cpp \
 		src/OpenGl/meshloader.cpp \
 		src/OpenGl/texture.cpp \
@@ -66,14 +65,16 @@ SOURCES       = src/MainWindow/main.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
-		src/OpenGl/shadowmap.cpp moc_progressinfo.cpp
+		src/OpenGl/shadowmap.cpp \
+		src/OpenGl/loadtexture.cpp \
+		src/OpenGl/generatedtexture.cpp \
+		src/OpenGl/scene.cpp moc_progressinfo.cpp
 OBJECTS       = bin/debug/main.o \
 		bin/debug/viewer.o \
 		bin/debug/mainwindow.o \
 		bin/debug/shader.o \
 		bin/debug/mesh.o \
 		bin/debug/vertex.o \
-		bin/debug/model.o \
 		bin/debug/progressinfo.o \
 		bin/debug/meshloader.o \
 		bin/debug/texture.o \
@@ -84,6 +85,9 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/stb_image.o \
 		bin/debug/glm_add.o \
 		bin/debug/shadowmap.o \
+		bin/debug/loadtexture.o \
+		bin/debug/generatedtexture.o \
+		bin/debug/scene.o \
 		bin/debug/moc_progressinfo.o
 DIST          = shaders/toon1D.frag \
 		shaders/toon1D.vert \
@@ -99,8 +103,10 @@ DIST          = shaders/toon1D.frag \
 		shaders/shadowmapdebug.vert \
 		shaders/heightmap.vert \
 		shaders/heightmap.frag \
-		shaders/normalmap.frag \
-		shaders/normalmap.vert \
+		shaders/curvature.vert \
+		shaders/curvature.frag \
+		shaders/drawtexture.frag \
+		shaders/drawtexture.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -333,7 +339,6 @@ DIST          = shaders/toon1D.frag \
 		src/OpenGl/shader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/model.h \
 		src/OpenGl/progressinfo.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/texture.h \
@@ -342,13 +347,15 @@ DIST          = shaders/toon1D.frag \
 		src/Light_Camera/trackball.h \
 		lib/stb_image.h \
 		lib/glm_add.h \
-		src/OpenGl/shadowmap.h src/MainWindow/main.cpp \
+		src/OpenGl/shadowmap.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h \
+		src/OpenGl/scene.h src/MainWindow/main.cpp \
 		src/MainWindow/viewer.cpp \
 		src/MainWindow/mainwindow.cpp \
 		src/OpenGl/shader.cpp \
 		src/OpenGl/mesh.cpp \
 		src/OpenGl/vertex.cpp \
-		src/OpenGl/model.cpp \
 		src/OpenGl/progressinfo.cpp \
 		src/OpenGl/meshloader.cpp \
 		src/OpenGl/texture.cpp \
@@ -358,7 +365,10 @@ DIST          = shaders/toon1D.frag \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
-		src/OpenGl/shadowmap.cpp
+		src/OpenGl/shadowmap.cpp \
+		src/OpenGl/loadtexture.cpp \
+		src/OpenGl/generatedtexture.cpp \
+		src/OpenGl/scene.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debugz/
 TARGET        = bin/debugz/Rendu-Style-Novat
@@ -851,8 +861,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/model.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/model.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/progressinfo.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/progressinfo.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -912,12 +922,14 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/MainWindow/viewer.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/progressinfo.h \
-		src/OpenGl/model.h \
+		src/OpenGl/shadowmap.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/scene.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/shadowmap.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -927,12 +939,14 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/progressinfo.h \
-		src/OpenGl/model.h \
+		src/OpenGl/shadowmap.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/scene.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/shadowmap.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -943,12 +957,14 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/MainWindow/viewer.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/progressinfo.h \
-		src/OpenGl/model.h \
+		src/OpenGl/shadowmap.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/scene.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/shadowmap.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -964,15 +980,6 @@ bin/debug/mesh.o: src/OpenGl/mesh.cpp src/OpenGl/mesh.h \
 
 bin/debug/vertex.o: src/OpenGl/vertex.cpp src/OpenGl/vertex.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/vertex.o src/OpenGl/vertex.cpp
-
-bin/debug/model.o: src/OpenGl/model.cpp src/OpenGl/model.h \
-		src/OpenGl/meshloader.h \
-		src/OpenGl/mesh.h \
-		src/OpenGl/vertex.h \
-		src/OpenGl/progressinfo.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/shader.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/model.o src/OpenGl/model.cpp
 
 bin/debug/progressinfo.o: src/OpenGl/progressinfo.cpp src/OpenGl/progressinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/progressinfo.o src/OpenGl/progressinfo.cpp
@@ -1014,12 +1021,36 @@ bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
 bin/debug/shadowmap.o: src/OpenGl/shadowmap.cpp src/OpenGl/shadowmap.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/texture.h \
-		src/OpenGl/model.h \
+		src/OpenGl/scene.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/progressinfo.h
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shadowmap.o src/OpenGl/shadowmap.cpp
+
+bin/debug/loadtexture.o: src/OpenGl/loadtexture.cpp src/OpenGl/loadtexture.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/texture.h \
+		lib/stb_image.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/loadtexture.o src/OpenGl/loadtexture.cpp
+
+bin/debug/generatedtexture.o: src/OpenGl/generatedtexture.cpp src/OpenGl/generatedtexture.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/shader.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/generatedtexture.o src/OpenGl/generatedtexture.cpp
+
+bin/debug/scene.o: src/OpenGl/scene.cpp src/OpenGl/scene.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/progressinfo.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/generatedtexture.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/scene.o src/OpenGl/scene.cpp
 
 bin/debug/moc_progressinfo.o: moc_progressinfo.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/moc_progressinfo.o moc_progressinfo.cpp

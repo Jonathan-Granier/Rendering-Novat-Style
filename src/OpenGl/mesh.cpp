@@ -26,11 +26,11 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices) :
     setupMesh();
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height, int ymin, int ymax) :
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height) :
     _width(width),
     _height(height),
-    _ymin(ymin),
-    _ymax(ymax)
+    _ymin(0),
+    _ymax(0)
 {
 
     _vertices = vertices;
@@ -143,9 +143,18 @@ vector<float> Mesh::getNormalMap(){
 vector<float> Mesh::getHeightMap()
 {
     vector<float> heightMap;
+    _ymin = 10000;
+    _ymax = -10000;
+
 
     for(Vertex v : _vertices){
         heightMap.push_back(v.Position.y);
+        if(v.Position.y > _ymax){
+            _ymax = v.Position.y;
+        }
+        if(v.Position.y < _ymin){
+            _ymin = v.Position.y;
+        }
     }
     return heightMap;
 }

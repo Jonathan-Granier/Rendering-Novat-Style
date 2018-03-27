@@ -6,26 +6,26 @@
 #include "shader.h"
 #include "texture.h"
 #include <string>
-#include "model.h"
-
+#include "scene.h"
+#include "generatedtexture.h"
 
 
 /**
  * @brief Create and Draw a depthMap (store in 2D texture) from a model and a light position.
  */
-class ShadowMap
+class ShadowMap : public GeneratedTexture
 {
 public:
     /**
      * @brief Load the shader for create the shadowMap and initialize the 2D texture.
      * @param name : The name of the 2D texture.
      */
-    ShadowMap(std::string name);
+    ShadowMap(std::string name, const int &width, const int &height);
     /**
      * @brief initialize the 2D texture
      * @param name : The name of the 2D texture.
      */
-    void initShadowMap(std::string name);
+    void initialize();
     /**
      * @brief Makes an orthgonal rendering of the scene from the point of view of the light
      * @param model : The scene.
@@ -34,39 +34,14 @@ public:
      * @param height :  the height of the current viewport.
      * @return
      */
-    glm::mat4 RenderFromLight(std::shared_ptr<Model> model,glm::vec3 lightPosition, float width, float height);
+    glm::mat4 generate(std::shared_ptr<Scene> scene,glm::vec3 lightPosition, float width, float height);
 
-    /**
-     * @brief For debug , just draw the shadow map in a quad.
-     */
-    void DebugShadowMap();
-    /**
-     * @brief Draw the 2D texture of the shadow map
-     * @param shader : the shader where to send the texture.
-     */
-    void draw(std::shared_ptr<Shader> shader);
-    /**
-     * @brief return the MVP matrix of the light.
-     * @return the MVP matrix of the light.
-     */
-
-    void reloadShader();
 
     glm::mat4 lightSpaceMatrix() const;
 
 private:
-    std::shared_ptr<Shader> _generatorShader;                   /** < The shader for generetat the depth map    */
-    std::shared_ptr<Shader> _debugShader;                       /** < The shader for display only the depth map */
-    std::shared_ptr<Texture> _shadowMap;                        /** < Texture to save the shadow map            */
+
     glm::mat4 _lightSpaceMatrix;                /** < MVP matrix of the light point of view     */
-    unsigned int _depthMapFBO;                  /** < Frame Buffer Object for the depth map     */
-    GLint _oldFBO;                              /** < Frame buffer Object for save the FBO of QT, see QT doc for more information */
-    const unsigned int _SHADOW_WIDTH  = 1024;   /** < The width of the shadow map texture       */
-    const unsigned int _SHADOW_HEIGHT = 1024;   /** < The height of the shadow map texture      */
-
-    void renderQuad();                          /** < Render a simple Quad for display the shadow map texture   */
-
-
 };
 
 #endif // SHADOWMAP_H

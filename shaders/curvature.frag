@@ -1,0 +1,94 @@
+#version 330 core
+out vec4 FragColor;
+
+in vec2 texCoord;
+
+uniform sampler2D normalMap;
+
+
+
+#define F 3.0 // used to define the window size (sigma*F)
+#define RESOL 2.0 // multisampling (increase resolution)
+#define PI 3.14159265359
+#define PI2 6.28318531
+
+float sigma = 1.0;
+
+
+float halfsize = ceil(F*sigma); // kernel halfsize
+const float iresol = 1.0/RESOL; // step for sampling
+const float eps = 1e-15;
+
+vec2 ps = 1./vec2(textureSize(normalMap,0)); // pixel size
+
+vec2 grad(in vec4 n) {
+  const float f = 0.5; // forshortening in [0,1]. 1=a lot (true gradient), 0 = no forshortening.
+  float d = -1./mix(1.,max(n.z,eps),f);
+  return  vec2(n.x,n.y)*d;
+}
+
+float weight(in vec4 cn,in vec4 on) {
+  // the alpha value
+  const float sd = 0.1; // sigma for checking differences in depth
+  float d = on.w-cn.w;
+  return min(length(cn.xyz),exp(-(d*d)/(2.*sd*sd)));
+}
+
+vec2 mixedGrad(in vec2 gCenter,in vec2 gCurrent,in float w) {
+  // takes weight into account to compute current value
+  return mix(gCenter,gCurrent,w);
+}
+
+vec3 hessianMatrix(in vec4 pixel) {
+  // precompute gaussian data (factor/denom)
+  float sigma2 = sigma*sigma;
+  float sigma4 = sigma2*sigma2;
+  float f = -1./(PI2*sigma4);
+  float d = 2.0*sigma2;
+
+  vec3 H = vec3(0.);
+  vec2 pg = grad(pixel); // gradient of the current pixel
+  float pw = weight(pixel,pixel); // weight of the current pixel
+
+  for(float i=-halfsize;i<=halfsize;i+=iresol) {
+    for(float j=-halfsize;j<=halfsize;j+=iresol) {
+      vec2 pos = vec2(i,j);
+      vec4 n = texture(normalMap,texCoord+pos*ps);
+
+      // current value (possibly mixed with the pixel)
+      vec2 v = mixedGrad(pg,grad(n),weight(n,pixel));
+      vec2 e = v*exp(-(pos.x*pos.x+pos.y*pos.y)/d);
+
+      // update Hessian
+      H.x = H.x + pos.x*f*e.x; // gxx
+      H.y = H.y + pos.y*f*e.y; // gyy
+      H.z = H.z + .5*(pos.x*f*e.y + pos.y*f*e.x); // gxy (=gyx)
+    }
+  }
+
+  return H*pw;
+}
+
+vec4 eigenValues(in vec3 m) {
+  float tmp = max(sqrt(m.x*m.x+4.0*m.z*m.z-2.0*m.x*m.y+m.y*m.y),0.);
+  float k1  = 0.5*(m.x+m.y+tmp);
+  float k2  = 0.5*(m.x+m.y-tmp);
+  vec2  d1  = vec2(m.z,k1-m.x);
+    vec2  d2  = vec2(k1-m.x,-m.z);
+
+  d1 = length(d1)<eps ? vec2(0.) : normalize(d1);
+  d2 = length(d2)<eps ? vec2(0.) : normalize(d2);
+
+  // return max dir, max eigen-val, min eigen-val
+  return k1>k2 ? vec4(d1.x,d1.y,k1,k2) : vec4(d2.x,d2.y,k2,k1);
+}
+
+
+void main() {
+  vec4 pix = texture(normalMap,texCoord);
+  vec3 H = hessianMatrix(pix);
+  vec4 ee = eigenValues(H);
+  float mc = .5*(ee.z+ee.w);
+  vec4 firstGaussianDeriv = vec4(ee.xy,mc,length(pix.xyz));
+  FragColor = firstGaussianDeriv;
+}

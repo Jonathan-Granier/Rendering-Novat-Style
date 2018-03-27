@@ -29,12 +29,13 @@ public:
      */
     std::shared_ptr<Mesh> cubeFromHardCode();
 
+    std::shared_ptr<Mesh> axisFromHardCode();
+
     /**
      * @brief Load and index a plane from a hard code tab
      * @return a indexed Mesh pointer
      */
     std::shared_ptr<Mesh> planeFromHardCode();
-
 
 
     /**

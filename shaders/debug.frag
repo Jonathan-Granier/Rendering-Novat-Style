@@ -6,10 +6,13 @@ in VS_OUT {
     vec4 lightDir;
     vec3 Normal;
     vec4 FragPosLightSpace;
+    vec2 texCoord;
 } fs_in;
 
 
 uniform sampler2D depthMap;
+uniform sampler2D container;
+uniform sampler2D awesomeface;
 
 /**
 Compute the ambient lighting
@@ -77,7 +80,9 @@ float ShadowCalculation(vec4 fragPosLightSpace,vec4 normal,vec4 lightDir){
 
 void main()
 {
-    vec4 color =vec4(0.5,0.5,0.5,1.0);
+//    vec4 color =vec4(0.5,0.5,0.5,1.0);
+
+    vec4 color = mix(texture(container,fs_in.texCoord),texture(awesomeface,fs_in.texCoord),0.4);
 
     float Ka = 0.5;
     float Kd = 1;
@@ -92,7 +97,7 @@ void main()
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
 
-
+/**
     if(shadow == 1.0){
         FragColor = vec4(1.0,0,0,1.0);
     }
@@ -100,8 +105,8 @@ void main()
     {
         FragColor = Ca+(Cd * (1.0-shadow));
     }
-
-    //FragColor = vec4(1.0,0.0,0.0,1.0);
+/**/
+    FragColor = color;
 }
 
 

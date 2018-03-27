@@ -55,7 +55,7 @@ float ShadowCalculation(vec4 fragPosLightSpace){
 
 void main()
 {
-    vec4 color =vec4(0.5,0.5,0.5,1.0);
+    vec4 color =vec4(1.0,1.0,1.0,1.0);
 
     float Ka = 0.5;
     float Kd = 1;
@@ -69,7 +69,7 @@ void main()
 
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    FragColor = Ca+Cd;
+    FragColor = Cd;
     //FragColor = vec4(1.0,0.0,0.0,1.0);
 }
 

@@ -45,7 +45,6 @@ SOURCES += \
     src/OpenGl/shader.cpp \
     src/OpenGl/mesh.cpp \
     src/OpenGl/vertex.cpp \
-    src/OpenGl/model.cpp \
     src/OpenGl/progressinfo.cpp \
     src/OpenGl/meshloader.cpp \
     src/OpenGl/texture.cpp \
@@ -55,7 +54,10 @@ SOURCES += \
     lib/glad.c \
     lib/stb_image.cpp \
     lib/glm_add.cpp \
-    src/OpenGl/shadowmap.cpp
+    src/OpenGl/shadowmap.cpp \
+    src/OpenGl/loadtexture.cpp \
+    src/OpenGl/generatedtexture.cpp \
+    src/OpenGl/scene.cpp
 
 
 HEADERS += \
@@ -64,7 +66,6 @@ HEADERS += \
     src/OpenGl/shader.h \
     src/OpenGl/mesh.h \
     src/OpenGl/vertex.h \
-    src/OpenGl/model.h \
     src/OpenGl/progressinfo.h \
     src/OpenGl/meshloader.h \
     src/OpenGl/texture.h \
@@ -73,7 +74,10 @@ HEADERS += \
     src/Light_Camera/trackball.h \
     lib/stb_image.h \
     lib/glm_add.h \
-    src/OpenGl/shadowmap.h
+    src/OpenGl/shadowmap.h \
+    src/OpenGl/loadtexture.h \
+    src/OpenGl/generatedtexture.h \
+    src/OpenGl/scene.h
 
 DISTFILES += \
     shaders/toon1D.frag \
@@ -90,5 +94,7 @@ DISTFILES += \
     shaders/shadowmapdebug.vert \
     shaders/heightmap.vert \
     shaders/heightmap.frag \
-    shaders/normalmap.frag \
-    shaders/normalmap.vert
+    shaders/curvature.vert \
+    shaders/curvature.frag \
+    shaders/drawtexture.frag \
+    shaders/drawtexture.vert

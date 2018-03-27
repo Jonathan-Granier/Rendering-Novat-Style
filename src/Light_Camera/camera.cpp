@@ -30,6 +30,7 @@ void Camera::initialize(int w,int h,bool replace) {
   _m = NONE;
   _w = w;
   _h = h;
+
   _t = TrackBall(rad*2,glm::vec2(wo2,ho2));
   _f = 45.0f;
 

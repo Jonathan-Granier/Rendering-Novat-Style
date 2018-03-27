@@ -25,7 +25,7 @@
 
 #include "src/OpenGl/shader.h"
 #include "src/OpenGl/progressinfo.h"
-#include "src/OpenGl/model.h"
+#include "src/OpenGl/scene.h"
 #include "src/OpenGl/shadowmap.h"
 
 
@@ -34,15 +34,15 @@
 
 
 /**
- * @brief The Open GL widget , init openGL, setup a model, a camera, a light and shaders and draw it.
+ * @brief The Open GL widget , init openGL, setup a Scene, a camera, a light and shaders and draw it.
  */
 class Viewer : public QOpenGLWidget
 {
 
 public:
 
-    enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the model with the camera and the ligth */
-                    SHADOWMAP,  /*!< Mode for draw only the shadow map of the model        */
+    enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the Scene with the camera and the ligth */
+                    SHADOWMAP,  /*!< Mode for draw only the shadow map of the Scene        */
                     HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh      */
                     NORMALMAP   /*!< Mode for draw the normal map of the current mesh      */
                  };
@@ -61,7 +61,7 @@ public:
      */
     virtual void paintGL();
     /**
-     * @brief initialize openGl and the different element of viewer (model, camera, shader).
+     * @brief initialize openGl and the different element of viewer (Scene, camera, shader).
      */
     virtual void initializeGL();
     /**
@@ -130,7 +130,7 @@ public:
      * @param fileNames a stack of path file.
      * @return return true if the fileNames are correct (.obj or .asc).
      */
-    bool loadModelFromFile(const QStringList &fileNames);
+    bool loadSceneFromFile(const QStringList &fileNames);
 
 
     /**
@@ -150,11 +150,10 @@ private:
 
 
     std::shared_ptr<Shader>     _shader;           /** < Shaders for compute the light. */
-    std::shared_ptr<Shader>     _shaderHeightMap;
-    std::shared_ptr<Shader>     _shaderNormalMap;
+    std::shared_ptr<Shader>     _shaderDrawTexture;
     std::shared_ptr<ShadowMap>  _shadowMap;
 
-    std::shared_ptr<Model>      _model;            /** < A Model pointer.  */
+    std::shared_ptr<Scene>      _Scene;            /** < A Scene pointer.  */
     std::shared_ptr<Camera>     _cam;              /** < A Camera pointer. */
     std::shared_ptr<Light>      _light;            /** < A Light pointer      */
 
@@ -163,15 +162,15 @@ private:
     DRAWMODE    _drawMode;
 
     std::vector<std::string> _filepaths;           /** < A vector of mesh file.*/
-    Model::TYPE_FILE _typeModel;                   /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
+    Scene::TYPE_FILE _typeMesh;                   /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
     QTime _timer;                                  /** < A Qt timer.*/
     ProgressInfo *_progressInfo;                   /** < The progress of the meshloader. */
 
 
     /**
-     * @brief load Model from _filepaths and of type _typeModel
+     * @brief load Scene from _filepaths and of type _typeMesh
      */
-    void loadModel();
+    void loadScene();
 
 };
 
