@@ -5,14 +5,15 @@
 #include "vertex.h"
 #include "iostream"
 
+#include "meshloader.h"
 
 
 using namespace std;
 using namespace glm;
 
-Scene::Scene(MeshLoader ml, const vector<string> &filepaths,TYPE_FILE typeFile)
+Scene::Scene(const vector<string> &filepaths,TYPE_FILE typeFile)
 {
-
+    MeshLoader ml;
     switch (typeFile){
         case OBJ:   _mesh = ml.vertexFromObj(filepaths[0]);
         break;
@@ -26,9 +27,16 @@ Scene::Scene(MeshLoader ml, const vector<string> &filepaths,TYPE_FILE typeFile)
     }
 
     _meshPlane = ml.planeFromHardCode();
-    _meshLightVector = ml.axisFromHardCode();
     _meshSphere = ml.vertexFromObj("models/sphere.obj");
 
+
+    _curvatureMap = make_shared<GeneratedTexture>("curvatureMap",_mesh->getWidth(),_mesh->getHeight(),
+                                                  "shaders/curvature.vert","shaders/curvature.frag");
+
+    _lightMap = make_shared<GeneratedTexture>("lightMap",_mesh->getWidth(),_mesh->getHeight(),
+                                                  "shaders/computelight.vert","shaders/computelight.frag");
+    _curvatureMap->initialize();
+    _lightMap->initialize();
 
     LoadTexture texture1("container", "textures/container.jpg");
     LoadTexture texture2("awesomeface", "textures/awesomeface.png");
@@ -53,6 +61,8 @@ Scene::~Scene()
 void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition)
 {
 
+    _lightMap->sendToShader(shader);
+
     for(unsigned int i=0;i<_textures.size();i++){
         _textures[i].sendToShader(shader);
     }
@@ -61,8 +71,6 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition)
 
     shader->setMat4("modelMat",modelMesh);
     _mesh->Draw();
-    mat4 modelPlane;
-    shader->setMat4("modelMat",modelPlane);
    // _meshPlane->Draw();
     mat4 modelSphere;
     modelSphere = glm::translate(modelSphere,lightPosition/5.0f);
@@ -89,11 +97,48 @@ void Scene::drawHeightMap(shared_ptr<Shader> shader){
 
 void Scene::drawNormalMap(shared_ptr<Shader> shader){
     if(_normalMap != NULL){
-        shader->setInt("selectTexture",1);
         _normalMap->draw(shader);
 
     }
 }
+
+void Scene::drawCurvatureMap(shared_ptr<Shader> shader){
+    if(_curvatureMap != NULL){
+        _curvatureMap->draw(shader);
+
+    }
+}
+
+void Scene::drawLightMap(std::shared_ptr<Shader> shader)
+{
+    if(_lightMap != NULL){
+        _lightMap->draw(shader);
+
+    }
+}
+
+void Scene::computeCurvatureMap(int widthViewport,int heightViewport)
+{
+    _curvatureMap->startGenerate();
+    _normalMap->sendToShader(_curvatureMap->generatorShader());
+    _curvatureMap->generate(widthViewport,heightViewport);
+}
+
+void Scene::computeLightMap(vec3 lightPosition, int widthViewport, int heightViewport)
+{
+    _lightMap->startGenerate();
+    _lightMap->generatorShader()->setVec3("lightPosition",lightPosition);
+
+    _curvatureMap->sendToShader(_lightMap->generatorShader());
+    _lightMap->generate(widthViewport,heightViewport);
+}
+
+
+void Scene::reloadGenerateTexturesShader(){
+    _curvatureMap->reloadShader();
+    _lightMap->reloadShader();
+}
+
 
 float Scene::radius() const
 {
@@ -107,9 +152,9 @@ vec3 Scene::center() const
 
 
 void Scene::getMapFromMNT(){
-    vector<float> dataHeightMap = _mesh->getHeightMap();
+    vector<float> dataHeightMap = _mesh->getReverseHeightMap();
     _heightMap = make_shared<LoadTexture>("heightMap", dataHeightMap,GL_R32F,GL_RED,_mesh->getWidth(),_mesh->getHeight());
-    vector<float> dataNormalMap = _mesh->getNormalMap();
+    vector<float> dataNormalMap = _mesh->getReverseNormalMap();
     _normalMap = make_shared<LoadTexture>("normalMap", dataNormalMap,GL_RGB,GL_RGB,_mesh->getWidth(),_mesh->getHeight());
 }
 

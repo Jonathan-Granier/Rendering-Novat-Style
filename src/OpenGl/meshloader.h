@@ -8,7 +8,6 @@
 #include <memory>
 
 #include "mesh.h"
-#include "progressinfo.h"
 #include "texture.h"
 
 /**
@@ -18,10 +17,9 @@ class MeshLoader
 {
 public:
     /**
-     * @brief Constructor of MeshLoader
-     * @param progressInfo : the pointer where the loading information will be stored
+     * @brief Empty Constructor of MeshLoader
      */
-    MeshLoader(ProgressInfo *progressInfo);
+    MeshLoader();
 
     /**
      * @brief Load and index a cube from a hard code tab (without normal)
@@ -128,14 +126,6 @@ private:
      * @param m : a Mesh pointer
      */
     void computeCenterAndRadius(std::shared_ptr<Mesh> m);
-
-    /**
-     * @brief _progressInfo the loading informations
-     */
-    ProgressInfo *_progressInfo;
-
-
-
 
 
 };

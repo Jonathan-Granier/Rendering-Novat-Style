@@ -9,8 +9,7 @@ using namespace glm;
 #define NUMBEROFTEX 1
 #define NOTEXTUREOBJ 1
 
-MeshLoader::MeshLoader(ProgressInfo *p) :
-    _progressInfo(p)
+MeshLoader::MeshLoader()
 {}
 
 
@@ -561,7 +560,6 @@ shared_ptr<Mesh> MeshLoader::indexVBO(vector<Vertex> vertices){
     map<Vertex,unsigned int> VertexToOutIndex;
 
 
-    _progressInfo->setMark(vertices.size());
     for(i=0 ; i < vertices.size();i++){
 
         unsigned int index;
@@ -576,10 +574,8 @@ shared_ptr<Mesh> MeshLoader::indexVBO(vector<Vertex> vertices){
             indices.push_back(newindex);
             VertexToOutIndex[vertices[i]] = newindex;
         }
-        _progressInfo->setProgress(i);
 
     }
-    _progressInfo->progressEnd();
     return make_shared<Mesh>(indexVertices,indices);
 }
 

@@ -4,6 +4,7 @@
 #include "glm/glm.hpp"
 /**
  * @brief A basic light defined by a point.
+ * The distance between the center of the world and the light point is constante.
  */
 class Light
 {
@@ -37,10 +38,14 @@ public:
      */
     void moveAroundYAxe(glm::vec2 moussePos,float width,float height);
 
+    void moveAroundXZ(float theta);
 
 private:
     glm::vec3 _position; /** < The position of the light */
     glm::vec2 _oldmoussePosition; /** < The postion of the mousse */
+
+
+    float _previousTheta;
 
     /**
      * @brief set and normalize a vector in the middle of the screen.

@@ -34,7 +34,7 @@ public:
      * @param height :  the height of the current viewport.
      * @return
      */
-    glm::mat4 generate(std::shared_ptr<Scene> scene,glm::vec3 lightPosition, float width, float height);
+    glm::mat4 generate(std::shared_ptr<Scene> scene, glm::vec3 lightPosition, int widthViewport, int heightViewPort);
 
 
     glm::mat4 lightSpaceMatrix() const;

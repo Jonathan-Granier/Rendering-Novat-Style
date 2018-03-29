@@ -1,6 +1,5 @@
 
 #include "mainwindow.h"
-#include "src/OpenGl/progressinfo.h"
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -18,7 +17,7 @@
 using namespace std;
 MainWindow::MainWindow()
 {
-
+    _theta = 45.0;
     this->setFixedSize(1200,800);
     // TODO set Icon
     // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
@@ -28,7 +27,6 @@ MainWindow::MainWindow()
 
 
     setupMenu();
-    setupLoadingBar();
     setCentralWidget(_viewer.get());
 
 }
@@ -42,8 +40,6 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     this->disconnect();
-    _viewer->progressInfo()->disconnect();
-    deleteLoadingBar();
     event->accept();
 }
 
@@ -70,12 +66,10 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         _viewer->fixeCamAndLight();
     }
     if(ke->key()==Qt::Key_Q){
-        QString currentShader=QString::fromStdString(_viewer->previousShader());
-        statusBar()->showMessage(currentShader);
+        _viewer->previousShader();
     }
     if(ke->key()==Qt::Key_S){
-        QString currentShader=QString::fromStdString(_viewer->nextShader());
-        statusBar()->showMessage(currentShader);
+        _viewer->nextShader();
     }
 
     if(ke->key()==Qt::Key_H){
@@ -84,6 +78,18 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_J){
         _viewer->nextDrawMode();
     }
+
+    if(ke->key()==Qt::Key_T){
+        _theta--;
+        _viewer->setHeightLight(_theta);
+    }
+
+    if(ke->key()==Qt::Key_Y){
+        _theta++;
+        _viewer->setHeightLight(_theta);
+    }
+
+    refreshStatusBar();
 }
 
 
@@ -136,28 +142,6 @@ void MainWindow::about()
                    "<b>Pierre Novat</b>"));
 }
 
-void MainWindow::showLoadingBar()
-{
-    /*_loadingBar->setMinimum(0);
-    _loadingBar->setMaximum(_viewer->progressInfo()->mark());
-    _loadingBar->setVisible(true);
-    //_loadingBar->show();
-    statusBar()->setVisible(true);
-*/
-}
-
-void MainWindow::updateLoadingBar()
-{
-    //_loadingBar->setValue(_viewer->progressInfo()->progress());
-
-}
-
-void MainWindow::hideLoadingBar()
-{
-    //_loadingBar->hide();
-    //statusBar()->setVisible(false);
-
-}
 
 
 
@@ -199,7 +183,7 @@ void MainWindow::setupMenu(){
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
 
-    QAction *helpAct = helpMenu->addAction(tr("&Help"), this, &MainWindow::help);
+    QAction *helpAct = helpMenu->addAction(tr("Help"), this, &MainWindow::help);
     helpAct->setStatusTip(tr("Show the application's help"));
     QAction *aboutAct = helpMenu->addAction(tr("&About"), this, &MainWindow::about);
     aboutAct->setStatusTip(tr("Show the application's About box"));
@@ -208,25 +192,10 @@ void MainWindow::setupMenu(){
 
 }
 
-void MainWindow::setupLoadingBar()
-{
-   /* _loadingBar = new QProgressBar(this);
-    connect(_viewer->progressInfo(),&ProgressInfo::progressBegin,this,&MainWindow::showLoadingBar);
-    connect(_viewer->progressInfo(),&ProgressInfo::progressUpdate,this,&MainWindow::updateLoadingBar);
-    connect(_viewer->progressInfo(),&ProgressInfo::progressEnd,this,&MainWindow::hideLoadingBar);
-    statusBar()->addPermanentWidget(_loadingBar,1);
-    _loadingBar->setVisible(true);
-    statusBar()->setVisible(true);
-    _application->processEvents();
-    */
-}
 
-void MainWindow::deleteLoadingBar(){
-    /*
-    disconnect(_viewer->progressInfo(),&ProgressInfo::progressBegin,this,&MainWindow::showLoadingBar);
-    disconnect(_viewer->progressInfo(),&ProgressInfo::progressUpdate,this,&MainWindow::updateLoadingBar);
-    disconnect(_viewer->progressInfo(),&ProgressInfo::progressEnd,this,&MainWindow::hideLoadingBar);
-    delete _loadingBar;
-    */
+
+void MainWindow::refreshStatusBar(){
+    QString currentDrawMode=QString::fromStdString(_viewer->getDrawMode());
+    statusBar()->showMessage(currentDrawMode);
 }
 

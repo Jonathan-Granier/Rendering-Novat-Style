@@ -8,7 +8,6 @@ using namespace glm;
 ShadowMap::ShadowMap(string name, const int &width, const int &height):
     GeneratedTexture(name,width,height,"shaders/shadowmap.vert","shaders/shadowmap.frag")
 {
-    _reverseQuad = false;
 }
 void ShadowMap::initialize()
 {
@@ -50,7 +49,7 @@ void ShadowMap::initialize()
 
 }
 
-glm::mat4 ShadowMap::generate(std::shared_ptr<Scene> scene, glm::vec3 lightPosition, float widthViewport, float heightViewPort)
+glm::mat4 ShadowMap::generate(std::shared_ptr<Scene> scene, glm::vec3 lightPosition, int widthViewport, int heightViewPort)
 {
     glCullFace(GL_FRONT); //TODO TEST
     glm::mat4 lightProjection , lightView;

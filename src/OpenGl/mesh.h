@@ -64,12 +64,17 @@ public:
      */
     std::vector<float> getNormalMap();
 
+
+    std::vector<float> getReverseNormalMap();
     /**
      * @brief Return the heith Map of a MTN mesh, do nothing otherwise
      * @returnthe height Map of a MNT Mesh , empty if not.
      */
     std::vector<float> getHeightMap();
-    /*  Mesh Data  */
+
+
+    std::vector<float> getReverseHeightMap();
+
 
 
 
@@ -98,6 +103,8 @@ public:
     int getYmin() const;
 
     int getYmax() const;
+
+
 
 private :
 

@@ -45,7 +45,6 @@ SOURCES += \
     src/OpenGl/shader.cpp \
     src/OpenGl/mesh.cpp \
     src/OpenGl/vertex.cpp \
-    src/OpenGl/progressinfo.cpp \
     src/OpenGl/meshloader.cpp \
     src/OpenGl/texture.cpp \
     src/Light_Camera/light.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     src/OpenGl/shader.h \
     src/OpenGl/mesh.h \
     src/OpenGl/vertex.h \
-    src/OpenGl/progressinfo.h \
     src/OpenGl/meshloader.h \
     src/OpenGl/texture.h \
     src/Light_Camera/light.h \
@@ -90,11 +88,11 @@ DISTFILES += \
     shaders/phongspec.vert \
     shaders/shadowmap.frag \
     shaders/shadowmap.vert \
-    shaders/shadowmapdebug.frag \
-    shaders/shadowmapdebug.vert \
-    shaders/heightmap.vert \
-    shaders/heightmap.frag \
     shaders/curvature.vert \
     shaders/curvature.frag \
     shaders/drawtexture.frag \
-    shaders/drawtexture.vert
+    shaders/drawtexture.vert \
+    shaders/computelight.frag \
+    shaders/computelight.vert \
+    shaders/generatelight.frag \
+    shaders/generatelight.vert

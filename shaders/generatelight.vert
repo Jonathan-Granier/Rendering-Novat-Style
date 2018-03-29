@@ -6,28 +6,28 @@ layout (location = 2) in vec2 aTexCoord;
 uniform mat4 modelMat;
 uniform mat4 mdvMat;
 uniform mat4 projMat;
-
 uniform mat3 normalMat;
 
 
 uniform vec3 lightPosition;
-uniform vec3 cameraPosition;
-
+uniform sampler2D lightMap;
 
 // declare an interface block; see 'Advanced GLSL' for what these are.
-out VS_OUT {
-    vec4 lightDir;
-    vec3 Normal;
-    vec4 cameraDir;
-} vs_out;
+
+out vec4 lightDir;
+out vec3 normal;
+out vec2 texCoord;
 
 
 void main()
 {
 
     vec4 position = vec4(aPos,1.0);
-    vs_out.lightDir = mdvMat * normalize(vec4(lightPosition,0.0));
-    vs_out.Normal = normalMat * aNormal;
-    vs_out.cameraDir =  vec4(cameraPosition,1.0) - mdvMat*position;
+ texCoord = aTexCoord;
+
+    lightDir = mdvMat * normalize(vec4(texture(lightMap,texCoord)));
+  //lightDir = mdvMat * normalize(vec4(lightPosition,1.0) - position);
+    normal = normalMat * aNormal;
+
     gl_Position = projMat * mdvMat * modelMat * position;
 }

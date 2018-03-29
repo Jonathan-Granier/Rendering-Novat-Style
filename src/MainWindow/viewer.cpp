@@ -25,7 +25,6 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
 
-    _progressInfo = new ProgressInfo();
     _filepaths.push_back("models/MNT_basic.asc");
 }
 
@@ -57,60 +56,73 @@ void Viewer::initializeGL(){
 
 
 
+
     loadScene();
-    _shader = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
-    _shader->add("shaders/phong.vert", "shaders/phong.frag");
-    _shader->add("shaders/phongspec.vert", "shaders/phongspec.frag");
-    _shader->add("shaders/toon1D.vert","shaders/toon1D.frag");
-
-    _shaderDrawTexture = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
-
+    initShaders();
     _timer.start();
 
 }
 
 // Rendu loop
 void Viewer::paintGL(){
-
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
     switch(_drawMode){
     case CLASSICAL:
              _shadowMap->startGenerate();
-             _shadowMap->generate(_Scene,_light->position(),width(),height());
-             _shader->use();
-             _shader->setMat4("mdvMat",_cam->mdvMatrix());
-             _shader->setMat4("projMat",_cam->projMatrix());
-             _shader->setMat3("normalMat",_cam->normalMatrix());
-             _shader->setVec3("lightPosition",_light->position());
-             _shader->setVec3("cameraPosition",_cam->view());
-             _shader->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
-             _shadowMap->sendToShader(_shader);
-             _Scene->draw(_shader,_light->position());
-             _shader->disable();_shaderDrawTexture->setInt("selectTexture",1);
+             _shadowMap->generate(_scene,_light->position(),width(),height());
+             _scene->computeCurvatureMap(width(),height());
+             _scene->computeLightMap(_light->position(),width(),height());
+             _lightShaders->use();
+             _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
+             _lightShaders->setMat4("projMat",_cam->projMatrix());
+             _lightShaders->setMat3("normalMat",_cam->normalMatrix());
+             _lightShaders->setVec3("lightPosition",_light->position());
+             _lightShaders->setVec3("cameraPosition",_cam->view());
+             _lightShaders->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
+
+
+
+             _shadowMap->sendToShader(_lightShaders);
+             _scene->draw(_lightShaders,_light->position());
+             _lightShaders->disable();_drawTextureShader->setInt("selectTexture",1);
         break;
     case SHADOWMAP:
              _shadowMap->startGenerate();
-             _shadowMap->generate(_Scene,_light->position(),width(),height());
-             _shaderDrawTexture->use();
-             _shaderDrawTexture->setInt("selectTexture",0);
-             _shadowMap->draw(_shaderDrawTexture);
-             _shaderDrawTexture->disable();
+             _shadowMap->generate(_scene,_light->position(),width(),height());
+             _drawTextureShader->use();
+             _drawTextureShader->setInt("selectTexture",0);
+             _shadowMap->draw(_drawTextureShader);
+             _drawTextureShader->disable();
         break;
 
     case HEIGHTMAP:
-        _shaderDrawTexture->use();
-        _shaderDrawTexture->setInt("selectTexture",2);
-        _Scene->drawHeightMap(_shaderDrawTexture);
-        _shaderDrawTexture->disable();
+        _drawTextureShader->use();
+        _drawTextureShader->setInt("selectTexture",1);
+        _scene->drawHeightMap(_drawTextureShader);
+        _drawTextureShader->disable();
         break;
     case NORMALMAP:
-        _shaderDrawTexture->use();
-        _shaderDrawTexture->setInt("selectTexture",1);
-        _Scene->drawNormalMap(_shaderDrawTexture);
-        _shaderDrawTexture->disable();
+        _drawTextureShader->use();
+        _drawTextureShader->setInt("selectTexture",2);
+        _scene->drawNormalMap(_drawTextureShader);
+        _drawTextureShader->disable();
+        break;
+    case CURVATURE:
+        _scene->computeCurvatureMap(width(),height());
+        _drawTextureShader->use();
+        _drawTextureShader->setInt("selectTexture",3);
+        _scene->drawCurvatureMap(_drawTextureShader);
+        _drawTextureShader->disable();
+        break;
+    case LIGHTMAP :
+        _scene->computeCurvatureMap(width(),height());
+        _scene->computeLightMap(_light->position(),width(),height());
+        _drawTextureShader->use();
+        _drawTextureShader->setInt("selectTexture",4);
+        _scene->drawLightMap(_drawTextureShader);
+        _drawTextureShader->disable();
         break;
     }
 }
@@ -153,17 +165,24 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
     update();
 }
 
+void Viewer::setHeightLight(float angle)
+{
+    _light->moveAroundXZ(angle);
+    update();
+}
+
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
-    _light = make_shared<Light>(vec3(0.0,3*_Scene->radius(),3*_Scene->radius()));
+    _light = make_shared<Light>(vec3(0.0,3*_scene->radius(),3*_scene->radius()));
     update();
 }
 
 void Viewer::reloadShader(){
-    _shader->reload();
-    //_shaderDepthMap->reload();
+    _lightShaders->reload();
     _shadowMap->reloadShader();
-    _shaderDrawTexture->reload();
+    _drawTextureShader->reload();
+    _scene->reloadGenerateTexturesShader();
+
     update();
 }
 
@@ -186,16 +205,16 @@ void Viewer::fixeCamAndLight()
 
 string Viewer::nextShader()
 {
-    _shader->next();
+    _lightShaders->next();
     update();
-    return _shader->name();
+    return _lightShaders->name();
 }
 
 string Viewer::previousShader()
 {
-    _shader->previous();
+    _lightShaders->previous();
     update();
-    return _shader->name();
+    return _lightShaders->name();
 }
 
 
@@ -204,7 +223,9 @@ void Viewer::nextDrawMode(){
         case CLASSICAL: _drawMode = SHADOWMAP; break;
         case SHADOWMAP: _drawMode = HEIGHTMAP; break;
         case HEIGHTMAP: _drawMode = NORMALMAP; break;
-        case NORMALMAP: _drawMode = CLASSICAL; break;
+        case NORMALMAP: _drawMode = CURVATURE; break;
+        case CURVATURE: _drawMode = LIGHTMAP ; break;
+        case LIGHTMAP : _drawMode = CLASSICAL; break;
     }
 
 
@@ -213,36 +234,26 @@ void Viewer::nextDrawMode(){
 
 void Viewer::previousDrawMode(){
     switch(_drawMode){
-        case CLASSICAL: _drawMode = NORMALMAP; break;
+        case CLASSICAL: _drawMode = LIGHTMAP ; break;
         case SHADOWMAP: _drawMode = CLASSICAL; break;
         case HEIGHTMAP: _drawMode = SHADOWMAP; break;
         case NORMALMAP: _drawMode = HEIGHTMAP; break;
+        case CURVATURE: _drawMode = NORMALMAP; break;
+        case LIGHTMAP : _drawMode = CURVATURE; break;
+
     }
     update();
 }
 
 void Viewer::loadScene()
 {
-
-
-    MeshLoader ml(_progressInfo);
-
-    _Scene  = make_shared<Scene>(ml,_filepaths,_typeMesh);
-    _cam    = make_shared<Camera>(_Scene->radius(),_Scene->center());
+    _scene  = make_shared<Scene>(_filepaths,_typeMesh);
+    _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
     _cam->initialize(width(),height(),true);
-    _light  = make_shared<Light>(vec3(0.0,_Scene->radius(),3.0*_Scene->radius()));
+    _light  = make_shared<Light>(vec3(0.0,3.0*_scene->radius(),3.0*_scene->radius()));
     _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
     _shadowMap->initialize();
-            //_Scene = new Scene();
-    //_cam = new Camera();
-    //_cam->initialize(width(),height(),true);
-    //_light = new Light(vec3(0.0,3*_Scene->radius(),3*_Scene->radius()));
-    //_light = new Light(vec3(5, 20, 20));
 
-    //_shadowMap = new ShadowMap("depthMap");
-
-
-    //_Scene->initShadowMap();
 }
 
 bool Viewer::loadSceneFromFile(const QStringList &fileNames)
@@ -282,11 +293,45 @@ bool Viewer::loadSceneFromFile(const QStringList &fileNames)
     return true;
 }
 
-
-ProgressInfo *Viewer::progressInfo() const
+string Viewer::getDrawMode()
 {
-    return _progressInfo;
+    string stringDrawMode;
+    switch(_drawMode){
+        case CLASSICAL:
+            stringDrawMode = "Classical : " + _lightShaders->name();
+        break;
+        case SHADOWMAP:
+        stringDrawMode = "Shadow Map";
+        break;
+        case HEIGHTMAP:
+        stringDrawMode = "Height Map";
+        break;
+        case NORMALMAP:
+        stringDrawMode = "Normal Map";
+        break;
+        case CURVATURE:
+        stringDrawMode = "Curvature Map";
+        break;
+        case LIGHTMAP :
+        stringDrawMode = "Light Map";
+        break;
+
+    }
+    return stringDrawMode;
 }
 
+
+
+
+void Viewer::initShaders(){
+    _lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
+    _lightShaders->add("shaders/generatelight.vert", "shaders/generatelight.frag");
+    _lightShaders->add("shaders/phong.vert", "shaders/phong.frag");
+    _lightShaders->add("shaders/phongspec.vert", "shaders/phongspec.frag");
+    _lightShaders->add("shaders/toon1D.vert","shaders/toon1D.frag");
+
+    _drawTextureShader = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
+
+}
 
 

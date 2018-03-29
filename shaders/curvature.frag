@@ -1,5 +1,6 @@
 #version 330 core
-out vec4 FragColor;
+
+layout(location = 0) out vec4 outBuffer;
 
 in vec2 texCoord;
 
@@ -90,5 +91,5 @@ void main() {
   vec4 ee = eigenValues(H);
   float mc = .5*(ee.z+ee.w);
   vec4 firstGaussianDeriv = vec4(ee.xy,mc,length(pix.xyz));
-  FragColor = firstGaussianDeriv;
+  outBuffer = firstGaussianDeriv;
 }

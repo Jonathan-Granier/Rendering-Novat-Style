@@ -12,9 +12,11 @@ public:
     GeneratedTexture(std::string name,const int &width, const int &height, const GLchar* genVertex, const GLchar* genFrag);
     void initialize();
     void startGenerate();
-    void generate();
+    void generate(int widthViewport, int heightViewport);
 
     void reloadShader();
+
+    std::shared_ptr<Shader> generatorShader() const;
 
 protected:
     std::shared_ptr<Shader> _generatorShader;                   /** < The shader for generate the texture    */

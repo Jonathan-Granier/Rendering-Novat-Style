@@ -55,7 +55,6 @@ LoadTexture::LoadTexture( const std::string &name , const std::string &path):
 LoadTexture::LoadTexture(const std::string &name, std::vector<float> data, GLint internalFormat , GLenum format , const int &width, const int &height):
     Texture(name)
 {
-
     _width  = width;
     _height = height;
 

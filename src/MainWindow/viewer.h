@@ -24,7 +24,6 @@
 
 
 #include "src/OpenGl/shader.h"
-#include "src/OpenGl/progressinfo.h"
 #include "src/OpenGl/scene.h"
 #include "src/OpenGl/shadowmap.h"
 
@@ -44,7 +43,9 @@ public:
     enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the Scene with the camera and the ligth */
                     SHADOWMAP,  /*!< Mode for draw only the shadow map of the Scene        */
                     HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh      */
-                    NORMALMAP   /*!< Mode for draw the normal map of the current mesh      */
+                    NORMALMAP,  /*!< Mode for draw the normal map of the current mesh      */
+                    CURVATURE,  /*!< Mode for draw the curvature map of the current mesh   */
+                    LIGHTMAP    /*!< Mode for draw the light map of the current mesh       */
                  };
 
 
@@ -90,6 +91,9 @@ public:
     virtual void mouseMoveEvent(QMouseEvent *me);
 
 
+
+    void setHeightLight(float theta);
+
     /**
      * @brief Reset the camera postion.
      */
@@ -133,11 +137,10 @@ public:
     bool loadSceneFromFile(const QStringList &fileNames);
 
 
-    /**
-     * @brief get _progressInfo.
-     * @return the state of the progress of the meshLoader.
-     */
-    ProgressInfo *progressInfo() const;
+
+    std::string getDrawMode();
+
+
 
 
 
@@ -149,11 +152,11 @@ public:
 private:
 
 
-    std::shared_ptr<Shader>     _shader;           /** < Shaders for compute the light. */
-    std::shared_ptr<Shader>     _shaderDrawTexture;
+    std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */
+    std::shared_ptr<Shader>     _drawTextureShader;
     std::shared_ptr<ShadowMap>  _shadowMap;
 
-    std::shared_ptr<Scene>      _Scene;            /** < A Scene pointer.  */
+    std::shared_ptr<Scene>      _scene;            /** < A Scene pointer.  */
     std::shared_ptr<Camera>     _cam;              /** < A Camera pointer. */
     std::shared_ptr<Light>      _light;            /** < A Light pointer      */
 
@@ -164,7 +167,6 @@ private:
     std::vector<std::string> _filepaths;           /** < A vector of mesh file.*/
     Scene::TYPE_FILE _typeMesh;                   /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
     QTime _timer;                                  /** < A Qt timer.*/
-    ProgressInfo *_progressInfo;                   /** < The progress of the meshloader. */
 
 
     /**
@@ -172,6 +174,7 @@ private:
      */
     void loadScene();
 
+    void initShaders();
 };
 
 #endif // VIEWER_H

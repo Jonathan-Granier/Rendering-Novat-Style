@@ -23,7 +23,7 @@ void main()
 {
 
     vec4 position = vec4(aPos,1.0);
-    vs_out.lightDir =mdvMat *  normalize(vec4(lightPosition,1.0) - position);
+    vs_out.lightDir =mdvMat *  normalize(vec4(lightPosition,0.0) );
     vs_out.Normal = normalMat * aNormal;
     gl_Position = projMat * mdvMat * modelMat * position;
 }

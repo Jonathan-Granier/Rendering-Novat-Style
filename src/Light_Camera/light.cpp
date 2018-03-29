@@ -10,7 +10,7 @@ Light::Light(vec3 position, bool mode) :
     _mode(mode),
     _position(position)
 {
-
+    _previousTheta = 45.0;
 }
 
 void Light::setFixePosition()
@@ -52,8 +52,27 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     _oldmoussePosition = moussePos;
 }
 
+void Light::moveAroundXZ(float theta)
+{
+    if(theta > 89.0f)
+        theta = 89.0f;
+    if(theta < 0.0f)
+        theta = 0.0f;
+    cout << "theta = " << theta << endl;
+    float diffTheta = theta - _previousTheta;
+    if(diffTheta = 0)
+    vec3 previousPosition = _position;
+    vec3 axis(-_position.y,0.0,_position.x); // Move around the perpendicular of the projection vector position.
+    _position = rotate(_position,glm::radians(diffTheta),axis);
+
+
+
+    _previousTheta = theta;
+}
+
 vec2 Light::centerAndNormalize(vec2 v,float width,float height){
     v.x -= width/2.0;
     v.y -= height/2.0;
     return normalize(v);
 }
+

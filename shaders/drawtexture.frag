@@ -14,8 +14,8 @@ uniform int ymax;
 /*
   Select the texture to draw :
   0 - depthMap
-  1 - normalMap
-  2 - heightMap
+  1 - heightMap
+  2 - normalMap
   3 - curvatureMap
   4 - lightMap
 */
@@ -29,13 +29,12 @@ void main()
       FragColor += vec4(depthValue,depthValue,depthValue,1.0);
     }
     if(selectTexture == 1){
-      FragColor = texture(normalMap,     texCoord);
-    }
-    if(selectTexture == 2){
       float grayValue = texture(heightMap, texCoord).r;
       grayValue = (grayValue - ymin)/(ymax-ymin);
       FragColor = vec4(grayValue,grayValue,grayValue,1.0);
-
+    }
+    if(selectTexture == 2){
+      FragColor = texture(normalMap,     texCoord);
     }
     if(selectTexture == 3){
       FragColor = texture(curvatureMap,  texCoord);

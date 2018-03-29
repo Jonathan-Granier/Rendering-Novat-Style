@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "meshloader.h"
 #include "mesh.h"
 #include "shader.h"
 #include "loadtexture.h"
@@ -26,11 +25,10 @@ public:
 
     /**
      * @brief Loads a mesh with ml , loads the differents textures and compute the center and the radius of the Scene
-     * @param ml : a mesh loader for load a mesh
      * @param filepaths : the path of the mesh
      * @param typeFile : the type of the mesh
      */
-    Scene(MeshLoader ml, std::vector<std::string> const &filepaths,TYPE_FILE typeFile=NONE);
+    Scene( std::vector<std::string> const &filepaths,TYPE_FILE typeFile=NONE);
     ~Scene();
 
     /**
@@ -57,6 +55,15 @@ public:
      */
     void drawNormalMap(std::shared_ptr<Shader> shader);
 
+    void drawCurvatureMap(std::shared_ptr<Shader> shader);
+
+    void drawLightMap(std::shared_ptr<Shader> shader);
+
+    void computeCurvatureMap(int widthViewport, int heightViewport);
+    void computeLightMap(glm::vec3 lightPosition,int widthViewport,int heightViewport);
+
+    void reloadGenerateTexturesShader();
+
     /**
      * @brief get _center
      * @return the center of the Scene
@@ -70,24 +77,20 @@ public:
 
 
 
+
 private:
 
-    std::shared_ptr<Mesh>        _mesh; /** < the mesh of the Scene */
-    std::shared_ptr<Mesh>        _meshPlane;
-    std::shared_ptr<Mesh>        _meshLightVector;
-    std::shared_ptr<Mesh>        _meshSphere;
-    std::vector<LoadTexture> _textures; /** < the textures of the Scene*/
-    std::shared_ptr<LoadTexture> _heightMap;
-    std::shared_ptr<LoadTexture> _normalMap;
-
-    unsigned int _depthMapFBO;
-    const unsigned int _SHADOW_WIDTH =1024, _SHADOW_HEIGHT = 1024;
-    glm::mat4 _lightSpaceMatrix;
+    std::shared_ptr<Mesh>               _mesh;          /** < the main mesh of the Scene */
+    std::shared_ptr<Mesh>               _meshPlane;
+    std::shared_ptr<Mesh>               _meshSphere;
+    std::vector<LoadTexture>            _textures;      /** < the classique textures of the Scene*/
+    std::shared_ptr<LoadTexture>        _heightMap;
+    std::shared_ptr<LoadTexture>        _normalMap;
+    std::shared_ptr<GeneratedTexture>   _curvatureMap;
+    std::shared_ptr<GeneratedTexture>   _lightMap;
 
 
 
-
-    GLint _oldFBO;
 
     void getMapFromMNT();
 };

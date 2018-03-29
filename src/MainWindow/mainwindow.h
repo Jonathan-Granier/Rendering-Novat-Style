@@ -33,6 +33,8 @@ public:
      */
     explicit MainWindow();
     ~MainWindow();
+
+
 protected:
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
@@ -75,21 +77,6 @@ private slots:
 
 
 
-    /**
-     * @brief Show the loading bar
-     * @bug problem with viewer
-     */
-    void showLoadingBar();
-    /**
-     * @brief Update the loading bar
-     * @bug problem with viewer
-     */
-    void updateLoadingBar();
-    /**
-     * @brief Hide the loading bar
-     * @bug problem with viewer
-     */
-    void hideLoadingBar();
 private:
 
 
@@ -109,15 +96,13 @@ private:
     /**
      * @brief Set up the menuBar and the different action
      */
+
+    float _theta;
+
     void setupMenu();
-    /**
-     * @brief Set up the loading bar
-     */
-    void setupLoadingBar();
-    /**
-     * @brief Delete the connections of the loading bar.
-     */
-    void deleteLoadingBar();
+
+    void refreshStatusBar();
+
 };
 
 #endif // MAINWINDOW_H

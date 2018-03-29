@@ -33,7 +33,7 @@ void main()
 {
 
     vec4 position = vec4(aPos,1.0);
-    vs_out.lightDir = normalize(vec4(lightPosition,1.0) - mdvMat*position);
+    vs_out.lightDir = normalize(mdvMat * vec4(lightPosition,0.0));
     vs_out.Normal = normalMat * aNormal;
     vs_out.FragPosLightSpace = ligthSpaceMat * position;
     vs_out.texCoord = aTexCoord;

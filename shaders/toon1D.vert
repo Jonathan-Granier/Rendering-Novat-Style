@@ -4,7 +4,7 @@ layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoord;
 
 
-
+uniform mat4 modelMat;
 uniform mat4 mdvMat;
 uniform mat4 projMat;
 uniform mat3 normalMat;
@@ -21,6 +21,6 @@ void main()
     vec4 position = vec4(aPos,1.0);
 
     Normal = vec4(normalize(normalMat*aNormal),0.0);
-    lightVector = normalize( vec4(lightPosition,0.0) - mdvMat*position);
-    gl_Position = projMat * mdvMat * position;
+    lightVector = normalize( mdvMat * vec4(lightPosition,0.0));
+    gl_Position = projMat * mdvMat * modelMat * position;
 }

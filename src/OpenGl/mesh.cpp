@@ -9,6 +9,9 @@
 #include <GL/glu.h>
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtx/string_cast.hpp>
 using namespace std;
 /* Public Function */
 
@@ -131,6 +134,8 @@ void Mesh::computeRadius(){
 vector<float> Mesh::getNormalMap(){
 
     vector<float> normalMap;
+    // Reverse texture
+
 
     for(Vertex v : _vertices){
         normalMap.push_back(v.Normal.x);
@@ -139,6 +144,37 @@ vector<float> Mesh::getNormalMap(){
     }
     return normalMap;
 }
+
+
+
+vector<float> Mesh::getReverseNormalMap(){
+    vector<float> normalMap;
+    unsigned int index = 0;
+
+    // For oriente correctly the normal map (Z up)
+
+    glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,1.0f));
+    glm::mat3 normalMat = glm::inverseTranspose(viewMat);
+
+
+    cout <<"Normal mat : "<< glm::to_string(viewMat) << endl;
+
+    // Reverse texture
+    for(int i = _height-1 ; i>= 0 ; i--){
+        for(int j=0; j < _width; j++){
+            index = i*_width + j;
+            glm::vec3 n = _vertices[index].Normal;
+            n = normalMat * n;
+            normalMap.push_back(n.x);
+            normalMap.push_back(n.y);
+            normalMap.push_back(n.z);
+        }
+    }
+    return normalMap;
+
+}
+
+
 
 vector<float> Mesh::getHeightMap()
 {
@@ -158,6 +194,34 @@ vector<float> Mesh::getHeightMap()
     }
     return heightMap;
 }
+
+
+vector<float> Mesh::getReverseHeightMap(){
+    vector<float> heightMap;
+
+    _ymin = 10000;
+    _ymax = -10000;
+
+    unsigned int index = 0;
+    // Reverse texture
+    for(int i = _height-1 ; i>= 0 ; i--){
+        for(int j=0; j < _width; j++){
+            index = i*_width + j;
+            heightMap.push_back(_vertices[index].Position.y);
+            if(_vertices[index].Position.y > _ymax){
+                _ymax = _vertices[index].Position.y;
+            }
+            if(_vertices[index].Position.y < _ymin){
+                _ymin = _vertices[index].Position.y;
+            }
+        }
+    }
+    return heightMap;
+}
+
+
+
+
 
 
 glm::vec3 Mesh::center() const
