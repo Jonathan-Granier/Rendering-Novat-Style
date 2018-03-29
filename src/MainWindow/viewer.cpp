@@ -147,8 +147,6 @@ void Viewer::mousePressEvent(QMouseEvent *me){
     } else if(me->button()==Qt::RightButton) {
         _lightMode = true;
         _light->startMoveAroundYAxe(p,width(),height());
-        //_light->moveAroundYAxe(p);
-        //_light->move(p,(float)width(),(float)height());
     }
     update();
 }
@@ -157,7 +155,6 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 
     if(_lightMode)
-        //_light->move(p,(float)width(),(float)height());
         _light->moveAroundYAxe(p,width(),height());
     else
         _cam->move(p);
@@ -167,13 +164,13 @@ void Viewer::mouseMoveEvent(QMouseEvent *me){
 
 void Viewer::setHeightLight(float angle)
 {
-    _light->moveAroundXZ(angle);
+    _light->moveAroundXZ(glm::radians(angle));
     update();
 }
 
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
-    _light = make_shared<Light>(vec3(0.0,3*_scene->radius(),3*_scene->radius()));
+    _light = make_shared<Light>();
     update();
 }
 
@@ -193,7 +190,7 @@ void Viewer::printCamAndLight(){
     cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
     cout << "mdv mat : " << glm::to_string(_cam->mdvMatrix()) << endl;
     cout << "normal mat : " << glm::to_string(_cam ->normalMatrix()) << endl;
-    cout << " light vec : " << glm::to_string(_light->position()) << endl;
+    cout << " light's angles : yaw : " << _light->yaw() << " pitch : " << _light->pitch() << endl;
 }
 
 void Viewer::fixeCamAndLight()
@@ -250,7 +247,7 @@ void Viewer::loadScene()
     _scene  = make_shared<Scene>(_filepaths,_typeMesh);
     _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
     _cam->initialize(width(),height(),true);
-    _light  = make_shared<Light>(vec3(0.0,3.0*_scene->radius(),3.0*_scene->radius()));
+    _light  = make_shared<Light>();
     _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
     _shadowMap->initialize();
 

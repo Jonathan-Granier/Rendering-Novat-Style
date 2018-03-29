@@ -156,9 +156,6 @@ vector<float> Mesh::getReverseNormalMap(){
     glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,1.0f));
     glm::mat3 normalMat = glm::inverseTranspose(viewMat);
 
-
-    cout <<"Normal mat : "<< glm::to_string(viewMat) << endl;
-
     // Reverse texture
     for(int i = _height-1 ; i>= 0 ; i--){
         for(int j=0; j < _width; j++){

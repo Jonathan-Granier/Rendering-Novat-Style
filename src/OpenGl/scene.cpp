@@ -73,7 +73,7 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition)
     _mesh->Draw();
    // _meshPlane->Draw();
     mat4 modelSphere;
-    modelSphere = glm::translate(modelSphere,lightPosition/5.0f);
+    modelSphere = glm::translate(modelSphere,lightPosition*_mesh->radius());
     modelSphere = glm::scale(modelSphere,vec3(_mesh->radius()/20.0,_mesh->radius()/20.0,_mesh->radius()/20.0));
     shader->setMat4("modelMat",modelSphere);
    _meshSphere->Draw();

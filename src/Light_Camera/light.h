@@ -1,6 +1,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+
+#include <math.h>
 #include "glm/glm.hpp"
 /**
  * @brief A basic light defined by a point.
@@ -14,17 +16,8 @@ public:
      * @param position : the position of the light
      * @param mode :  if we move the light , false by default.
      */
-    Light(glm::vec3 position=glm::vec3(10.0f,0.0f,0.0f), bool mode=false);
+    Light(float yaw=M_PI/2.0f, float pitch=M_PI/4.0f);
 
-    /**
-     * @brief Move the light
-     * @param the new position of light.
-     */
-    void move(glm::vec2 p, float width, float height);
-    void setFixePosition();
-    glm::vec3 position() const;
-
-    bool _mode; /** <For the mousse , true if we move the light , false otherwise. */
 
 
     /**
@@ -38,14 +31,28 @@ public:
      */
     void moveAroundYAxe(glm::vec2 moussePos,float width,float height);
 
+    /**
+     * @brief Move the light for have a theta angle between the vector position and the plan xz of the world.
+     * @param theta a angle in radian
+     */
     void moveAroundXZ(float theta);
+
+
+    void setFixePosition();
+
+    glm::vec3 position() const;
+
+    float yaw() const;
+
+    float pitch() const;
 
 private:
     glm::vec3 _position; /** < The position of the light */
     glm::vec2 _oldmoussePosition; /** < The postion of the mousse */
 
 
-    float _previousTheta;
+    float _yaw;         /** Euler's angle for the rotation around the y axis  */
+    float _pitch;       /** Euler's angle for the rotation around the xz plan */
 
     /**
      * @brief set and normalize a vector in the middle of the screen.
@@ -55,6 +62,13 @@ private:
      * @return
      */
     glm::vec2 centerAndNormalize(glm::vec2 v, float width, float height);
+
+
+    /**
+     * @brief Compute the new position with Euler's angles _yaw and _pitch
+     */
+    void updatePosition();
+
 };
 
 #endif // LIGHT_H
