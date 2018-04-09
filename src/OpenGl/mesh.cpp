@@ -130,6 +130,12 @@ void Mesh::computeRadius(){
     }
 }
 
+void Mesh::printInfo()
+{
+    cout << "number of vertice : " << _vertices.size() << endl;
+    cout << "number of polygone : " << _indices.size()/3 << endl;
+}
+
 
 vector<float> Mesh::getNormalMap(){
 
@@ -153,7 +159,7 @@ vector<float> Mesh::getReverseNormalMap(){
 
     // For oriente correctly the normal map (Z up)
 
-    glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,1.0f));
+    glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,-1.0f));
     glm::mat3 normalMat = glm::inverseTranspose(viewMat);
 
     // Reverse texture
@@ -161,10 +167,12 @@ vector<float> Mesh::getReverseNormalMap(){
         for(int j=0; j < _width; j++){
             index = i*_width + j;
             glm::vec3 n = _vertices[index].Normal;
-            n = normalMat * n;
+            n = glm::normalize(normalMat * n);
+
             normalMap.push_back(n.x);
             normalMap.push_back(n.y);
             normalMap.push_back(n.z);
+            normalMap.push_back(0.0f);
         }
     }
     return normalMap;

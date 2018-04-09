@@ -54,6 +54,10 @@ public:
 
 
 
+    std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height);
+
+
+
 private:
     /**
      * @brief A basic struct to store the header information in a header of a MNT file

@@ -21,10 +21,11 @@ void Light::startMoveAroundYAxe(glm::vec2 moussePos,float width,float height){
 void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     moussePos = centerAndNormalize(moussePos,width,height);
     float theta= orientedAngle(_oldmoussePosition,moussePos);
-    _yaw += theta;
+    _yaw -= theta;
 
+    //Modulo
+    _yaw = _yaw - 2*M_PI*floor(_yaw/(2.0 * M_PI));
 
-    cout << "theta :" << theta << endl;
 
     _oldmoussePosition = moussePos;
     updatePosition();
@@ -79,4 +80,6 @@ void Light::updatePosition(){
     _position.y = sin(_pitch);
     _position.z = cos(_pitch) * sin(_yaw);
     _position = normalize(_position);
+
+    cout << "light" << glm::to_string(_position) << endl;
 }

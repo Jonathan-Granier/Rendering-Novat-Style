@@ -93,7 +93,7 @@ public:
 
 
     void setHeightLight(float theta);
-
+    float getHeightLight();
     /**
      * @brief Reset the camera postion.
      */
@@ -136,17 +136,17 @@ public:
      */
     bool loadSceneFromFile(const QStringList &fileNames);
 
+    void switchScene();
 
 
     std::string getDrawMode();
 
+    float getSigma() const;
+    void setSigma(float sigma);
 
-
-
-
-
-
-
+    void nextLight();
+    void previousLight();
+    int getLightSelector() const;
 
 
 private:
@@ -165,8 +165,8 @@ private:
     DRAWMODE    _drawMode;
 
     std::vector<std::string> _filepaths;           /** < A vector of mesh file.*/
-    Scene::TYPE_FILE _typeMesh;                   /** < Type of the _filepaths (OBJ,MNT or NONE)..*/
     QTime _timer;                                  /** < A Qt timer.*/
+
 
 
     /**

@@ -56,7 +56,8 @@ SOURCES += \
     src/OpenGl/shadowmap.cpp \
     src/OpenGl/loadtexture.cpp \
     src/OpenGl/generatedtexture.cpp \
-    src/OpenGl/scene.cpp
+    src/OpenGl/scene.cpp \
+    src/OpenGl/heightmap.cpp
 
 
 HEADERS += \
@@ -75,7 +76,8 @@ HEADERS += \
     src/OpenGl/shadowmap.h \
     src/OpenGl/loadtexture.h \
     src/OpenGl/generatedtexture.h \
-    src/OpenGl/scene.h
+    src/OpenGl/scene.h \
+    src/OpenGl/heightmap.h
 
 DISTFILES += \
     shaders/toon1D.frag \
@@ -92,7 +94,12 @@ DISTFILES += \
     shaders/curvature.frag \
     shaders/drawtexture.frag \
     shaders/drawtexture.vert \
-    shaders/computelight.frag \
+    shaders/heightmap.frag \
+    shaders/heightmap.vert \
+    shaders/curvaturecyril.frag \
     shaders/computelight.vert \
+    shaders/computelight.frag \
     shaders/generatelight.frag \
-    shaders/generatelight.vert
+    shaders/generatelight.vert \
+    shaders/gaussBlur.frag \
+    shaders/gaussBlur.vert

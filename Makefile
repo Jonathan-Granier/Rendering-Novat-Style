@@ -67,7 +67,8 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/OpenGl/shadowmap.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
-		src/OpenGl/scene.cpp 
+		src/OpenGl/scene.cpp \
+		src/OpenGl/heightmap.cpp 
 OBJECTS       = bin/debug/main.o \
 		bin/debug/viewer.o \
 		bin/debug/mainwindow.o \
@@ -85,7 +86,8 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/shadowmap.o \
 		bin/debug/loadtexture.o \
 		bin/debug/generatedtexture.o \
-		bin/debug/scene.o
+		bin/debug/scene.o \
+		bin/debug/heightmap.o
 DIST          = shaders/toon1D.frag \
 		shaders/toon1D.vert \
 		shaders/debug.vert \
@@ -100,10 +102,15 @@ DIST          = shaders/toon1D.frag \
 		shaders/curvature.frag \
 		shaders/drawtexture.frag \
 		shaders/drawtexture.vert \
-		shaders/computelight.frag \
+		shaders/heightmap.frag \
+		shaders/heightmap.vert \
+		shaders/curvaturecyril.frag \
 		shaders/computelight.vert \
+		shaders/computelight.frag \
 		shaders/generatelight.frag \
 		shaders/generatelight.vert \
+		shaders/gaussBlur.frag \
+		shaders/gaussBlur.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -346,7 +353,8 @@ DIST          = shaders/toon1D.frag \
 		src/OpenGl/shadowmap.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/generatedtexture.h \
-		src/OpenGl/scene.h src/MainWindow/main.cpp \
+		src/OpenGl/scene.h \
+		src/OpenGl/heightmap.h src/MainWindow/main.cpp \
 		src/MainWindow/viewer.cpp \
 		src/MainWindow/mainwindow.cpp \
 		src/OpenGl/shader.cpp \
@@ -363,7 +371,8 @@ DIST          = shaders/toon1D.frag \
 		src/OpenGl/shadowmap.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
-		src/OpenGl/scene.cpp
+		src/OpenGl/scene.cpp \
+		src/OpenGl/heightmap.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debugz/
 TARGET        = bin/debugz/Rendu-Style-Novat
@@ -856,8 +865,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -916,6 +925,7 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/texture.h \
 		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
@@ -931,12 +941,12 @@ bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/texture.h \
 		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
-		src/Light_Camera/light.h \
-		src/OpenGl/meshloader.h
+		src/Light_Camera/light.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/MainWindow/viewer.cpp
 
 bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.h \
@@ -948,6 +958,7 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/texture.h \
 		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
@@ -1005,7 +1016,8 @@ bin/debug/shadowmap.o: src/OpenGl/shadowmap.cpp src/OpenGl/shadowmap.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
 		src/OpenGl/loadtexture.h \
-		src/OpenGl/generatedtexture.h
+		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shadowmap.o src/OpenGl/shadowmap.cpp
 
 bin/debug/loadtexture.o: src/OpenGl/loadtexture.cpp src/OpenGl/loadtexture.h \
@@ -1026,8 +1038,15 @@ bin/debug/scene.o: src/OpenGl/scene.cpp src/OpenGl/scene.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/texture.h \
 		src/OpenGl/generatedtexture.h \
-		src/OpenGl/meshloader.h
+		src/OpenGl/meshloader.h \
+		src/OpenGl/heightmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/scene.o src/OpenGl/scene.cpp
+
+bin/debug/heightmap.o: src/OpenGl/heightmap.cpp src/OpenGl/heightmap.h \
+		src/OpenGl/generatedtexture.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/shader.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/heightmap.o src/OpenGl/heightmap.cpp
 
 ####### Install
 

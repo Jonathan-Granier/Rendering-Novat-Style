@@ -13,8 +13,7 @@ using namespace glm;
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
-    _drawMode(CLASSICAL),
-    _typeMesh(Scene::MNT)
+    _drawMode(CLASSICAL)
 
 {
 
@@ -61,6 +60,9 @@ void Viewer::initializeGL(){
     initShaders();
     _timer.start();
 
+
+
+
 }
 
 // Rendu loop
@@ -72,8 +74,8 @@ void Viewer::paintGL(){
     case CLASSICAL:
              _shadowMap->startGenerate();
              _shadowMap->generate(_scene,_light->position(),width(),height());
-             _scene->computeCurvatureMap(width(),height());
-             _scene->computeLightMap(_light->position(),width(),height());
+             _scene->computeCurvatureMap();
+             _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
              _lightShaders->use();
              _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
              _lightShaders->setMat4("projMat",_cam->projMatrix());
@@ -110,15 +112,16 @@ void Viewer::paintGL(){
         _drawTextureShader->disable();
         break;
     case CURVATURE:
-        _scene->computeCurvatureMap(width(),height());
+
+        _scene->computeCurvatureMap();
         _drawTextureShader->use();
         _drawTextureShader->setInt("selectTexture",3);
         _scene->drawCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case LIGHTMAP :
-        _scene->computeCurvatureMap(width(),height());
-        _scene->computeLightMap(_light->position(),width(),height());
+        _scene->computeCurvatureMap();
+        _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
         _drawTextureShader->use();
         _drawTextureShader->setInt("selectTexture",4);
         _scene->drawLightMap(_drawTextureShader);
@@ -168,6 +171,11 @@ void Viewer::setHeightLight(float angle)
     update();
 }
 
+float Viewer::getHeightLight()
+{
+    return glm::degrees(_light->yaw());
+}
+
 void Viewer::resetTheCameraPosition(){
     _cam->initialize(width(),height(),true);
     _light = make_shared<Light>();
@@ -180,7 +188,10 @@ void Viewer::reloadShader(){
     _drawTextureShader->reload();
     _scene->reloadGenerateTexturesShader();
 
+
+
     update();
+
 }
 
 
@@ -244,14 +255,25 @@ void Viewer::previousDrawMode(){
 
 void Viewer::loadScene()
 {
-    _scene  = make_shared<Scene>(_filepaths,_typeMesh);
+    _scene  = make_shared<Scene>(_filepaths,Scene::LOADED,width(),height());
     _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
     _cam->initialize(width(),height(),true);
     _light  = make_shared<Light>();
     _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
     _shadowMap->initialize();
 
+
 }
+
+
+void Viewer::switchScene(){
+    _scene->switchTypeMeshUsed();
+    _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
+    _cam->initialize(width(),height(),true);
+    update();
+}
+
+
 
 bool Viewer::loadSceneFromFile(const QStringList &fileNames)
 {
@@ -264,13 +286,8 @@ bool Viewer::loadSceneFromFile(const QStringList &fileNames)
     QString ext_ref = fileNames.at(0).section('.',-1);
     //cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << endl;
 
-    if(ext_ref.compare("obj")==0){
+    if(ext_ref.compare("asc")==0){
         _filepaths.push_back(fileNames.at(0).toStdString());
-        _typeMesh = Scene::OBJ;
-    }
-    else if(ext_ref.compare("asc")==0){
-        _filepaths.push_back(fileNames.at(0).toStdString());
-        _typeMesh = Scene::MNT;
     }
     else{
         return false;
@@ -278,7 +295,7 @@ bool Viewer::loadSceneFromFile(const QStringList &fileNames)
 
     for(int i=1; i <fileNames.size();i++){
         QString ext = fileNames.at(i).section('.',-1);
-        if(ext.compare(ext_ref)==0 && ext.compare("obj")!=0)
+        if(ext.compare(ext_ref)==0)
             _filepaths.push_back(fileNames.at(i).toStdString());
         else
             return false;
@@ -317,12 +334,40 @@ string Viewer::getDrawMode()
     return stringDrawMode;
 }
 
+float Viewer::getSigma() const
+{
+    return _scene->getSigma();
+}
+
+void Viewer::setSigma(float sigma)
+{
+    _scene->setSigma(sigma);
+    update();
+}
+
+void Viewer::nextLight()
+{
+    _scene->nextLight();
+    update();
+}
+
+void Viewer::previousLight()
+{
+    _scene->previousLight();
+    update();
+}
+
+int Viewer::getLightSelector() const
+{
+    return _scene->getLightSelector();
+}
+
 
 
 
 void Viewer::initShaders(){
     _lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
-    _lightShaders->add("shaders/generatelight.vert", "shaders/generatelight.frag");
+    _lightShaders->add("shaders/computelight.vert", "shaders/computelight.frag");
     _lightShaders->add("shaders/phong.vert", "shaders/phong.frag");
     _lightShaders->add("shaders/phongspec.vert", "shaders/phongspec.frag");
     _lightShaders->add("shaders/toon1D.vert","shaders/toon1D.frag");

@@ -18,7 +18,7 @@ LoadTexture::LoadTexture( const std::string &name , const std::string &path):
 
 
     // load and generate the texture
-    stbi_set_flip_vertically_on_load(true);
+   // stbi_set_flip_vertically_on_load(true);
     data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
     if (data)
     {

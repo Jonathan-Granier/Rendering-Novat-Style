@@ -14,9 +14,12 @@ public:
     void startGenerate();
     void generate(int widthViewport, int heightViewport);
 
+    void resize(int width, int height);
+
     void reloadShader();
 
     std::shared_ptr<Shader> generatorShader() const;
+
 
 protected:
     std::shared_ptr<Shader> _generatorShader;                   /** < The shader for generate the texture    */

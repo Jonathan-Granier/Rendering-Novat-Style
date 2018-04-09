@@ -58,6 +58,8 @@ public:
     void computeNormalMap();
 
 
+    void printInfo();
+
     /**
      * @brief Return the normal Map of a MTN mesh, do nothing otherwise
      * @return the normal Map of a MNT Mesh , empty if not.

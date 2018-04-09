@@ -1,23 +1,15 @@
-#include "generatedtexture.h"
+#include "heightmap.h"
 #include <iostream>
 
 using namespace std;
-GeneratedTexture::GeneratedTexture(std::string name, const int &width, const int &height,
-                                   const GLchar* genVertex, const GLchar* genFrag):
-     Texture(name)
+
+HeightMap::HeightMap(string name, const int &width, const int &height):
+    GeneratedTexture(name,width,height,"shaders/heightmap.vert","shaders/heightmap.frag")
 {
-    _width = width;
-    _height = height;
-    _generatorShader = make_shared<Shader>(genVertex, genFrag);
 }
 
-
-
-void GeneratedTexture::initialize()
+void HeightMap::initialize()
 {
-    // configure depth map FBO
-    // -----------------------
-
 
     glGenFramebuffers(1,&_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
@@ -26,7 +18,7 @@ void GeneratedTexture::initialize()
 
     glGenTextures(1,&_ID);
     glBindTexture(GL_TEXTURE_2D,_ID);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA32F,_width,_height,0,GL_RGBA,GL_FLOAT,0);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,_width,_height,0,GL_RED,GL_FLOAT,0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -53,17 +45,16 @@ void GeneratedTexture::initialize()
         cerr << "error in framebuffer of " << _name  << endl;
         cerr << glCheckFramebufferStatus(GL_FRAMEBUFFER) << endl;
     }
-
-}
-
-void GeneratedTexture::startGenerate()
-{
-    _generatorShader->use();
 }
 
 
-void GeneratedTexture::generate(int widthViewport, int heightViewport)
+
+
+
+vector<float> HeightMap::generate(int widthViewport, int heightViewport)
 {
+
+
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
 
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
@@ -75,32 +66,24 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
 
     renderQuad();
 
+
+
+    GLint numBytes = _width*_height;
+    float pixels[numBytes];
+    glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
+
+
     glBindFramebuffer(GL_FRAMEBUFFER, _QTFBO);
     _generatorShader->disable();
 
     glViewport(0,0,widthViewport,heightViewport);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-}
 
 
-void GeneratedTexture::resize(int width, int height){
-    _width = width;
-    _height = height;
-    glBindTexture(GL_TEXTURE_2D,_ID);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA32F,_width,_height,0,GL_RGBA,GL_FLOAT,0);
+
+    vector<float> dataVec;
+    copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
+    return dataVec;
 
 }
-
-
-
-void GeneratedTexture::reloadShader()
-{
-    _generatorShader->reload();
-}
-
-std::shared_ptr<Shader> GeneratedTexture::generatorShader() const
-{
-    return _generatorShader;
-}
-

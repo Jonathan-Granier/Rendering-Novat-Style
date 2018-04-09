@@ -2,10 +2,16 @@
 
 layout(location = 0) out vec4 outBuffer;
 
-in vec2 texCoord;
+in vec2 texcoord;
 
 uniform sampler2D normalMap;
 
+uniform float sigma;
+
+#define F 3.0 // used to define the window size (sigma*F)
+#define RESOL 2.0 // multisampling (increase resolution)
+#define PI 3.14159265359
+#define PI2 6.28318531
 
 
 #define F 3.0 // used to define the window size (sigma*F)
@@ -13,8 +19,10 @@ uniform sampler2D normalMap;
 #define PI 3.14159265359
 #define PI2 6.28318531
 
-float sigma = 1.0;
-
+#define F 3.0 // used to define the window size (sigma*F)
+#define RESOL 2.0 // multisampling (increase resolution)
+#define PI 3.14159265359
+#define PI2 6.28318531
 
 float halfsize = ceil(F*sigma); // kernel halfsize
 const float iresol = 1.0/RESOL; // step for sampling
@@ -23,7 +31,7 @@ const float eps = 1e-15;
 vec2 ps = 1./vec2(textureSize(normalMap,0)); // pixel size
 
 vec2 grad(in vec4 n) {
-  const float f = 0.5; // forshortening in [0,1]. 1=a lot (true gradient), 0 = no forshortening.
+  const float f = 1; // forshortening in [0,1]. 1=a lot (true gradient), 0 = no forshortening.
   float d = -1./mix(1.,max(n.z,eps),f);
   return  vec2(n.x,n.y)*d;
 }
@@ -54,7 +62,7 @@ vec3 hessianMatrix(in vec4 pixel) {
   for(float i=-halfsize;i<=halfsize;i+=iresol) {
     for(float j=-halfsize;j<=halfsize;j+=iresol) {
       vec2 pos = vec2(i,j);
-      vec4 n = texture(normalMap,texCoord+pos*ps);
+      vec4 n = texture(normalMap,texcoord+pos*ps);
 
       // current value (possibly mixed with the pixel)
       vec2 v = mixedGrad(pg,grad(n),weight(n,pixel));
@@ -81,15 +89,55 @@ vec4 eigenValues(in vec3 m) {
   d2 = length(d2)<eps ? vec2(0.) : normalize(d2);
 
   // return max dir, max eigen-val, min eigen-val
-  return k1>k2 ? vec4(d1.x,d1.y,k1,k2) : vec4(d2.x,d2.y,k2,k1);
+  return abs(k1)>abs(k2) ? vec4(d1.x,d1.y,k1,k2) : vec4(d2.x,d2.y,k2,k1);
 }
+
+
+vec4 eigenValuesCyril(vec3 in_cov)
+{
+        float a = in_cov.x;
+        float b = in_cov.y;
+        float c = in_cov.z;
+
+        if(c==0)
+                return vec4(1.0,0.0,a,b) ;
+
+        float sqrt_delta = sqrt( (a-b)*(a-b)+4*c*c+1e-12 );	// B11-043
+        // adding an epsilon makes it run!
+
+        float lambda1 = (a+b+sqrt_delta)*0.5 ;
+        float lambda2 = (a+b-sqrt_delta)*0.5 ;
+
+        // if c==0, then a==lambda1, so we end up with d==0. That's why the case is handled earlier.
+
+        float d = sqrt( (a-lambda1)*(a-lambda1) + c*c ) ;
+        float cos_angle,sin_angle ;
+
+        if(d==0.0)
+        {
+                cos_angle = 1.0 ;
+                sin_angle = 0.0 ;
+        }
+        else
+        {
+                cos_angle = c/d ;
+                sin_angle = (a-lambda1)/d ;
+        }
+
+        return vec4(cos_angle,sin_angle,lambda1,lambda2) ;
+}
+
 
 
 void main() {
-  vec4 pix = texture(normalMap,texCoord);
+  vec4 pix = texture(normalMap,texcoord);
+  pix = normalize(pix);
   vec3 H = hessianMatrix(pix);
   vec4 ee = eigenValues(H);
   float mc = .5*(ee.z+ee.w);
-  vec4 firstGaussianDeriv = vec4(ee.xy,mc,length(pix.xyz));
+  vec4 firstGaussianDeriv = vec4(ee);
+
   outBuffer = firstGaussianDeriv;
+  //outBuffer = vec4(ee.xy,0,0);
 }
+

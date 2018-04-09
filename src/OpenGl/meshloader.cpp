@@ -263,7 +263,6 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
 
         }
 
-    cout << "Loading OBJ from " << path << " done." << endl;
     return indexVBO(vertices);
 
 
@@ -282,10 +281,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
 */
 shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
 {
-    cout << "Loading MNT from : " << endl;
-    for(unsigned int i=0;i< filepaths.size() ; i++ ){
-        cout << filepaths[i] << "..." << endl;
-    }
+
     /*
 
     Format d'un fichier MNT
@@ -342,7 +338,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
             Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                  //x
                               floatValue,                                                                        //y (altitude)
                               0.0f,                                                                              //z
-                              float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[0].size()*currentFileInfo->ncols/NUMBEROFTEX),    //u
+                              float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[0].size()*currentFileInfo->ncols/NUMBEROFTEX -1),    //u
                               0.0f);                                                                             //v
             vertices.push_back(v);
             if(floatValue > maxy) maxy = floatValue;
@@ -380,8 +376,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                     Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                                          //x
                                       floatValue,                                                                                                //y (altitude)
                                       i*currentFileInfo->offset+zSizeSlab*iSchemaIndex,                                                          //z
-                                      float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols/NUMBEROFTEX),    //u
-                                      float(i+iSchemaIndex*currentFileInfo->nrows)/float(schema.size()*currentFileInfo->nrows/NUMBEROFTEX));                 //v
+                                      float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols/NUMBEROFTEX -1),    //u
+                                      float(i+iSchemaIndex*currentFileInfo->nrows)/float(schema.size()*currentFileInfo->nrows/NUMBEROFTEX -1 ) );                 //v
                     vertices.push_back(v);
 
                     if(floatValue > maxy) maxy = floatValue;
@@ -481,71 +477,104 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
         vertices[i].Position -= shift_Pos;
     }
 
-    cout << "number of vertice : " << vertices.size() << endl;
-    cout << "number of polygone : " << indices.size()/3 << endl;
+
 
     int width = fileInfos[0]->ncols*schema[0].size();
     int height = fileInfos[0]->nrows*schema.size();
     return make_shared<Mesh>(vertices,indices,width,height);
 }
-/**
-Texture* MeshLoader::textureFromMNT(const std::vector<string> &filepaths, string name)
-{
-    /**
-
-    Format d'un fichier MNT
-
-    ncols       int
-    nrows       int
-    xllcorner   float
-    yllcorner   float
-    cellsize    float
-    NODATA_value
-    *DATA*
-    /**
 
 
 
-    unsigned int iSchemaIndex;
-    unsigned int jSchemaIndex;
-    FileInfo* currentFileInfo;
-
-    stringstream iss;
+shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, int height){
 
 
-    string value;
-    vector<FileInfo*> fileInfos = getFileInfosFromFiles(filepaths);
-    vector<vector<unsigned int>> schema = setupSchema(fileInfos);
 
-    int width = schema[0].size()*fileInfos[schema[0][0]]->ncols;
-    int height = schema.size()*fileInfos[schema[0][0]]->nrows;
-    float data[width*height];
-    int currentIndex = 0;
+    if(data.size() != width*height){
+        cerr << "[vertexFormHeightMap] : incorrect size of data" << endl;
+    }
+    vector<Vertex> vertices;
+    vector<unsigned int> indices;
+
+    float miny(10000.0),maxy(0.0); // Altitude min and max for find the median
+    unsigned int currentIndex = 0;
+    float offset = 1.0;
 
 
-    for(iSchemaIndex = 0 ; iSchemaIndex < schema.size() ; iSchemaIndex++){
-        for(unsigned int i=0;i<fileInfos[0]->nrows;i++){
-            for(jSchemaIndex = 0; jSchemaIndex < schema[iSchemaIndex].size(); jSchemaIndex++){
-                currentFileInfo = fileInfos[schema[iSchemaIndex][jSchemaIndex]];
-                getline(currentFileInfo->filestream,value);
-                iss << value;
-                getline(iss,value,' ');// Throw the first ' '
-                for(unsigned int j=0;j<currentFileInfo->ncols;j++){
-                    getline(iss,value,' ');
-                    float floatValue = stof(value);
-                    data[currentIndex] = floatValue;
-                    currentIndex++;
-                }
-                iss.clear();
+    // First Line
+    for(int j=0 ; j<width ; j++){
+        Vertex v = Vertex(j*offset,
+                          data[currentIndex],
+                          0.0f,
+                          (float)j/(float)(width-1),
+                          0.0f);
+        vertices.push_back(v);
+        if(data[currentIndex] > maxy) maxy = data[currentIndex];
+        if(data[currentIndex] < miny) miny = data[currentIndex];
+        currentIndex++;
+    }
+
+
+
+    for(int i=1 ; i<height ; i++){
+        for(int j=0 ; j<width ; j++){
+            Vertex v = Vertex(j*offset,
+                              data[currentIndex],
+                              i*offset,
+                              (float)j/(float)(width-1),
+                              (float)i/(float)(height-1));
+            vertices.push_back(v);
+            if(data[currentIndex] > maxy) maxy = data[currentIndex];
+            if(data[currentIndex] < miny) miny = data[currentIndex];
+
+
+            //Case 2 and 3     b
+            //               / |
+            //              c -a
+            if(j!=0)
+            {
+                indices.push_back(currentIndex);
+                indices.push_back(currentIndex-width);
+                indices.push_back(currentIndex-1);
+                computeNormal(&vertices[currentIndex],
+                              &vertices[currentIndex-width],
+                              &vertices[currentIndex-1]);
+
             }
+
+
+
+            // Case 1 and 2    c- b
+            //                 | /
+            //                 a
+            if(j!=width-1 )
+            {
+                indices.push_back(currentIndex);
+                indices.push_back(currentIndex-width+1);
+                indices.push_back(currentIndex-width);
+                computeNormal(&vertices[currentIndex],
+                              &vertices[currentIndex-width+1],
+                              &vertices[currentIndex-width]);
+
+            }
+
+            currentIndex++;
         }
     }
 
-    return new Texture(data,width,height,name);
+
+    vec3 shift_Pos(width/2 * offset,
+                        (miny+maxy)/2,
+                        height/2 * offset);
+    for(unsigned int i=0;i<vertices.size();i++){
+        vertices[i].Normal = normalize(vertices[i].Normal);
+        vertices[i].Position -= shift_Pos;
+    }
+
+
+
+    return make_shared<Mesh>(vertices,indices,width,height);
 }
-
-/**/
-
 
 
 

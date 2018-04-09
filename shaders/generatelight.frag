@@ -1,41 +1,159 @@
 #version 330 core
+layout(location = 0) out vec4 outBuffer;
 
-out vec4 FragColor;
-
-
-in vec4 lightDir;
-in vec3 normal;
 in vec2 texCoord;
 
+uniform sampler2D curvatureMap;
+uniform vec3 lightPosition;
+uniform float yaw;
+uniform float pitch;
+uniform int lightSelector;
 
-/**
-Compute the diffuse lighting
-    k : Coefficient
-    c : color of object
-    n : normal Vector
-    l : light Vector
-    I : light intensity
-**/
-vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
-    return k*c*max(dot(n,l),0.0) * I;
+
+#define PI 3.14159265359
+
+float eps = 1e-5;
+
+
+float cosTheta(vec2 v1, vec2 v2){
+  return dot(v1,v2)/(length(v1) * length(v2));
 }
+
+
+
+vec4 Rotation3D(in float localYaw,in float localPitch){
+  vec4 v;
+
+  v.x = cos(localPitch) * cos(localYaw);
+  v.y = sin(localPitch);
+  v.z = cos(localPitch) * sin(localYaw);
+  v.w = 0.0;
+  v = normalize(v);
+
+
+  return v;
+}
+
+
+
+
+
+vec4 computeLight(in vec4 c, in vec2 l){
+  vec2 normL = normalize(l);
+  vec2 maxCurv =normalize(vec2(c.x, -c.y));
+/**/
+  if(dot(normL,maxCurv)< 0){
+    maxCurv  = -maxCurv;
+  }
+  maxCurv = normalize(maxCurv);
+/**/
+
+  float k1 = c.z;
+  float k2 = c.w;
+
+
+  // See 18 - Shape Curvature (koenderink) page 9.
+  float s,cu;
+  if(k1-k2 ==0){
+    s = 0;
+    maxCurv = normL;
+    cu = 0;
+  }
+  else{
+    s = atan((k1+k2)/(k1-k2));
+    cu = sqrt((k1*k1+k2*k2)/2);
+  }
+
+  //k = (k1-k2)/(k1+k2);
+
+  float det = normL.x * maxCurv.y - normL.y* maxCurv.x;
+  float theta = (det/abs(det))*(acos(cosTheta(normL,maxCurv)));
+  float newYaw = yaw;
+
+  if(lightSelector == 0)
+    newYaw = yaw + s * theta;
+  if(lightSelector == 1)
+    newYaw = yaw + s * abs(theta);
+  if(lightSelector == 2)
+    newYaw = yaw + cu * theta;
+  if(lightSelector == 3)
+    newYaw = yaw + cu * abs(theta);
+
+
+  //Rotation
+  return Rotation3D(newYaw,pitch);
+
+  //return vec4(theta/(PI),0,0,0);
+}
+
+
+
+
+vec4 computeTheta(in vec4 c,in vec2 l){
+
+  vec2 normL = normalize(l);
+  vec2 maxCurv = normalize(vec2(c.x,-c.y)) ;
+
+  /**
+  if(dot(normL,maxCurv) < 0){
+      maxCurv  = -maxCurv;
+  }
+   maxCurv = normalize(maxCurv);
+  /**/
+
+
+  float k1 = c.z;
+  float k2 = c.w;
+
+  float s,cu;
+  if(k1-k2 ==0){
+    s =1;
+    maxCurv = normL;
+    cu = 0;
+  }
+  else{
+    s = atan((k1+k2)/(k1-k2));
+    cu = sqrt((k1*k1+k2*k2)/2);
+  }
+
+
+
+
+  float det = normL.x * maxCurv.y - normL.y* maxCurv.x;
+  float theta = (det/abs(det))* (acos(cosTheta(normL,maxCurv)));
+
+
+  return vec4(abs(theta)/(PI),0,0,0);
+}
+
 
 
 
 void main()
 {
-    vec4 color =vec4(1.0,1.0,1.0,1.0);
+  vec4 c = texture(curvatureMap,  texCoord);
+
+  vec2 l = lightPosition.xz;
+  vec4 newLightDir;
+
+  newLightDir = computeLight(c,l);
+
+  float k1 = c.z;
+  float k2 = c.w;
+
+  float s,cu;
+  if(k1-k2 ==0){
+    s = 0;
+    cu = 0;
+  }
+  else{
+    s = atan((k1+k2)/(k1-k2));
+    cu = sqrt((k1*k1+k2*k2)/2);
+  }
 
 
-    float Kd = 1;
-    float lightIntensity = 1.0;
+  outBuffer = newLightDir;
 
-    vec4 n = vec4(normalize(normal),0.0);
-    vec4 l = normalize(lightDir);
 
-    vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    FragColor = Cd;
-    //FragColor = vec4(1.0,0.0,0.0,1.0);
+
 }
-
-

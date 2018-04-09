@@ -13,21 +13,35 @@
 #include <QObject>
 #include <QStatusBar>
 #include <QApplication>
+#include <QSlider>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 
 using namespace std;
 MainWindow::MainWindow()
 {
-    _theta = 45.0;
-    this->setFixedSize(1200,800);
+    this->setFixedSize(1200,1000);
     // TODO set Icon
     // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
 
     //Allocation
     _viewer = make_unique<Viewer>();
 
-
+   // _viewer->setFixedSize(1200, 700);
     setupMenu();
-    setCentralWidget(_viewer.get());
+    QWidget *controlePanel = setupControlePanel();
+   // QWidget *controlePanel = new QWidget();
+    controlePanel->setMaximumHeight(100);
+    QWidget *centralWidget = new QWidget();
+    QVBoxLayout *centralLayout = new QVBoxLayout();
+    centralLayout->addWidget(_viewer.get());
+    centralLayout->addWidget(controlePanel);
+
+    centralWidget->setLayout(centralLayout);
+
+
+    setCentralWidget(centralWidget);
 
 }
 
@@ -72,23 +86,22 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         _viewer->nextShader();
     }
 
-    if(ke->key()==Qt::Key_H){
+    if(ke->key()==Qt::Key_W){
         _viewer->previousDrawMode();
     }
-    if(ke->key()==Qt::Key_J){
+    if(ke->key()==Qt::Key_X){
         _viewer->nextDrawMode();
     }
 
-    if(ke->key()==Qt::Key_T){
-        _theta--;
-        _viewer->setHeightLight(_theta);
+    if(ke->key()==Qt::Key_A){
+        _viewer->previousLight();
     }
-
-    if(ke->key()==Qt::Key_Y){
-        _theta++;
-        _viewer->setHeightLight(_theta);
+    if(ke->key()==Qt::Key_Z){
+        _viewer->nextLight();
     }
-
+    if(ke->key()==Qt::Key_Space){
+        _viewer->switchScene();
+    }
     refreshStatusBar();
 }
 
@@ -142,6 +155,16 @@ void MainWindow::about()
                    "<b>Pierre Novat</b>"));
 }
 
+void MainWindow::updateLightPosition(int angle)
+{
+    _viewer->setHeightLight((float)angle);
+}
+
+void MainWindow::updateSigma(int sigma)
+{
+    _viewer->setSigma((float)sigma/10.0);
+}
+
 
 
 
@@ -192,10 +215,63 @@ void MainWindow::setupMenu(){
 
 }
 
+QWidget *MainWindow::setupControlePanel()
+{
+    QWidget *controlePanel = new QWidget;
+    QVBoxLayout *sliderLayout = new QVBoxLayout;
+
+    QSlider* lightSlider = new QSlider(Qt::Horizontal);
+    lightSlider->setTickPosition(QSlider::TicksBelow);
+    lightSlider->setMinimum(0);
+    lightSlider->setMaximum(89);
+    lightSlider->setSliderPosition(45);
+    connect(lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
+    QLabel* lightLabel = new QLabel("Light Height Position = ");
+    QLabel* lightLabelValue = new QLabel();
+    lightLabelValue->setNum(45);
+    connect(lightSlider,SIGNAL(valueChanged(int)),lightLabelValue,SLOT(setNum(int)));
+    QHBoxLayout *hboxLight = new QHBoxLayout;
+    hboxLight->addWidget(lightLabel);
+    hboxLight->addWidget(lightLabelValue);
+    hboxLight->addWidget(lightSlider);
+    sliderLayout->addLayout(hboxLight);
+
+
+
+    QSlider* sigmaSlider = new QSlider(Qt::Horizontal);
+    sigmaSlider->setTickPosition(QSlider::TicksBelow);
+    sigmaSlider->setMinimum(0);
+    sigmaSlider->setMaximum(100);
+    sigmaSlider->setSliderPosition(1 * 10);
+    connect(sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
+    QLabel* sigmaLabel = new QLabel("Sigma (*10) = ");
+    QLabel* sigmaLabelValue = new QLabel();
+   sigmaLabelValue->setNum(1 * 10);
+    connect(sigmaSlider,SIGNAL(valueChanged(int)),sigmaLabelValue,SLOT(setNum(int)));
+    QHBoxLayout *hboxSigma = new QHBoxLayout;
+    hboxSigma->addWidget(sigmaLabel);
+    hboxSigma->addWidget(sigmaLabelValue);
+    hboxSigma->addWidget(sigmaSlider);
+    sliderLayout->addLayout(hboxSigma);
+
+
+
+
+
+
+
+
+
+    controlePanel->setLayout(sliderLayout);
+
+    return controlePanel;
+}
+
 
 
 void MainWindow::refreshStatusBar(){
     QString currentDrawMode=QString::fromStdString(_viewer->getDrawMode());
-    statusBar()->showMessage(currentDrawMode);
+    QString currentLight = QStringLiteral(" Light Mode : %1").arg(_viewer->getLightSelector());
+    statusBar()->showMessage(currentDrawMode + currentLight);
 }
 

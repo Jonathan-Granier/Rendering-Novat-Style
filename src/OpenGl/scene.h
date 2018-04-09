@@ -10,7 +10,7 @@
 #include "shader.h"
 #include "loadtexture.h"
 #include "generatedtexture.h"
-
+#include "meshloader.h"
 /**
  * @brief A Scene is defined by his mesh and his textures. It can load and draw a mesh and textures.
  */
@@ -18,19 +18,18 @@ class Scene
 {
 public:
 
-    enum TYPE_FILE { OBJ, /*!< (.obj) : classic mesh. */
-                     MNT, /*!< (.asc) : a height map of a mountains. */
-                     NONE /*!< Just for load a hard code mesh (DEBUG).*/
-                   };
+
+    enum TYPE_MESH {
+                    LOADED,
+                    GENERATED
+    };
 
     /**
      * @brief Loads a mesh with ml , loads the differents textures and compute the center and the radius of the Scene
      * @param filepaths : the path of the mesh
      * @param typeFile : the type of the mesh
      */
-    Scene( std::vector<std::string> const &filepaths,TYPE_FILE typeFile=NONE);
-    ~Scene();
-
+    Scene(std::vector<std::string> const &filepaths, TYPE_MESH typeMesh, int widthViewport, int heightViewport);
     /**
      * @brief Draw the Scene from an shader
      * @param shader :  the shader to use for draw the Scene
@@ -57,12 +56,19 @@ public:
 
     void drawCurvatureMap(std::shared_ptr<Shader> shader);
 
+    void drawGaussBlur(std::shared_ptr<Shader> shader);
+
     void drawLightMap(std::shared_ptr<Shader> shader);
 
-    void computeCurvatureMap(int widthViewport, int heightViewport);
-    void computeLightMap(glm::vec3 lightPosition,int widthViewport,int heightViewport);
+    void computeCurvatureMap();
+    void computeGaussBlur();
+    void computeLightMap(glm::vec3 lightPosition, float lightYaw, float lightPitch);
 
     void reloadGenerateTexturesShader();
+
+
+    void switchTypeMeshUsed();
+
 
     /**
      * @brief get _center
@@ -78,21 +84,48 @@ public:
 
 
 
+
+
+    float getSigma() const;
+    void setSigma(float sigma);
+
+    void previousLight();
+    void nextLight();
+    int getLightSelector() const;
+
+
 private:
 
-    std::shared_ptr<Mesh>               _mesh;          /** < the main mesh of the Scene */
-    std::shared_ptr<Mesh>               _meshPlane;
+    std::shared_ptr<Mesh>               _currentMesh;          /** < the main mesh of the Scene */
+    std::shared_ptr<Mesh>               _loadedMesh;
+    std::shared_ptr<Mesh>               _generatedMesh;
+
     std::shared_ptr<Mesh>               _meshSphere;
     std::vector<LoadTexture>            _textures;      /** < the classique textures of the Scene*/
     std::shared_ptr<LoadTexture>        _heightMap;
     std::shared_ptr<LoadTexture>        _normalMap;
     std::shared_ptr<GeneratedTexture>   _curvatureMap;
     std::shared_ptr<GeneratedTexture>   _lightMap;
+    std::shared_ptr<GeneratedTexture>   _gaussBlur;
+
+    float _sigma;
+    bool _curvatureMapIsComputed;
+    int _lightSelector;
+    const int _MAXLIGHTSELECTOR = 4;
+
+    TYPE_MESH _typeMeshUsed;
+    int _widthViewport;
+    int _heightViewport;
 
 
 
-
+    void initialize();
     void getMapFromMNT();
+
+    void loadingWithLog(MeshLoader ml, const std::vector<std::string> &filepaths);
+    std::shared_ptr<Mesh> computeMeshFromGenHeightMap(MeshLoader ml);
+
+
 };
 
 #endif // SCENE_H

@@ -44,8 +44,8 @@ protected:
      *          D : fixe the camera and the light to hard code positions,
      *          Q : Switch to the previous shader,
      *          S : Switch to the next shader,
-     *          H : Switch to the previous draw mode,
-     *          J : Switch to the previous draw mode.
+     *          W : Switch to the previous draw mode,
+     *          X : Switch to the previous draw mode.
      * @param event
      */
     void closeEvent(QCloseEvent *event) override;
@@ -75,7 +75,9 @@ private slots:
      */
     void about();
 
+    void updateLightPosition(int angle);
 
+    void updateSigma(int sigma);
 
 private:
 
@@ -100,6 +102,9 @@ private:
     float _theta;
 
     void setupMenu();
+
+
+    QWidget *setupControlePanel();
 
     void refreshStatusBar();
 
