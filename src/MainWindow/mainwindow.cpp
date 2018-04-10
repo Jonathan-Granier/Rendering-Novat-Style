@@ -26,10 +26,9 @@ MainWindow::MainWindow() :
      ui->setupUi(this);
      setupMenu();
      setupControlePanel();
-     setupInformationPanel();
 
      _viewer = make_unique<Viewer>();
-     QObject::connect(_viewer.get(),&Viewer::initializeDone,this,&MainWindow::refreshInformationPanelSlot);
+     QObject::connect(_viewer.get(),&Viewer::initializeDone,this,&MainWindow::setupInformationPanelSlot);
 
      QVBoxLayout *centralLayout = new QVBoxLayout();
      centralLayout->addWidget(_viewer.get());
@@ -184,7 +183,7 @@ void MainWindow::updateSigma(int sigma)
     _viewer->setSigma((float)sigma/10.0);
 }
 
-void MainWindow::refreshInformationPanelSlot(){
+void MainWindow::setupInformationPanelSlot(){
     refreshInformationPanel();
 }
 
@@ -198,116 +197,15 @@ void MainWindow::setupMenu(){
     connect(ui->exitAction,&QAction::triggered,this,&QWidget::close);
 }
 
-/*
-void MainWindow::setupMenu(){
-
-
-
-    QMenu *fileMenu = menuBar()->addMenu(menuBar()->tr("&Fichier"));s
-    //QToolBar *fileToolBar = addToolBar(tr("Fichier"));
-
-
-    //Load new Model
-    const QIcon openIcon = QIcon::fromTheme("document-open"); //TODO Image
-    QAction *OpenModelAct = new QAction(openIcon,tr("&Charger un model"),this);
-    OpenModelAct->setShortcut(QKeySequence::Open);
-    OpenModelAct->setStatusTip(menuBar()->tr("&Charger un model existant (.obj ou .mnt)"));
-    connect(OpenModelAct,&QAction::triggered,this,&MainWindow::open);
-    fileMenu->addAction(OpenModelAct);
-    //fileToolBar->addAction(OpenModelAct);
-
-    const QIcon saveIcon = QIcon::fromTheme("document-print"); //TODO Image
-    QAction *SaveScreenshotAct = new QAction(saveIcon,tr("&Capture d'ecran"),this);
-    SaveScreenshotAct->setShortcut(QKeySequence::Print);
-    SaveScreenshotAct->setStatusTip(menuBar()->tr("&Sauvegarder une capture d'ecran dans un fichier "));
-    connect(SaveScreenshotAct,&QAction::triggered,this,&MainWindow::saveScreenshot);
-    fileMenu->addAction(SaveScreenshotAct);
-    //fileToolBar->addAction(SaveScreenshotAct);
-
-    fileMenu->addSeparator();
-
-    // Exit
-    const QIcon exitIcon = QIcon::fromTheme("application-exit");
-    QAction *exitAct = fileMenu->addAction(exitIcon,tr("&Quitter"),this,&QWidget::close);
-    exitAct->setShortcut(QKeySequence::Quit);
-    exitAct->setStatusTip(menuBar()->tr("&Quitter l'application"));
-
-    QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
-
-    QAction *helpAct = helpMenu->addAction(tr("Help"), this, &MainWindow::help);
-    helpAct->setStatusTip(tr("Show the application's help"));
-    QAction *aboutAct = helpMenu->addAction(tr("&About"), this, &MainWindow::about);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-
-
-
-}
-*/
 void MainWindow::setupControlePanel()
 {
-
-
-
     ui->sigmaSlider->setSliderPosition(10);
     connect(ui->sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
     ui->lightSlider->setSliderPosition(45);
     connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
-
-
-    /*QWidget *controlePanel = new QWidget;
-    QVBoxLayout *sliderLayout = new QVBoxLayout;
-
-    QSlider* lightSlider = new QSlider(Qt::Horizontal);
-    lightSlider->setTickPosition(QSlider::TicksBelow);
-    lightSlider->setMinimum(0);
-    lightSlider->setMaximum(89);
-    lightSlider->setSliderPosition(45);
-    connect(lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
-    QLabel* lightLabel = new QLabel("Light Height Position = ");
-    QLabel* lightLabelValue = new QLabel();
-    lightLabelValue->setNum(45);
-    connect(lightSlider,SIGNAL(valueChanged(int)),lightLabelValue,SLOT(setNum(int)));
-    QHBoxLayout *hboxLight = new QHBoxLayout;
-    hboxLight->addWidget(lightLabel);
-    hboxLight->addWidget(lightLabelValue);
-    hboxLight->addWidget(lightSlider);
-    sliderLayout->addLayout(hboxLight);
-
-
-
-    QSlider* sigmaSlider = new QSlider(Qt::Horizontal);
-    sigmaSlider->setTickPosition(QSlider::TicksBelow);
-    sigmaSlider->setMinimum(0);
-    sigmaSlider->setMaximum(100);
-    sigmaSlider->setSliderPosition(1 * 10);
-    connect(sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
-    QLabel* sigmaLabel = new QLabel("Sigma (*10) = ");
-    QLabel* sigmaLabelValue = new QLabel();
-   sigmaLabelValue->setNum(1 * 10);
-    connect(sigmaSlider,SIGNAL(valueChanged(int)),sigmaLabelValue,SLOT(setNum(int)));
-    QHBoxLayout *hboxSigma = new QHBoxLayout;
-    hboxSigma->addWidget(sigmaLabel);
-    hboxSigma->addWidget(sigmaLabelValue);
-    hboxSigma->addWidget(sigmaSlider);
-    sliderLayout->addLayout(hboxSigma);
-
-
-
-
-
-
-
-
-
-    controlePanel->setLayout(sliderLayout);
-
-    return controlePanel;*/
 }
 
 
-void MainWindow::setupInformationPanel(){
-
-}
 
 void MainWindow::refreshInformationPanel(){
 

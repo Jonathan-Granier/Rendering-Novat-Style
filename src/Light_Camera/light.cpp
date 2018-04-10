@@ -80,6 +80,4 @@ void Light::updatePosition(){
     _position.y = sin(_pitch);
     _position.z = cos(_pitch) * sin(_yaw);
     _position = normalize(_position);
-
-    cout << "light" << glm::to_string(_position) << endl;
 }

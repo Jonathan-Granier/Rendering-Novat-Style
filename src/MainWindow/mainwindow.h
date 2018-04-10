@@ -80,7 +80,7 @@ private slots:
 
     void updateSigma(int sigma);
 
-    void refreshInformationPanelSlot();
+    void setupInformationPanelSlot();
 
 private:
 
