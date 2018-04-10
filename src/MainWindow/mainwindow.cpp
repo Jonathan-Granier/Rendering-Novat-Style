@@ -120,7 +120,7 @@ void MainWindow::open()
     }
 
 }
-//TODO
+
 void MainWindow::saveScreenshot()
 {
 
@@ -266,7 +266,6 @@ QWidget *MainWindow::setupControlePanel()
 
     return controlePanel;
 }
-
 
 
 void MainWindow::refreshStatusBar(){

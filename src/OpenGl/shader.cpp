@@ -235,8 +235,10 @@ void Shader::checkCompileErrors(GLuint shader, string type,string name)
 string Shader::getName(const GLchar *vertexPath)
 {
     string name(vertexPath);
-    size_t lastindex = name.find_last_of(".");
-    return name.substr(0, lastindex);
+    size_t lastDot = name.find_last_of(".");
+    name = name.substr(0, lastDot);
+    size_t lastSlash = name.find_last_of("/");
+    return name.substr(lastSlash +1 , name.size());
 }
 
 
