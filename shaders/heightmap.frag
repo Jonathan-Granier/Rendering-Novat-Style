@@ -43,7 +43,7 @@ float perlin(vec2 uv )
 void main()
 {
   float p = perlin(texCoord);
-  outBuffer = (sin(texCoord.y*texCoord.x*20)*10);
+  outBuffer = (sin(texCoord.y*texCoord.x*20)*10)*p;
 }
 
 

@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtOpenGL -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I/usr/lib/qt/mkspecs/linux-g++
+INCPATH       = -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtOpenGL -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/lib/qt/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -68,7 +68,7 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
 		src/OpenGl/scene.cpp \
-		src/OpenGl/heightmap.cpp 
+		src/OpenGl/heightmap.cpp moc_viewer.cpp
 OBJECTS       = bin/debug/main.o \
 		bin/debug/viewer.o \
 		bin/debug/mainwindow.o \
@@ -87,7 +87,8 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/loadtexture.o \
 		bin/debug/generatedtexture.o \
 		bin/debug/scene.o \
-		bin/debug/heightmap.o
+		bin/debug/heightmap.o \
+		bin/debug/moc_viewer.o
 DIST          = shaders/toon1D.frag \
 		shaders/toon1D.vert \
 		shaders/debug.vert \
@@ -381,7 +382,7 @@ TARGET        = bin/debugz/Rendu-Style-Novat
 first: all
 ####### Build rules
 
-$(TARGET):  $(OBJECTS)  
+$(TARGET): ui_mainwindow.h $(OBJECTS)  
 	@test -d bin/debugz/ || mkdir -p bin/debugz/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -867,6 +868,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -898,21 +900,45 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_viewer.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_viewer.cpp
+moc_viewer.cpp: src/OpenGl/shader.h \
+		src/OpenGl/scene.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/shadowmap.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
+		lib/glm_add.h \
+		src/Light_Camera/light.h \
+		src/MainWindow/viewer.h \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/disc/jgranier/source_code/Rendu-Style-Novat -I/usr/include/qt -I/usr/include/qt/QtOpenGL -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/7.3.0 -I/usr/include/c++/7.3.0/x86_64-pc-linux-gnu -I/usr/include/c++/7.3.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include-fixed -I/usr/include src/MainWindow/viewer.h -o moc_viewer.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all:
+compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
+	-$(DEL_FILE) ui_mainwindow.h
+ui_mainwindow.h: src/MainWindow/mainwindow.ui \
+		/usr/bin/uic
+	/usr/bin/uic src/MainWindow/mainwindow.ui -o ui_mainwindow.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -930,7 +956,8 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
-		src/Light_Camera/light.h
+		src/Light_Camera/light.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
 
 bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
@@ -963,7 +990,8 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
-		src/Light_Camera/light.h
+		src/Light_Camera/light.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/MainWindow/mainwindow.cpp
 
 bin/debug/shader.o: src/OpenGl/shader.cpp src/OpenGl/shader.h
@@ -1047,6 +1075,9 @@ bin/debug/heightmap.o: src/OpenGl/heightmap.cpp src/OpenGl/heightmap.h \
 		src/OpenGl/texture.h \
 		src/OpenGl/shader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/heightmap.o src/OpenGl/heightmap.cpp
+
+bin/debug/moc_viewer.o: moc_viewer.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/moc_viewer.o moc_viewer.cpp
 
 ####### Install
 

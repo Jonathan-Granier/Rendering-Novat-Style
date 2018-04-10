@@ -60,7 +60,7 @@ vec4 computeLight(in vec4 c, in vec2 l){
     cu = 0;
   }
   else{
-    s = atan((k1+k2)/(k1-k2));
+    s = atan((k1+k2)/(k1-k2)); //TODO shape index
     cu = sqrt((k1*k1+k2*k2)/2);
   }
 
@@ -71,7 +71,7 @@ vec4 computeLight(in vec4 c, in vec2 l){
   float newYaw = yaw;
 
   if(lightSelector == 0)
-    newYaw = yaw + s * theta;
+    newYaw = yaw + s *cu * theta;
   if(lightSelector == 1)
     newYaw = yaw + s * abs(theta);
   if(lightSelector == 2)
@@ -83,7 +83,7 @@ vec4 computeLight(in vec4 c, in vec2 l){
   //Rotation
   return Rotation3D(newYaw,pitch);
 
-  //return vec4(theta/(PI),0,0,0);
+ // return vec4(s,0,0,0);
 }
 
 
@@ -122,8 +122,8 @@ vec4 computeTheta(in vec4 c,in vec2 l){
   float det = normL.x * maxCurv.y - normL.y* maxCurv.x;
   float theta = (det/abs(det))* (acos(cosTheta(normL,maxCurv)));
 
-
-  return vec4(abs(theta)/(PI),0,0,0);
+//TODO print theta en remap . entre (0,1)
+  return vec4(theta*s*cu/(PI/2.0),0,0,0);
 }
 
 

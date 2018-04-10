@@ -37,7 +37,7 @@
  */
 class Viewer : public QOpenGLWidget
 {
-
+    Q_OBJECT
 public:
 
     enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the Scene with the camera and the ligth */
@@ -55,7 +55,6 @@ public:
      * @param parent the QWidget parent of Viewer.
      */
     Viewer(QWidget *parent = 0);
-    ~Viewer();
 
     /**
      * @brief Main loop of rendering.
@@ -139,7 +138,8 @@ public:
     void switchScene();
 
 
-    std::string getDrawMode();
+    std::string getCurrentDrawMode();
+    std::string getCurrentShader();
 
     float getSigma() const;
     void setSigma(float sigma);
@@ -148,6 +148,9 @@ public:
     void previousLight();
     int getLightSelector() const;
 
+
+signals :
+    void initializeDone();
 
 private:
 

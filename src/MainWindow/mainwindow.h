@@ -17,6 +17,7 @@
 #include <QMainWindow>
 #include <QProgressBar>
 #include <memory>
+#include "ui_mainwindow.h"
 
 class QAction;
 class QMenu;
@@ -25,7 +26,7 @@ class QMenu;
 /**
  * @brief The MainWindow class with basic menu bar (load model, save a screenshot and quit the app) and the central widget is a openGl widget.
  */
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 public:
     /**
@@ -79,8 +80,12 @@ private slots:
 
     void updateSigma(int sigma);
 
+    void refreshInformationPanelSlot();
+
 private:
 
+
+    Ui::MainWindow *ui;
 
     /**
      * @brief the central openGl widget
@@ -104,9 +109,11 @@ private:
     void setupMenu();
 
 
-    QWidget *setupControlePanel();
+    void setupControlePanel();
+    void setupInformationPanel();
 
-    void refreshStatusBar();
+
+    void refreshInformationPanel();
 
 };
 

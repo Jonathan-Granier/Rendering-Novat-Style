@@ -19,17 +19,36 @@
 #include <QLabel>
 
 using namespace std;
-MainWindow::MainWindow()
+MainWindow::MainWindow() :
+    ui(new Ui::MainWindow)
 {
-    this->setFixedSize(1200,1000);
+
+     ui->setupUi(this);
+     setupMenu();
+     setupControlePanel();
+     setupInformationPanel();
+
+     _viewer = make_unique<Viewer>();
+     QObject::connect(_viewer.get(),&Viewer::initializeDone,this,&MainWindow::refreshInformationPanelSlot);
+
+     QVBoxLayout *centralLayout = new QVBoxLayout();
+     centralLayout->addWidget(_viewer.get());
+     ui->mainWidget->setLayout(centralLayout);
+
+
+
+    /*this->setFixedSize(1200,1000);
     // TODO set Icon
     // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
 
     //Allocation
     _viewer = make_unique<Viewer>();
 
-   // _viewer->setFixedSize(1200, 700);
-    setupMenu();
+
+
+
+     // _viewer->setFixedSize(1200, 700);
+   // setupMenu();
     QWidget *controlePanel = setupControlePanel();
    // QWidget *controlePanel = new QWidget();
     controlePanel->setMaximumHeight(100);
@@ -41,8 +60,8 @@ MainWindow::MainWindow()
     centralWidget->setLayout(centralLayout);
 
 
-    setCentralWidget(centralWidget);
-
+   // setCentralWidget(centralWidget);
+    */
 }
 
 MainWindow::~MainWindow()
@@ -102,7 +121,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_Space){
         _viewer->switchScene();
     }
-    refreshStatusBar();
+    refreshInformationPanel();
 }
 
 
@@ -120,7 +139,7 @@ void MainWindow::open()
     }
 
 }
-
+//TODO
 void MainWindow::saveScreenshot()
 {
 
@@ -165,17 +184,26 @@ void MainWindow::updateSigma(int sigma)
     _viewer->setSigma((float)sigma/10.0);
 }
 
-
-
-
+void MainWindow::refreshInformationPanelSlot(){
+    refreshInformationPanel();
+}
 
 
 
 void MainWindow::setupMenu(){
 
+    //const QIcon openIcon = QIcon::fromTheme("document-open"); //TODO Image
+    connect(ui->loadModelAction,&QAction::triggered,this,&MainWindow::open);
+    connect(ui->screenshotAction,&QAction::triggered,this,&MainWindow::saveScreenshot);
+    connect(ui->exitAction,&QAction::triggered,this,&QWidget::close);
+}
+
+/*
+void MainWindow::setupMenu(){
 
 
-    QMenu *fileMenu = menuBar()->addMenu(menuBar()->tr("&Fichier"));
+
+    QMenu *fileMenu = menuBar()->addMenu(menuBar()->tr("&Fichier"));s
     //QToolBar *fileToolBar = addToolBar(tr("Fichier"));
 
 
@@ -214,10 +242,19 @@ void MainWindow::setupMenu(){
 
 
 }
-
-QWidget *MainWindow::setupControlePanel()
+*/
+void MainWindow::setupControlePanel()
 {
-    QWidget *controlePanel = new QWidget;
+
+
+
+    ui->sigmaSlider->setSliderPosition(10);
+    connect(ui->sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
+    ui->lightSlider->setSliderPosition(45);
+    connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
+
+
+    /*QWidget *controlePanel = new QWidget;
     QVBoxLayout *sliderLayout = new QVBoxLayout;
 
     QSlider* lightSlider = new QSlider(Qt::Horizontal);
@@ -264,13 +301,25 @@ QWidget *MainWindow::setupControlePanel()
 
     controlePanel->setLayout(sliderLayout);
 
-    return controlePanel;
+    return controlePanel;*/
 }
 
 
+void MainWindow::setupInformationPanel(){
+
+}
+
+void MainWindow::refreshInformationPanel(){
+
+    ui->drawMode->setText(QString::fromStdString(_viewer->getCurrentDrawMode()));
+    ui->shader->setText(QString::fromStdString(_viewer->getCurrentShader()));
+    ui->lightMode->setText(QStringLiteral("%1").arg(_viewer->getLightSelector()));
+}
+
+/*
 void MainWindow::refreshStatusBar(){
     QString currentDrawMode=QString::fromStdString(_viewer->getDrawMode());
     QString currentLight = QStringLiteral(" Light Mode : %1").arg(_viewer->getLightSelector());
     statusBar()->showMessage(currentDrawMode + currentLight);
 }
-
+*/

@@ -27,10 +27,7 @@ Viewer::Viewer(QWidget *parent) :
     _filepaths.push_back("models/MNT_basic.asc");
 }
 
-Viewer::~Viewer() {
 
-
-}
 
 
 void Viewer::initializeGL(){
@@ -60,7 +57,7 @@ void Viewer::initializeGL(){
     initShaders();
     _timer.start();
 
-
+    emit initializeDone();
 
 
 }
@@ -307,12 +304,12 @@ bool Viewer::loadSceneFromFile(const QStringList &fileNames)
     return true;
 }
 
-string Viewer::getDrawMode()
+string Viewer::getCurrentDrawMode()
 {
     string stringDrawMode;
     switch(_drawMode){
         case CLASSICAL:
-            stringDrawMode = "Classical : " + _lightShaders->name();
+            stringDrawMode = "Classical";
         break;
         case SHADOWMAP:
         stringDrawMode = "Shadow Map";
@@ -333,6 +330,15 @@ string Viewer::getDrawMode()
     }
     return stringDrawMode;
 }
+
+
+
+string Viewer::getCurrentShader()
+{
+
+    return _lightShaders->name();
+}
+
 
 float Viewer::getSigma() const
 {

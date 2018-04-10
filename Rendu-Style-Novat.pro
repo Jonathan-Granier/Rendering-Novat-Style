@@ -103,3 +103,5 @@ DISTFILES += \
     shaders/generatelight.vert \
     shaders/gaussBlur.frag \
     shaders/gaussBlur.vert
+
+FORMS = src/MainWindow/mainwindow.ui
