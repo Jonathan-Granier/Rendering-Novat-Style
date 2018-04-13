@@ -20,6 +20,8 @@ Scene::Scene(const vector<string> &filepaths,TYPE_MESH typeMesh,int widthViewpor
 {
     MeshLoader ml;
 
+
+
     loadingWithLog(ml,filepaths);
 
     initialize();
@@ -40,18 +42,17 @@ Scene::Scene(const vector<string> &filepaths,TYPE_MESH typeMesh,int widthViewpor
     _gaussBlur->initialize();
 
 
-    LoadTexture texture1("container", "textures/container.jpg");
-    LoadTexture texture2("awesomeface", "textures/awesomeface.png");
-    LoadTexture texture3("neige_ombre", "textures/dégradé_neige_ombre.png");
-    LoadTexture texture4("degrade_debug", "textures/dégradé_debug.png");
-    LoadTexture texture5("flat_color_debug", "textures/flat_color.png");
+    shared_ptr<LoadTexture> texture1 = make_shared<LoadTexture>("container", "textures/container.jpg");
+    shared_ptr<LoadTexture> texture2 = make_shared<LoadTexture>("awesomeface", "textures/awesomeface.png");
+    shared_ptr<LoadTexture> texture3 = make_shared<LoadTexture>("neige_ombre", "textures/dégradé_neige_ombre.png");
+    shared_ptr<LoadTexture> texture4 = make_shared<LoadTexture>("degrade_debug", "textures/dégradé_debug.png");
+    shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
 
     _textures.push_back(texture1);
     _textures.push_back(texture2);
     _textures.push_back(texture3);
     _textures.push_back(texture4);
     _textures.push_back(texture5);
-
 
 }
 
@@ -65,7 +66,7 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
     _lightMap->sendToShader(shader);
 
     for(unsigned int i=0;i<_textures.size();i++){
-        _textures[i].sendToShader(shader);
+        _textures[i]->sendToShader(shader);
     }
 
     mat4 modelMesh;
@@ -128,7 +129,7 @@ void Scene::computeCurvatureMap(){
         _curvatureMap->startGenerate();
         _curvatureMap->generatorShader()->setFloat("sigma",_sigma);
         _normalMap->sendToShader(_curvatureMap->generatorShader());
-        _curvatureMap->generate(_widthViewport,_heightViewport,0,0);
+        _curvatureMap->generate(_widthViewport,_heightViewport);
         _curvatureMapIsComputed = true;
     }
 }

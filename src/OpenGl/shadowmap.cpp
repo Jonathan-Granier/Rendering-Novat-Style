@@ -1,9 +1,13 @@
 #include "shadowmap.h"
+
+
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
 using namespace std;
 using namespace glm;
+
 
 ShadowMap::ShadowMap(string name, const int &width, const int &height):
     GeneratedTexture(name,width,height,"shaders/shadowmap.vert","shaders/shadowmap.frag")

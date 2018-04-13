@@ -6,10 +6,11 @@
 #include <QString>
 #include "src/OpenGl/meshloader.h"
 #include "glm/gtx/string_cast.hpp"
-
-
+#include <QOpenGLFramebufferObject>
+#include <QOpenGLExtraFunctions>
 using namespace std;
 using namespace glm;
+
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
     _lightMode(false),
@@ -17,13 +18,17 @@ Viewer::Viewer(QWidget *parent) :
 
 {
 
+ /*   m_context = new QOpenGLContext;
+    m_context->create();
+*/
+
     QSurfaceFormat format;
     format.setVersion(4,4);
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setSamples(16); // //multisampling (antialiasing) -> add glEnable(GL_MULTISAMPLE); in initialization.
     format.setDepthBufferSize(24);
     this->setFormat(format);
-
+    create();
     _filepaths.push_back("models/MNT_basic.asc");
 }
 
@@ -32,15 +37,12 @@ Viewer::Viewer(QWidget *parent) :
 
 void Viewer::initializeGL(){
 
-    makeCurrent();
+    //makeCurrent();
 
     // init and check glew
+    makeCurrent();
+    initializeOpenGLFunctions();
 
-    glewExperimental = GL_TRUE;
-
-    if(glewInit()!=GLEW_OK) {
-      cerr << "Warning: glewInit failed!" << endl;
-    }
 
 
     // init OpenGL settings
@@ -49,7 +51,6 @@ void Viewer::initializeGL(){
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
-
 
 
 
@@ -139,8 +140,8 @@ void Viewer::resizeGL(int width,int height){
 void Viewer::mousePressEvent(QMouseEvent *me){
 
 
+    printPixel(*me);
 
-    //cout << "Mousse : x = " << me->x() << " y = " << me->y() << endl;
     //cout << width() << " " << height() << endl;
     const vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
@@ -156,6 +157,7 @@ void Viewer::mousePressEvent(QMouseEvent *me){
     update();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
+
     const vec2 p((float)me->x(),(float)(height()-me->y()));
 
 
@@ -386,6 +388,11 @@ void Viewer::setLightThreshold(float lightThreshold)
     update();
 }
 
+void Viewer::setWindowHeight(int value)
+{
+    _windowHeight = value;
+}
+
 
 
 
@@ -400,9 +407,39 @@ void Viewer::initShaders(){
 
 }
 
-void Viewer::printPixel(int xPos, int yPos)
+void Viewer::printPixel(const QMouseEvent &me)
 {
 
+    QPointF pos = me.windowPos();
+    cout << "Mousse : x = " << pos.x() << " y = " << _windowHeight-pos.y() << endl;
+
+/*
+
+
+    QOpenGLFramebufferObject *mFBO=0;
+    QOpenGLContext *ctx = QOpenGLContext::currentContext();
+
+    // FBO must be re-created! is there a way to reset it?
+    if(mFBO) delete mFBO;
+
+    QOpenGLFramebufferObjectFormat format;
+    format.setSamples(0);
+    //format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+    mFBO = new QOpenGLFramebufferObject(size(), format);
+
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, defaultFramebufferObject());
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFBO->handle());
+    ctx->extraFunctions()->glBlitFramebuffer(0, 0, width(), height(), 0, 0, mFBO->width(), mFBO->height(), GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+    mFBO->bind(); // must rebind, otherwise it won't work!
+*/
+    float pixel[4];
+
+
+    glReadPixels(pos.x(),_windowHeight-pos.y(),1,1,GL_RGBA,GL_FLOAT,pixel);
+    cout << " R = " << pixel[0] << " G = " << pixel[1] << " B = " << pixel[2] << " A = " << pixel[3] << endl;
+
+  //  mFBO->release();
 
 }
 

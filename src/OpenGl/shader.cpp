@@ -1,4 +1,5 @@
 #include "shader.h"
+
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -47,6 +48,8 @@ void Shader::add(const GLchar *vertexPath, const GLchar *fragmentPath)
 
 void Shader::initialize(ShaderInfo *shaderInfo)
 {
+
+    initializeOpenGLFunctions();
     // 1. retrieve the vertex/fragment source code from filePath
        string vertexCode, fragmentCode;
        ifstream vShaderFile, fShaderFile;
@@ -148,40 +151,40 @@ string Shader::name() const{
 
 // utility uniform functions
 // ------------------------------------------------------------------------
-void Shader::setBool(const string &name, bool value) const
+void Shader::setBool(const string &name, bool value)
 {
-   glUniform1i(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), (int)value);
+   glUniform1i(glGetUniformLocation(ID(), name.c_str()), (int)value);
 }
 // ------------------------------------------------------------------------
-void Shader::setInt(const string &name, int value) const
+void Shader::setInt(const string &name, int value)
 {
    glUniform1i(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), value);
 }
 // ------------------------------------------------------------------------
-void Shader::setFloat(const string &name, float value) const
+void Shader::setFloat(const string &name, float value)
 {
    glUniform1f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), value);
 }
 // ------------------------------------------------------------------------
-void Shader::setVec2(const string &name, const vec2 &value) const
+void Shader::setVec2(const string &name, const vec2 &value)
 {
    glUniform2fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
 }
-void Shader::setVec2(const string &name, float x, float y) const
+void Shader::setVec2(const string &name, float x, float y)
 {
    glUniform2f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y);
 }
 // ------------------------------------------------------------------------
-void Shader::setVec3(const string &name, const vec3 &value) const
+void Shader::setVec3(const string &name, const vec3 &value)
 {
    glUniform3fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
 }
-void Shader::setVec3(const string &name, float x, float y, float z) const
+void Shader::setVec3(const string &name, float x, float y, float z)
 {
    glUniform3f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y, z);
 }
 // ------------------------------------------------------------------------
-void Shader::setVec4(const string &name, const vec4 &value) const
+void Shader::setVec4(const string &name, const vec4 &value)
 {
    glUniform4fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
 }
@@ -190,17 +193,17 @@ void Shader::setVec4(const string &name, float x, float y, float z, float w)
    glUniform4f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y, z, w);
 }
 // ------------------------------------------------------------------------
-void Shader::setMat2(const string &name, const mat2 &mat) const
+void Shader::setMat2(const string &name, const mat2 &mat)
 {
    glUniformMatrix2fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
-void Shader::setMat3(const string &name, const mat3 &mat) const
+void Shader::setMat3(const string &name, const mat3 &mat)
 {
    glUniformMatrix3fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
-void Shader::setMat4(const string &name, const mat4 &mat) const
+void Shader::setMat4(const string &name, const mat4 &mat)
 {
    glUniformMatrix4fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }

@@ -1,4 +1,6 @@
 #include "loadtexture.h"
+
+
 #include <iostream>
 #include "lib/stb_image.h"
 

@@ -5,14 +5,14 @@
 #include <vector>
 #include <memory>
 #include "shader.h"
-
+#include <QOpenGLFunctions_4_4_Core>
 
 // TODO : generer le debug shader.
 
 /**
  * @brief The name and the ID of a texture.
  */
-class Texture
+class Texture : protected QOpenGLFunctions_4_4_Core
 {
 public:
     Texture(std::string name);

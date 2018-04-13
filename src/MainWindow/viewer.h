@@ -2,15 +2,7 @@
 #define VIEWER_H
 
 
-// GLEW lib: needs to be included first!!
-#include <GL/glew.h>
-
-// OpenGL library
-#include <GL/gl.h>
-
-// OpenGL Utility library
-#include <GL/glu.h>
-
+#include <QOpenGLFunctions_4_4_Core>
 
 //#include <unistd.h>
 #include <glm/glm.hpp>
@@ -35,7 +27,7 @@
 /**
  * @brief The Open GL widget , init openGL, setup a Scene, a camera, a light and shaders and draw it.
  */
-class Viewer : public QOpenGLWidget
+class Viewer : public QOpenGLWidget, protected QOpenGLFunctions_4_4_Core
 {
     Q_OBJECT
 public:
@@ -153,11 +145,15 @@ public:
     float getLightThreshold();
     void setLightThreshold(float lightThreshold);
 
+    void setWindowHeight(int value);
+
 signals :
     void initializeDone();
 
 private:
 
+
+    QOpenGLContext *m_context;
 
     std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */
     std::shared_ptr<Shader>     _drawTextureShader;
@@ -175,7 +171,7 @@ private:
     QTime _timer;                                  /** < A Qt timer.*/
 
 
-
+    int _windowHeight;
     /**
      * @brief load Scene from _filepaths and of type _typeMesh
      */
@@ -183,7 +179,7 @@ private:
 
     void initShaders();
 
-     void printPixel(int xPos,int yPos);
+     void printPixel(const QMouseEvent &me);
 };
 
 #endif // VIEWER_H

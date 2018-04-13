@@ -1,18 +1,14 @@
 #include "mesh.h"
 
-#include <GL/glew.h>
 
-// OpenGL library
-#include <GL/gl.h>
 
-// OpenGL Utility library
-#include <GL/glu.h>
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtx/string_cast.hpp>
 using namespace std;
+
 /* Public Function */
 
 
@@ -47,7 +43,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int 
 Mesh::~Mesh(){
     glDeleteVertexArrays(1, &_VAO);
     glDeleteBuffers(1,&_EBO);
-    glDeleteBuffers(1, &_VBO);
+    glDeleteBuffers(1,&_VBO);
 
 
 }
@@ -67,6 +63,16 @@ void Mesh::Draw()
 // CATAPULTAGE
 void Mesh::setupMesh()
 {
+     initializeOpenGLFunctions();
+    /*_VAO.create();
+    _VBO.create();
+    _EBO.create();
+
+    _VAO.bind();
+
+    _VBO.bind(GL_ARRAY_BUFFER);
+
+*/
 
     // create buffers/arrays
     glGenVertexArrays(1,&_VAO);

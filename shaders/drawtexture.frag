@@ -43,4 +43,6 @@ void main()
       FragColor = texture(lightMap,      texCoord);
     }
 
+
+
 }

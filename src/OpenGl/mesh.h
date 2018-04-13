@@ -1,7 +1,9 @@
 #ifndef MESH_H
 #define MESH_H
 
-
+#include <QOpenGLFunctions_4_4_Core>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
 #include <vector>
 #include <glm/glm.hpp>
 #include "vertex.h"
@@ -9,7 +11,7 @@
 /**
  * @brief A Mesh is a vector of vertex and a vector of int that define the indices of vertex of polygons of the mesh.
  */
-class Mesh
+class Mesh : protected QOpenGLFunctions_4_4_Core
 {
 public:
 
@@ -109,6 +111,11 @@ public:
 
 
 private :
+
+ /*   QOpenGLVertexArrayObject _VAO;
+    QOpenGLBuffer _VBO;
+    QOpenGLBuffer _EBO;
+*/
 
     unsigned _VBO;                      /** < a Vertex Buffer Object.*/
     unsigned _EBO;                      /** < a Element Buffer Object.*/

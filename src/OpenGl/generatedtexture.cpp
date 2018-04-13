@@ -1,7 +1,11 @@
 #include "generatedtexture.h"
 #include <iostream>
 
+
+
 using namespace std;
+
+
 GeneratedTexture::GeneratedTexture(std::string name, const int &width, const int &height,
                                    const GLchar* genVertex, const GLchar* genFrag):
      Texture(name)
@@ -84,33 +88,6 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
 }
 
 
-glm::vec4 GeneratedTexture::generate(int widthViewport, int heightViewport, int xPos, int yPos)
-{
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
-
-    glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
-    glViewport(0,0,_width,_height);
-
-
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    renderQuad();
-
-
-
-    float pixels[4];
-    glReadPixels(5,5,1,1,GL_RGBA,GL_FLOAT,pixels);
-    cout << "R = " << pixels[0] << " G = "<< pixels[1] << " B = "<< pixels[2] << " A = "<< pixels[3] << endl;
-
-
-    glBindFramebuffer(GL_FRAMEBUFFER, _QTFBO);
-    _generatorShader->disable();
-
-    glViewport(0,0,widthViewport,heightViewport);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-}
 
 
 void GeneratedTexture::resize(int width, int height){

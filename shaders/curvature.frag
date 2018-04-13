@@ -142,19 +142,19 @@ void main() {
 
 
   if(gl_FragCoord.x <= 10 && gl_FragCoord.y <= 10){
-    outBuffer = vec4(0,1,1,0);
+    outBuffer = vec4(-1,1,1,0);
   }
   else if(texcoord.x < 0.5 && texcoord.y < 0.5){
-    outBuffer = vec4(0,0,0,0);
+    outBuffer = vec4(-1,0,0,0);
   }
   else if(texcoord.x < 0.5){
-    outBuffer = vec4(1,0,0,0);
+    outBuffer = vec4(1,-1,0,0);
   }
   else if(texcoord.y < 0.5){
-    outBuffer = vec4(0,1,0,0);
+    outBuffer = vec4(-1,1,0,0);
   }
   else
-    outBuffer = vec4(0,0,1,0);
+    outBuffer = vec4(0,-1,1,0);
 
 }
 

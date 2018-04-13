@@ -13,7 +13,6 @@ public:
     void initialize();
     void startGenerate();
     void generate(int widthViewport, int heightViewport);
-    glm::vec4 generate(int widthViewport, int heightViewport, int xPos, int yPos);
     void resize(int width, int height);
 
     void reloadShader();

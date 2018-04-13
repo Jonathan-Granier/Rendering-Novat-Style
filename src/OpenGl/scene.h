@@ -104,23 +104,23 @@ public:
 
 private:
 
-    std::shared_ptr<Mesh>               _currentMesh;          /** < the main mesh of the Scene */
-    std::shared_ptr<Mesh>               _loadedMesh;
-    std::shared_ptr<Mesh>               _generatedMesh;
+    std::shared_ptr<Mesh>                               _currentMesh;          /** < the main mesh of the Scene */
+    std::shared_ptr<Mesh>                               _loadedMesh;
+    std::shared_ptr<Mesh>                               _generatedMesh;
 
-    std::shared_ptr<Mesh>               _meshSphere;
-    std::vector<LoadTexture>            _textures;      /** < the classique textures of the Scene*/
-    std::shared_ptr<LoadTexture>        _heightMap;
-    std::shared_ptr<LoadTexture>        _normalMap;
-    std::shared_ptr<GeneratedTexture>   _curvatureMap;
-    std::shared_ptr<GeneratedTexture>   _lightMap;
-    std::shared_ptr<GeneratedTexture>   _gaussBlur;
+    std::shared_ptr<Mesh>                               _meshSphere;
+    std::vector<std::shared_ptr<LoadTexture>>           _textures;      /** < the classique textures of the Scene*/
+    std::shared_ptr<LoadTexture>                        _heightMap;
+    std::shared_ptr<LoadTexture>                        _normalMap;
+    std::shared_ptr<GeneratedTexture>                   _curvatureMap;
+    std::shared_ptr<GeneratedTexture>                   _lightMap;
+    std::shared_ptr<GeneratedTexture>                   _gaussBlur;
 
-    float _sigma;
-    bool _curvatureMapIsComputed;
-    int _lightSelector;
-    float _lightThreshold;
-    const int _MAXLIGHTSELECTOR = 5;
+    float       _sigma;
+    bool        _curvatureMapIsComputed;
+    int         _lightSelector;
+    float       _lightThreshold;
+    const int   _MAXLIGHTSELECTOR = 5;
     const float _MAXLIGHTTRESHOLD = M_PI/2.2;
     const float _MINLIGHTRESHOLD = 0;
     const float _WIDTHGENTEX = 1024;

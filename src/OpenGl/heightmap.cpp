@@ -1,7 +1,11 @@
 #include "heightmap.h"
 #include <iostream>
 
+
+
 using namespace std;
+
+
 
 HeightMap::HeightMap(string name, const int &width, const int &height):
     GeneratedTexture(name,width,height,"shaders/heightmap.vert","shaders/heightmap.frag")

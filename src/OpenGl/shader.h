@@ -1,26 +1,19 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-//#include <glad/glad.h>
-#include <GL/glew.h>
 
-// OpenGL library
-#include <GL/gl.h>
-
-// OpenGL Utility library
-#include <GL/glu.h>
 
 
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-
+#include <QOpenGLFunctions_4_4_Core>
 
 
 /**
  * @brief The Shader class, opens, compiles and executes a vertex shader and a fragment shader.
  */
-class Shader
+class Shader : protected QOpenGLFunctions_4_4_Core
 {
 public:
 
@@ -83,38 +76,38 @@ public:
      * @param name : the name of the boolean.
      * @param value : the value of the boolean.
      */
-    void setBool(const std::string &name, bool value) const;
+    void setBool(const std::string &name, bool value);
     /**
      * @brief set a integer like a uniform value into the current sharders.
      * @param name : the name of the integer.
      * @param value : the value of the integer.
      */
-    void setInt(const std::string &name, int value) const;
+    void setInt(const std::string &name, int value);
     /**
      * @brief set a float like a uniform value into the current sharders.
      * @param name : the name of the float.
      * @param value : the value of the float.
      */
-    void setFloat(const std::string &name, float value) const;
+    void setFloat(const std::string &name, float value);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
      * @param name : the name of the 2D vector.
      * @param value : the value of the 2D vector.
      */
-    void setVec2(const std::string &name, const glm::vec2 &value) const;
+    void setVec2(const std::string &name, const glm::vec2 &value);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
      * @param name : the name of the 2D vector.
      * @param x : the x value of the 2D vector.
      * @param y :  the y value of the 2D vector.
      */
-    void setVec2(const std::string &name, float x, float y) const;
+    void setVec2(const std::string &name, float x, float y);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
      * @param name : the name of the 2D vector.
      * @param value : the value of the 2D vector.
      */
-    void setVec3(const std::string &name, const glm::vec3 &value) const;
+    void setVec3(const std::string &name, const glm::vec3 &value);
     /**
      * @brief set a 3D vector like a uniform value into the current sharders.
      * @param name : the name of the 3D vector.
@@ -122,13 +115,13 @@ public:
      * @param y : the y value of the 3D vector.
      * @param z : the z value of the 3D vector.
      */
-    void setVec3(const std::string &name, float x, float y, float z) const;
+    void setVec3(const std::string &name, float x, float y, float z);
     /**
      * @brief set a 4D vector like a uniform value into the current sharders.
      * @param name : the name of the 4D vector.
      * @param value : the value of the 4D vector.
      */
-    void setVec4(const std::string &name, const glm::vec4 &value) const;
+    void setVec4(const std::string &name, const glm::vec4 &value);
     /**
      * @brief set a 4D vector like a uniform value into the current sharders.
      * @param name : the name of the 4D vector.
@@ -143,19 +136,19 @@ public:
      * @param name : the name of the 2D matrix.
      * @param value : the value of the 2D matrix.
      */
-    void setMat2(const std::string &name, const glm::mat2 &mat) const;
+    void setMat2(const std::string &name, const glm::mat2 &mat);
     /**
      * @brief set a 3D matrix like a uniform value into the current sharders.
      * @param name : the name of the 3D matrix.
      * @param value : the value of the 3D matrix.
      */
-    void setMat3(const std::string &name, const glm::mat3 &mat) const;
+    void setMat3(const std::string &name, const glm::mat3 &mat);
     /**
      * @brief set a 4D matrix like a uniform value into the current sharders.
      * @param name : the name of the 4D matrix.
      * @param value : the value of the 4D matrix.
      */
-    void setMat4(const std::string &name, const glm::mat4 &mat) const;
+    void setMat4(const std::string &name, const glm::mat4 &mat);
 
 
 

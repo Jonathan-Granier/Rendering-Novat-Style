@@ -1,11 +1,11 @@
 #include "texture.h"
-
+/*
 #include <GL/glew.h>
 // OpenGL library
 #include <GL/gl.h>
 // OpenGL Utility library
 #include <GL/glu.h>
-
+*/
 
 
 
@@ -15,8 +15,9 @@
 
 using namespace std;
 
-
-Texture::Texture(std::string name): _name(name){}
+Texture::Texture(std::string name): _name(name){
+    initializeOpenGLFunctions();
+}
 
 
 void Texture::sendToShader(shared_ptr<Shader> shader)
