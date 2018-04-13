@@ -55,7 +55,7 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
 {
 
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // Qt have only one framebuffer actif
 
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glViewport(0,0,_width,_height);

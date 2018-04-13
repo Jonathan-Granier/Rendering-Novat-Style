@@ -11,6 +11,7 @@
 #include "loadtexture.h"
 #include "generatedtexture.h"
 #include "meshloader.h"
+#include <math.h>
 /**
  * @brief A Scene is defined by his mesh and his textures. It can load and draw a mesh and textures.
  */
@@ -70,6 +71,10 @@ public:
     void switchTypeMeshUsed();
 
 
+    glm::vec4 getPixel(int xPos, int yPos);
+
+
+
     /**
      * @brief get _center
      * @return the center of the Scene
@@ -94,6 +99,9 @@ public:
     int getLightSelector() const;
 
 
+    float getLightThreshold() const;
+    void setLightThreshold(float lightThreshold);
+
 private:
 
     std::shared_ptr<Mesh>               _currentMesh;          /** < the main mesh of the Scene */
@@ -111,7 +119,14 @@ private:
     float _sigma;
     bool _curvatureMapIsComputed;
     int _lightSelector;
-    const int _MAXLIGHTSELECTOR = 4;
+    float _lightThreshold;
+    const int _MAXLIGHTSELECTOR = 5;
+    const float _MAXLIGHTTRESHOLD = M_PI/2.2;
+    const float _MINLIGHTRESHOLD = 0;
+    const float _WIDTHGENTEX = 1024;
+    const float _HEIGHTGENTEX = 1024;
+
+
 
     TYPE_MESH _typeMeshUsed;
     int _widthViewport;

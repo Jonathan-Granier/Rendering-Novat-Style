@@ -6,6 +6,10 @@
 // OpenGL Utility library
 #include <GL/glu.h>
 
+
+
+
+
 #include <iostream>
 #include "lib/stb_image.h"
 
@@ -27,6 +31,8 @@ void Texture::draw(std::shared_ptr<Shader> shader)
 {
     sendToShader(shader);
     renderQuad();
+
+
 }
 
 

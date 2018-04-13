@@ -183,6 +183,10 @@ void MainWindow::updateSigma(int sigma)
     _viewer->setSigma((float)sigma/10.0);
 }
 
+void MainWindow::updateLightThreshold(int t){
+    _viewer->setLightThreshold((float)M_PI/((float)t/10.0));
+}
+
 void MainWindow::setupInformationPanelSlot(){
     refreshInformationPanel();
 }
@@ -203,8 +207,9 @@ void MainWindow::setupControlePanel()
     connect(ui->sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
     ui->lightSlider->setSliderPosition(45);
     connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
+    ui->lightThresholdSlider->setSliderPosition(40);
+    connect(ui->lightThresholdSlider,&QSlider::valueChanged,this,&MainWindow::updateLightThreshold);
 }
-
 
 
 void MainWindow::refreshInformationPanel(){

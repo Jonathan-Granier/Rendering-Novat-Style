@@ -40,10 +40,18 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QLabel *informationTitle;
+    QHBoxLayout *horizontalLayout_6;
+    QLabel *label_6;
+    QFrame *line_7;
+    QLabel *label_5;
+    QFrame *line_8;
+    QLabel *label;
     QFrame *lineInfo;
     QHBoxLayout *horizontalLayout;
     QLabel *drawMode;
+    QFrame *line_5;
     QLabel *shader;
+    QFrame *line_6;
     QLabel *lightMode;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_2;
@@ -59,6 +67,12 @@ public:
     QLabel *sigmaValue;
     QSpacerItem *horizontalSpacer;
     QSlider *sigmaSlider;
+    QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *lightThresholdLabel;
+    QLabel *lightThresholdValue;
+    QSpacerItem *horizontalSpacer_3;
+    QSlider *lightThresholdSlider;
     QWidget *mainWidget;
     QMenuBar *menubar;
     QMenu *menuFile;
@@ -98,6 +112,40 @@ public:
 
         verticalLayout->addWidget(informationTitle);
 
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        label_6 = new QLabel(verticalLayoutWidget);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        horizontalLayout_6->addWidget(label_6);
+
+        line_7 = new QFrame(verticalLayoutWidget);
+        line_7->setObjectName(QStringLiteral("line_7"));
+        line_7->setFrameShape(QFrame::VLine);
+        line_7->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_6->addWidget(line_7);
+
+        label_5 = new QLabel(verticalLayoutWidget);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        horizontalLayout_6->addWidget(label_5);
+
+        line_8 = new QFrame(verticalLayoutWidget);
+        line_8->setObjectName(QStringLiteral("line_8"));
+        line_8->setFrameShape(QFrame::VLine);
+        line_8->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout_6->addWidget(line_8);
+
+        label = new QLabel(verticalLayoutWidget);
+        label->setObjectName(QStringLiteral("label"));
+
+        horizontalLayout_6->addWidget(label);
+
+
+        verticalLayout->addLayout(horizontalLayout_6);
+
         lineInfo = new QFrame(verticalLayoutWidget);
         lineInfo->setObjectName(QStringLiteral("lineInfo"));
         lineInfo->setFrameShape(QFrame::HLine);
@@ -112,10 +160,24 @@ public:
 
         horizontalLayout->addWidget(drawMode);
 
+        line_5 = new QFrame(verticalLayoutWidget);
+        line_5->setObjectName(QStringLiteral("line_5"));
+        line_5->setFrameShape(QFrame::VLine);
+        line_5->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout->addWidget(line_5);
+
         shader = new QLabel(verticalLayoutWidget);
         shader->setObjectName(QStringLiteral("shader"));
 
         horizontalLayout->addWidget(shader);
+
+        line_6 = new QFrame(verticalLayoutWidget);
+        line_6->setObjectName(QStringLiteral("line_6"));
+        line_6->setFrameShape(QFrame::VLine);
+        line_6->setFrameShadow(QFrame::Sunken);
+
+        horizontalLayout->addWidget(line_6);
 
         lightMode = new QLabel(verticalLayoutWidget);
         lightMode->setObjectName(QStringLiteral("lightMode"));
@@ -127,7 +189,7 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(460, 780, 701, 131));
+        verticalLayoutWidget_2->setGeometry(QRect(460, 770, 691, 149));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -155,6 +217,7 @@ public:
         lightSlider = new QSlider(verticalLayoutWidget_2);
         lightSlider->setObjectName(QStringLiteral("lightSlider"));
         lightSlider->setMaximum(89);
+        lightSlider->setValue(45);
         lightSlider->setOrientation(Qt::Horizontal);
 
         verticalLayout_4->addWidget(lightSlider);
@@ -183,9 +246,43 @@ public:
         sigmaSlider = new QSlider(verticalLayoutWidget_2);
         sigmaSlider->setObjectName(QStringLiteral("sigmaSlider"));
         sigmaSlider->setMaximum(100);
+        sigmaSlider->setValue(10);
         sigmaSlider->setOrientation(Qt::Horizontal);
 
         verticalLayout_3->addWidget(sigmaSlider);
+
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        lightThresholdLabel = new QLabel(verticalLayoutWidget_2);
+        lightThresholdLabel->setObjectName(QStringLiteral("lightThresholdLabel"));
+
+        horizontalLayout_4->addWidget(lightThresholdLabel);
+
+        lightThresholdValue = new QLabel(verticalLayoutWidget_2);
+        lightThresholdValue->setObjectName(QStringLiteral("lightThresholdValue"));
+
+        horizontalLayout_4->addWidget(lightThresholdValue);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_4);
+
+        lightThresholdSlider = new QSlider(verticalLayoutWidget_2);
+        lightThresholdSlider->setObjectName(QStringLiteral("lightThresholdSlider"));
+        lightThresholdSlider->setMinimum(20);
+        lightThresholdSlider->setMaximum(100);
+        lightThresholdSlider->setValue(40);
+        lightThresholdSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_5->addWidget(lightThresholdSlider);
+
+
+        verticalLayout_3->addLayout(verticalLayout_5);
 
 
         verticalLayout_4->addLayout(verticalLayout_3);
@@ -222,6 +319,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(lightSlider, SIGNAL(valueChanged(int)), lightPosValue, SLOT(setNum(int)));
         QObject::connect(sigmaSlider, SIGNAL(valueChanged(int)), sigmaValue, SLOT(setNum(int)));
+        QObject::connect(lightThresholdSlider, SIGNAL(valueChanged(int)), lightThresholdValue, SLOT(setNum(int)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -252,7 +350,10 @@ public:
 #ifndef QT_NO_SHORTCUT
         exitAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", nullptr));
 #endif // QT_NO_SHORTCUT
-        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Informations :</span></p><p><br/></p></body></html>", nullptr));
+        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Shading :</span></p></body></html>", nullptr));
+        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin</span></p></body></html>", nullptr));
+        label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Shader courant</span></p></body></html>", nullptr));
+        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Calcule lumi\303\250re</span></p></body></html>", nullptr));
         drawMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         shader->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         lightMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
@@ -260,6 +361,8 @@ public:
         lightPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">45</span></p></body></html>", nullptr));
         sigmaLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Sigma (*10) : </span></p></body></html>", nullptr));
         sigmaValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">10</span></p></body></html>", nullptr));
+        lightThresholdLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Limite d'angle de la lumi\303\250re :</span> (PI/) (*10):</p></body></html>", nullptr));
+        lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">TextLabel</span></p></body></html>", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
     } // retranslateUi

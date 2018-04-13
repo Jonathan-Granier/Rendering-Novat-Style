@@ -128,23 +128,20 @@ void Scene::computeCurvatureMap(){
         _curvatureMap->startGenerate();
         _curvatureMap->generatorShader()->setFloat("sigma",_sigma);
         _normalMap->sendToShader(_curvatureMap->generatorShader());
-        _curvatureMap->generate(_widthViewport,_heightViewport);
+        _curvatureMap->generate(_widthViewport,_heightViewport,0,0);
         _curvatureMapIsComputed = true;
     }
 }
-/*
-void Scene::computeGaussBlurX(){
-    _gaussBlur->startGenerate();
-    _gaussBlur->generatorShader()->setInt("direction",1);
 
-}
-*/
+
+
 void Scene::computeLightMap(vec3 lightPosition, float lightYaw, float lightPitch){
     _lightMap->startGenerate();
     _lightMap->generatorShader()->setVec3("lightPosition",lightPosition);
     _lightMap->generatorShader()->setFloat("yaw",lightYaw);
     _lightMap->generatorShader()->setFloat("pitch",lightPitch);
     _lightMap->generatorShader()->setInt("lightSelector",_lightSelector);
+    _lightMap->generatorShader()->setFloat("threshold",_lightThreshold);
     _curvatureMap->sendToShader(_lightMap->generatorShader());
     _lightMap->generate(_widthViewport,_heightViewport);
 }
@@ -183,7 +180,6 @@ void Scene::switchTypeMeshUsed(){
     _lightMap->resize(_currentMesh->getWidth(),_currentMesh->getHeight());
     _gaussBlur->resize(_currentMesh->getWidth(),_currentMesh->getHeight());
 }
-
 
 
 
@@ -226,6 +222,21 @@ int Scene::getLightSelector() const
     return _lightSelector;
 }
 
+float Scene::getLightThreshold() const
+{
+    return _lightThreshold;
+}
+
+void Scene::setLightThreshold(float lightThreshold)
+{
+    if(lightThreshold < _MINLIGHTRESHOLD)
+        _lightThreshold = 0;
+    if(lightThreshold > _MAXLIGHTSELECTOR)
+        _lightThreshold = _MAXLIGHTSELECTOR;
+    else
+        _lightThreshold = lightThreshold;
+}
+
 
 
 
@@ -233,8 +244,8 @@ int Scene::getLightSelector() const
 
 void Scene::initialize(){
     switch(_typeMeshUsed){
-        case LOADED:    _currentMesh = _loadedMesh;    break;
-        case GENERATED: _currentMesh = _generatedMesh; break;
+    case LOADED:    _currentMesh = _loadedMesh;    break;
+    case GENERATED: _currentMesh = _generatedMesh; break;
     }
     _curvatureMapIsComputed = false;
     getMapFromMNT();
@@ -283,14 +294,4 @@ shared_ptr<Mesh> Scene::computeMeshFromGenHeightMap(MeshLoader ml){
     return ml.vertexFromHeightMap(data,width,height);
 }
 
-/**
 
-void Scene::printNormalInFile(){
-
-    const char fileName[];
-    const Rgba *pixels;
-    RgbaOutputFile file (fileName, _widthViewport, _heightViewport, WRITE_RGBA);
-    file.setFrameBuffer (pixels, 1, width);
-    file.writePixels (height);
-}
-**/

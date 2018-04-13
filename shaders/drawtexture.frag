@@ -42,4 +42,5 @@ void main()
     if(selectTexture == 4){
       FragColor = texture(lightMap,      texCoord);
     }
+
 }

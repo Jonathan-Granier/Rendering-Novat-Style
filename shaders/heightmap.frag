@@ -40,10 +40,32 @@ float perlin(vec2 uv )
     return f;
 }
 
+
+float sinXY(vec2 t){
+  return (sin(t.y*t.x*20)*10);
+}
+
+float sinY(vec2 t){
+  return (sin(t.y*20)*10);
+}
+
+
+float anneau(vec2 t){
+
+  vec2 center = vec2(0.5,0.5);
+  vec2 s = t-center;
+  float distance =  sqrt(s.x*s.x + s.y*s.y);
+
+  return sin(distance*20)*10;
+
+}
+
+
+
 void main()
 {
   float p = perlin(texCoord);
-  outBuffer = (sin(texCoord.y*texCoord.x*20)*10)*p;
+  outBuffer = anneau(texCoord);
 }
 
 

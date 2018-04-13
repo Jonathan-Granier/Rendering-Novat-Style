@@ -138,6 +138,8 @@ public:
     void switchScene();
 
 
+
+
     std::string getCurrentDrawMode();
     std::string getCurrentShader();
 
@@ -148,6 +150,8 @@ public:
     void previousLight();
     int getLightSelector() const;
 
+    float getLightThreshold();
+    void setLightThreshold(float lightThreshold);
 
 signals :
     void initializeDone();
@@ -178,6 +182,8 @@ private:
     void loadScene();
 
     void initShaders();
+
+     void printPixel(int xPos,int yPos);
 };
 
 #endif // VIEWER_H

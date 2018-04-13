@@ -4,9 +4,9 @@
 
 #include <QStringList>
 #include <QString>
-
 #include "src/OpenGl/meshloader.h"
 #include "glm/gtx/string_cast.hpp"
+
 
 using namespace std;
 using namespace glm;
@@ -137,6 +137,11 @@ void Viewer::resizeGL(int width,int height){
 
 
 void Viewer::mousePressEvent(QMouseEvent *me){
+
+
+
+    //cout << "Mousse : x = " << me->x() << " y = " << me->y() << endl;
+    //cout << width() << " " << height() << endl;
     const vec2 p((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
@@ -272,6 +277,8 @@ void Viewer::switchScene(){
 
 
 
+
+
 bool Viewer::loadSceneFromFile(const QStringList &fileNames)
 {
 
@@ -309,7 +316,7 @@ string Viewer::getCurrentDrawMode()
     string stringDrawMode;
     switch(_drawMode){
         case CLASSICAL:
-            stringDrawMode = "Classical";
+            stringDrawMode = "World";
         break;
         case SHADOWMAP:
         stringDrawMode = "Shadow Map";
@@ -368,6 +375,17 @@ int Viewer::getLightSelector() const
     return _scene->getLightSelector();
 }
 
+float Viewer::getLightThreshold()
+{
+    return _scene->getLightSelector();
+}
+
+void Viewer::setLightThreshold(float lightThreshold)
+{
+    _scene->setLightThreshold(lightThreshold);
+    update();
+}
+
 
 
 
@@ -382,4 +400,9 @@ void Viewer::initShaders(){
 
 }
 
+void Viewer::printPixel(int xPos, int yPos)
+{
+
+
+}
 

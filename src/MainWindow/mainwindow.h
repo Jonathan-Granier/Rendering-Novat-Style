@@ -36,6 +36,7 @@ public:
     ~MainWindow();
 
 
+
 protected:
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
@@ -76,9 +77,10 @@ private slots:
      */
     void about();
 
-    void updateLightPosition(int angle);
 
+    void updateLightPosition(int angle);
     void updateSigma(int sigma);
+    void updateLightThreshold(int t);
 
     void setupInformationPanelSlot();
 

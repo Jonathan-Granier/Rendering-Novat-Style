@@ -44,8 +44,9 @@ void Light::moveAroundXZ(float theta)
 
 void Light::setFixePosition()
 {
-    _yaw = M_PI/4.0f;
+    _yaw = -M_PI/4.0f;
     _pitch = M_PI/4.0f;
+    updatePosition();
 }
 
 glm::vec3 Light::position() const
