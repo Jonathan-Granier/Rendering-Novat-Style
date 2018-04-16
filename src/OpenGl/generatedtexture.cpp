@@ -99,6 +99,21 @@ void GeneratedTexture::resize(int width, int height){
 }
 
 
+vector<float> GeneratedTexture::texToVectorRED(){
+    GLint numBytes = _width*_height;
+    float pixels[numBytes];
+    //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
+
+
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
+
+
+    vector<float> dataVec;
+    copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
+    return dataVec;
+}
+
 
 void GeneratedTexture::reloadShader()
 {

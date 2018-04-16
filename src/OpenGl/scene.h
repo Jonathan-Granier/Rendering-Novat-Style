@@ -61,6 +61,8 @@ public:
 
     void drawLightMap(std::shared_ptr<Shader> shader);
 
+    void drawAsciiTex(std::shared_ptr<Shader> shader);
+
     void computeCurvatureMap();
     void computeGaussBlur();
     void computeLightMap(glm::vec3 lightPosition, float lightYaw, float lightPitch);
@@ -104,6 +106,24 @@ public:
 
 private:
 
+    struct MAP{
+        std::shared_ptr<Texture>            _heightMap;
+        std::shared_ptr<LoadTexture>        _normalMap;
+        std::shared_ptr<GeneratedTexture>   _curvatureMap;
+        std::shared_ptr<GeneratedTexture>   _lightMap;
+    };
+
+
+
+    MAP         loaded;
+    MAP         loadedGauss;
+    MAP         generated;
+    MAP         generatedGauss;
+
+
+
+
+
     std::shared_ptr<Mesh>                               _currentMesh;          /** < the main mesh of the Scene */
     std::shared_ptr<Mesh>                               _loadedMesh;
     std::shared_ptr<Mesh>                               _generatedMesh;
@@ -114,7 +134,10 @@ private:
     std::shared_ptr<LoadTexture>                        _normalMap;
     std::shared_ptr<GeneratedTexture>                   _curvatureMap;
     std::shared_ptr<GeneratedTexture>                   _lightMap;
-    std::shared_ptr<GeneratedTexture>                   _gaussBlur;
+    std::shared_ptr<GeneratedTexture>                   _gaussBlurLoad;
+    std::shared_ptr<GeneratedTexture>                   _gaussBlurGen;
+    std::shared_ptr<LoadTexture>                        _asciiTex;
+    MeshLoader                                          _meshLoader;
 
     float       _sigma;
     bool        _curvatureMapIsComputed;
@@ -137,10 +160,11 @@ private:
     void initialize();
     void getMapFromMNT();
 
-    void loadingWithLog(MeshLoader ml, const std::vector<std::string> &filepaths);
-    std::shared_ptr<Mesh> computeMeshFromGenHeightMap(MeshLoader ml);
+    void loadingWithLog(const std::vector<std::string> &filepaths);
+    std::shared_ptr<Mesh> computeMeshFromGenHeightMap();
 
 
+    std::shared_ptr<Mesh> computeGaussBlur(std::shared_ptr<Mesh> m,std::shared_ptr<GeneratedTexture> gaussBlur);
 };
 
 #endif // SCENE_H

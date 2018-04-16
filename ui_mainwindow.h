@@ -20,6 +20,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
@@ -74,6 +75,14 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QSlider *lightThresholdSlider;
     QWidget *mainWidget;
+    QWidget *verticalLayoutWidget_3;
+    QVBoxLayout *GaussBlurLayout;
+    QHBoxLayout *horizontalLayout_5;
+    QLabel *gaussBlurLabel;
+    QLabel *gaussBlurValue;
+    QSpacerItem *horizontalSpacer_4;
+    QSlider *gaussBlurSlider;
+    QPushButton *GaussBlurButton;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
@@ -84,10 +93,10 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModal);
-        MainWindow->resize(1177, 963);
+        MainWindow->resize(1210, 994);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
-        icon.addFile(QStringLiteral("../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral("../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         loadModelAction = new QAction(MainWindow);
         loadModelAction->setObjectName(QStringLiteral("loadModelAction"));
@@ -103,7 +112,7 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(20, 780, 421, 131));
+        verticalLayoutWidget->setGeometry(QRect(20, 810, 421, 131));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -189,7 +198,7 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(460, 770, 691, 149));
+        verticalLayoutWidget_2->setGeometry(QRect(460, 800, 521, 149));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -292,11 +301,47 @@ public:
 
         mainWidget = new QWidget(centralwidget);
         mainWidget->setObjectName(QStringLiteral("mainWidget"));
-        mainWidget->setGeometry(QRect(10, 10, 1146, 751));
+        mainWidget->setGeometry(QRect(10, 10, 1191, 781));
+        verticalLayoutWidget_3 = new QWidget(centralwidget);
+        verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
+        verticalLayoutWidget_3->setGeometry(QRect(990, 830, 207, 91));
+        GaussBlurLayout = new QVBoxLayout(verticalLayoutWidget_3);
+        GaussBlurLayout->setObjectName(QStringLiteral("GaussBlurLayout"));
+        GaussBlurLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        gaussBlurLabel = new QLabel(verticalLayoutWidget_3);
+        gaussBlurLabel->setObjectName(QStringLiteral("gaussBlurLabel"));
+
+        horizontalLayout_5->addWidget(gaussBlurLabel);
+
+        gaussBlurValue = new QLabel(verticalLayoutWidget_3);
+        gaussBlurValue->setObjectName(QStringLiteral("gaussBlurValue"));
+
+        horizontalLayout_5->addWidget(gaussBlurValue);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_4);
+
+
+        GaussBlurLayout->addLayout(horizontalLayout_5);
+
+        gaussBlurSlider = new QSlider(verticalLayoutWidget_3);
+        gaussBlurSlider->setObjectName(QStringLiteral("gaussBlurSlider"));
+        gaussBlurSlider->setOrientation(Qt::Horizontal);
+
+        GaussBlurLayout->addWidget(gaussBlurSlider);
+
+        GaussBlurButton = new QPushButton(verticalLayoutWidget_3);
+        GaussBlurButton->setObjectName(QStringLiteral("GaussBlurButton"));
+
+        GaussBlurLayout->addWidget(GaussBlurButton);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1177, 20));
+        menubar->setGeometry(QRect(0, 0, 1210, 20));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
@@ -320,6 +365,7 @@ public:
         QObject::connect(lightSlider, SIGNAL(valueChanged(int)), lightPosValue, SLOT(setNum(int)));
         QObject::connect(sigmaSlider, SIGNAL(valueChanged(int)), sigmaValue, SLOT(setNum(int)));
         QObject::connect(lightThresholdSlider, SIGNAL(valueChanged(int)), lightThresholdValue, SLOT(setNum(int)));
+        QObject::connect(gaussBlurSlider, SIGNAL(valueChanged(int)), gaussBlurValue, SLOT(setNum(int)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -363,6 +409,9 @@ public:
         sigmaValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">10</span></p></body></html>", nullptr));
         lightThresholdLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Limite d'angle de la lumi\303\250re :</span> (PI/) (*10):</p></body></html>", nullptr));
         lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">TextLabel</span></p></body></html>", nullptr));
+        gaussBlurLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">GaussBlur Facteur :</span></p></body></html>", nullptr));
+        gaussBlurValue->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
+        GaussBlurButton->setText(QApplication::translate("MainWindow", "Recompute height Map", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
     } // retranslateUi

@@ -491,7 +491,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 
     if(data.size() != width*height){
-        cerr << "[vertexFormHeightMap] : incorrect size of data" << endl;
+        cerr << "[vertexFormHeightMap] : incorrect size of data. Have : " << data.size() << " data but : " << width*height << " expected." << endl;
     }
     vector<Vertex> vertices;
     vector<unsigned int> indices;

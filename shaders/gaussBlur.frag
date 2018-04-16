@@ -37,5 +37,6 @@ void main() {
     cdir = cdir+dir; 
   } 
 
-  outbuff = v/sumW;  
+  //outbuff = v/sumW;
+  outbuff = vec4(1,1,1,1);
 }

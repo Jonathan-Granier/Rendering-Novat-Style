@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1177</width>
-    <height>963</height>
+    <width>1210</width>
+    <height>994</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -24,14 +24,14 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../images/RSN.ico</normaloff>../../images/RSN.ico</iconset>
+    <normaloff>../../../../../images/RSN.ico</normaloff>../../../../../images/RSN.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>780</y>
+      <y>810</y>
       <width>421</width>
       <height>131</height>
      </rect>
@@ -135,8 +135,8 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>770</y>
-      <width>691</width>
+      <y>800</y>
+      <width>521</width>
       <height>149</height>
      </rect>
     </property>
@@ -295,10 +295,67 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1146</width>
-      <height>751</height>
+      <width>1191</width>
+      <height>781</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>830</y>
+      <width>207</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="GaussBlurLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="gaussBlurLabel">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;GaussBlur Facteur :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="gaussBlurValue">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QSlider" name="gaussBlurSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="GaussBlurButton">
+       <property name="text">
+        <string>Recompute height Map</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -306,7 +363,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1177</width>
+     <width>1210</width>
      <height>20</height>
     </rect>
    </property>
@@ -387,12 +444,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>608</x>
-     <y>867</y>
+     <x>610</x>
+     <y>834</y>
     </hint>
     <hint type="destinationlabel">
-     <x>672</x>
-     <y>850</y>
+     <x>642</x>
+     <y>812</y>
     </hint>
    </hints>
   </connection>
@@ -403,12 +460,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>643</x>
-     <y>924</y>
+     <x>646</x>
+     <y>884</y>
     </hint>
     <hint type="destinationlabel">
-     <x>570</x>
-     <y>905</y>
+     <x>540</x>
+     <y>862</y>
     </hint>
    </hints>
   </connection>
@@ -419,12 +476,28 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>546</x>
-     <y>349</y>
+     <x>550</x>
+     <y>920</y>
     </hint>
     <hint type="destinationlabel">
-     <x>659</x>
-     <y>306</y>
+     <x>749</x>
+     <y>912</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gaussBlurSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>gaussBlurValue</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1035</x>
+     <y>881</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1121</x>
+     <y>857</y>
     </hint>
    </hints>
   </connection>

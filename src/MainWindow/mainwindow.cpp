@@ -28,7 +28,6 @@ MainWindow::MainWindow() :
      setupControlePanel();
 
      _viewer = make_unique<Viewer>();
-     _viewer->setWindowHeight(this->size().height());
      QObject::connect(_viewer.get(),&Viewer::initializeDone,this,&MainWindow::setupInformationPanelSlot);
 
      QVBoxLayout *centralLayout = new QVBoxLayout();

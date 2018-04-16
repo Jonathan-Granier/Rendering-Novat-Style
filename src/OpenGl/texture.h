@@ -17,6 +17,7 @@ class Texture : protected QOpenGLFunctions_4_4_Core
 public:
     Texture(std::string name);
     void sendToShader(std::shared_ptr<Shader> shader);
+    void sendToShader(std::shared_ptr<Shader> shader,std::string name);
     void draw(std::shared_ptr<Shader> shader);
 
 protected:

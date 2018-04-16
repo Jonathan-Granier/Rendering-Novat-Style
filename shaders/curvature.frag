@@ -137,10 +137,10 @@ void main() {
   float mc = .5*(ee.z+ee.w);
   vec4 firstGaussianDeriv = vec4(ee);
 
-  //outBuffer = firstGaussianDeriv;
+  outBuffer = firstGaussianDeriv;
   //outBuffer = vec4(ee.xy,0,0);
 
-
+/*
   if(gl_FragCoord.x <= 10 && gl_FragCoord.y <= 10){
     outBuffer = vec4(-1,1,1,0);
   }
@@ -155,6 +155,6 @@ void main() {
   }
   else
     outBuffer = vec4(0,-1,1,0);
-
+*/
 }
 

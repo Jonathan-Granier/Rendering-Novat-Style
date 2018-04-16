@@ -145,7 +145,7 @@ public:
     float getLightThreshold();
     void setLightThreshold(float lightThreshold);
 
-    void setWindowHeight(int value);
+
 
 signals :
     void initializeDone();
@@ -171,7 +171,6 @@ private:
     QTime _timer;                                  /** < A Qt timer.*/
 
 
-    int _windowHeight;
     /**
      * @brief load Scene from _filepaths and of type _typeMesh
      */
@@ -179,7 +178,11 @@ private:
 
     void initShaders();
 
-     void printPixel(const QMouseEvent &me);
+
+    void initFBOPixel();
+    void printPixel(const QMouseEvent &me);
+
+    void initDrawTexture(int numTex);
 };
 
 #endif // VIEWER_H

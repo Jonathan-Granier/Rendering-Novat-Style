@@ -13,11 +13,13 @@ public:
     void initialize();
     void startGenerate();
     void generate(int widthViewport, int heightViewport);
+    std::vector<float> texToVectorRED();
     void resize(int width, int height);
 
     void reloadShader();
 
     std::shared_ptr<Shader> generatorShader() const;
+
 
 
 

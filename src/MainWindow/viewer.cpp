@@ -58,6 +58,8 @@ void Viewer::initializeGL(){
     initShaders();
     _timer.start();
 
+
+
     emit initializeDone();
 
 
@@ -92,20 +94,21 @@ void Viewer::paintGL(){
              _shadowMap->startGenerate();
              _shadowMap->generate(_scene,_light->position(),width(),height());
              _drawTextureShader->use();
-             _drawTextureShader->setInt("selectTexture",0);
+             initDrawTexture(0);
              _shadowMap->draw(_drawTextureShader);
              _drawTextureShader->disable();
         break;
 
     case HEIGHTMAP:
         _drawTextureShader->use();
-        _drawTextureShader->setInt("selectTexture",1);
+
+        initDrawTexture(1);
         _scene->drawHeightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case NORMALMAP:
         _drawTextureShader->use();
-        _drawTextureShader->setInt("selectTexture",2);
+        initDrawTexture(2);
         _scene->drawNormalMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
@@ -113,7 +116,7 @@ void Viewer::paintGL(){
 
         _scene->computeCurvatureMap();
         _drawTextureShader->use();
-        _drawTextureShader->setInt("selectTexture",3);
+        initDrawTexture(3);
         _scene->drawCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
@@ -121,7 +124,7 @@ void Viewer::paintGL(){
         _scene->computeCurvatureMap();
         _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
         _drawTextureShader->use();
-        _drawTextureShader->setInt("selectTexture",4);
+        initDrawTexture(4);
         _scene->drawLightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
@@ -140,7 +143,7 @@ void Viewer::resizeGL(int width,int height){
 void Viewer::mousePressEvent(QMouseEvent *me){
 
 
-    printPixel(*me);
+
 
     //cout << width() << " " << height() << endl;
     const vec2 p((float)me->x(),(float)(height()-me->y()));
@@ -388,11 +391,6 @@ void Viewer::setLightThreshold(float lightThreshold)
     update();
 }
 
-void Viewer::setWindowHeight(int value)
-{
-    _windowHeight = value;
-}
-
 
 
 
@@ -407,39 +405,9 @@ void Viewer::initShaders(){
 
 }
 
-void Viewer::printPixel(const QMouseEvent &me)
-{
-
-    QPointF pos = me.windowPos();
-    cout << "Mousse : x = " << pos.x() << " y = " << _windowHeight-pos.y() << endl;
-
-/*
-
-
-    QOpenGLFramebufferObject *mFBO=0;
-    QOpenGLContext *ctx = QOpenGLContext::currentContext();
-
-    // FBO must be re-created! is there a way to reset it?
-    if(mFBO) delete mFBO;
-
-    QOpenGLFramebufferObjectFormat format;
-    format.setSamples(0);
-    //format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-    mFBO = new QOpenGLFramebufferObject(size(), format);
-
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, defaultFramebufferObject());
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFBO->handle());
-    ctx->extraFunctions()->glBlitFramebuffer(0, 0, width(), height(), 0, 0, mFBO->width(), mFBO->height(), GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-    mFBO->bind(); // must rebind, otherwise it won't work!
-*/
-    float pixel[4];
-
-
-    glReadPixels(pos.x(),_windowHeight-pos.y(),1,1,GL_RGBA,GL_FLOAT,pixel);
-    cout << " R = " << pixel[0] << " G = " << pixel[1] << " B = " << pixel[2] << " A = " << pixel[3] << endl;
-
-  //  mFBO->release();
-
+void Viewer::initDrawTexture(int numTex){
+    _drawTextureShader->setInt("selectTexture",numTex);
+    _scene->drawAsciiTex(_drawTextureShader);
 }
+
 

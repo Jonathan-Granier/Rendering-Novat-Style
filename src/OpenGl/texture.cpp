@@ -28,6 +28,15 @@ void Texture::sendToShader(shared_ptr<Shader> shader)
 }
 
 
+
+void Texture::sendToShader(shared_ptr<Shader> shader,string name)
+{
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    shader->setInt(name,_ID);
+    glBindTexture(GL_TEXTURE_2D, _ID);
+}
+
+
 void Texture::draw(std::shared_ptr<Shader> shader)
 {
     sendToShader(shader);
