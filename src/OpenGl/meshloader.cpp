@@ -481,12 +481,93 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
 
     int width = fileInfos[0]->ncols*schema[0].size();
     int height = fileInfos[0]->nrows*schema.size();
-    return make_shared<Mesh>(vertices,indices,width,height);
+    return make_shared<Mesh>(vertices,indices,width,height,miny,maxy);
+}
+
+
+shared_ptr<LoadTexture> MeshLoader::textureFromMNT(const vector<string> &filepaths){
+
+    /*
+
+    Format d'un fichier MNT
+
+    ncols       int
+    nrows       int
+    xllcorner   float
+    yllcorner   float
+    cellsize    float
+    NODATA_value
+    *DATA*
+    */
+
+
+
+
+    unsigned int iSchemaIndex;
+    unsigned int jSchemaIndex;
+    std::shared_ptr<FileInfo> currentFileInfo;
+
+    stringstream iss;
+    string value;
+    vector<float> data;
+    vector<std::shared_ptr<FileInfo>> fileInfos = getFileInfosFromFiles(filepaths);
+    vector<vector<unsigned int>> schema = setupSchema(fileInfos);
+
+
+
+
+    for(iSchemaIndex = 0 ; iSchemaIndex < schema.size() ; iSchemaIndex++){
+        for(unsigned int i=0;i<fileInfos[0]->nrows;i++){
+
+            for(jSchemaIndex = 0; jSchemaIndex < schema[iSchemaIndex].size(); jSchemaIndex++){
+                currentFileInfo = fileInfos[schema[iSchemaIndex][jSchemaIndex]];
+                getline(currentFileInfo->filestream,value);
+                iss << value;
+                getline(iss,value,' ');// Throw the first ' '
+                for(unsigned int j=0;j<currentFileInfo->ncols;j++){
+                    getline(iss,value,' ');
+                    data.push_back(stof(value));
+
+                }
+                iss.clear();
+            }
+        }
+    }
+    /*
+    vec3 shift_Pos(currentFileInfo->ncols*schema[0].size()/2 * currentFileInfo->offset,
+                        (miny+maxy)/2,
+                        currentFileInfo->nrows*schema.size()/2 * currentFileInfo->offset);
+    for(unsigned int i=0;i<vertices.size();i++){
+        vertices[i].Normal = normalize(vertices[i].Normal);
+        vertices[i].Position -= shift_Pos;
+    }
+
+    */
+
+    vector<float> heightMapData;
+    int width = fileInfos[0]->ncols*schema[0].size();
+    int height = fileInfos[0]->nrows*schema.size();
+    unsigned int index = 0;
+    // Reverse texture
+    for(int i = height-1 ; i>= 0 ; i--){
+        for(int j=0; j < width; j++){
+            index = i*width + j;
+            heightMapData.push_back(data[index]);
+
+        }
+    }
+    shared_ptr<LoadTexture> heightMap = make_shared<LoadTexture>("heightMap", heightMapData,GL_R32F,   GL_RED,  width,height);
+    heightMap->setMeshOffset(currentFileInfo->offset);
+    return heightMap;
+
 }
 
 
 
-shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, int height){
+
+
+
+shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, int height,float offset){
 
 
 
@@ -496,9 +577,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
     vector<Vertex> vertices;
     vector<unsigned int> indices;
 
-    float miny(10000.0),maxy(0.0); // Altitude min and max for find the median
+    float ymin(10000.0),ymax(0.0); // Altitude min and max for find the median
     unsigned int currentIndex = 0;
-    float offset = 1.0;
 
 
     // First Line
@@ -509,8 +589,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
                           (float)j/(float)(width-1),
                           0.0f);
         vertices.push_back(v);
-        if(data[currentIndex] > maxy) maxy = data[currentIndex];
-        if(data[currentIndex] < miny) miny = data[currentIndex];
+        if(data[currentIndex] > ymax) ymax = data[currentIndex];
+        if(data[currentIndex] < ymin) ymin = data[currentIndex];
         currentIndex++;
     }
 
@@ -524,8 +604,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
                               (float)j/(float)(width-1),
                               (float)i/(float)(height-1));
             vertices.push_back(v);
-            if(data[currentIndex] > maxy) maxy = data[currentIndex];
-            if(data[currentIndex] < miny) miny = data[currentIndex];
+            if(data[currentIndex] > ymax) ymax = data[currentIndex];
+            if(data[currentIndex] < ymin) ymin = data[currentIndex];
 
 
             //Case 2 and 3     b
@@ -564,7 +644,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 
     vec3 shift_Pos(width/2 * offset,
-                        (miny+maxy)/2,
+                        (ymin+ymax)/2,
                         height/2 * offset);
     for(unsigned int i=0;i<vertices.size();i++){
         vertices[i].Normal = normalize(vertices[i].Normal);
@@ -573,7 +653,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 
 
-    return make_shared<Mesh>(vertices,indices,width,height);
+    return make_shared<Mesh>(vertices,indices,width,height,ymin,ymax);
 }
 
 

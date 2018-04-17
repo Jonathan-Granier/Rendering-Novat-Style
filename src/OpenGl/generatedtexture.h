@@ -9,11 +9,10 @@
 class GeneratedTexture : public Texture
 {
 public:
-    GeneratedTexture(std::string name,const int &width, const int &height, const GLchar* genVertex, const GLchar* genFrag);
+    GeneratedTexture(std::string name,const int &width, const int &height, std::shared_ptr<Shader> shader);
     void initialize();
     void startGenerate();
     void generate(int widthViewport, int heightViewport);
-    std::vector<float> texToVectorRED();
     void resize(int width, int height);
 
     void reloadShader();

@@ -8,7 +8,7 @@ using namespace std;
 
 
 HeightMap::HeightMap(string name, const int &width, const int &height):
-    GeneratedTexture(name,width,height,"shaders/heightmap.vert","shaders/heightmap.frag")
+    GeneratedTexture(name,width,height,make_shared<Shader>("shaders/heightmap.vert","shaders/heightmap.frag"))
 {
 }
 
@@ -64,7 +64,7 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glViewport(0,0,_width,_height);
 
-
+    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -38,5 +38,6 @@ void main() {
   } 
 
   //outbuff = v/sumW;
+  float d = sin(texcoord.x*20)*10;
   outbuff = vec4(1,1,1,1);
 }

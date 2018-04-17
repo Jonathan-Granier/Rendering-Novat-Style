@@ -10,7 +10,7 @@ using namespace glm;
 
 
 ShadowMap::ShadowMap(string name, const int &width, const int &height):
-    GeneratedTexture(name,width,height,"shaders/shadowmap.vert","shaders/shadowmap.frag")
+    GeneratedTexture(name,width,height,make_shared<Shader>("shaders/shadowmap.vert","shaders/shadowmap.frag"))
 {
 }
 void ShadowMap::initialize()
@@ -73,7 +73,7 @@ glm::mat4 ShadowMap::generate(std::shared_ptr<Scene> scene, glm::vec3 lightPosit
 
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glClear(GL_DEPTH_BUFFER_BIT);
-
+    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
 
 
     scene->drawOnlyMesh();

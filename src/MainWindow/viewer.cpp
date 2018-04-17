@@ -74,7 +74,7 @@ void Viewer::paintGL(){
     case CLASSICAL:
              _shadowMap->startGenerate();
              _shadowMap->generate(_scene,_light->position(),width(),height());
-             _scene->computeCurvatureMap();
+             //_scene->computeCurvatureMap();
              _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
              _lightShaders->use();
              _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
@@ -114,14 +114,14 @@ void Viewer::paintGL(){
         break;
     case CURVATURE:
 
-        _scene->computeCurvatureMap();
+        //_scene->computeCurvatureMap();
         _drawTextureShader->use();
         initDrawTexture(3);
         _scene->drawCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case LIGHTMAP :
-        _scene->computeCurvatureMap();
+        //_scene->computeCurvatureMap();
         _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
         _drawTextureShader->use();
         initDrawTexture(4);

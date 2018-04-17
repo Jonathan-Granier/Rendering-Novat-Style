@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "mesh.h"
-#include "texture.h"
+#include "loadtexture.h"
 
 /**
  * @brief A class for loading a mesh from differentes files type.
@@ -54,10 +54,11 @@ public:
 
 
 
-    std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height);
+    std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height,float offset);
 
 
 
+    std::shared_ptr<LoadTexture> textureFromMNT(const std::vector<std::string> &filepaths);
 private:
     /**
      * @brief A basic struct to store the header information in a header of a MNT file

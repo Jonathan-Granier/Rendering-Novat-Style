@@ -25,11 +25,11 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices) :
     setupMesh();
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height) :
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height, float ymin, float ymax) :
     _width(width),
     _height(height),
-    _ymin(0),
-    _ymax(0)
+    _ymin(ymin),
+    _ymax(ymax)
 {
 
     _vertices = vertices;
@@ -255,12 +255,12 @@ int Mesh::getHeight() const
     return _height;
 }
 
-int Mesh::getYmin() const
+float Mesh::getYmin() const
 {
     return _ymin;
 }
 
-int Mesh::getYmax() const
+float Mesh::getYmax() const
 {
     return _ymax;
 }

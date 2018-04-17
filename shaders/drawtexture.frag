@@ -10,8 +10,8 @@ uniform sampler2D heightMap;
 uniform sampler2D curvatureMap;
 uniform sampler2D lightMap;
 uniform sampler2D asciiTex;
-uniform int ymin;
-uniform int ymax;
+uniform float ymin;
+uniform float ymax;
 /*
   Select the texture to draw :
   0 - depthMap

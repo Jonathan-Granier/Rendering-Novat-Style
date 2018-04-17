@@ -31,7 +31,7 @@ public:
      * @param width :  the width of the mesh if it's a MNT mesh.
      * @param height : the height of the mesh if it's a MNT mesh.
      */
-    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height);
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int width, int height,float ymin, float ymax);
 
     ~Mesh();
     /**
@@ -104,9 +104,9 @@ public:
 
     int getHeight() const;
 
-    int getYmin() const;
+    float getYmin() const;
 
-    int getYmax() const;
+    float getYmax() const;
 
 
 
@@ -127,8 +127,8 @@ private :
 
     const int _width;
     const int _height;
-    int _ymin;
-    int _ymax;
+    float _ymin;
+    float _ymax;
 
 
 

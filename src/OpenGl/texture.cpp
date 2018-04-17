@@ -46,14 +46,60 @@ void Texture::draw(std::shared_ptr<Shader> shader)
 }
 
 
+
+vector<float> Texture::getDataRED(){
+    GLint numBytes = _width*_height;
+    float pixels[numBytes];
+    //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
+
+
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    glBindTexture(GL_TEXTURE_2D ,_ID);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
+
+
+    vector<float> dataVec;
+
+
+    copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
+
+
+
+    return dataVec;
+
+}
+
+
+int Texture::meshOffset() const
+{
+    return _meshOffset;
+}
+
+void Texture::setMeshOffset(int meshOffset)
+{
+    _meshOffset = meshOffset;
+}
+
+int Texture::getWidth() const
+{
+    return _width;
+}
+
+int Texture::getHeight() const
+{
+    return _height;
+}
+
+
+
 void Texture::renderQuad()
 {
     unsigned int quadVAO = 0;
     unsigned int quadVBO;
-
-
+    
+    
     float  quadVertices[] = {
-         // positions        // texture Coords
+        // positions        // texture Coords
          -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
          -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
           1.0f,  1.0f, 0.0f, 1.0f, 1.0f,

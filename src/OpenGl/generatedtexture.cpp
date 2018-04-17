@@ -7,12 +7,12 @@ using namespace std;
 
 
 GeneratedTexture::GeneratedTexture(std::string name, const int &width, const int &height,
-                                   const GLchar* genVertex, const GLchar* genFrag):
+                                   std::shared_ptr<Shader> shader):
      Texture(name)
 {
     _width = width;
     _height = height;
-    _generatorShader = make_shared<Shader>(genVertex, genFrag);
+    _generatorShader = shader;
 }
 
 
@@ -74,6 +74,8 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
     glViewport(0,0,_width,_height);
 
 
+    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
+
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -98,21 +100,6 @@ void GeneratedTexture::resize(int width, int height){
 
 }
 
-
-vector<float> GeneratedTexture::texToVectorRED(){
-    GLint numBytes = _width*_height;
-    float pixels[numBytes];
-    //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
-
-
-    glActiveTexture(GL_TEXTURE0 + _ID);
-    glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
-
-
-    vector<float> dataVec;
-    copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
-    return dataVec;
-}
 
 
 void GeneratedTexture::reloadShader()
