@@ -63,7 +63,6 @@ void Mesh::Draw()
 // CATAPULTAGE
 void Mesh::setupMesh()
 {
-     initializeOpenGLFunctions();
     /*_VAO.create();
     _VBO.create();
     _EBO.create();

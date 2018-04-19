@@ -102,6 +102,8 @@ DISTFILES += \
     shaders/generatelight.frag \
     shaders/generatelight.vert \
     shaders/gaussBlur.frag \
-    shaders/gaussBlur.vert
+    shaders/gaussBlur.vert \
+    shaders/correctcurvature.frag \
+    shaders/correctcurvature.vert
 
 FORMS = src/MainWindow/mainwindow.ui

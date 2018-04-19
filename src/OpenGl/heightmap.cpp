@@ -19,7 +19,6 @@ void HeightMap::initialize()
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     // create depth texture
 
-
     glGenTextures(1,&_ID);
     glBindTexture(GL_TEXTURE_2D,_ID);
     glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,_width,_height,0,GL_RED,GL_FLOAT,0);
@@ -63,8 +62,6 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
 
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glViewport(0,0,_width,_height);
-
-    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

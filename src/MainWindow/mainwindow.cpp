@@ -191,7 +191,14 @@ void MainWindow::setupInformationPanelSlot(){
     refreshInformationPanel();
 }
 
+void MainWindow::updateGaussBlurFactor(int g){
+    _viewer->setGaussBlurFactor(g);
+}
 
+void MainWindow::reloadGaussHeightMap(){
+    _viewer->reloadGaussHeightMap();
+    ui->mainWidget->setFocus();
+}
 
 void MainWindow::setupMenu(){
 
@@ -207,8 +214,12 @@ void MainWindow::setupControlePanel()
     connect(ui->sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
     ui->lightSlider->setSliderPosition(45);
     connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
-    ui->lightThresholdSlider->setSliderPosition(40);
+    ui->lightThresholdSlider->setSliderPosition(30);
     connect(ui->lightThresholdSlider,&QSlider::valueChanged,this,&MainWindow::updateLightThreshold);
+    ui->gaussBlurSlider->setSliderPosition(3);
+    connect(ui->gaussBlurSlider,&QSlider::valueChanged,this,&MainWindow::updateGaussBlurFactor);
+
+    connect(ui->GaussBlurButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
 }
 
 

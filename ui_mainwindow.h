@@ -96,7 +96,7 @@ public:
         MainWindow->resize(1210, 994);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
-        icon.addFile(QStringLiteral("../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral("../../../../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         loadModelAction = new QAction(MainWindow);
         loadModelAction->setObjectName(QStringLiteral("loadModelAction"));
@@ -335,6 +335,7 @@ public:
 
         GaussBlurButton = new QPushButton(verticalLayoutWidget_3);
         GaussBlurButton->setObjectName(QStringLiteral("GaussBlurButton"));
+        GaussBlurButton->setAutoDefault(false);
 
         GaussBlurLayout->addWidget(GaussBlurButton);
 
@@ -366,6 +367,9 @@ public:
         QObject::connect(sigmaSlider, SIGNAL(valueChanged(int)), sigmaValue, SLOT(setNum(int)));
         QObject::connect(lightThresholdSlider, SIGNAL(valueChanged(int)), lightThresholdValue, SLOT(setNum(int)));
         QObject::connect(gaussBlurSlider, SIGNAL(valueChanged(int)), gaussBlurValue, SLOT(setNum(int)));
+
+        GaussBlurButton->setDefault(false);
+
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -408,7 +412,7 @@ public:
         sigmaLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Sigma (*10) : </span></p></body></html>", nullptr));
         sigmaValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">10</span></p></body></html>", nullptr));
         lightThresholdLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Limite d'angle de la lumi\303\250re :</span> (PI/) (*10):</p></body></html>", nullptr));
-        lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">TextLabel</span></p></body></html>", nullptr));
+        lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">30</span></p></body></html>", nullptr));
         gaussBlurLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">GaussBlur Facteur :</span></p></body></html>", nullptr));
         gaussBlurValue->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         GaussBlurButton->setText(QApplication::translate("MainWindow", "Recompute height Map", nullptr));

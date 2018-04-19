@@ -4,12 +4,13 @@
 #include <memory>
 #include <string>
 
+
 #include "texture.h"
 
 class GeneratedTexture : public Texture
 {
 public:
-    GeneratedTexture(std::string name,const int &width, const int &height, std::shared_ptr<Shader> shader);
+    GeneratedTexture(std::string name, const int &width, const int &height, std::shared_ptr<Shader> shader);
     void initialize();
     void startGenerate();
     void generate(int widthViewport, int heightViewport);

@@ -12,6 +12,7 @@ uniform sampler2D lightMap;
 uniform sampler2D asciiTex;
 uniform float ymin;
 uniform float ymax;
+uniform vec2 moussePos;
 /*
   Select the texture to draw :
   0 - depthMap
@@ -169,22 +170,23 @@ void writeNumber(float number, int min_int_digits, int dec_digits, vec3 num_colo
 
 
 #define WriteNumber(number,min_int_digits,dec_digits,number_color) writeNumber(number,min_int_digits,dec_digits,number_color,uv,asciiTex,color)
+#define WriteChar(char,char_color) writeNormalChar(char,char_color,uv,asciiTex,color)
 
+void displayVec4(inout vec3 color, vec4 v){
 
-void displayVec4(vec3 color, vec4 v){
-  vec2 pos = vec2(75,270);
-  float scale = 1./11.;
+  vec3 fontColor = WHITE;
+  vec2 pos = vec2(10,350);
+  float scale = 1./50.;
   vec2 uv = setDisplayUV(pos,scale);
   int comma = 44;
-  WriteNumber(1.00,1,2,WHITE);
-/*
-  WriteChar(comma,WHITE);
-  WriteNumber(v.y,1,2,RED);
-  WriteChar(comma,WHITE);
-  WriteNumber(v.z,1,2,RED);
-  WriteChar(comma,WHITE);
-  WriteNumber(v.a,1,2,RED);
-*/
+  WriteNumber(v.x,1,2,fontColor);
+  WriteChar(comma,fontColor);
+  WriteNumber(v.y,1,2,fontColor);
+  WriteChar(comma,fontColor);
+  WriteNumber(v.z,1,2,fontColor);
+  WriteChar(comma,fontColor);
+  WriteNumber(v.a,1,2,fontColor);
+
 }
 
 
@@ -221,28 +223,40 @@ void displayVec4(vec3 color, vec4 v){
 
 void main()
 {
+    vec4 valueDisplay;
+    vec2 texCoordDisplay = vec2(moussePos.x/1171.0,moussePos.y/760.0);
+
 
     if(selectTexture == 0)
     {
       float depthValue = texture(depthMap, texCoord).r;
-      FragColor += vec4(depthValue,depthValue,depthValue,1.0);
+      FragColor = vec4(depthValue,depthValue,depthValue,1.0);
+      float depthValueDisplay = texture(depthMap, texCoordDisplay).r;
+      valueDisplay = vec4(depthValueDisplay,depthValueDisplay,depthValueDisplay,1.0);
     }
     if(selectTexture == 1){
       float grayValue = texture(heightMap, texCoord).r;
       grayValue = (grayValue - ymin)/(ymax-ymin);
       FragColor = vec4(grayValue,grayValue,grayValue,1.0);
+
+      float grayValueDisplay = texture(heightMap, texCoordDisplay).r;
+      valueDisplay = vec4(grayValueDisplay,grayValueDisplay,grayValueDisplay,1.0);
+
     }
     if(selectTexture == 2){
       FragColor = texture(normalMap,     texCoord);
+      valueDisplay = texture(normalMap, texCoordDisplay);
     }
     if(selectTexture == 3){
       FragColor = texture(curvatureMap,  texCoord);
+      valueDisplay = texture(curvatureMap, texCoordDisplay);
     }
     if(selectTexture == 4){
       FragColor = texture(lightMap,      texCoord);
+      valueDisplay = texture(lightMap, texCoordDisplay);
     }
 
-    displayVec4(FragColor.xyz,vec4(-1.02,0.00,1.01,0.00));
+    displayVec4(FragColor.xyz,valueDisplay);
 
     //FragColor = texture(asciiTex, texCoord);
    // FragColor = vec4(gl_FragCoord.x/1146.0 , gl_FragCoord.y/751.0,0,0);

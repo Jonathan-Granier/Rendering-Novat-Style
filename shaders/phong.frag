@@ -69,7 +69,7 @@ void main()
 
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    FragColor = Cd;
+    FragColor = n;
     //FragColor = vec4(1.0,0.0,0.0,1.0);
 }
 

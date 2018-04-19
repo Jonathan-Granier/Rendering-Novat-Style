@@ -112,6 +112,8 @@ DIST          = shaders/toon1D.frag \
 		shaders/generatelight.vert \
 		shaders/gaussBlur.frag \
 		shaders/gaussBlur.vert \
+		shaders/correctcurvature.frag \
+		shaders/correctcurvature.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -1007,8 +1009,9 @@ bin/debug/vertex.o: src/OpenGl/vertex.cpp src/OpenGl/vertex.h
 bin/debug/meshloader.o: src/OpenGl/meshloader.cpp src/OpenGl/meshloader.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/shader.h
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/texture.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/meshloader.o src/OpenGl/meshloader.cpp
 
 bin/debug/texture.o: src/OpenGl/texture.cpp src/OpenGl/texture.h \

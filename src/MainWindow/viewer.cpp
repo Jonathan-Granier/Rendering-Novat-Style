@@ -6,8 +6,8 @@
 #include <QString>
 #include "src/OpenGl/meshloader.h"
 #include "glm/gtx/string_cast.hpp"
-#include <QOpenGLFramebufferObject>
-#include <QOpenGLExtraFunctions>
+
+
 using namespace std;
 using namespace glm;
 
@@ -18,9 +18,7 @@ Viewer::Viewer(QWidget *parent) :
 
 {
 
- /*   m_context = new QOpenGLContext;
-    m_context->create();
-*/
+
 
     QSurfaceFormat format;
     format.setVersion(4,4);
@@ -29,7 +27,7 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
     create();
-    _filepaths.push_back("models/MNT_basic.asc");
+    _filepaths.push_back("models/Toy/Mount_1.asc");
 }
 
 
@@ -41,7 +39,13 @@ void Viewer::initializeGL(){
 
     // init and check glew
     makeCurrent();
-    initializeOpenGLFunctions();
+    // init and check glew
+
+    glewExperimental = GL_TRUE;
+
+    if(glewInit()!=GLEW_OK) {
+      cerr << "Warning: glewInit failed!" << endl;
+    }
 
 
 
@@ -69,12 +73,13 @@ void Viewer::initializeGL(){
 void Viewer::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    _scene->initializeGaussMap();
 
     switch(_drawMode){
     case CLASSICAL:
              _shadowMap->startGenerate();
              _shadowMap->generate(_scene,_light->position(),width(),height());
-             //_scene->computeCurvatureMap();
+             _scene->computeCurvatureMap();
              _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
              _lightShaders->use();
              _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
@@ -114,14 +119,21 @@ void Viewer::paintGL(){
         break;
     case CURVATURE:
 
-        //_scene->computeCurvatureMap();
+        _scene->computeCurvatureMap();
         _drawTextureShader->use();
         initDrawTexture(3);
         _scene->drawCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
+    case CORRECURV:
+        _scene->computeCurvatureMap();
+        _drawTextureShader->use();
+        initDrawTexture(3);
+        _scene->drawCorrectCurvatureMap(_drawTextureShader);
+        _drawTextureShader->disable();
+        break;
     case LIGHTMAP :
-        //_scene->computeCurvatureMap();
+        _scene->computeCurvatureMap();
         _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
         _drawTextureShader->use();
         initDrawTexture(4);
@@ -146,28 +158,28 @@ void Viewer::mousePressEvent(QMouseEvent *me){
 
 
     //cout << width() << " " << height() << endl;
-    const vec2 p((float)me->x(),(float)(height()-me->y()));
+    _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
-        _cam->initRotation(p);
+        _cam->initRotation(_moussePos);
     } else if(me->button()==Qt::MidButton) {
         _lightMode = false;
-        _cam->initMoveZ(p);
+        _cam->initMoveZ(_moussePos);
     } else if(me->button()==Qt::RightButton) {
         _lightMode = true;
-        _light->startMoveAroundYAxe(p,width(),height());
+        _light->startMoveAroundYAxe(_moussePos,width(),height());
     }
     update();
 }
 void Viewer::mouseMoveEvent(QMouseEvent *me){
 
-    const vec2 p((float)me->x(),(float)(height()-me->y()));
+   _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
 
 
     if(_lightMode)
-        _light->moveAroundYAxe(p,width(),height());
+        _light->moveAroundYAxe(_moussePos,width(),height());
     else
-        _cam->move(p);
+        _cam->move(_moussePos);
 
     update();
 }
@@ -239,7 +251,8 @@ void Viewer::nextDrawMode(){
         case SHADOWMAP: _drawMode = HEIGHTMAP; break;
         case HEIGHTMAP: _drawMode = NORMALMAP; break;
         case NORMALMAP: _drawMode = CURVATURE; break;
-        case CURVATURE: _drawMode = LIGHTMAP ; break;
+        case CURVATURE: _drawMode = CORRECURV; break;
+        case CORRECURV: _drawMode = LIGHTMAP ; break;
         case LIGHTMAP : _drawMode = CLASSICAL; break;
     }
 
@@ -254,7 +267,8 @@ void Viewer::previousDrawMode(){
         case HEIGHTMAP: _drawMode = SHADOWMAP; break;
         case NORMALMAP: _drawMode = HEIGHTMAP; break;
         case CURVATURE: _drawMode = NORMALMAP; break;
-        case LIGHTMAP : _drawMode = CURVATURE; break;
+        case CORRECURV: _drawMode = CURVATURE; break;
+        case LIGHTMAP : _drawMode = CORRECURV; break;
 
     }
     update();
@@ -262,6 +276,7 @@ void Viewer::previousDrawMode(){
 
 void Viewer::loadScene()
 {
+
     _scene  = make_shared<Scene>(_filepaths,Scene::LOADED,width(),height());
     _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
     _cam->initialize(width(),height(),true);
@@ -335,6 +350,9 @@ string Viewer::getCurrentDrawMode()
         case CURVATURE:
         stringDrawMode = "Curvature Map";
         break;
+        case CORRECURV:
+        stringDrawMode = "Correct Curvature Map";
+        break;
         case LIGHTMAP :
         stringDrawMode = "Light Map";
         break;
@@ -391,6 +409,19 @@ void Viewer::setLightThreshold(float lightThreshold)
     update();
 }
 
+void Viewer::setGaussBlurFactor(int f){
+    _scene->setGaussBlurFactor(f);
+}
+
+int Viewer::getGaussBlurFactor(){
+    return _scene->getGaussBlurFactor();
+}
+
+void Viewer::reloadGaussHeightMap(){
+    _scene->reloadGaussHeightMap();
+    update();
+}
+
 
 
 
@@ -407,6 +438,7 @@ void Viewer::initShaders(){
 
 void Viewer::initDrawTexture(int numTex){
     _drawTextureShader->setInt("selectTexture",numTex);
+    _drawTextureShader->setVec2("moussePos",_moussePos);
     _scene->drawAsciiTex(_drawTextureShader);
 }
 

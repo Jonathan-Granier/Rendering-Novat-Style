@@ -19,13 +19,12 @@ GeneratedTexture::GeneratedTexture(std::string name, const int &width, const int
 
 void GeneratedTexture::initialize()
 {
-    // configure depth map FBO
-    // -----------------------
 
 
     glGenFramebuffers(1,&_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
-    // create depth texture
+
+
 
 
     glGenTextures(1,&_ID);
@@ -69,12 +68,9 @@ void GeneratedTexture::startGenerate()
 void GeneratedTexture::generate(int widthViewport, int heightViewport)
 {
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
-
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glViewport(0,0,_width,_height);
 
-
-    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
 
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

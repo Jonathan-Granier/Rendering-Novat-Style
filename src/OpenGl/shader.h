@@ -1,19 +1,26 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+// GLEW lib: needs to be included first!!
+#include <GL/glew.h>
+
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
 
 
 
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-#include <QOpenGLFunctions_4_4_Core>
 
 
 /**
  * @brief The Shader class, opens, compiles and executes a vertex shader and a fragment shader.
  */
-class Shader : protected QOpenGLFunctions_4_4_Core
+class Shader
 {
 public:
 

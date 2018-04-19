@@ -56,7 +56,7 @@ float anneau(vec2 t){
   vec2 s = t-center;
   float distance =  sqrt(s.x*s.x + s.y*s.y);
 
-  return sin(distance*20)*10;
+  return sin(distance*20)*100;
 
 }
 
@@ -65,7 +65,7 @@ float anneau(vec2 t){
 void main()
 {
   float p = perlin(texCoord);
-  outBuffer = anneau(texCoord);
+  outBuffer = anneau(texCoord)*p;
 }
 
 

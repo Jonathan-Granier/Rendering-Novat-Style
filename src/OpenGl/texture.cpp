@@ -1,11 +1,12 @@
 #include "texture.h"
-/*
+
+
 #include <GL/glew.h>
 // OpenGL library
 #include <GL/gl.h>
 // OpenGL Utility library
 #include <GL/glu.h>
-*/
+
 
 
 
@@ -15,9 +16,7 @@
 
 using namespace std;
 
-Texture::Texture(std::string name): _name(name){
-    initializeOpenGLFunctions();
-}
+Texture::Texture(std::string name): _name(name){}
 
 
 void Texture::sendToShader(shared_ptr<Shader> shader)
@@ -60,10 +59,12 @@ vector<float> Texture::getDataRED(){
 
     vector<float> dataVec;
 
-
-    copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
-
-
+    for(int i = _height-1; i >=0; i--){
+        for(int j =0; j< _width;j++){
+            //cout <<pixels[i*_width+ j] << "|";
+            dataVec.push_back(pixels[i*_width+ j]);
+        }
+    }
 
     return dataVec;
 

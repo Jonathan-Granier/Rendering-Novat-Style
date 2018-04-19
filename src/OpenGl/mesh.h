@@ -1,9 +1,15 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <QOpenGLFunctions_4_4_Core>
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
+// GLEW lib: needs to be included first!!
+#include <GL/glew.h>
+
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
+
 #include <vector>
 #include <glm/glm.hpp>
 #include "vertex.h"
@@ -11,7 +17,7 @@
 /**
  * @brief A Mesh is a vector of vertex and a vector of int that define the indices of vertex of polygons of the mesh.
  */
-class Mesh : protected QOpenGLFunctions_4_4_Core
+class Mesh
 {
 public:
 
@@ -94,10 +100,7 @@ public:
      */
     float radius() const;
 
-    /**
-     * @brief a Vertex Array Object.
-     */
-    unsigned int _VAO;
+
 
 
     int getWidth() const;
@@ -112,13 +115,11 @@ public:
 
 private :
 
- /*   QOpenGLVertexArrayObject _VAO;
-    QOpenGLBuffer _VBO;
-    QOpenGLBuffer _EBO;
-*/
 
-    unsigned _VBO;                      /** < a Vertex Buffer Object.*/
-    unsigned _EBO;                      /** < a Element Buffer Object.*/
+
+    unsigned int _VAO;                       /** < a Vertex Array Object. */
+    unsigned int _VBO;                      /** < a Vertex Buffer Object.*/
+    unsigned int _EBO;                      /** < a Element Buffer Object.*/
     std::vector<Vertex> _vertices;      /** < a vector of vertex.*/
     std::vector<unsigned int> _indices; /** <  a vector of int that define the indices of vertex of polygons of the mesh.*/
     glm::vec3 _center;                  /** < The radius of the mesh.*/

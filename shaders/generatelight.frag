@@ -91,12 +91,12 @@ vec4 computeLight(in vec4 c, in vec2 l){
 
   if(lightSelector == 0)
     newYaw = yaw + s * theta;
-  if(lightSelector == 1)
+  if(lightSelector == 3)
     newYaw = yaw + cu * theta;
   if(lightSelector == 2)
     newYaw = yaw + cu*s * theta;
-  if(lightSelector == 3)
-    newYaw = yaw + smoothTheta(theta)*theta;
+  if(lightSelector == 1)
+    newYaw = yaw + smoothTheta(theta)*s*theta;
   if(lightSelector == 4)
     newYaw = yaw + cu*s *theta;
 

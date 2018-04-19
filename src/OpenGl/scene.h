@@ -59,14 +59,14 @@ public:
 
     void drawCurvatureMap(std::shared_ptr<Shader> shader);
 
-    void drawGaussBlur(std::shared_ptr<Shader> shader);
+    void drawCorrectCurvatureMap(std::shared_ptr<Shader> shader);
 
     void drawLightMap(std::shared_ptr<Shader> shader);
 
     void drawAsciiTex(std::shared_ptr<Shader> shader);
 
-
-    void computeGaussBlur();
+    void initializeGaussMap();
+    void computeCurvatureMap();
     void computeLightMap(glm::vec3 lightPosition, float lightYaw, float lightPitch);
 
     void reloadGenerateTexturesShader();
@@ -106,13 +106,24 @@ public:
     float getLightThreshold() const;
     void setLightThreshold(float lightThreshold);
 
+
+
+    int getGaussBlurFactor() const;
+    void setGaussBlurFactor(int gaussBlurFactor);
+
+    void reloadGaussHeightMap();
+
+
 private:
 
     struct MAPS{
         std::shared_ptr<Mesh>               mesh;
-        std::shared_ptr<Texture>            heightMap;
+        std::shared_ptr<LoadTexture>        heightMap;
+        std::shared_ptr<GeneratedTexture>   gaussMap;
+        std::shared_ptr<GeneratedTexture>   interGaussMap;
         std::shared_ptr<LoadTexture>        normalMap;
         std::shared_ptr<GeneratedTexture>   curvatureMap;
+        std::shared_ptr<GeneratedTexture>   correctCurvatureMap;
         std::shared_ptr<GeneratedTexture>   lightMap;
     };
 
@@ -125,6 +136,7 @@ private:
     std::shared_ptr<MAPS>         _currentMaps;
 
     std::shared_ptr<Shader>         _curvatureShader;
+    std::shared_ptr<Shader>         _correctCurvatureShader;
     std::shared_ptr<Shader>         _generateLightShader;
     std::shared_ptr<Shader>         _gaussBlurShader;
 /*
@@ -147,22 +159,23 @@ private:
     std::shared_ptr<LoadTexture>                        _asciiTex;
     MeshLoader                                          _meshLoader;
 
-    float       _sigma;
-    int         _lightSelector;
-    float       _lightThreshold;
-    const int   _MAXLIGHTSELECTOR = 5;
-    const float _MAXLIGHTTRESHOLD = M_PI/2.2;
-    const float _MINLIGHTRESHOLD = 0;
-    const float _WIDTHGENTEX = 1024;
-    const float _HEIGHTGENTEX = 1024;
+    float        _sigma;
+    int          _gaussBlurFactor;
+    int          _lightSelector;
+    float        _lightThreshold;
+    const int    _MAXLIGHTSELECTOR = 5;
+    const float  _MAXLIGHTTRESHOLD = M_PI/2.2;
+    const float  _MINLIGHTRESHOLD = 0;
+    const float  _WIDTHGENTEX = 1024;
+    const float  _HEIGHTGENTEX = 1024;
 
 
 
     TYPE_MESH _typeMeshUsed;
     int _widthViewport;
     int _heightViewport;
-
-
+    bool _isComputeCurvatureMap;
+    bool _isInitializedGaussMap;
 
 
 
@@ -174,8 +187,13 @@ private:
     void initializeGenShader();
     void initializeMaps(std::shared_ptr<MAPS> maps);
     void computeCurvatureMap(std::shared_ptr<MAPS> maps);
-    void computeGaussBlur(std::shared_ptr<MAPS> ref, std::shared_ptr<MAPS> gauss);
+    void computeGaussBlur(std::shared_ptr<MAPS> gauss, std::shared_ptr<MAPS> ref);
     void majCurrentMap();
+
+
+    void initializeDataMaps(std::shared_ptr<MAPS> maps,bool isGauss);
+    void InitGenTex(std::shared_ptr<MAPS> maps);
+    void InitGenTex(std::shared_ptr<MAPS> maps, std::shared_ptr<MAPS> ref);
 
 
 };

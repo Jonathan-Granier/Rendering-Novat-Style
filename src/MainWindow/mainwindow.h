@@ -37,6 +37,8 @@ public:
 
 
 
+
+
 protected:
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
@@ -81,7 +83,8 @@ private slots:
     void updateLightPosition(int angle);
     void updateSigma(int sigma);
     void updateLightThreshold(int t);
-
+    void updateGaussBlurFactor(int g);
+    void reloadGaussHeightMap();
     void setupInformationPanelSlot();
 
 private:
@@ -116,6 +119,7 @@ private:
 
 
     void refreshInformationPanel();
+
 
 };
 

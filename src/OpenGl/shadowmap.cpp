@@ -73,8 +73,6 @@ glm::mat4 ShadowMap::generate(std::shared_ptr<Scene> scene, glm::vec3 lightPosit
 
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glClear(GL_DEPTH_BUFFER_BIT);
-    cout << "name :" << _name <<" FBO = "  << _FBO << " QTFBO = " << _QTFBO <<endl;
-
 
     scene->drawOnlyMesh();
 

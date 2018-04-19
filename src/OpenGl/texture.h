@@ -1,18 +1,27 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+// GLEW lib: needs to be included first!!
+#include <GL/glew.h>
+
+// OpenGL library
+#include <GL/gl.h>
+
+// OpenGL Utility library
+#include <GL/glu.h>
+
+
 #include <string>
 #include <vector>
 #include <memory>
 #include "shader.h"
-#include <QOpenGLFunctions_4_4_Core>
 
-// TODO : generer le debug shader.
+
 
 /**
  * @brief The name and the ID of a texture.
  */
-class Texture : protected QOpenGLFunctions_4_4_Core
+class Texture
 {
 public:
     Texture(std::string name);

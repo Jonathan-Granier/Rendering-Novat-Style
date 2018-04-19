@@ -556,7 +556,7 @@ shared_ptr<LoadTexture> MeshLoader::textureFromMNT(const vector<string> &filepat
 
         }
     }
-    shared_ptr<LoadTexture> heightMap = make_shared<LoadTexture>("heightMap", heightMapData,GL_R32F,   GL_RED,  width,height);
+    shared_ptr<LoadTexture> heightMap = make_shared<LoadTexture>("heightMap", heightMapData,GL_R32F, GL_RED, width,height);
     heightMap->setMeshOffset(currentFileInfo->offset);
     return heightMap;
 

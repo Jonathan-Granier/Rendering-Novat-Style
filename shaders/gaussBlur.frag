@@ -37,7 +37,7 @@ void main() {
     cdir = cdir+dir; 
   } 
 
-  //outbuff = v/sumW;
+  outbuff = v/sumW;
   float d = sin(texcoord.x*20)*10;
-  outbuff = vec4(1,1,1,1);
+  //outbuff = vec4(d,d,d,d);
 }

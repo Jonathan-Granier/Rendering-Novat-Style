@@ -49,7 +49,6 @@ void Shader::add(const GLchar *vertexPath, const GLchar *fragmentPath)
 void Shader::initialize(ShaderInfo *shaderInfo)
 {
 
-    initializeOpenGLFunctions();
     // 1. retrieve the vertex/fragment source code from filePath
        string vertexCode, fragmentCode;
        ifstream vShaderFile, fShaderFile;
