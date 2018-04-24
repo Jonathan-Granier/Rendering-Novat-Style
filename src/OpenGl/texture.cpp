@@ -71,6 +71,27 @@ vector<float> Texture::getDataRED(){
 }
 
 
+void Texture::printValueRED(){
+
+    GLint numBytes = _width*_height;
+    float pixels[numBytes];
+
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    glBindTexture(GL_TEXTURE_2D ,_ID);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
+
+
+    cout << _name << endl;
+    for(int i = _height-1; i >=0; i--){
+        for(int j =0; j< _width;j++){
+            cout <<pixels[i*_width+ j] << "|";
+            //dataVec.push_back(pixels[i*_width+ j]);
+        }
+        cout << endl;
+    }
+}
+
+
 int Texture::meshOffset() const
 {
     return _meshOffset;
@@ -91,7 +112,14 @@ int Texture::getHeight() const
     return _height;
 }
 
+std::string Texture::getName() const
+{
+    return _name;
+}
 
+/************************************************
+ *              Private Functions               *
+ ************************************************/
 
 void Texture::renderQuad()
 {

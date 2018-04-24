@@ -142,23 +142,29 @@ void Mesh::printInfo()
 }
 
 
-vector<float> Mesh::getNormalMap(){
+vector<float> Mesh::getNormalMapObjectSpace(){
 
     vector<float> normalMap;
     // Reverse texture
 
+    unsigned int index = 0;
 
-    for(Vertex v : _vertices){
-        normalMap.push_back(v.Normal.x);
-        normalMap.push_back(v.Normal.y);
-        normalMap.push_back(v.Normal.z);
+    for(int i = 0 ; i < _height ; i++){
+        for(int j=0; j < _width; j++){
+            index = i*_width + j;
+            glm::vec3 n = _vertices[index].Normal;
+            normalMap.push_back(n.x);
+            normalMap.push_back(n.y);
+            normalMap.push_back(n.z);
+            normalMap.push_back(0.0f);
+        }
     }
     return normalMap;
 }
 
 
 
-vector<float> Mesh::getReverseNormalMap(){
+vector<float> Mesh::getNormalMapZUp(){
     vector<float> normalMap;
     unsigned int index = 0;
 

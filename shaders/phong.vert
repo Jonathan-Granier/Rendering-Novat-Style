@@ -10,7 +10,7 @@ uniform mat3 normalMat;
 
 
 uniform vec3 lightPosition;
-
+uniform sampler2D normalMapPhong;
 
 // declare an interface block; see 'Advanced GLSL' for what these are.
 out VS_OUT {
@@ -21,7 +21,7 @@ out VS_OUT {
 
 void main()
 {
-
+    vec3 n = texture(normalMapPhong,aTexCoord).xyz;
     vec4 position = vec4(aPos,1.0);
     vs_out.lightDir =mdvMat *  normalize(vec4(lightPosition,0.0) );
     vs_out.Normal = normalMat * aNormal;

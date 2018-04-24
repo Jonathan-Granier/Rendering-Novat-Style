@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -37,6 +38,7 @@ public:
     QAction *actionAide;
     QAction *actionA_propos;
     QAction *exitAction;
+    QAction *actionMesh;
     QWidget *centralwidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
@@ -75,6 +77,8 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QSlider *lightThresholdSlider;
     QWidget *mainWidget;
+    QCheckBox *checkBox;
+    QCheckBox *checkBox_2;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *GaussBlurLayout;
     QHBoxLayout *horizontalLayout_5;
@@ -86,6 +90,7 @@ public:
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
+    QMenu *menuSelection_Map;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -93,7 +98,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModal);
-        MainWindow->resize(1210, 994);
+        MainWindow->resize(1212, 1002);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
         icon.addFile(QStringLiteral("../../../../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
@@ -108,6 +113,8 @@ public:
         actionA_propos->setObjectName(QStringLiteral("actionA_propos"));
         exitAction = new QAction(MainWindow);
         exitAction->setObjectName(QStringLiteral("exitAction"));
+        actionMesh = new QAction(MainWindow);
+        actionMesh->setObjectName(QStringLiteral("actionMesh"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayoutWidget = new QWidget(centralwidget);
@@ -302,6 +309,12 @@ public:
         mainWidget = new QWidget(centralwidget);
         mainWidget->setObjectName(QStringLiteral("mainWidget"));
         mainWidget->setGeometry(QRect(10, 10, 1191, 781));
+        checkBox = new QCheckBox(mainWidget);
+        checkBox->setObjectName(QStringLiteral("checkBox"));
+        checkBox->setGeometry(QRect(220, 240, 85, 21));
+        checkBox_2 = new QCheckBox(mainWidget);
+        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
+        checkBox_2->setGeometry(QRect(210, 270, 85, 21));
         verticalLayoutWidget_3 = new QWidget(centralwidget);
         verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
         verticalLayoutWidget_3->setGeometry(QRect(990, 830, 207, 91));
@@ -342,11 +355,13 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1210, 20));
+        menubar->setGeometry(QRect(0, 0, 1212, 20));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
         menuAide->setObjectName(QStringLiteral("menuAide"));
+        menuSelection_Map = new QMenu(menubar);
+        menuSelection_Map->setObjectName(QStringLiteral("menuSelection_Map"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -355,12 +370,14 @@ public:
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuAide->menuAction());
+        menubar->addAction(menuSelection_Map->menuAction());
         menuFile->addAction(loadModelAction);
         menuFile->addAction(screenshotAction);
         menuFile->addSeparator();
         menuFile->addAction(exitAction);
         menuAide->addAction(actionAide);
         menuAide->addAction(actionA_propos);
+        menuSelection_Map->addAction(actionMesh);
 
         retranslateUi(MainWindow);
         QObject::connect(lightSlider, SIGNAL(valueChanged(int)), lightPosValue, SLOT(setNum(int)));
@@ -400,6 +417,7 @@ public:
 #ifndef QT_NO_SHORTCUT
         exitAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", nullptr));
 #endif // QT_NO_SHORTCUT
+        actionMesh->setText(QApplication::translate("MainWindow", "Mesh", nullptr));
         informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Shading :</span></p></body></html>", nullptr));
         label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin</span></p></body></html>", nullptr));
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Shader courant</span></p></body></html>", nullptr));
@@ -413,11 +431,14 @@ public:
         sigmaValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">10</span></p></body></html>", nullptr));
         lightThresholdLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Limite d'angle de la lumi\303\250re :</span> (PI/) (*10):</p></body></html>", nullptr));
         lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">30</span></p></body></html>", nullptr));
+        checkBox->setText(QApplication::translate("MainWindow", "CheckBox", nullptr));
+        checkBox_2->setText(QApplication::translate("MainWindow", "CheckBox", nullptr));
         gaussBlurLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">GaussBlur Facteur :</span></p></body></html>", nullptr));
         gaussBlurValue->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         GaussBlurButton->setText(QApplication::translate("MainWindow", "Recompute height Map", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
+        menuSelection_Map->setTitle(QApplication::translate("MainWindow", "Selection Map", nullptr));
     } // retranslateUi
 
 };

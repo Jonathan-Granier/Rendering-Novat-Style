@@ -7,9 +7,11 @@ in vec2 texCoord;
 uniform sampler2D depthMap;
 uniform sampler2D normalMap;
 uniform sampler2D heightMap;
+uniform sampler2D slantMap;
 uniform sampler2D curvatureMap;
 uniform sampler2D lightMap;
 uniform sampler2D asciiTex;
+uniform sampler2D parallaxMap;
 uniform float ymin;
 uniform float ymax;
 uniform vec2 moussePos;
@@ -24,7 +26,7 @@ uniform vec2 moussePos;
 
 uniform int selectTexture;
 
-/* API to diplay number from Astor Bizard
+/* API to diplay text from Astor Bizard
   https://www.shadertoy.com/view/MdycDK
 */
 
@@ -174,36 +176,20 @@ void writeNumber(float number, int min_int_digits, int dec_digits, vec3 num_colo
 
 void displayVec4(inout vec3 color, vec4 v){
 
-  vec3 fontColor = WHITE;
+  vec3 fontColor = TURQUOISE;
   vec2 pos = vec2(10,350);
   float scale = 1./50.;
   vec2 uv = setDisplayUV(pos,scale);
   int comma = 44;
-  WriteNumber(v.x,1,2,fontColor);
+  WriteNumber(v.x,1,5,fontColor);
   WriteChar(comma,fontColor);
-  WriteNumber(v.y,1,2,fontColor);
+  WriteNumber(v.y,1,5,fontColor);
   WriteChar(comma,fontColor);
-  WriteNumber(v.z,1,2,fontColor);
+  WriteNumber(v.z,1,5,fontColor);
   WriteChar(comma,fontColor);
-  WriteNumber(v.a,1,2,fontColor);
+  WriteNumber(v.a,1,5,fontColor);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -237,6 +223,7 @@ void main()
     if(selectTexture == 1){
       float grayValue = texture(heightMap, texCoord).r;
       grayValue = (grayValue - ymin)/(ymax-ymin);
+      //grayValue = (grayValue +1.0 )/2.0;
       FragColor = vec4(grayValue,grayValue,grayValue,1.0);
 
       float grayValueDisplay = texture(heightMap, texCoordDisplay).r;
@@ -248,14 +235,21 @@ void main()
       valueDisplay = texture(normalMap, texCoordDisplay);
     }
     if(selectTexture == 3){
+      FragColor = texture(slantMap,  texCoord);
+      valueDisplay = texture(slantMap, texCoordDisplay);
+    }
+    if(selectTexture == 4){
       FragColor = texture(curvatureMap,  texCoord);
       valueDisplay = texture(curvatureMap, texCoordDisplay);
     }
-    if(selectTexture == 4){
+    if(selectTexture == 5){
       FragColor = texture(lightMap,      texCoord);
       valueDisplay = texture(lightMap, texCoordDisplay);
     }
-
+    if(selectTexture == 6){
+      FragColor = texture(parallaxMap,      texCoord);
+      valueDisplay = texture(parallaxMap, texCoordDisplay);
+    }
     displayVec4(FragColor.xyz,valueDisplay);
 
     //FragColor = texture(asciiTex, texCoord);

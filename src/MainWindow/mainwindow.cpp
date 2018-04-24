@@ -36,37 +36,11 @@ MainWindow::MainWindow() :
 
 
 
-    /*this->setFixedSize(1200,1000);
-    // TODO set Icon
-    // TODO window->setWorkingDirectory(appPath, sceneName, textureName, envMapName);
-
-    //Allocation
-    _viewer = make_unique<Viewer>();
-
-
-
-
-     // _viewer->setFixedSize(1200, 700);
-   // setupMenu();
-    QWidget *controlePanel = setupControlePanel();
-   // QWidget *controlePanel = new QWidget();
-    controlePanel->setMaximumHeight(100);
-    QWidget *centralWidget = new QWidget();
-    QVBoxLayout *centralLayout = new QVBoxLayout();
-    centralLayout->addWidget(_viewer.get());
-    centralLayout->addWidget(controlePanel);
-
-    centralWidget->setLayout(centralLayout);
-
-
-   // setCentralWidget(centralWidget);
-    */
 }
 
 MainWindow::~MainWindow()
 {
-    //deleteLoadingBar();
-    //delete _viewer;
+
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -200,6 +174,11 @@ void MainWindow::reloadGaussHeightMap(){
     ui->mainWidget->setFocus();
 }
 
+
+/************************************************
+ *              Private Functions               *
+ ************************************************/
+
 void MainWindow::setupMenu(){
 
     //const QIcon openIcon = QIcon::fromTheme("document-open"); //TODO Image
@@ -230,10 +209,3 @@ void MainWindow::refreshInformationPanel(){
     ui->lightMode->setText(QStringLiteral("%1").arg(_viewer->getLightSelector()));
 }
 
-/*
-void MainWindow::refreshStatusBar(){
-    QString currentDrawMode=QString::fromStdString(_viewer->getDrawMode());
-    QString currentLight = QStringLiteral(" Light Mode : %1").arg(_viewer->getLightSelector());
-    statusBar()->showMessage(currentDrawMode + currentLight);
-}
-*/

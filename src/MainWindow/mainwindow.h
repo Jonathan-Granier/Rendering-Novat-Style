@@ -109,15 +109,10 @@ private:
      * @brief Set up the menuBar and the different action
      */
 
-    float _theta;
+
 
     void setupMenu();
-
-
     void setupControlePanel();
-    void setupInformationPanel();
-
-
     void refreshInformationPanel();
 
 

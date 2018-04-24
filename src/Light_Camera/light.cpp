@@ -64,7 +64,9 @@ float Light::pitch() const
     return _pitch;
 }
 
-
+/************************************************
+ *              Private Functions               *
+ ************************************************/
 
 vec2 Light::centerAndNormalize(vec2 v,float width,float height){
     v.x -= width/2.0;

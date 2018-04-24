@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1210</width>
-    <height>994</height>
+    <width>1212</width>
+    <height>1002</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -299,6 +299,32 @@
       <height>781</height>
      </rect>
     </property>
+    <widget class="QCheckBox" name="checkBox">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>240</y>
+       <width>85</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CheckBox</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_2">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>270</y>
+       <width>85</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CheckBox</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
@@ -369,7 +395,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1210</width>
+     <width>1212</width>
      <height>20</height>
     </rect>
    </property>
@@ -389,8 +415,15 @@
     <addaction name="actionAide"/>
     <addaction name="actionA_propos"/>
    </widget>
+   <widget class="QMenu" name="menuSelection_Map">
+    <property name="title">
+     <string>Selection Map</string>
+    </property>
+    <addaction name="actionMesh"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAide"/>
+   <addaction name="menuSelection_Map"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
@@ -438,6 +471,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionMesh">
+   <property name="text">
+    <string>Mesh</string>
    </property>
   </action>
  </widget>

@@ -46,66 +46,6 @@ void Shader::add(const GLchar *vertexPath, const GLchar *fragmentPath)
 }
 
 
-void Shader::initialize(ShaderInfo *shaderInfo)
-{
-
-    // 1. retrieve the vertex/fragment source code from filePath
-       string vertexCode, fragmentCode;
-       ifstream vShaderFile, fShaderFile;
-       // ensure ifstream objects can throw exceptions:
-       vShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
-       fShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
-       try
-       {
-           // open files
-           vShaderFile.open(shaderInfo->vertexPath);
-           fShaderFile.open(shaderInfo->fragmentPath);
-           stringstream vShaderStream, fShaderStream;
-           // read file's buffer contents into streams
-           vShaderStream << vShaderFile.rdbuf();
-           fShaderStream << fShaderFile.rdbuf();
-           // close file handlers
-           vShaderFile.close();
-           fShaderFile.close();
-           // convert stream into string
-           vertexCode   = vShaderStream.str();
-           fragmentCode = fShaderStream.str();
-       }
-       catch(ifstream::failure e)
-       {
-           cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << endl;
-       }
-       const char* vShaderCode = vertexCode.c_str();
-       const char* fShaderCode = fragmentCode.c_str();
-
-
-
-       // 2. compile shadersfragmentPaht
-       unsigned int vertex, fragment;
-
-       // vertex Shader
-       vertex = glCreateShader(GL_VERTEX_SHADER);
-       glShaderSource(vertex, 1, &vShaderCode, NULL);
-       glCompileShader(vertex);
-       checkCompileErrors(vertex,"VERTEX",shaderInfo->name);
-
-       //Fragment Shader
-       fragment = glCreateShader(GL_FRAGMENT_SHADER);
-       glShaderSource(fragment, 1, &fShaderCode, NULL);
-       glCompileShader(fragment);
-       // print compile errors if any
-       checkCompileErrors(fragment,"FRAGMENT",shaderInfo->name);
-
-       // shader Program
-       unsigned int id;
-       id = glCreateProgram();
-       glAttachShader(id, vertex);
-       glAttachShader(id, fragment);
-       glLinkProgram(id);
-       // print linking errors if any
-       checkCompileErrors(id,"PROGRAM",shaderInfo->name);
-       shaderInfo->id = id;
-}
 
 void Shader::use()
 {
@@ -207,9 +147,71 @@ void Shader::setMat4(const string &name, const mat4 &mat)
    glUniformMatrix4fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
+/************************************************
+ *              Private Functions               *
+ ************************************************/
+
+void Shader::initialize(ShaderInfo *shaderInfo)
+{
+
+    // 1. retrieve the vertex/fragment source code from filePath
+       string vertexCode, fragmentCode;
+       ifstream vShaderFile, fShaderFile;
+       // ensure ifstream objects can throw exceptions:
+       vShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
+       fShaderFile.exceptions (ifstream::failbit | ifstream::badbit);
+       try
+       {
+           // open files
+           vShaderFile.open(shaderInfo->vertexPath);
+           fShaderFile.open(shaderInfo->fragmentPath);
+           stringstream vShaderStream, fShaderStream;
+           // read file's buffer contents into streams
+           vShaderStream << vShaderFile.rdbuf();
+           fShaderStream << fShaderFile.rdbuf();
+           // close file handlers
+           vShaderFile.close();
+           fShaderFile.close();
+           // convert stream into string
+           vertexCode   = vShaderStream.str();
+           fragmentCode = fShaderStream.str();
+       }
+       catch(ifstream::failure e)
+       {
+           cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << endl;
+       }
+       const char* vShaderCode = vertexCode.c_str();
+       const char* fShaderCode = fragmentCode.c_str();
 
 
-// ----------------------- Private Function -------------------------------
+
+       // 2. compile shadersfragmentPaht
+       unsigned int vertex, fragment;
+
+       // vertex Shader
+       vertex = glCreateShader(GL_VERTEX_SHADER);
+       glShaderSource(vertex, 1, &vShaderCode, NULL);
+       glCompileShader(vertex);
+       checkCompileErrors(vertex,"VERTEX",shaderInfo->name);
+
+       //Fragment Shader
+       fragment = glCreateShader(GL_FRAGMENT_SHADER);
+       glShaderSource(fragment, 1, &fShaderCode, NULL);
+       glCompileShader(fragment);
+       // print compile errors if any
+       checkCompileErrors(fragment,"FRAGMENT",shaderInfo->name);
+
+       // shader Program
+       unsigned int id;
+       id = glCreateProgram();
+       glAttachShader(id, vertex);
+       glAttachShader(id, fragment);
+       glLinkProgram(id);
+       // print linking errors if any
+       checkCompileErrors(id,"PROGRAM",shaderInfo->name);
+       shaderInfo->id = id;
+}
+
 void Shader::checkCompileErrors(GLuint shader, string type,string name)
 {
     GLint success;

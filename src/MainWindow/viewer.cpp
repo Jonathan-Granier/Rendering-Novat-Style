@@ -77,36 +77,34 @@ void Viewer::paintGL(){
 
     switch(_drawMode){
     case CLASSICAL:
-             _shadowMap->startGenerate();
-             _shadowMap->generate(_scene,_light->position(),width(),height());
-             _scene->computeCurvatureMap();
-             _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
-             _lightShaders->use();
-             _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
-             _lightShaders->setMat4("projMat",_cam->projMatrix());
-             _lightShaders->setMat3("normalMat",_cam->normalMatrix());
-             _lightShaders->setVec3("lightPosition",_light->position());
-             _lightShaders->setVec3("cameraPosition",_cam->view());
-             _lightShaders->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
+        _shadowMap->startGenerate();
+        _shadowMap->generate(_scene,_light->position(),width(),height());
+        _scene->computeCurvatureMap();
+        _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
+        _scene->computeParallaxMap(_light->position());
+        _lightShaders->use();
+        _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
+        _lightShaders->setMat4("projMat",_cam->projMatrix());
+        _lightShaders->setMat3("normalMat",_cam->normalMatrix());
+        _lightShaders->setVec3("lightPosition",_light->position());
+        _lightShaders->setVec3("cameraPosition",_cam->view());
+        _lightShaders->setMat4("ligthSpaceMat",_shadowMap->lightSpaceMatrix());
 
+        _shadowMap->sendToShader(_lightShaders);
 
-
-             _shadowMap->sendToShader(_lightShaders);
-             _scene->draw(_lightShaders,_light->position());
-             _lightShaders->disable();_drawTextureShader->setInt("selectTexture",1);
+        _scene->draw(_lightShaders,_light->position());
+        _lightShaders->disable();
         break;
     case SHADOWMAP:
-             _shadowMap->startGenerate();
-             _shadowMap->generate(_scene,_light->position(),width(),height());
-             _drawTextureShader->use();
-             initDrawTexture(0);
-             _shadowMap->draw(_drawTextureShader);
-             _drawTextureShader->disable();
+        _shadowMap->startGenerate();
+        _shadowMap->generate(_scene,_light->position(),width(),height());
+        _drawTextureShader->use();
+        initDrawTexture(0);
+        _shadowMap->draw(_drawTextureShader);
+        _drawTextureShader->disable();
         break;
-
     case HEIGHTMAP:
         _drawTextureShader->use();
-
         initDrawTexture(1);
         _scene->drawHeightMap(_drawTextureShader);
         _drawTextureShader->disable();
@@ -117,18 +115,24 @@ void Viewer::paintGL(){
         _scene->drawNormalMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
-    case CURVATURE:
-
+    case SLANTMAP:
         _scene->computeCurvatureMap();
         _drawTextureShader->use();
         initDrawTexture(3);
+        _scene->drawSlantMap(_drawTextureShader);
+        _drawTextureShader->disable();
+        break;
+    case CURVATURE:
+        _scene->computeCurvatureMap();
+        _drawTextureShader->use();
+        initDrawTexture(4);
         _scene->drawCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case CORRECURV:
         _scene->computeCurvatureMap();
         _drawTextureShader->use();
-        initDrawTexture(3);
+        initDrawTexture(4);
         _scene->drawCorrectCurvatureMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
@@ -136,10 +140,18 @@ void Viewer::paintGL(){
         _scene->computeCurvatureMap();
         _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
         _drawTextureShader->use();
-        initDrawTexture(4);
+        initDrawTexture(5);
         _scene->drawLightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
+    case PARALLAX :
+        _scene->computeCurvatureMap();
+        _scene->computeLightMap(_light->position(),_light->yaw(),_light->pitch());
+        _scene->computeParallaxMap(_light->position());
+        _drawTextureShader->use();
+        initDrawTexture(6);
+        _scene->drawParallaxMap(_drawTextureShader);
+        _drawTextureShader->disable();
     }
 }
 
@@ -207,8 +219,6 @@ void Viewer::reloadShader(){
     _drawTextureShader->reload();
     _scene->reloadGenerateTexturesShader();
 
-
-
     update();
 
 }
@@ -250,10 +260,12 @@ void Viewer::nextDrawMode(){
         case CLASSICAL: _drawMode = SHADOWMAP; break;
         case SHADOWMAP: _drawMode = HEIGHTMAP; break;
         case HEIGHTMAP: _drawMode = NORMALMAP; break;
-        case NORMALMAP: _drawMode = CURVATURE; break;
+        case NORMALMAP: _drawMode = SLANTMAP; break;
+        case SLANTMAP : _drawMode = CURVATURE; break;
         case CURVATURE: _drawMode = CORRECURV; break;
         case CORRECURV: _drawMode = LIGHTMAP ; break;
-        case LIGHTMAP : _drawMode = CLASSICAL; break;
+        case LIGHTMAP : _drawMode = PARALLAX ; break;
+        case PARALLAX : _drawMode = CLASSICAL; break;
     }
 
 
@@ -262,30 +274,21 @@ void Viewer::nextDrawMode(){
 
 void Viewer::previousDrawMode(){
     switch(_drawMode){
-        case CLASSICAL: _drawMode = LIGHTMAP ; break;
+        case CLASSICAL: _drawMode = PARALLAX ; break;
         case SHADOWMAP: _drawMode = CLASSICAL; break;
         case HEIGHTMAP: _drawMode = SHADOWMAP; break;
         case NORMALMAP: _drawMode = HEIGHTMAP; break;
-        case CURVATURE: _drawMode = NORMALMAP; break;
+        case SLANTMAP : _drawMode = NORMALMAP; break;
+        case CURVATURE: _drawMode = SLANTMAP;  break;
         case CORRECURV: _drawMode = CURVATURE; break;
         case LIGHTMAP : _drawMode = CORRECURV; break;
+        case PARALLAX : _drawMode = LIGHTMAP; break;
 
     }
     update();
 }
 
-void Viewer::loadScene()
-{
 
-    _scene  = make_shared<Scene>(_filepaths,Scene::LOADED,width(),height());
-    _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
-    _cam->initialize(width(),height(),true);
-    _light  = make_shared<Light>();
-    _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
-    _shadowMap->initialize();
-
-
-}
 
 
 void Viewer::switchScene(){
@@ -347,6 +350,9 @@ string Viewer::getCurrentDrawMode()
         case NORMALMAP:
         stringDrawMode = "Normal Map";
         break;
+        case SLANTMAP:
+        stringDrawMode = "Slant Map";
+            break;
         case CURVATURE:
         stringDrawMode = "Curvature Map";
         break;
@@ -356,7 +362,9 @@ string Viewer::getCurrentDrawMode()
         case LIGHTMAP :
         stringDrawMode = "Light Map";
         break;
-
+        case PARALLAX :
+        stringDrawMode = "Parallax Map";
+        break;
     }
     return stringDrawMode;
 }
@@ -422,8 +430,21 @@ void Viewer::reloadGaussHeightMap(){
     update();
 }
 
+/************************************************
+ *              Private Functions               *
+ ************************************************/
+void Viewer::loadScene()
+{
+
+    _scene  = make_shared<Scene>(_filepaths,Scene::LOADED,width(),height());
+    _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
+    _cam->initialize(width(),height(),true);
+    _light  = make_shared<Light>();
+    _shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
+    _shadowMap->initialize();
 
 
+}
 
 void Viewer::initShaders(){
     _lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");

@@ -4,11 +4,14 @@ layout(location = 0) out vec4 outBuffer;
 in vec2 texCoord;
 
 uniform sampler2D curvatureMap;
+uniform sampler2D slantMap;
+
 uniform vec3 lightPosition;
 uniform float yaw;
 uniform float pitch;
 uniform int lightSelector;
 uniform float threshold;
+
 
 #define PI 3.14159265359
 #define PI2 PI/2.2
@@ -70,7 +73,7 @@ vec4 computeLight(in vec4 c, in vec2 l){
   float s,cu,delta;
   if(k1-k2 ==0){
     s = 0;
-    maxCurv = normL;
+    //maxCurv = normL;
     cu = 0;
     delta = 0;
   }
@@ -87,24 +90,24 @@ vec4 computeLight(in vec4 c, in vec2 l){
 
   float det = normL.x * maxCurv.y - normL.y* maxCurv.x;
   float theta = (det/abs(det))*(acos(cosTheta(normL,maxCurv)));
-  float newYaw = yaw;
-
+  float newYaw = yaw + smoothTheta(theta)*theta;;
+/*
   if(lightSelector == 0)
-    newYaw = yaw + s * theta;
-  if(lightSelector == 3)
-    newYaw = yaw + cu * theta;
-  if(lightSelector == 2)
-    newYaw = yaw + cu*s * theta;
+    newYaw = yaw + theta;
   if(lightSelector == 1)
-    newYaw = yaw + smoothTheta(theta)*s*theta;
+    newYaw = yaw + smoothTheta(theta)*theta;
+  if(lightSelector == 2)
+    newYaw = yaw + cu * theta;
+  if(lightSelector == 3)
+    newYaw = yaw + cu*s * theta;
+
   if(lightSelector == 4)
     newYaw = yaw + cu*s *theta;
-
-
+*/
   //Rotation
   return Rotation3D(newYaw,pitch);
 
- // return vec4(s,0,0,0);
+  //return vec4(1,0,0,0);
 }
 
 
@@ -175,7 +178,35 @@ vec4 computeTheta(in vec4 c,in vec2 l){
 }
 
 
+vec4 computeLight2(in vec4 s,in vec2 l){
+  vec2 normL = normalize(l);
+  vec2 slint = normalize(vec2(s.x,-s.y)) ; // Because the light and the curve have not the same Y axis
 
+
+  if(cosTheta(normL,slint) < 0){
+     slint  = -slint;
+  }
+  //slint = normalize(slint);
+
+
+  float normS = s.z;
+
+  if(normS <= 0){
+    slint = normL;
+  }
+
+
+  float det = normL.x * slint.y - normL.y* slint.x;
+  float theta = (det/abs(det))* (acos(cosTheta(normL,slint)));
+
+
+
+
+  theta = normS*theta * smoothTheta(theta);
+  float newYaw = yaw + theta;;
+  return Rotation3D(newYaw,pitch);
+
+}
 
 
 
@@ -183,12 +214,23 @@ vec4 computeTheta(in vec4 c,in vec2 l){
 void main()
 {
   vec4 c = texture(curvatureMap,  texCoord);
-
+  vec4 s = texture(slantMap,texCoord);
   vec2 l = lightPosition.xz;
   vec4 newLightDir;
 
-  newLightDir = computeLight(c,l);
 
+  if(lightSelector == 0){
+     newLightDir = computeLight(c,l);
+  }
+  if(lightSelector == 1){
+     newLightDir = computeLight2(s,l);
+  }
+
+
+
+
+
+  /*
   float k1 = c.z;
   float k2 = c.w;
   float cu = sqrt((k1*k1+k2*k2)/2);

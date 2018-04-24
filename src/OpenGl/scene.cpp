@@ -21,62 +21,20 @@ Scene::Scene(const vector<string> &filepaths,TYPE_MESH typeMesh,int widthViewpor
 
 {
 
-    _loadedMaps         = make_shared<MAPS>();
-    _generatedMaps      = make_shared<MAPS>();
-    _loadedMapsGauss    = make_shared<MAPS>();
-    _generatedMapsGauss = make_shared<MAPS>();
     initializeGenShader();
-    loadingWithLog(filepaths);
-
-    InitGenTex(_loadedMaps);
-    InitGenTex(_generatedMaps);
-    InitGenTex(_loadedMapsGauss,_loadedMaps);
-    InitGenTex(_generatedMapsGauss,_generatedMaps);
-
-    initializeDataMaps(_loadedMaps,false);
-    initializeDataMaps(_generatedMaps,false);
-
-
+    initializeMaps(filepaths);
     majCurrentMap();
+    initializeTexture();
 
-    _meshSphere = _meshLoader.vertexFromObj("models/sphere.obj");
-/*
-    _curvatureMap = make_shared<GeneratedTexture>("curvatureMap",_currentMesh->getWidth(),_currentMesh->getHeight(),
-                                                  "shaders/curvature.vert","shaders/curvature.frag");
 
-    _lightMap = make_shared<GeneratedTexture>("lightMap",_currentMesh->getWidth(),_currentMesh->getHeight(),
-                                                  "shaders/generatelight.vert","shaders/generatelight.frag");
-
-    _gaussBlurLoad = make_shared<GeneratedTexture>("gaussBlur",_loadedMesh->getWidth(),_loadedMesh->getHeight(),
-                                               "shaders/gaussBlur.vert","shaders/gaussBlur.frag");
-    _gaussBlurGen = make_shared<GeneratedTexture>("gaussBlur",_generatedMesh->getWidth(),_generatedMesh->getHeight(),
-                                                  "shaders/gaussBlur.vert","shaders/gaussBlur.frag");
+    _loadedHeightMapGauss    = make_shared<HeightMapGauss>();
+    _generatedHeightMapGauss = make_shared<HeightMapGauss>();
+    initializeHeightMapGauss(_loadedHeightMapGauss,_loadedMaps->getHeightMap());
+    initializeHeightMapGauss(_generatedHeightMapGauss,_generatedMaps->getHeightMap());
 
 
 
-
-
-    _curvatureMap->initialize();
-    _lightMap->initialize();
-    _gaussBlurLoad->initialize();
-    _gaussBlurGen->initialize();
-*/
-
-    shared_ptr<LoadTexture> texture1 = make_shared<LoadTexture>("container", "textures/container.jpg");
-    shared_ptr<LoadTexture> texture2 = make_shared<LoadTexture>("awesomeface", "textures/awesomeface.png");
-    shared_ptr<LoadTexture> texture3 = make_shared<LoadTexture>("neige_ombre", "textures/dégradé_neige_ombre.png");
-    shared_ptr<LoadTexture> texture4 = make_shared<LoadTexture>("degrade_debug", "textures/dégradé_debug.png");
-    shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
-    _asciiTex = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
-
-
-
-    _textures.push_back(texture1);
-    _textures.push_back(texture2);
-    _textures.push_back(texture3);
-    _textures.push_back(texture4);
-    _textures.push_back(texture5);
-   // computeGaussBlur();
+    _meshSphere = MeshLoader::vertexFromObj("models/sphere.obj");
 }
 
 
@@ -86,73 +44,42 @@ Scene::Scene(const vector<string> &filepaths,TYPE_MESH typeMesh,int widthViewpor
 
 void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
 
-    _currentMaps->lightMap->sendToShader(shader);
-
+    _currentMaps->sendLightMapToShader(shader);
+    _currentMaps->sendParallaxMap(shader);
     for(unsigned int i=0;i<_textures.size();i++){
         _textures[i]->sendToShader(shader);
     }
 
+
+
     mat4 modelMesh;
     shader->setMat4("modelMat",modelMesh);
-    _currentMaps->mesh->Draw();
+    _currentMaps->drawMesh();
     mat4 modelSphere;
-    modelSphere = glm::translate(modelSphere,lightPosition*_currentMaps->mesh->radius());
-    modelSphere = glm::scale(modelSphere,vec3(_currentMaps->mesh->radius()/20.0,_currentMaps->mesh->radius()/20.0,_currentMaps->mesh->radius()/20.0));
+    modelSphere = glm::translate(modelSphere,lightPosition*_currentMaps->getMesh()->radius());
+    modelSphere = glm::scale(modelSphere,vec3(_currentMaps->getMesh()->radius()/20.0,_currentMaps->getMesh()->radius()/20.0,_currentMaps->getMesh()->radius()/20.0));
     shader->setMat4("modelMat",modelSphere);
    _meshSphere->Draw();
-    // always good practice to set everything back to defaults once configured.
+
+
     glActiveTexture(GL_TEXTURE0);
 }
 
 void Scene::drawOnlyMesh(){
-    _currentMaps->mesh->Draw();
+    _currentMaps->drawMesh();
 }
 
 void Scene::drawHeightMap(shared_ptr<Shader> shader){
-
-    shader->setFloat("ymin",_currentMaps->mesh->getYmin());
-    shader->setFloat("ymax",_currentMaps->mesh->getYmax());
-    switch(_typeMeshUsed){
-        case LOADED:
-        case GENERATED:
-            _currentMaps->heightMap->draw(shader);
-            break;
-        case GAUSSLOADED:
-        case GAUSSGENERATED:
-            _currentMaps->gaussMap->draw(shader);
-            break;
-    }
-
-
+    _currentMaps->drawHeightMap(shader);
 }
 
-void Scene::drawNormalMap(shared_ptr<Shader> shader){
-    if(_currentMaps->normalMap != NULL){
-        _currentMaps->normalMap->draw(shader);
+void Scene::drawNormalMap(shared_ptr<Shader> shader){           _currentMaps->drawNormalMap(shader); }
+void Scene::drawSlantMap(shared_ptr<Shader> shader){            _currentMaps->drawSlantMap(shader);}
+void Scene::drawCurvatureMap(shared_ptr<Shader> shader){        _currentMaps->drawCurvatureMap(shader);}
+void Scene::drawCorrectCurvatureMap(shared_ptr<Shader> shader){ _currentMaps->drawCorrectCurvatureMap(shader);}
+void Scene::drawLightMap(std::shared_ptr<Shader> shader){       _currentMaps->drawLightMap(shader); }
+void Scene::drawParallaxMap(std::shared_ptr<Shader> shader){    _currentMaps->drawParallaxMap(shader);}
 
-    }
-}
-
-void Scene::drawCurvatureMap(shared_ptr<Shader> shader){
-    if(_currentMaps->curvatureMap != NULL){
-        _currentMaps->curvatureMap->draw(shader);
-
-    }
-}
-
-void Scene::drawCorrectCurvatureMap(shared_ptr<Shader> shader){
-    if(_currentMaps->correctCurvatureMap != NULL){
-        _currentMaps->correctCurvatureMap->draw(shader);
-
-    }
-}
-
-void Scene::drawLightMap(std::shared_ptr<Shader> shader){
-    if(_currentMaps->lightMap != NULL){
-        _currentMaps->lightMap->draw(shader);
-
-    }
-}
 
 void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 {
@@ -162,43 +89,55 @@ void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 void Scene::initializeGaussMap(){
     if(!_isInitializedGaussMap)
     {
-        computeGaussBlur(_loadedMapsGauss,_loadedMaps);
-        computeGaussBlur(_generatedMapsGauss,_generatedMaps);
+        cout << "Compute Gauss Load Map ..." << endl;
+        computeGaussBlur(_loadedMapsGauss,_loadedHeightMapGauss,_loadedMaps->getHeightMap());
+        cout << "Compute Gauss Generate Map ..." << endl;
+        computeGaussBlur(_generatedMapsGauss,_generatedHeightMapGauss,_generatedMaps->getHeightMap());
         _isComputeCurvatureMap = false;
         _isInitializedGaussMap = true;
+
     }
 }
+
 
 
 void Scene::computeCurvatureMap(){
     if(!_isComputeCurvatureMap)
     {
-        computeCurvatureMap(_loadedMaps);
-        computeCurvatureMap(_generatedMaps);
-        computeCurvatureMap(_loadedMapsGauss);
-        computeCurvatureMap(_generatedMapsGauss);
+        _loadedMaps->generateSlantMap(_widthViewport,_heightViewport);
+        _loadedMapsGauss->generateSlantMap(_widthViewport,_heightViewport);
+        _generatedMaps->generateSlantMap(_widthViewport,_heightViewport);
+        _generatedMapsGauss->generateSlantMap(_widthViewport,_heightViewport);
+
+        _loadedMaps->generateCurvatureMap(_widthViewport,_heightViewport,_sigma);
+        _loadedMapsGauss->generateCurvatureMap(_widthViewport,_heightViewport,_sigma);
+        _generatedMaps->generateCurvatureMap(_widthViewport,_heightViewport,_sigma);
+        _generatedMapsGauss->generateCurvatureMap(_widthViewport,_heightViewport,_sigma);
+
         _isComputeCurvatureMap = true;
     }
 }
 
 
+
+
 void Scene::computeLightMap(vec3 lightPosition, float lightYaw, float lightPitch){
-    _currentMaps->lightMap->startGenerate();
-    _currentMaps->lightMap->generatorShader()->setVec3("lightPosition",lightPosition);
-    _currentMaps->lightMap->generatorShader()->setFloat("yaw",lightYaw);
-    _currentMaps->lightMap->generatorShader()->setFloat("pitch",lightPitch);
-    _currentMaps->lightMap->generatorShader()->setInt("lightSelector",_lightSelector);
-    _currentMaps->lightMap->generatorShader()->setFloat("threshold",_lightThreshold);
-    _currentMaps->correctCurvatureMap->sendToShader(_currentMaps->lightMap->generatorShader());
-    _currentMaps->lightMap->generate(_widthViewport,_heightViewport);
+    _currentMaps->generateLightMap(_widthViewport,_heightViewport,lightPosition,lightYaw,lightPitch,_lightThreshold,_lightSelector);
+}
+
+void Scene::computeParallaxMap(glm::vec3 lightPosition){
+    _currentMaps->generateParallaxMap(_widthViewport,_heightViewport,lightPosition);
 }
 
 
+
 void Scene::reloadGenerateTexturesShader(){
-    _curvatureShader->reload();
-    _correctCurvatureShader->reload();
-    _generateLightShader->reload();
-    _gaussBlurShader->reload();
+    _genShaders->slantShader->reload();
+    _genShaders->curvatureShader->reload();
+    _genShaders->correctCurvatureShader->reload();
+    _genShaders->generateLightShader->reload();
+    _genShaders->gaussBlurShader->reload();
+    _genShaders->parallaxShader->reload();
     _isComputeCurvatureMap = false;
 
 }
@@ -227,13 +166,13 @@ void Scene::switchTypeMeshUsed(){
 
 vec3 Scene::center() const
 {
-    return _currentMaps->mesh->center();
+    return _currentMaps->getMesh()->center();
 }
 
 
 float Scene::radius() const
 {
-    return _currentMaps->mesh->radius();
+    return _currentMaps->getMesh()->radius();
 }
 
 
@@ -255,6 +194,7 @@ void Scene::previousLight()
 {
      _lightSelector = (_lightSelector-1 + _MAXLIGHTSELECTOR) %_MAXLIGHTSELECTOR;
 }
+
 
 void Scene::nextLight()
 {
@@ -300,131 +240,120 @@ void Scene::reloadGaussHeightMap()
 
 
 
-void Scene::majCurrentMap()
-{
-    switch(_typeMeshUsed){
-    case LOADED:            _currentMaps = _loadedMaps;         break;
-    case GAUSSLOADED :      _currentMaps = _loadedMapsGauss;    break;
-        case GENERATED :        _currentMaps = _generatedMaps;      break;
-        case GAUSSGENERATED :   _currentMaps = _generatedMapsGauss; break;
-    }
+
+
+
+/************************************************
+ *              Private Functions               *
+ ************************************************/
+
+
+
+
+void Scene::initializeGenShader(){
+    _genShaders = make_shared<GenShaders>();
+    _genShaders->slantShader                = make_shared<Shader>("shaders/slant.vert","shaders/slant.frag");
+    _genShaders->curvatureShader            = make_shared<Shader>("shaders/curvature.vert","shaders/curvature.frag");
+    _genShaders->correctCurvatureShader     = make_shared<Shader>("shaders/correctcurvature.vert","shaders/correctcurvature.frag");
+    _genShaders->generateLightShader        = make_shared<Shader>("shaders/generatelight.vert","shaders/generatelight.frag");
+    _genShaders->gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
+    _genShaders->parallaxShader             = make_shared<Shader>("shaders/parallax.vert","shaders/parallax.frag");
 }
 
 
-
-
-
-
-void Scene::loadingWithLog(const vector<string> &filepaths){
+void Scene::initializeMaps(const vector<string> &filepaths){
     cout << "Loading MNT from : " << endl;
     for(unsigned int i=0;i< filepaths.size() ; i++ ){
         cout << filepaths[i] << "..." << endl;
     }
+    shared_ptr<Texture> heightMapL = MeshLoader::textureFromMNT(filepaths);
+    _loadedMaps = make_shared<Maps>(_genShaders,heightMapL,"loadedMaps");
 
-    _loadedMaps->heightMap = _meshLoader.textureFromMNT(filepaths);
-    _generatedMaps->heightMap = computeMeshFromGenHeightMap();
-    _generatedMaps->heightMap->setMeshOffset(1.0);
+    cout << "Generate heightMap ..." << endl;
+    shared_ptr<Texture> heightMapG = computeGenHeightMap();
+    heightMapG->setMeshOffset(1.0);
+    _generatedMaps = make_shared<Maps>(_genShaders,heightMapG,"generated Maps");
+
+
+    _loadedMapsGauss = make_shared<Maps>(_genShaders,heightMapL->getWidth(),heightMapL->getHeight(),"Loaded Gauss Maps");
+    _generatedMapsGauss = make_shared<Maps>(_genShaders,heightMapG->getWidth(),heightMapG->getHeight(),"Generated Gauss Maps");
+
 
 }
 
-shared_ptr<LoadTexture> Scene::computeMeshFromGenHeightMap(){
 
-    int width =1024, height = 1024;
+void Scene::initializeTexture(){
+    shared_ptr<LoadTexture> texture1 = make_shared<LoadTexture>("container", "textures/container.jpg");
+    shared_ptr<LoadTexture> texture2 = make_shared<LoadTexture>("awesomeface", "textures/awesomeface.png");
+    shared_ptr<LoadTexture> texture3 = make_shared<LoadTexture>("neige_ombre", "textures/dégradé_neige_ombre.png");
+    shared_ptr<LoadTexture> texture4 = make_shared<LoadTexture>("degrade_debug", "textures/dégradé_debug.png");
+    shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
+    _asciiTex = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
 
-    HeightMap heightMap = HeightMap("heightMapGen", width,height);
+
+
+    _textures.push_back(texture1);
+    _textures.push_back(texture2);
+    _textures.push_back(texture3);
+    _textures.push_back(texture4);
+    _textures.push_back(texture5);
+
+}
+
+
+
+
+void Scene::initializeHeightMapGauss(shared_ptr<HeightMapGauss> gauss, shared_ptr<Texture> refHeightMap){
+
+    gauss->gaussMap = make_shared<GeneratedTexture>(_HEIGHTMAPNAME,refHeightMap->getWidth(),refHeightMap->getHeight(),_genShaders->gaussBlurShader);
+    gauss->interGaussMap = make_shared<GeneratedTexture>("interGaussMap",refHeightMap->getWidth(),refHeightMap->getHeight(),_genShaders->gaussBlurShader);
+
+    gauss->gaussMap->initialize();
+    gauss->interGaussMap->initialize();
+
+    gauss->gaussMap->setMeshOffset(refHeightMap->meshOffset());
+
+}
+
+shared_ptr<Texture> Scene::computeGenHeightMap(){
+    HeightMap heightMap = HeightMap(_HEIGHTMAPNAME, _WIDTHGENTEX,_HEIGHTGENTEX);
     heightMap.initialize();
     heightMap.startGenerate();
     vector<float> data = heightMap.generate(_widthViewport,_heightViewport);
-    return make_shared<LoadTexture>("heightMap", data,GL_R32F,   GL_RED, width,height);
-}
-
-
-void Scene::computeCurvatureMap(shared_ptr<MAPS> maps){
-
-
-    maps->curvatureMap->startGenerate();
-    maps->curvatureMap->generatorShader()->setFloat("sigma",_sigma);
-    maps->normalMap->sendToShader(maps->curvatureMap->generatorShader());
-    maps->curvatureMap->generate(_widthViewport,_heightViewport);
-
-    maps->correctCurvatureMap->startGenerate();
-    maps->normalMap->sendToShader(maps->correctCurvatureMap->generatorShader());
-    maps->curvatureMap->sendToShader(maps->correctCurvatureMap->generatorShader());
-    maps->correctCurvatureMap->generate(_widthViewport,_heightViewport);
-
-}
-
-
-void Scene::initializeGenShader(){
-    _curvatureShader            = make_shared<Shader>("shaders/curvature.vert","shaders/curvature.frag");
-    _correctCurvatureShader  = make_shared<Shader>("shaders/correctcurvature.vert","shaders/correctcurvature.frag");
-    _generateLightShader        = make_shared<Shader>("shaders/generatelight.vert","shaders/generatelight.frag");
-    _gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
+    return make_shared<LoadTexture>(_HEIGHTMAPNAME, data,GL_R32F,   GL_RED, _WIDTHGENTEX,_HEIGHTGENTEX);
 }
 
 
 
-void Scene::initializeDataMaps(shared_ptr<MAPS> maps,bool isGauss){
-
-    shared_ptr<Texture> heightMap;
-    if(isGauss)
-        heightMap = maps->gaussMap;
-    else
-        heightMap = maps->heightMap;
-
-    maps->mesh = _meshLoader.vertexFromHeightMap(heightMap->getDataRED(),heightMap->getWidth(),heightMap->getHeight(),heightMap->meshOffset());
-
-    vector<float> dataNormalMap = maps->mesh->getReverseNormalMap();
-    maps->normalMap    = make_shared<LoadTexture>("normalMap", dataNormalMap,GL_RGBA32F,GL_RGBA, maps->mesh->getWidth(),maps->mesh->getHeight());
-}
 
 
 
-void Scene::computeGaussBlur( shared_ptr<MAPS> gauss,shared_ptr<MAPS> ref){
+void Scene::computeGaussBlur(shared_ptr<Maps> gaussMaps, shared_ptr<HeightMapGauss> gaussHeightMap,shared_ptr<Texture> refHeightMap){
 
-    gauss->interGaussMap->startGenerate();
-    gauss->interGaussMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
-    gauss->interGaussMap->generatorShader()->setInt("direction",0);
-    ref->heightMap->sendToShader(gauss->interGaussMap->generatorShader(),"img");
-    gauss->interGaussMap->generate(_widthViewport,_heightViewport);
-
-
-    gauss->gaussMap->startGenerate();
-    gauss->gaussMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
-    gauss->gaussMap->generatorShader()->setInt("direction",1);
-    gauss->interGaussMap->sendToShader(gauss->gaussMap->generatorShader(),"img");
-    gauss->gaussMap->generate(_widthViewport,_heightViewport);
+    gaussHeightMap->interGaussMap->startGenerate();
+    gaussHeightMap->interGaussMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
+    gaussHeightMap->interGaussMap->generatorShader()->setInt("direction",0);
+    refHeightMap->sendToShader(gaussHeightMap->interGaussMap->generatorShader(),"img");
+    gaussHeightMap->interGaussMap->generate(_widthViewport,_heightViewport);
 
 
-    initializeDataMaps(gauss,true);
+    gaussHeightMap->gaussMap->startGenerate();
+    gaussHeightMap->gaussMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
+    gaussHeightMap->gaussMap->generatorShader()->setInt("direction",1);
+    gaussHeightMap->interGaussMap->sendToShader(gaussHeightMap->gaussMap->generatorShader(),"img");
+    gaussHeightMap->gaussMap->generate(_widthViewport,_heightViewport);
 
+    gaussMaps->setHeightMap(gaussHeightMap->gaussMap);
 
 }
 
-
-void Scene::InitGenTex(shared_ptr<MAPS> maps){
-    maps->curvatureMap = make_shared<GeneratedTexture>("curvatureMap",maps->heightMap->getWidth(),maps->heightMap->getHeight(),_curvatureShader);
-    maps->correctCurvatureMap = make_shared<GeneratedTexture>("curvatureMap",maps->heightMap->getWidth(),maps->heightMap->getHeight(),_correctCurvatureShader);
-    maps->lightMap     = make_shared<GeneratedTexture>("lightMap",    maps->heightMap->getWidth(),maps->heightMap->getHeight(),_generateLightShader);
-    maps->curvatureMap->initialize();
-    maps->correctCurvatureMap->initialize();
-    maps->lightMap->initialize();
-}
-
-void Scene::InitGenTex(shared_ptr<MAPS> maps, shared_ptr<MAPS> ref){
-    maps->gaussMap = make_shared<GeneratedTexture>("gaussMap",ref->heightMap->getWidth(),ref->heightMap->getHeight(),_gaussBlurShader);
-    maps->interGaussMap = make_shared<GeneratedTexture>("interGaussMap",ref->heightMap->getWidth(),ref->heightMap->getHeight(),_gaussBlurShader);
-    maps->curvatureMap = make_shared<GeneratedTexture>("curvatureMap",ref->heightMap->getWidth(),ref->heightMap->getHeight(),_curvatureShader);
-    maps->correctCurvatureMap = make_shared<GeneratedTexture>("curvatureMap",ref->heightMap->getWidth(),ref->heightMap->getHeight(),_correctCurvatureShader);
-    maps->lightMap     = make_shared<GeneratedTexture>("lightMap",    ref->heightMap->getWidth(),ref->heightMap->getHeight(),_generateLightShader);
-
-    maps->gaussMap->initialize();
-    maps->interGaussMap->initialize();
-    maps->curvatureMap->initialize();
-    maps->correctCurvatureMap->initialize();
-    maps->lightMap->initialize();
-
-    maps->gaussMap->setMeshOffset(ref->heightMap->meshOffset());
-
+void Scene::majCurrentMap()
+{
+    switch(_typeMeshUsed){
+        case LOADED:            _currentMaps = _loadedMaps;         break;
+        case GAUSSLOADED :      _currentMaps = _loadedMapsGauss;    break;
+        case GENERATED :        _currentMaps = _generatedMaps;      break;
+        case GAUSSGENERATED :   _currentMaps = _generatedMapsGauss; break;
+    }
 }
 

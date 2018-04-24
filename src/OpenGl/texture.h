@@ -30,7 +30,7 @@ public:
     void draw(std::shared_ptr<Shader> shader);
 
     std::vector<float> getDataRED();
-
+    void printValueRED();
 
     int meshOffset() const;
     void setMeshOffset(int meshOffset);
@@ -39,6 +39,9 @@ public:
 
     int getWidth() const;
     int getHeight() const;
+
+
+    std::string getName() const;
 
 protected:
     unsigned int _ID;       /*!< ID of the texture assign by glGenTextures().*/

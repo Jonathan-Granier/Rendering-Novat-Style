@@ -609,7 +609,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 
             //Case 2 and 3     b
-            //               / |
+            //               / |s
             //              c -a
             if(j!=0)
             {

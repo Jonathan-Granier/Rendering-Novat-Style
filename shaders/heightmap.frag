@@ -65,7 +65,7 @@ float anneau(vec2 t){
 void main()
 {
   float p = perlin(texCoord);
-  outBuffer = anneau(texCoord)*p;
+  outBuffer = anneau(texCoord);
 }
 
 

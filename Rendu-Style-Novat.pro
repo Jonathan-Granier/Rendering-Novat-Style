@@ -57,7 +57,8 @@ SOURCES += \
     src/OpenGl/loadtexture.cpp \
     src/OpenGl/generatedtexture.cpp \
     src/OpenGl/scene.cpp \
-    src/OpenGl/heightmap.cpp
+    src/OpenGl/heightmap.cpp \
+    src/OpenGl/maps.cpp
 
 
 HEADERS += \
@@ -77,7 +78,8 @@ HEADERS += \
     src/OpenGl/loadtexture.h \
     src/OpenGl/generatedtexture.h \
     src/OpenGl/scene.h \
-    src/OpenGl/heightmap.h
+    src/OpenGl/heightmap.h \
+    src/OpenGl/maps.h
 
 DISTFILES += \
     shaders/toon1D.frag \
@@ -104,6 +106,10 @@ DISTFILES += \
     shaders/gaussBlur.frag \
     shaders/gaussBlur.vert \
     shaders/correctcurvature.frag \
-    shaders/correctcurvature.vert
+    shaders/correctcurvature.vert \
+    shaders/slant.frag \
+    shaders/slant.vert \
+    shaders/parallax.frag \
+    shaders/parallax.vert
 
 FORMS = src/MainWindow/mainwindow.ui

@@ -41,10 +41,12 @@ public:
     enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the Scene with the camera and the ligth       */
                     SHADOWMAP,  /*!< Mode for draw only the shadow map of the Scene              */
                     HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh            */
+                    SLANTMAP,   /*!< Mode for draw the slant map of the current mesh                */
                     NORMALMAP,  /*!< Mode for draw the normal map of the current mesh            */
                     CURVATURE,  /*!< Mode for draw the curvature map of the current mesh         */
                     CORRECURV,  /*!< Mode for draw the correct curvature map of the current mesh */
-                    LIGHTMAP    /*!< Mode for draw the light map of the current mesh             */
+                    LIGHTMAP ,  /*!< Mode for draw the light map of the current mesh             */
+                    PARALLAX    /*!< Mode for draw the parallax map of the current mesh          */
                  };
 
 
@@ -186,13 +188,7 @@ private:
      * @brief load Scene from _filepaths and of type _typeMesh
      */
     void loadScene();
-
     void initShaders();
-
-
-    void initFBOPixel();
-    void printPixel(const QMouseEvent &me);
-
     void initDrawTexture(int numTex);
 };
 

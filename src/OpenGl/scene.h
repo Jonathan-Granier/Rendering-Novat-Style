@@ -12,6 +12,7 @@
 #include "generatedtexture.h"
 #include "meshloader.h"
 #include <math.h>
+#include "maps.h"
 /**
  * @brief A Scene is defined by his mesh and his textures. It can load and draw a mesh and textures.
  */
@@ -57,17 +58,22 @@ public:
      */
     void drawNormalMap(std::shared_ptr<Shader> shader);
 
+    void drawSlantMap(std::shared_ptr<Shader> shader);
+
     void drawCurvatureMap(std::shared_ptr<Shader> shader);
 
     void drawCorrectCurvatureMap(std::shared_ptr<Shader> shader);
 
     void drawLightMap(std::shared_ptr<Shader> shader);
 
+    void drawParallaxMap(std::shared_ptr<Shader> shader);
+
     void drawAsciiTex(std::shared_ptr<Shader> shader);
 
     void initializeGaussMap();
     void computeCurvatureMap();
     void computeLightMap(glm::vec3 lightPosition, float lightYaw, float lightPitch);
+    void computeParallaxMap(glm::vec3 lightPosition);
 
     void reloadGenerateTexturesShader();
 
@@ -115,60 +121,58 @@ public:
 
 
 private:
-
+/*
     struct MAPS{
         std::shared_ptr<Mesh>               mesh;
         std::shared_ptr<LoadTexture>        heightMap;
         std::shared_ptr<GeneratedTexture>   gaussMap;
         std::shared_ptr<GeneratedTexture>   interGaussMap;
         std::shared_ptr<LoadTexture>        normalMap;
+        std::shared_ptr<GeneratedTexture>   slantMap;
         std::shared_ptr<GeneratedTexture>   curvatureMap;
         std::shared_ptr<GeneratedTexture>   correctCurvatureMap;
         std::shared_ptr<GeneratedTexture>   lightMap;
     };
-
-
-
-    std::shared_ptr<MAPS>         _loadedMaps;
-    std::shared_ptr<MAPS>         _loadedMapsGauss;
-    std::shared_ptr<MAPS>         _generatedMaps;
-    std::shared_ptr<MAPS>         _generatedMapsGauss;
-    std::shared_ptr<MAPS>         _currentMaps;
-
-    std::shared_ptr<Shader>         _curvatureShader;
-    std::shared_ptr<Shader>         _correctCurvatureShader;
-    std::shared_ptr<Shader>         _generateLightShader;
-    std::shared_ptr<Shader>         _gaussBlurShader;
-/*
-
-    std::shared_ptr<Mesh>                               _currentMesh;
-    std::shared_ptr<Mesh>                               _loadedMesh;
-    std::shared_ptr<Mesh>                               _generatedMesh;
-
-
-    std::shared_ptr<LoadTexture>                        _heightMap;
-    std::shared_ptr<LoadTexture>                        _normalMap;
-    std::shared_ptr<GeneratedTexture>                   _curvatureMap;
-    std::shared_ptr<GeneratedTexture>                   _lightMap;
-    std::shared_ptr<GeneratedTexture>                   _gaussBlurLoad;
-    std::shared_ptr<GeneratedTexture>                   _gaussBlurGen;
 */
+
+
+    struct HeightMapGauss{
+        std::shared_ptr<GeneratedTexture>   gaussMap;
+        std::shared_ptr<GeneratedTexture>   interGaussMap;
+    };
+
+
+
+
+    std::shared_ptr<Maps>         _loadedMaps;
+    std::shared_ptr<Maps>         _loadedMapsGauss;
+    std::shared_ptr<Maps>         _generatedMaps;
+    std::shared_ptr<Maps>         _generatedMapsGauss;
+    std::shared_ptr<Maps>         _currentMaps;
+
+    std::shared_ptr<HeightMapGauss> _loadedHeightMapGauss;
+    std::shared_ptr<HeightMapGauss> _generatedHeightMapGauss;
+
+
+    std::shared_ptr<GenShaders> _genShaders;
+
+
 
     std::shared_ptr<Mesh>                               _meshSphere;
     std::vector<std::shared_ptr<LoadTexture>>           _textures;
     std::shared_ptr<LoadTexture>                        _asciiTex;
-    MeshLoader                                          _meshLoader;
+
 
     float        _sigma;
     int          _gaussBlurFactor;
     int          _lightSelector;
     float        _lightThreshold;
-    const int    _MAXLIGHTSELECTOR = 5;
-    const float  _MAXLIGHTTRESHOLD = M_PI/2.2;
-    const float  _MINLIGHTRESHOLD = 0;
-    const float  _WIDTHGENTEX = 1024;
-    const float  _HEIGHTGENTEX = 1024;
-
+    const int           _MAXLIGHTSELECTOR = 5;
+    const float         _MAXLIGHTTRESHOLD = M_PI/2.2;
+    const float         _MINLIGHTRESHOLD = 0;
+    const float         _WIDTHGENTEX = 1024;
+    const float         _HEIGHTGENTEX = 1024;
+    const std::string   _HEIGHTMAPNAME = "heightMap" ;
 
 
     TYPE_MESH _typeMeshUsed;
@@ -178,22 +182,13 @@ private:
     bool _isInitializedGaussMap;
 
 
-
-    void loadingWithLog(const std::vector<std::string> &filepaths);
-    std::shared_ptr<LoadTexture> computeMeshFromGenHeightMap();
-
-
-
     void initializeGenShader();
-    void initializeMaps(std::shared_ptr<MAPS> maps);
-    void computeCurvatureMap(std::shared_ptr<MAPS> maps);
-    void computeGaussBlur(std::shared_ptr<MAPS> gauss, std::shared_ptr<MAPS> ref);
+    void initializeMaps(const std::vector<std::string> &filepaths);
+    void initializeTexture();
+    void initializeHeightMapGauss(std::shared_ptr<HeightMapGauss> gauss, std::shared_ptr<Texture> ref);
+    std::shared_ptr<Texture> computeGenHeightMap();
+    void computeGaussBlur(std::shared_ptr<Maps> gaussMaps, std::shared_ptr<HeightMapGauss> gaussHeightMap,std::shared_ptr<Texture> refHeightMap);
     void majCurrentMap();
-
-
-    void initializeDataMaps(std::shared_ptr<MAPS> maps,bool isGauss);
-    void InitGenTex(std::shared_ptr<MAPS> maps);
-    void InitGenTex(std::shared_ptr<MAPS> maps, std::shared_ptr<MAPS> ref);
 
 
 };
