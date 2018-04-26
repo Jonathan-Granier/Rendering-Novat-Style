@@ -128,6 +128,7 @@ public:
 
     void previousDrawMode();
     void nextDrawMode();
+    void setDrawMode(int d);
 
     /**
      * @brief check and copy a stack file in _filepaths.
@@ -158,6 +159,13 @@ public:
 
     void setGaussBlurFactor(int f);
     int getGaussBlurFactor();
+
+
+    void setGaussBlurFactor(int id, float sigma);
+    void setLightThreshold(int id, int lightThreshold);
+
+
+
     void reloadGaussHeightMap();
 signals :
     void initializeDone();

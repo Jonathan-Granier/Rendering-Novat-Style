@@ -2,6 +2,8 @@
 
 out vec4 FragColor;
 
+
+
 in VS_OUT {
     vec4 lightDir;
     vec3 Normal;
@@ -64,7 +66,6 @@ void main()
 
     vec4 n = vec4(normalize(fs_in.Normal),0.0);
     vec4 l=  normalize(fs_in.lightDir);
-
 
 
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);

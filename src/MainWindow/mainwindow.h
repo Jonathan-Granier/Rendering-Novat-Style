@@ -18,6 +18,7 @@
 #include <QProgressBar>
 #include <memory>
 #include "ui_mainwindow.h"
+#include "settingswindow.h"
 
 class QAction;
 class QMenu;
@@ -86,12 +87,15 @@ private slots:
     void updateGaussBlurFactor(int g);
     void reloadGaussHeightMap();
     void setupInformationPanelSlot();
-
+    void updateDrawMode(int d);
 private:
 
 
     Ui::MainWindow *ui;
 
+
+
+    SettingsWindow *_settingsWindow;
     /**
      * @brief the central openGl widget
      */

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1212</width>
-    <height>1002</height>
+    <width>1216</width>
+    <height>1030</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -24,14 +24,14 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../../../images/RSN.ico</normaloff>../../../../../../../../images/RSN.ico</iconset>
+    <normaloff>../../../../../../../../../../../../../../images/RSN.ico</normaloff>../../../../../../../../../../../../../../images/RSN.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>810</y>
+      <x>10</x>
+      <y>840</y>
       <width>421</width>
       <height>131</height>
      </rect>
@@ -134,8 +134,8 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>800</y>
+      <x>450</x>
+      <y>830</y>
       <width>521</width>
       <height>149</height>
      </rect>
@@ -299,37 +299,11 @@
       <height>781</height>
      </rect>
     </property>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>240</y>
-       <width>85</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>CheckBox</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBox_2">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>270</y>
-       <width>85</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>CheckBox</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>990</x>
+      <x>980</x>
       <y>830</y>
       <width>207</width>
       <height>91</height>
@@ -389,13 +363,32 @@
      </item>
     </layout>
    </widget>
+   <widget class="QSlider" name="drawModeSlider">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>800</y>
+      <width>1171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>8</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBelow</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1212</width>
+     <width>1216</width>
      <height>20</height>
     </rect>
    </property>
@@ -415,15 +408,14 @@
     <addaction name="actionAide"/>
     <addaction name="actionA_propos"/>
    </widget>
-   <widget class="QMenu" name="menuSelection_Map">
+   <widget class="QMenu" name="menuMultiEchelle">
     <property name="title">
-     <string>Selection Map</string>
+     <string>MultiEchelle</string>
     </property>
-    <addaction name="actionMesh"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAide"/>
-   <addaction name="menuSelection_Map"/>
+   <addaction name="menuMultiEchelle"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
@@ -474,8 +466,31 @@
    </property>
   </action>
   <action name="actionMesh">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Mesh</string>
+   </property>
+  </action>
+  <action name="actionHeight_Map">
+   <property name="text">
+    <string>Height Map</string>
+   </property>
+  </action>
+  <action name="actionNormal_Map">
+   <property name="text">
+    <string>Normal Map</string>
+   </property>
+  </action>
+  <action name="actionCurvature_Map">
+   <property name="text">
+    <string>Curvature Map</string>
+   </property>
+  </action>
+  <action name="actionLight_Map">
+   <property name="text">
+    <string>Light Map</string>
    </property>
   </action>
  </widget>

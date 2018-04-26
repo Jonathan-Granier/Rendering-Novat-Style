@@ -22,14 +22,18 @@ vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
 
 
 float shadow(){
+  int min = -0;
+  int max = 0;
+
+
   float shadow = 0;
   vec2 texelSize = 1.0 / textureSize(parallaxMap, 0);
-  for(int x = -1; x <= 1; x++){
-    for(int y = -1 ; y <= 1; y++){
+  for(int x = min; x <= max; x++){
+    for(int y = min ; y <= max; y++){
       shadow +=  texture(parallaxMap,texCoord + vec2(x,y)*texelSize).r;
     }
   }
-  shadow /= 9.0;
+  shadow /= pow(max+abs(min)+1,2.0);
 
   return shadow;
 
@@ -54,6 +58,7 @@ void main()
     //FragColor = vec4(p,0,0,0);
     float shadow = (shadow() + 1) * 0.5;
     FragColor = shadow*Cd;
+    //FragColor = shadow()*color;
 }
 
 

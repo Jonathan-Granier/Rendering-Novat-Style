@@ -34,8 +34,10 @@ MainWindow::MainWindow() :
      centralLayout->addWidget(_viewer.get());
      ui->mainWidget->setLayout(centralLayout);
 
-
-
+/*
+    _settingsWindow = new SettingsWindow();
+    _settingsWindow->show();
+*/
 }
 
 MainWindow::~MainWindow()
@@ -45,6 +47,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    _settingsWindow->close();
     this->disconnect();
     event->accept();
 }
@@ -165,6 +168,12 @@ void MainWindow::setupInformationPanelSlot(){
     refreshInformationPanel();
 }
 
+void MainWindow::updateDrawMode(int d)
+{
+    _viewer->setDrawMode(d);
+    refreshInformationPanel();
+}
+
 void MainWindow::updateGaussBlurFactor(int g){
     _viewer->setGaussBlurFactor(g);
 }
@@ -199,6 +208,7 @@ void MainWindow::setupControlePanel()
     connect(ui->gaussBlurSlider,&QSlider::valueChanged,this,&MainWindow::updateGaussBlurFactor);
 
     connect(ui->GaussBlurButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
+    connect(ui->drawModeSlider,&QSlider::valueChanged,this,&MainWindow::updateDrawMode);
 }
 
 

@@ -46,11 +46,6 @@ void GeneratedTexture::initialize()
     glDrawBuffer(DrawBuffers);
 
 
-   //  glDrawBuffer(GL_NONE);
-    //glReadBuffer(GL_NONE);
-    //glBindFramebuffer(GL_FRAMEBUFFER,0);
-
-   // glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
 
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
         cerr << "error in framebuffer of " << _name  << endl;

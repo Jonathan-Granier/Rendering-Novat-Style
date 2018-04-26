@@ -260,7 +260,7 @@ void Viewer::nextDrawMode(){
         case CLASSICAL: _drawMode = SHADOWMAP; break;
         case SHADOWMAP: _drawMode = HEIGHTMAP; break;
         case HEIGHTMAP: _drawMode = NORMALMAP; break;
-        case NORMALMAP: _drawMode = SLANTMAP; break;
+        case NORMALMAP: _drawMode = SLANTMAP ; break;
         case SLANTMAP : _drawMode = CURVATURE; break;
         case CURVATURE: _drawMode = CORRECURV; break;
         case CORRECURV: _drawMode = LIGHTMAP ; break;
@@ -269,6 +269,23 @@ void Viewer::nextDrawMode(){
     }
 
 
+    update();
+}
+
+void Viewer::setDrawMode(int d)
+{
+    switch(d){
+        case 0:  _drawMode = CLASSICAL; break;
+        case 1:  _drawMode = SHADOWMAP; break;
+        case 2:  _drawMode = HEIGHTMAP; break;
+        case 3:  _drawMode = NORMALMAP; break;
+        case 4:  _drawMode = SLANTMAP ; break;
+        case 5:  _drawMode = CURVATURE; break;
+        case 6:  _drawMode = CORRECURV; break;
+        case 7:  _drawMode = LIGHTMAP ; break;
+        case 8:  _drawMode = PARALLAX ; break;
+        default: _drawMode = CLASSICAL; break;
+    }
     update();
 }
 
@@ -423,6 +440,16 @@ void Viewer::setGaussBlurFactor(int f){
 
 int Viewer::getGaussBlurFactor(){
     return _scene->getGaussBlurFactor();
+}
+//TODO
+void Viewer::setGaussBlurFactor(int id, float sigma)
+{
+    cout << " Set Gauss blur factor with id = " << id << " and sigma = " << sigma << endl;
+}
+//TODO
+void Viewer::setLightThreshold(int id, int lightThreshold)
+{
+    cout << " Set LightThreshold with id = " << id << " and LightThreshold = " << lightThreshold << endl;
 }
 
 void Viewer::reloadGaussHeightMap(){

@@ -36,7 +36,7 @@ void main()
     vs_out.lightDir = normalize(mdvMat * vec4(lightPosition,0.0));
     vs_out.Normal = normalMat * aNormal;
     vs_out.FragPosLightSpace = ligthSpaceMat * position;
-    vs_out.texCoord = aTexCoord;
+    vs_out.texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
     gl_Position = projMat * mdvMat  * modelMat * position;
 
 

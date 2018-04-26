@@ -19,14 +19,16 @@ bool castRay( const vec2 origin, const vec2 dir, const float originHeight,float 
 
   float currentH = originHeight;
   vec2 p = origin;
-
+  vec2 d = dir;
 
   /*p += dir;
   currentH += stepH;
   */
   //for(float t = mint; t< maxt; t +=delt){
-  while(p.x >= 0 && p.x <= 1.0 && p.y >= 0 && p.y <= 1.0){
-    p += dir;
+  while(p.x >= 0 && p.x <= 1.0 && p.y >= 0 && p.y <= 1.0 && currentH>=ymin && currentH <=ymax){
+    vec4 l = texture(lightMap,p);
+    d =  vec2(l.x/resolution.x, -l.z/resolution.y);
+    p += d;
     currentH += stepH;
     if(currentH < texture(heightMap,p).r){
       return false;
@@ -41,7 +43,7 @@ void main()
 {
     float h = texture(heightMap, texCoord).r;
     vec4 l = texture(lightMap,texCoord);
-    //vec3 l = normalize(lightPosition);
+   // vec3 l = normalize(lightPosition);
 
     vec2 l2D = vec2(l.x/resolution.x, -l.z/resolution.y);
     float stepH = step * sqrt(1*1-length(l.xz)*length(l.xz));
