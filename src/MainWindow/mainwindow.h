@@ -15,10 +15,9 @@
 
 #include "viewer.h"
 #include <QMainWindow>
-#include <QProgressBar>
+#include <QGroupBox>
 #include <memory>
 #include "ui_mainwindow.h"
-#include "settingswindow.h"
 
 class QAction;
 class QMenu;
@@ -82,12 +81,14 @@ private slots:
 
 
     void updateLightPosition(int angle);
-    void updateSigma(int sigma);
-    void updateLightThreshold(int t);
-    void updateGaussBlurFactor(int g);
+    //void updateSigma(int sigma);
+    //void updateLightThreshold(int t);
+    //void updateGaussBlurFactor(int g);
     void reloadGaussHeightMap();
     void setupInformationPanelSlot();
     void updateDrawMode(int d);
+    void addNewPanel();
+
 private:
 
 
@@ -95,7 +96,7 @@ private:
 
 
 
-    SettingsWindow *_settingsWindow;
+    //SettingsWindow *_settingsWindow;
     /**
      * @brief the central openGl widget
      */
@@ -107,19 +108,14 @@ private:
     /**
      * @brief the actual progress of the loading objects (Mesh and Textures).
      */
-    QProgressBar *_loadingBar;
 
-    /**
-     * @brief Set up the menuBar and the different action
-     */
-
-
+    unsigned int _ID;
 
     void setupMenu();
     void setupControlePanel();
     void refreshInformationPanel();
-
-
+    QGroupBox *createNewPanel(int id, bool doDeleteButtons);
+    void setButtons();
 };
 
 #endif // MAINWINDOW_H

@@ -21,11 +21,8 @@ void GeneratedTexture::initialize()
 {
 
 
-    glGenFramebuffers(1,&_FBO);
+    glGenFramebuffersEXT(1,&_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
-
-
-
 
     glGenTextures(1,&_ID);
     glBindTexture(GL_TEXTURE_2D,_ID);
@@ -51,7 +48,6 @@ void GeneratedTexture::initialize()
         cerr << "error in framebuffer of " << _name  << endl;
         cerr << glCheckFramebufferStatus(GL_FRAMEBUFFER) << endl;
     }
-
 }
 
 void GeneratedTexture::startGenerate()

@@ -8,7 +8,7 @@
 #include "ui_settingswindow.h"
 #include <QSignalMapper>
 #include <QGroupBox>
-
+/*
 class SettingsWindow : public QWidget
 {
     Q_OBJECT
@@ -35,5 +35,5 @@ private :
     int _ID;
 
 };
-
+*/
 #endif // SETTINGSWINDOW_H

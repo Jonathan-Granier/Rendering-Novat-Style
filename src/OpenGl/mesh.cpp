@@ -49,7 +49,7 @@ Mesh::~Mesh(){
 }
 
 
-void Mesh::Draw()
+void Mesh::draw()
 {
 
     // draw mesh

@@ -1,4 +1,7 @@
 #include "meshloader.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+
 #include <iostream>
 #include <sstream>
 
@@ -564,6 +567,93 @@ shared_ptr<LoadTexture> MeshLoader::textureFromMNT(const vector<string> &filepat
 
 
 
+//TODO le faire en shader
+shared_ptr<Texture> MeshLoader::normalFromHeightMap(vector<float> data, int width, int height,float offset){
+    if(data.size() != width*height){
+        cerr << "[vertexFormHeightMap] : incorrect size of data. Have : " << data.size() << " data but : " << width*height << " expected." << endl;
+    }
+    vector<Vertex> vertices;
+    float ymin(10000.0),ymax(0.0); // Altitude min and max for find the median
+    unsigned int currentIndex = 0;
+
+
+    // First Line
+    for(int j=0 ; j<width ; j++){
+        Vertex v = Vertex(j*offset,
+                          data[currentIndex],
+                          0.0f,
+                          (float)j/(float)(width-1),
+                          0.0f);
+        vertices.push_back(v);
+        if(data[currentIndex] > ymax) ymax = data[currentIndex];
+        if(data[currentIndex] < ymin) ymin = data[currentIndex];
+        currentIndex++;
+    }
+
+
+
+    for(int i=1 ; i<height ; i++){
+        for(int j=0 ; j<width ; j++){
+            Vertex v = Vertex(j*offset,
+                              data[currentIndex],
+                              i*offset,
+                              (float)j/(float)(width-1),
+                              (float)i/(float)(height-1));
+            vertices.push_back(v);
+            if(data[currentIndex] > ymax) ymax = data[currentIndex];
+            if(data[currentIndex] < ymin) ymin = data[currentIndex];
+
+
+            //Case 2 and 3     b
+            //               / |s
+            //              c -a
+            if(j!=0)
+            {
+                computeNormal(&vertices[currentIndex],
+                              &vertices[currentIndex-width],
+                              &vertices[currentIndex-1]);
+
+            }
+
+
+
+            // Case 1 and 2    c- b
+            //                 | /
+            //                 a
+            if(j!=width-1 )
+            {
+                computeNormal(&vertices[currentIndex],
+                              &vertices[currentIndex-width+1],
+                              &vertices[currentIndex-width]);
+
+            }
+
+            currentIndex++;
+        }
+    }
+
+    glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,-1.0f));
+    glm::mat3 normalMat = glm::inverseTranspose(viewMat);
+
+    vector<float> normalMap;
+    // Reverse texture
+    for(int i = height-1 ; i>= 0 ; i--){
+        for(int j=0; j < width; j++){
+            int index = i*width + j;
+            glm::vec3 n = normalize(vertices[index].Normal);
+            //cout<< "(" << vertices[index].Position.x << "," << vertices[index].Position.y << "," << vertices[index].Position.z <<")" << "|";
+            n = glm::normalize(normalMat * n);
+
+            normalMap.push_back(n.x);
+            normalMap.push_back(n.y);
+            normalMap.push_back(n.z);
+            normalMap.push_back(0.0f);
+
+        }
+    }
+
+    return make_shared<LoadTexture>("normalMap", normalMap,GL_RGBA32F,GL_RGBA, width,height);
+}
 
 
 

@@ -40,8 +40,6 @@ void Texture::draw(std::shared_ptr<Shader> shader)
 {
     sendToShader(shader);
     renderQuad();
-
-
 }
 
 

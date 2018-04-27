@@ -80,9 +80,6 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
     glViewport(0,0,widthViewport,heightViewport);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
-
     vector<float> dataVec;
     copy(&pixels[0],&pixels[_width*_height],back_inserter(dataVec));
     return dataVec;

@@ -43,7 +43,7 @@ public:
     /**
      * @brief Draw the mesh.
      */
-    void Draw();
+    void draw();
     /**
      * @brief load the mesh data into the GPU with a VAO, VBO and EBO.
      */

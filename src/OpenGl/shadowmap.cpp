@@ -17,11 +17,10 @@ void ShadowMap::initialize()
 {
     // configure depth map FBO
     // -----------------------
-
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
     glGenFramebuffers(1,&_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     // create depth texture
-
     glGenTextures(1,&_ID);
     glBindTexture(GL_TEXTURE_2D,_ID);
     glTexImage2D(GL_TEXTURE_2D,0,GL_DEPTH_COMPONENT16,_width,_height,0,GL_DEPTH_COMPONENT,GL_FLOAT,0);

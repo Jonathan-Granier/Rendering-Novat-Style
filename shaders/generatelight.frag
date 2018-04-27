@@ -1,10 +1,36 @@
 #version 330 core
-layout(location = 0) out vec4 outBuffer;
+
+/*Les question lumière
+  Hauteur
+  Inversion pente
+  Paralax : multi echelle ? Même hauteur ?
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+layout(location = 0) out vec4 outBufferDir;
+layout(location = 1) out vec4 outBufferAngles;
 
 in vec2 texCoord;
 
 uniform sampler2D curvatureMap;
 uniform sampler2D slantMap;
+uniform sampler2D lightMap;
+uniform sampler2D lightMapAngles;
 
 uniform vec3 lightPosition;
 uniform float yaw;
@@ -55,15 +81,21 @@ vec4 Rotation3D(in float localYaw,in float localPitch){
 
 
 
+
+
+
+
+/*
+
 vec4 computeLight(in vec4 c, in vec2 l){
   vec2 normL = normalize(l);
   vec2 maxCurv =normalize(vec2(c.x, -c.y));
-/**/
+/**//*
   if(dot(normL,maxCurv)< 0){
     maxCurv  = -maxCurv;
   }
   maxCurv = normalize(maxCurv);
-/**/
+/**//*
 
   float k1 = c.z;
   float k2 = c.w;
@@ -103,7 +135,7 @@ vec4 computeLight(in vec4 c, in vec2 l){
 
   if(lightSelector == 4)
     newYaw = yaw + cu*s *theta;
-*/
+*//*
   //Rotation
   return Rotation3D(newYaw,pitch);
 
@@ -159,7 +191,7 @@ vec4 computeTheta(in vec4 c,in vec2 l){
 /*  if(abs(theta) > T -eps && abs(theta) < T + eps){
     return vec4(0,0,1,0);
   }
-*/
+*//*shadow
 //  theta = LogisticFunction(theta,PI4)*theta;
  // theta = ((theta / (PI2)) +1 )/2.0;
 
@@ -177,15 +209,19 @@ vec4 computeTheta(in vec4 c,in vec2 l){
     return vec4(theta,0,0,0);
 }
 
-
-vec4 computeLight2(in vec4 s,in vec2 l){
+*/
+vec4 computeLight2(in vec4 s,in vec2 l, inout float newYaw){
   vec2 normL = normalize(l);
   vec2 slint = normalize(vec2(s.x,-s.y)) ; // Because the light and the curve have not the same Y axis
 
 
+
+  // ICI changer intensité lumineuse.
+  /**/
   if(cosTheta(normL,slint) < 0){
      slint  = -slint;
   }
+  /**/
   //slint = normalize(slint);
 
 
@@ -203,7 +239,7 @@ vec4 computeLight2(in vec4 s,in vec2 l){
 
 
   theta = normS*theta * smoothTheta(theta);
-  float newYaw = yaw + theta;;
+  newYaw += theta;
   return Rotation3D(newYaw,pitch);
 
 }
@@ -213,18 +249,40 @@ vec4 computeLight2(in vec4 s,in vec2 l){
 
 void main()
 {
-  vec4 c = texture(curvatureMap,  texCoord);
+  //vec4 c = texture(curvatureMap,  texCoord);
   vec4 s = texture(slantMap,texCoord);
-  vec2 l = lightPosition.xz;
+  //vec2 l = lightPosition.xz;
   vec4 newLightDir;
+  float newYaw;
+
+  /*
+  if(lightSelector == 0){
+      vec2 l = lightPosition.xz;
+      newYaw = yaw;
+      newLightDir = computeLight2(s,l,newYaw);
+  }else{
+      vec4 l = texture(lightMap,texCoord);
+      newYaw = texture(lightMapAngles,texCoord).x;
+      newLightDir = computeLight2(s,l.xz,newYaw);
+  }*/
+
+
 
 
   if(lightSelector == 0){
-     newLightDir = computeLight(c,l);
+    vec2 l = lightPosition.xz;
+    newYaw = yaw;
+    newLightDir = computeLight2(s,l,newYaw);
+    newLightDir = vec4(newYaw,0,0,0);
+  }else
+  {
+    vec4 l = texture(lightMapAngles,texCoord);
+    newLightDir = vec4(0,0,0,1) + l;
   }
-  if(lightSelector == 1){
-     newLightDir = computeLight2(s,l);
-  }
+
+
+
+
 
 
 
@@ -243,6 +301,7 @@ void main()
    }*/
 
 
-
-  outBuffer = newLightDir;
+  //outBufferDir = vec4(1,0,1,0);
+  outBufferDir = newLightDir;
+  outBufferAngles = vec4(newYaw,pitch,0.0,0.0);
 }

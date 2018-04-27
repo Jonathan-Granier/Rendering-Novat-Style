@@ -13,10 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -24,12 +21,6 @@ QT_BEGIN_NAMESPACE
 class Ui_SettingsWindow
 {
 public:
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout;
-    QPushButton *reloadButton;
-    QPushButton *addButton;
-    QWidget *verticalLayoutWidget;
-    QVBoxLayout *centralLayout;
 
     void setupUi(QWidget *SettingsWindow)
     {
@@ -42,29 +33,6 @@ public:
         QIcon icon;
         icon.addFile(QStringLiteral("../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
         SettingsWindow->setWindowIcon(icon);
-        horizontalLayoutWidget = new QWidget(SettingsWindow);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(390, 960, 201, 31));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        reloadButton = new QPushButton(horizontalLayoutWidget);
-        reloadButton->setObjectName(QStringLiteral("reloadButton"));
-
-        horizontalLayout->addWidget(reloadButton);
-
-        addButton = new QPushButton(horizontalLayoutWidget);
-        addButton->setObjectName(QStringLiteral("addButton"));
-
-        horizontalLayout->addWidget(addButton);
-
-        verticalLayoutWidget = new QWidget(SettingsWindow);
-        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 20, 531, 71));
-        centralLayout = new QVBoxLayout(verticalLayoutWidget);
-        centralLayout->setObjectName(QStringLiteral("centralLayout"));
-        centralLayout->setSizeConstraint(QLayout::SetMinimumSize);
-        centralLayout->setContentsMargins(0, 0, 0, 0);
 
         retranslateUi(SettingsWindow);
 
@@ -80,8 +48,6 @@ public:
 #ifndef QT_NO_ACCESSIBILITY
         SettingsWindow->setAccessibleName(QString());
 #endif // QT_NO_ACCESSIBILITY
-        reloadButton->setText(QApplication::translate("SettingsWindow", "Recharger", nullptr));
-        addButton->setText(QApplication::translate("SettingsWindow", "Ajouter", nullptr));
     } // retranslateUi
 
 };

@@ -28,7 +28,7 @@ bool castRay( const vec2 origin, const vec2 dir, const float originHeight,float 
   while(p.x >= 0 && p.x <= 1.0 && p.y >= 0 && p.y <= 1.0 && currentH>=ymin && currentH <=ymax){
     vec4 l = texture(lightMap,p);
     d =  vec2(l.x/resolution.x, -l.z/resolution.y);
-    p += d;
+    p += dir;
     currentH += stepH;
     if(currentH < texture(heightMap,p).r){
       return false;

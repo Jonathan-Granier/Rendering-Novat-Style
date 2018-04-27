@@ -25,7 +25,7 @@ public:
 
 protected:
     std::shared_ptr<Shader> _generatorShader;                   /** < The shader for generate the texture    */
-    unsigned int _FBO;                  /** < Frame Buffer Object for the generate texture  */
+    GLuint _FBO;                         /** < Frame Buffer Object for the generate texture  */
     GLint _QTFBO;                       /** < Frame buffer Object for save the FBO of QT, see QT doc for more information */
 
 

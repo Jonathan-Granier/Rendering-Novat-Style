@@ -8,6 +8,17 @@
 *
 */
 
+
+
+// TODO
+/* Faire un recreate pour scene sans devoir refaire tout l'objet.
+ * Faire une double texture pour le calcule de la lumière.
+ * Faire les normals sous forme de shader.
+ * Faire passer les fonction openGl par caller.
+ */
+
+
+
 #include "mainwindow.h"
 #include <qapplication.h>
 

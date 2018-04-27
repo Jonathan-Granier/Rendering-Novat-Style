@@ -60,7 +60,7 @@ SOURCES += \
     src/OpenGl/heightmap.cpp \
     src/OpenGl/maps.cpp \
     src/OpenGl/caller.cpp \
-    src/MainWindow/settingswindow.cpp
+    src/OpenGl/lighttextures.cpp
 
 
 HEADERS += \
@@ -83,7 +83,7 @@ HEADERS += \
     src/OpenGl/heightmap.h \
     src/OpenGl/maps.h \
     src/OpenGl/caller.h \
-    src/MainWindow/settingswindow.h
+    src/OpenGl/lighttextures.h
 
 DISTFILES += \
     shaders/toon1D.frag \
@@ -116,5 +116,4 @@ DISTFILES += \
     shaders/parallax.frag \
     shaders/parallax.vert
 
-FORMS +=  src/MainWindow/mainwindow.ui \
-          src/MainWindow/settingswindow.ui
+FORMS +=  src/MainWindow/mainwindow.ui

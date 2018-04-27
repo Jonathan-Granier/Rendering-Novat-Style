@@ -53,12 +53,13 @@ public:
  //   Texture* textureFromMNT(const std::vector<std::string> &filepaths,std::string name);
 
 
-
+    static std::shared_ptr<Texture> normalFromHeightMap(std::vector<float> data, int width, int height, float offset);
     static std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height,float offset);
 
 
 
     static std::shared_ptr<LoadTexture> textureFromMNT(const std::vector<std::string> &filepaths);
+
 private:
     /**
      * @brief A basic struct to store the header information in a header of a MNT file

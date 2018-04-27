@@ -56,7 +56,7 @@ void main()
 
 
     //FragColor = vec4(p,0,0,0);
-    float shadow = (shadow() + 1) * 0.5;
+    float shadow = pow((shadow() + 1) * 0.5,(1.0/2.2));
     FragColor = shadow*Cd;
     //FragColor = shadow()*color;
 }

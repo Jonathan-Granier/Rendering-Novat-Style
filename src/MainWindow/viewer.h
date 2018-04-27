@@ -43,8 +43,8 @@ public:
                     HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh            */
                     SLANTMAP,   /*!< Mode for draw the slant map of the current mesh                */
                     NORMALMAP,  /*!< Mode for draw the normal map of the current mesh            */
-                    CURVATURE,  /*!< Mode for draw the curvature map of the current mesh         */
-                    CORRECURV,  /*!< Mode for draw the correct curvature map of the current mesh */
+                 // CURVATURE,  /*!< Mode for draw the curvature map of the current mesh         */
+                 // CORRECURV,  /*!< Mode for draw the correct curvature map of the current mesh */
                     LIGHTMAP ,  /*!< Mode for draw the light map of the current mesh             */
                     PARALLAX    /*!< Mode for draw the parallax map of the current mesh          */
                  };
@@ -137,14 +137,18 @@ public:
      */
     bool loadSceneFromFile(const QStringList &fileNames);
 
-    void switchScene();
+    //void switchScene();
 
-
+    void nextMaps();
+    void previousMaps();
 
 
     std::string getCurrentDrawMode();
     std::string getCurrentShader();
 
+
+
+/*
     float getSigma() const;
     void setSigma(float sigma);
 
@@ -159,14 +163,15 @@ public:
 
     void setGaussBlurFactor(int f);
     int getGaussBlurFactor();
+*/
 
-
-    void setGaussBlurFactor(int id, float sigma);
-    void setLightThreshold(int id, int lightThreshold);
-
-
-
+    void setGaussBlurFactor(unsigned int id, float g);
+    void setLightThreshold(unsigned int id, float t);
+    void setEnabledMaps(unsigned int id, bool enabled);
     void reloadGaussHeightMap();
+    void addGaussMaps(unsigned int id);
+    int getCurrentMapsIndex() const;
+
 signals :
     void initializeDone();
 

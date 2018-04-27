@@ -45,6 +45,8 @@ float DY(){
 }
 
 
+
+
 void main()
 {
     float height = texture(heightMap, texcoord).r;
@@ -68,6 +70,6 @@ void main()
     vec2 slant = normalize(vec2(dx,dy));
     slant = n.xy;
     FragColor = vec4(slant.x,slant.y,length(slant),0);
-    //FragColor = vec4(height,height,height,1);
+
 }
 

@@ -58,7 +58,7 @@ public:
     QFrame *line_5;
     QLabel *shader;
     QFrame *line_6;
-    QLabel *lightMode;
+    QLabel *currentMaps;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout_4;
@@ -89,6 +89,12 @@ public:
     QSlider *gaussBlurSlider;
     QPushButton *GaussBlurButton;
     QSlider *drawModeSlider;
+    QWidget *verticalLayoutWidget_4;
+    QVBoxLayout *settingsLayout;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout_8;
+    QPushButton *reloadButton;
+    QPushButton *addButton;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
@@ -100,7 +106,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModal);
-        MainWindow->resize(1216, 1030);
+        MainWindow->resize(1583, 1036);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
         icon.addFile(QStringLiteral("../../../../../../../../../../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
@@ -206,10 +212,10 @@ public:
 
         horizontalLayout->addWidget(line_6);
 
-        lightMode = new QLabel(verticalLayoutWidget);
-        lightMode->setObjectName(QStringLiteral("lightMode"));
+        currentMaps = new QLabel(verticalLayoutWidget);
+        currentMaps->setObjectName(QStringLiteral("currentMaps"));
 
-        horizontalLayout->addWidget(lightMode);
+        horizontalLayout->addWidget(currentMaps);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -363,10 +369,33 @@ public:
         drawModeSlider->setMaximum(8);
         drawModeSlider->setOrientation(Qt::Horizontal);
         drawModeSlider->setTickPosition(QSlider::TicksBelow);
+        verticalLayoutWidget_4 = new QWidget(centralwidget);
+        verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
+        verticalLayoutWidget_4->setGeometry(QRect(1210, 20, 361, 121));
+        settingsLayout = new QVBoxLayout(verticalLayoutWidget_4);
+        settingsLayout->setObjectName(QStringLiteral("settingsLayout"));
+        settingsLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        settingsLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalLayoutWidget = new QWidget(centralwidget);
+        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(1370, 950, 201, 31));
+        horizontalLayout_8 = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
+        reloadButton = new QPushButton(horizontalLayoutWidget);
+        reloadButton->setObjectName(QStringLiteral("reloadButton"));
+
+        horizontalLayout_8->addWidget(reloadButton);
+
+        addButton = new QPushButton(horizontalLayoutWidget);
+        addButton->setObjectName(QStringLiteral("addButton"));
+
+        horizontalLayout_8->addWidget(addButton);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1216, 20));
+        menubar->setGeometry(QRect(0, 0, 1583, 20));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
@@ -435,10 +464,10 @@ public:
         informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Shading :</span></p></body></html>", nullptr));
         label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin</span></p></body></html>", nullptr));
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Shader courant</span></p></body></html>", nullptr));
-        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Calcule lumi\303\250re</span></p></body></html>", nullptr));
+        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Maps Courantes</span></p></body></html>", nullptr));
         drawMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         shader->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        lightMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
+        currentMaps->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         lightPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Position vertical de la lumi\303\250re :</span></p></body></html>", nullptr));
         lightPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">45</span></p></body></html>", nullptr));
         sigmaLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Sigma (*10) : </span></p></body></html>", nullptr));
@@ -448,6 +477,8 @@ public:
         gaussBlurLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">GaussBlur Facteur :</span></p></body></html>", nullptr));
         gaussBlurValue->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         GaussBlurButton->setText(QApplication::translate("MainWindow", "Recompute height Map", nullptr));
+        reloadButton->setText(QApplication::translate("MainWindow", "Recharger", nullptr));
+        addButton->setText(QApplication::translate("MainWindow", "Ajouter", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
         menuMultiEchelle->setTitle(QApplication::translate("MainWindow", "MultiEchelle", nullptr));
