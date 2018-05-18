@@ -4,12 +4,16 @@ out vec4 FragColor;
 in vec2 texCoord;
 
 
-uniform sampler2D depthMap;
-uniform sampler2D normalMap;
 uniform sampler2D heightMap;
+uniform sampler2D editHeightMap;
+uniform sampler2D normalMap;
 uniform sampler2D slantMap;
 uniform sampler2D curvatureMap;
-uniform sampler2D lightMap;
+uniform sampler2D shadeLightMap;
+uniform sampler2D shadeAnglesMap;
+uniform sampler2D shadowLightMap;
+uniform sampler2D shadowAnglesMap;
+uniform sampler2D shadingMap;
 uniform sampler2D asciiTex;
 uniform sampler2D parallaxMap;
 uniform float ymin;
@@ -55,6 +59,8 @@ uniform int selectTexture;
 #define PI 3.141593
 
 #define R vec3(1146.0,751.0,0)
+
+
 
 int intLogBase(float base, float x){
     if(x<1.) return 0;
@@ -213,20 +219,22 @@ void main()
     vec2 texCoordDisplay = vec2(moussePos.x/1171.0,moussePos.y/760.0);
 
 
-    if(selectTexture == 0)
-    {
-      float depthValue = texture(depthMap, texCoord).r;
-      FragColor = vec4(depthValue,depthValue,depthValue,1.0);
-      float depthValueDisplay = texture(depthMap, texCoordDisplay).r;
-      valueDisplay = vec4(depthValueDisplay,depthValueDisplay,depthValueDisplay,1.0);
-    }
-    if(selectTexture == 1){
+
+    if(selectTexture == 0){
       float grayValue = texture(heightMap, texCoord).r;
       grayValue = (grayValue - ymin)/(ymax-ymin);
-      //grayValue = (grayValue +1.0 )/2.0;
       FragColor = vec4(grayValue,grayValue,grayValue,1.0);
 
       float grayValueDisplay = texture(heightMap, texCoordDisplay).r;
+      valueDisplay = vec4(grayValueDisplay,grayValueDisplay,grayValueDisplay,1.0);
+
+    }
+    if(selectTexture == 1){
+      float grayValue = texture(editHeightMap, texCoord).r;
+      grayValue = (grayValue - ymin)/(ymax-ymin);
+      FragColor = vec4(grayValue,grayValue,grayValue,1.0);
+
+      float grayValueDisplay = texture(editHeightMap, texCoordDisplay).r;
       valueDisplay = vec4(grayValueDisplay,grayValueDisplay,grayValueDisplay,1.0);
 
     }
@@ -239,16 +247,31 @@ void main()
       valueDisplay = texture(slantMap, texCoordDisplay);
     }
     if(selectTexture == 4){
-      FragColor = texture(curvatureMap,  texCoord);
-      valueDisplay = texture(curvatureMap, texCoordDisplay);
+      FragColor = texture(shadeLightMap,      texCoord);
+      valueDisplay = texture(shadeLightMap, texCoordDisplay);
     }
     if(selectTexture == 5){
-      FragColor = texture(lightMap,      texCoord);
-      valueDisplay = texture(lightMap, texCoordDisplay);
+
+      vec4 value = texture(shadeAnglesMap,      texCoord);
+      FragColor = vec4(value.x/(2*PI),value.y,value.z,value.w);
+      valueDisplay = texture(shadeAnglesMap, texCoordDisplay);
     }
     if(selectTexture == 6){
+      FragColor = texture(shadowLightMap,      texCoord);
+      valueDisplay = texture(shadowLightMap, texCoordDisplay);
+    }
+    if(selectTexture == 7){
+      vec4 value = texture(shadowAnglesMap,      texCoord);
+      FragColor = vec4(value.x/(2*PI),value.y,value.z,value.w);
+      valueDisplay = texture(shadowAnglesMap, texCoordDisplay);
+    }
+    if(selectTexture == 8){
       FragColor = texture(parallaxMap,      texCoord);
       valueDisplay = texture(parallaxMap, texCoordDisplay);
+    }
+    if(selectTexture == 9){
+      FragColor = texture(shadingMap,      texCoord);
+      valueDisplay = texture(shadingMap, texCoordDisplay);
     }
     displayVec4(FragColor.xyz,valueDisplay);
 

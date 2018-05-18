@@ -71,6 +71,12 @@ void Shader::previous()
     _currentIndexShader--;
 }
 
+
+void Shader::setShader(unsigned int index){
+    if(index >= 0 && index < _shaderInfos.size())
+        _currentIndexShader = index;
+}
+
 void Shader::reload()
 {
     for(ShaderInfo *s : _shaderInfos){

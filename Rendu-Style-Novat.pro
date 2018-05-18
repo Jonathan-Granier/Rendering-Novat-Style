@@ -100,13 +100,9 @@ DISTFILES += \
     shaders/curvature.frag \
     shaders/drawtexture.frag \
     shaders/drawtexture.vert \
-    shaders/heightmap.frag \
-    shaders/heightmap.vert \
     shaders/curvaturecyril.frag \
     shaders/computelight.vert \
     shaders/computelight.frag \
-    shaders/generatelight.frag \
-    shaders/generatelight.vert \
     shaders/gaussBlur.frag \
     shaders/gaussBlur.vert \
     shaders/correctcurvature.frag \
@@ -114,6 +110,18 @@ DISTFILES += \
     shaders/slant.frag \
     shaders/slant.vert \
     shaders/parallax.frag \
-    shaders/parallax.vert
+    shaders/parallax.vert \
+    shaders/shadelight.vert \
+    shaders/shadelight.frag \
+    shaders/shadowlight.vert \
+    shaders/shadowlight.frag \
+    shaders/normalmap.vert \
+    shaders/normalmap.frag \
+    shaders/editheightmap.frag \
+    shaders/editheightmap.vert \
+    shaders/genheightmap.frag \
+    shaders/genheightmap.vert \
+    shaders/shading.frag \
+    shaders/shading.vert
 
 FORMS +=  src/MainWindow/mainwindow.ui

@@ -38,15 +38,21 @@ class Viewer : public QOpenGLWidget
     Q_OBJECT
 public:
 
-    enum DRAWMODE{  CLASSICAL,  /*!< Mode for draw the Scene with the camera and the ligth       */
-                    SHADOWMAP,  /*!< Mode for draw only the shadow map of the Scene              */
-                    HEIGHTMAP,  /*!< Mode for draw the height map of the current mesh            */
-                    SLANTMAP,   /*!< Mode for draw the slant map of the current mesh                */
-                    NORMALMAP,  /*!< Mode for draw the normal map of the current mesh            */
-                 // CURVATURE,  /*!< Mode for draw the curvature map of the current mesh         */
-                 // CORRECURV,  /*!< Mode for draw the correct curvature map of the current mesh */
-                    LIGHTMAP ,  /*!< Mode for draw the light map of the current mesh             */
-                    PARALLAX    /*!< Mode for draw the parallax map of the current mesh          */
+    enum DRAWMODE{  CLASSICAL,      /*!< Mode for draw the Scene with the camera and the ligth       */
+                  //  SHADOWMAP,    /*!< Mode for draw only the shadow map of the Scene              */
+                    HEIGHTMAP,      /*!< Mode for draw the height map of the current mesh            */
+                    EDITHEIGHTMAP,  /*!< Mode for draw the edit height map of the current mesh       */
+                    SLANTMAP,       /*!< Mode for draw the slant map of the current mesh             */
+                    NORMALMAP,      /*!< Mode for draw the normal map of the current mesh            */
+                 // CURVATURE,      /*!< Mode for draw the curvature map of the current mesh         */
+                 // CORRECURV,      /*!< Mode for draw the correct curvature map of the current mesh */
+                    SHADELIGHTMAP , /*!< Mode for draw the light map of the current mesh             */
+                    SHADEANGLESMAP, /*!< Mode for draw the angle map of the current mesh             */
+                    SHADOWLIGHTMAP,
+                    SHADOWANGLESMAP,
+                    PARALLAX,
+                    SHADING
+                                    /*!< Mode for draw the parallax map of the current mesh          */
                  };
 
 
@@ -137,6 +143,9 @@ public:
      */
     bool loadSceneFromFile(const QStringList &fileNames);
 
+
+    void generateScene();
+
     //void switchScene();
 
     void nextMaps();
@@ -171,6 +180,12 @@ public:
     void reloadGaussHeightMap();
     void addGaussMaps(unsigned int id);
     int getCurrentMapsIndex() const;
+    void setTypeShading(int t);
+    void setShadeSelector(int s);
+    void setDoShadow(bool s);
+    void setTypeMerge(int t);
+    void makeATest(int numTest);
+
 
 signals :
     void initializeDone();
@@ -182,7 +197,7 @@ private:
 
     std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */
     std::shared_ptr<Shader>     _drawTextureShader;
-    std::shared_ptr<ShadowMap>  _shadowMap;
+    //std::shared_ptr<ShadowMap>  _shadowMap;
 
     std::shared_ptr<Scene>      _scene;            /** < A Scene pointer.  */
     std::shared_ptr<Camera>     _cam;              /** < A Camera pointer. */
@@ -191,6 +206,7 @@ private:
 
     bool        _lightMode;
     DRAWMODE    _drawMode;
+    bool _needInitializeScene;
 
     std::vector<std::string> _filepaths;           /** < A vector of mesh file.*/
     QTime _timer;                                  /** < A Qt timer.*/
@@ -203,6 +219,7 @@ private:
     void loadScene();
     void initShaders();
     void initDrawTexture(int numTex);
+    void makeTestForOneOrientation(int numEssai,QString orientation);
 };
 
 #endif // VIEWER_H

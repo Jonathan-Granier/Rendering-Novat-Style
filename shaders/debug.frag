@@ -2,14 +2,13 @@
 
 out vec4 FragColor;
 
-in VS_OUT {
-    vec4 lightDir;
-    vec3 Normal;
-    vec4 FragPosLightSpace;
-    vec2 texCoord;
-} fs_in;
+in vec4 lightDir;
+in vec3 Normal;
+in vec4 FragPosLightSpace;
+in vec2 texCoord;
 
 
+uniform int typeShading;
 uniform sampler2D depthMap;
 uniform sampler2D container;
 uniform sampler2D awesomeface;
@@ -46,7 +45,7 @@ float shadow(){
   vec2 texelSize = 1.0 / textureSize(parallaxMap, 0);
   for(int x = min; x <= max; x++){
     for(int y = min ; y <= max; y++){
-      shadow +=  texture(parallaxMap,fs_in.texCoord + vec2(x,y)*texelSize).r;
+      shadow +=  texture(parallaxMap,texCoord + vec2(x,y)*texelSize).r;
     }
   }
   shadow /= pow(max+abs(min)+1,2.0);
@@ -109,24 +108,26 @@ void main()
     float Ks = .5;
     float lightIntensity = 1.0;
 
-    vec4 n = vec4(normalize(fs_in.Normal),0.0);
-    vec4 l=  normalize(fs_in.lightDir);
+    vec4 n = vec4(normalize(Normal),0.0);
+    vec4 l=  normalize(lightDir);
 
 
    // float shadow = ShadowCalculation(fs_in.FragPosLightSpace,n,l);
     vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
     float shadow = shadow();
-/**
+
+
+    /**
     if(shadow != 0.0){
-        FragColor = vec4(1.0,0,0,1.0);
+        FragColor = vec4(1.0,0typeShading,0,1.0);
     }
     else
     {
         FragColor = Ca+(Cd * (1.0-shadow));
     }
 /**/
-    FragColor = shadow*color;
+    FragColor = n;
 /**/
 }
 

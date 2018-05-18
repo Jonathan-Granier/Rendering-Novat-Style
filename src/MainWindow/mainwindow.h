@@ -64,6 +64,7 @@ private slots:
      */
     void open();
 
+    void generateModel();
     /**
      * @brief Save a screenshot of the actual _viewer.
      */
@@ -88,6 +89,8 @@ private slots:
     void setupInformationPanelSlot();
     void updateDrawMode(int d);
     void addNewPanel();
+    void updateShadow(int s);
+
 
 private:
 
@@ -114,7 +117,7 @@ private:
     void setupMenu();
     void setupControlePanel();
     void refreshInformationPanel();
-    QGroupBox *createNewPanel(int id, bool doDeleteButtons);
+    QGroupBox *createNewPanel(int id, bool firstPanel);
     void setButtons();
 };
 

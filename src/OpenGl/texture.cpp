@@ -8,7 +8,7 @@
 #include <GL/glu.h>
 
 
-
+#include "caller.h"
 
 
 #include <iostream>
@@ -46,7 +46,7 @@ void Texture::draw(std::shared_ptr<Shader> shader)
 
 vector<float> Texture::getDataRED(){
     GLint numBytes = _width*_height;
-    float pixels[numBytes];
+    float* pixels = (float*)malloc(sizeof(float)*numBytes);
     //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
 
 
@@ -63,6 +63,7 @@ vector<float> Texture::getDataRED(){
             dataVec.push_back(pixels[i*_width+ j]);
         }
     }
+    free(pixels);
 
     return dataVec;
 
@@ -113,6 +114,11 @@ int Texture::getHeight() const
 std::string Texture::getName() const
 {
     return _name;
+}
+
+unsigned int Texture::getID() const
+{
+    return _ID;
 }
 
 /************************************************

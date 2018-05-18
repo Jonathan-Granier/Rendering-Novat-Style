@@ -4,7 +4,7 @@ out vec4 FragColor;
 
 in vec2 texCoord;
 uniform sampler2D heightMap;
-uniform sampler2D lightMap;
+uniform sampler2D shadowLightMap;
 uniform vec3 lightPosition;
 
 uniform float ymin;
@@ -26,7 +26,7 @@ bool castRay( const vec2 origin, const vec2 dir, const float originHeight,float 
   */
   //for(float t = mint; t< maxt; t +=delt){
   while(p.x >= 0 && p.x <= 1.0 && p.y >= 0 && p.y <= 1.0 && currentH>=ymin && currentH <=ymax){
-    vec4 l = texture(lightMap,p);
+    vec4 l = texture(shadowLightMap,p);
     d =  vec2(l.x/resolution.x, -l.z/resolution.y);
     p += dir;
     currentH += stepH;
@@ -42,7 +42,7 @@ bool castRay( const vec2 origin, const vec2 dir, const float originHeight,float 
 void main()
 {
     float h = texture(heightMap, texCoord).r;
-    vec4 l = texture(lightMap,texCoord);
+    vec4 l = texture(shadowLightMap,texCoord);
    // vec3 l = normalize(lightPosition);
 
     vec2 l2D = vec2(l.x/resolution.x, -l.z/resolution.y);
@@ -50,9 +50,10 @@ void main()
     if(isnan(stepH)){
       stepH = 0;
     }
+   /**
     if(castRay(texCoord,l2D,h,stepH))
       FragColor = vec4(1,0,0,0);
-    else
+    else/**/
       FragColor = vec4(0,0,0,0);
 
 

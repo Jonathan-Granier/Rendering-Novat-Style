@@ -18,6 +18,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QCheckBox>
+#include <QInputDialog>
+#include <QRadioButton>
 
 using namespace std;
 MainWindow::MainWindow() :
@@ -38,7 +40,7 @@ MainWindow::MainWindow() :
 
     setButtons();
 
-    ui->settingsLayout->addWidget(createNewPanel(0,false));
+    ui->settingsLayout->addWidget(createNewPanel(0,true));
 }
 
 MainWindow::~MainWindow()
@@ -88,14 +90,16 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_X){
         _viewer->nextDrawMode();
     }
-/*
+
     if(ke->key()==Qt::Key_A){
-        _viewer->previousLight();
+        bool ok;
+        int numText = QInputDialog::getInt(this,tr("Numero du test"),tr("Numero du test :"),0,0,1000,1,&ok);
+        if(ok){
+            _viewer->makeATest(numText);
+        }
+
     }
-    if(ke->key()==Qt::Key_Z){
-        _viewer->nextLight();
-    }*/
-    if(ke->key()==Qt::Key_Space){
+    if(ke->key()==Qt::Key_B){
         _viewer->nextMaps();
     }
     refreshInformationPanel();
@@ -116,7 +120,11 @@ void MainWindow::open()
     }
 
 }
-//TODO
+
+void MainWindow::generateModel(){
+    _viewer->generateScene();
+}
+
 void MainWindow::saveScreenshot()
 {
 
@@ -154,6 +162,7 @@ void MainWindow::about()
 void MainWindow::updateLightPosition(int angle)
 {
     _viewer->setHeightLight((float)angle);
+     ui->mainWidget->setFocus();
 }
 /*
 void MainWindow::updateSigma(int sigma)
@@ -167,12 +176,14 @@ void MainWindow::updateLightThreshold(int t){
 */
 void MainWindow::setupInformationPanelSlot(){
     refreshInformationPanel();
+    ui->mainWidget->setFocus();
 }
 
 void MainWindow::updateDrawMode(int d)
 {
     _viewer->setDrawMode(d);
     refreshInformationPanel();
+    ui->mainWidget->setFocus();
 }
 /*
 void MainWindow::updateGaussBlurFactor(int g){
@@ -187,9 +198,18 @@ void MainWindow::reloadGaussHeightMap(){
 void MainWindow::addNewPanel()
 {
     _ID++;
-    ui->settingsLayout->addWidget(createNewPanel(_ID,true));
+    ui->settingsLayout->addWidget(createNewPanel(_ID,false));
     _viewer->addGaussMaps(_ID);
 
+}
+
+
+void MainWindow::updateShadow(int s){
+    if(s==0)
+        _viewer->setDoShadow(false);
+    else
+        _viewer->setDoShadow(true);
+     ui->mainWidget->setFocus();
 }
 
 
@@ -203,23 +223,75 @@ void MainWindow::setupMenu(){
 
     //const QIcon openIcon = QIcon::fromTheme("document-open"); //TODO Image
     connect(ui->loadModelAction,&QAction::triggered,this,&MainWindow::open);
+    connect(ui->generateModelAction,&QAction::triggered,this,&MainWindow::generateModel);
     connect(ui->screenshotAction,&QAction::triggered,this,&MainWindow::saveScreenshot);
     connect(ui->exitAction,&QAction::triggered,this,&QWidget::close);
 }
 
 void MainWindow::setupControlePanel()
 {
-    ui->sigmaSlider->setSliderPosition(10);
-    //connect(ui->sigmaSlider,&QSlider::valueChanged,this,&MainWindow::updateSigma);
+    connect(ui->drawModeSlider,&QSlider::valueChanged,this,&MainWindow::updateDrawMode);
     ui->lightSlider->setSliderPosition(45);
     connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
-    ui->lightThresholdSlider->setSliderPosition(30);
-    //connect(ui->lightThresholdSlider,&QSlider::valueChanged,this,&MainWindow::updateLightThreshold);
-    ui->gaussBlurSlider->setSliderPosition(3);
-    //connect(ui->gaussBlurSlider,&QSlider::valueChanged,this,&MainWindow::updateGaussBlurFactor);
+
+
+    connect(ui->typeShading0,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeShading(0);
+
+        }
+    );
+    connect(ui->typeShading1,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeShading(1);
+        }
+    );
+    connect(ui->typeShading2,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeShading(2);
+        }
+    );
+
+    connect(ui->typeMerge0,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeMerge(0);
+
+        }
+    );
+    connect(ui->typeMerge1,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeMerge(1);
+
+        }
+    );
+    connect(ui->typeMerge2,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setTypeMerge(2);
+        }
+    );
+
+    connect(ui->shade0,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setShadeSelector(0);
+
+        }
+    );
+    connect(ui->shade1,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setShadeSelector(1);
+
+        }
+    );
+
+    connect(ui->shade2,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setShadeSelector(2);
+
+        }
+    );
+
+    connect(ui->shade3,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setShadeSelector(3);
+
+        }
+    );
+
+
+    connect(ui->shadowCheckBox,&QCheckBox::stateChanged,this,&MainWindow::updateShadow);
 
    // connect(ui->GaussBlurButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
-    connect(ui->drawModeSlider,&QSlider::valueChanged,this,&MainWindow::updateDrawMode);
+
 }
 
 
@@ -232,7 +304,7 @@ void MainWindow::refreshInformationPanel(){
 }
 
 
-QGroupBox* MainWindow::createNewPanel(int id, bool doDeleteButtons){
+QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
 
     QString title = QString("Gauss ID : %1").arg(id);
 
@@ -255,12 +327,14 @@ QGroupBox* MainWindow::createNewPanel(int id, bool doDeleteButtons){
     connect(lightSlider, &QSlider::valueChanged,
             [this,id](int t){
                 this->_viewer->setLightThreshold(id,(float)M_PI/((float)t/10.0));
+                this->ui->mainWidget->setFocus();
             }
     );
 
 
     QLabel *lightInfoLabel  = new QLabel("Angle max:(PI/(t/10)) t=");
     QLabel *lightValueLabel = new QLabel();
+    lightValueLabel->setNum(30);
     connect(lightSlider,&QSlider::valueChanged,lightValueLabel,qOverload<int>(&QLabel::setNum));
 
     lightLayout->addWidget(lightInfoLabel);
@@ -268,32 +342,36 @@ QGroupBox* MainWindow::createNewPanel(int id, bool doDeleteButtons){
     lightLayout->addWidget(lightSlider);
 
 
+    if(!firstPanel){
+        QSlider *gaussSlider = new QSlider(Qt::Horizontal);
+        gaussSlider->setMinimum(0);
+        gaussSlider->setMaximum(100);
+        gaussSlider->setSliderPosition(0);
 
-    QSlider *gaussSlider = new QSlider(Qt::Horizontal);
-    gaussSlider->setMinimum(0);
-    gaussSlider->setMaximum(100);
-    gaussSlider->setSliderPosition(0);
+        connect(gaussSlider, &QSlider::valueChanged,
+                [this,id](int value){
+                    this->_viewer->setGaussBlurFactor(id,value);
+                    this->ui->mainWidget->setFocus();
+                }
+        );
 
-    connect(gaussSlider, &QSlider::valueChanged,
-            [this,id](int value){
+        QLabel *gaussInfoLabel  = new QLabel("Gauss Blur Facteur :");
+        QLabel *gaussValueLabel = new QLabel();
+        gaussValueLabel->setNum(0);
+        connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
 
-
-
-                this->_viewer->setGaussBlurFactor(id,value);
-            }
-    );
-
-    QLabel *gaussInfoLabel  = new QLabel("Gauss Blur Facteur :");
-    QLabel *gaussValueLabel = new QLabel();
-    connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
-
-    gaussLayout->addWidget(gaussInfoLabel);
-    gaussLayout->addWidget(gaussValueLabel);
-    gaussLayout->addWidget(gaussSlider);
-
+        gaussLayout->addWidget(gaussInfoLabel);
+        gaussLayout->addWidget(gaussValueLabel);
+        gaussLayout->addWidget(gaussSlider);
+    }
 
     QLabel *enabledLabel = new QLabel("Activer ");
     QCheckBox *enabledBox = new QCheckBox();
+
+    if(firstPanel){
+        enabledBox->setChecked(true);
+    }
+
     connect(enabledBox, &QCheckBox::stateChanged,
             [this,id](int value){
                 bool b=true;
@@ -307,7 +385,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool doDeleteButtons){
     settingsLayout->addWidget(enabledLabel);
     settingsLayout->addWidget(enabledBox);
 
-    if(doDeleteButtons){
+    if(!firstPanel){
         QPushButton *deleteButton = new QPushButton("Supprimer");
         settingsLayout->addWidget(deleteButton);
     }

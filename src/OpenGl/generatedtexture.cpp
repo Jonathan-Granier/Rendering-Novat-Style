@@ -21,7 +21,7 @@ void GeneratedTexture::initialize()
 {
 
 
-    glGenFramebuffersEXT(1,&_FBO);
+    glGenFramebuffers(1,&_FBO);
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
 
     glGenTextures(1,&_ID);
@@ -39,8 +39,6 @@ void GeneratedTexture::initialize()
 
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_ID,0);
-    GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
-    glDrawBuffer(DrawBuffers);
 
 
 
@@ -52,7 +50,9 @@ void GeneratedTexture::initialize()
 
 void GeneratedTexture::startGenerate()
 {
+
     _generatorShader->use();
+
 }
 
 
@@ -61,6 +61,8 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
     glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
     glViewport(0,0,_width,_height);
+    GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
+    glDrawBuffer(DrawBuffers);
 
 
 
@@ -70,7 +72,6 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
 
     glBindFramebuffer(GL_FRAMEBUFFER, _QTFBO);
     _generatorShader->disable();
-
     glViewport(0,0,widthViewport,heightViewport);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

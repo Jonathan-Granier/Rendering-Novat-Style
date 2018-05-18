@@ -11,14 +11,14 @@ uniform mat4 ligthSpaceMat;
 
 uniform vec3 lightPosition;
 
+uniform sampler2D normalMap;
 
 // declare an interface block; see 'Advanced GLSL' for what these are.
-out VS_OUT {
-    vec4 lightDir;
-    vec3 Normal;
-    vec4 FragPosLightSpace;
-    vec2 texCoord;
-} vs_out;
+
+out vec4 lightDir;
+out vec3 Normal;
+out vec4 FragPosLightSpace;
+out vec2 texCoord;
 
 
 mat4 DepthBiasMVP = mat4(0.5, 0.0, 0.0, 0.0,
@@ -33,10 +33,12 @@ void main()
 {
 
     vec4 position = vec4(aPos,1.0);
-    vs_out.lightDir = normalize(mdvMat * vec4(lightPosition,0.0));
-    vs_out.Normal = normalMat * aNormal;
-    vs_out.FragPosLightSpace = ligthSpaceMat * position;
-    vs_out.texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
+    lightDir = normalize(mdvMat * vec4(lightPosition,0.0));
+    texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
+    Normal = normalMat * texture(normalMap,texCoord).xyz;
+   // vs_out.Normal = normalMat * aNormal;
+    FragPosLightSpace = ligthSpaceMat * position;
+
     gl_Position = projMat * mdvMat  * modelMat * position;
 
 

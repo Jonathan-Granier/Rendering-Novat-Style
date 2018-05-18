@@ -60,6 +60,9 @@ public:
      */
     void previous();
 
+
+    void setShader(unsigned int index);
+
     /**
      * @brief Read and compile all shaders
      */

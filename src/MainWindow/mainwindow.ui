@@ -136,8 +136,8 @@
      <rect>
       <x>450</x>
       <y>830</y>
-      <width>521</width>
-      <height>149</height>
+      <width>481</width>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -187,105 +187,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="sigmaLabel">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Sigma (*10) : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="sigmaValue">
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QSlider" name="sigmaSlider">
-           <property name="maximum">
-            <number>100</number>
-           </property>
-           <property name="value">
-            <number>10</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="lightThresholdLabel">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Limite d'angle de la lumière :&lt;/span&gt; (PI/) (*10):&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="lightThresholdValue">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;30&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QSlider" name="lightThresholdSlider">
-             <property name="minimum">
-              <number>20</number>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>40</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
       </layout>
      </item>
     </layout>
@@ -299,69 +200,6 @@
       <height>781</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>980</x>
-      <y>830</y>
-      <width>207</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="GaussBlurLayout">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_5">
-       <item>
-        <widget class="QLabel" name="gaussBlurLabel">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;GaussBlur Facteur :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="gaussBlurValue">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QSlider" name="gaussBlurSlider">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="GaussBlurButton">
-       <property name="text">
-        <string>Recompute height Map</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </widget>
    <widget class="QSlider" name="drawModeSlider">
     <property name="geometry">
@@ -423,6 +261,179 @@
      </item>
     </layout>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>830</y>
+      <width>301</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Type de lumière</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>296</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="typeShading0">
+        <property name="text">
+         <string>max(l.n,0)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="typeShading1">
+        <property name="text">
+         <string>l.n*0.5 + 0.5</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="typeShading2">
+        <property name="text">
+         <string>abs(l.n)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QCheckBox" name="shadowCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>960</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ombre portée</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="typeMergeBox">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>900</y>
+      <width>301</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Type de fusion</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>296</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="typeMergeLayout">
+      <item>
+       <widget class="QRadioButton" name="typeMerge0">
+        <property name="text">
+         <string>Aucune</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="typeMerge1">
+        <property name="text">
+         <string>Lumière</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="typeMerge2">
+        <property name="text">
+         <string>Ombrage</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="shadeSelectorGroupeBox">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>900</y>
+      <width>421</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Selection shading</string>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>420</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QRadioButton" name="shade0">
+        <property name="text">
+         <string>Flou</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="shade1">
+        <property name="text">
+         <string>Details</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="shade2">
+        <property name="text">
+         <string>Mix</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="shade3">
+        <property name="text">
+         <string>Custom</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -438,6 +449,7 @@
      <string>Fichier</string>
     </property>
     <addaction name="loadModelAction"/>
+    <addaction name="generateModelAction"/>
     <addaction name="screenshotAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
@@ -449,14 +461,8 @@
     <addaction name="actionAide"/>
     <addaction name="actionA_propos"/>
    </widget>
-   <widget class="QMenu" name="menuMultiEchelle">
-    <property name="title">
-     <string>MultiEchelle</string>
-    </property>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAide"/>
-   <addaction name="menuMultiEchelle"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
@@ -534,6 +540,11 @@
     <string>Light Map</string>
    </property>
   </action>
+  <action name="generateModelAction">
+   <property name="text">
+    <string>Generer un model</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -544,60 +555,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>610</x>
-     <y>834</y>
+     <x>612</x>
+     <y>888</y>
     </hint>
     <hint type="destinationlabel">
-     <x>642</x>
-     <y>812</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sigmaSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>sigmaValue</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>646</x>
-     <y>884</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>540</x>
-     <y>862</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>lightThresholdSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>lightThresholdValue</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>550</x>
-     <y>920</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>749</x>
-     <y>912</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gaussBlurSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>gaussBlurValue</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1035</x>
-     <y>881</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1121</x>
-     <y>857</y>
+     <x>662</x>
+     <y>853</y>
     </hint>
    </hints>
   </connection>

@@ -8,7 +8,7 @@ using namespace std;
 
 
 HeightMap::HeightMap(string name, const int &width, const int &height):
-    GeneratedTexture(name,width,height,make_shared<Shader>("shaders/heightmap.vert","shaders/heightmap.frag"))
+    GeneratedTexture(name,width,height,make_shared<Shader>("shaders/genheightmap.vert","shaders/genheightmap.frag"))
 {
 }
 
@@ -24,8 +24,8 @@ void HeightMap::initialize()
     glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,_width,_height,0,GL_RED,GL_FLOAT,0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
    // float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
    // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 

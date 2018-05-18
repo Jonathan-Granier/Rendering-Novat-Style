@@ -43,6 +43,8 @@ public:
 
     std::string getName() const;
 
+    unsigned int getID() const;
+
 protected:
     unsigned int _ID;       /*!< ID of the texture assign by glGenTextures().*/
     std::string _name;      /*!< The name of the texture. */

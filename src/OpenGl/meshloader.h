@@ -54,7 +54,7 @@ public:
 
 
     static std::shared_ptr<Texture> normalFromHeightMap(std::vector<float> data, int width, int height, float offset);
-    static std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height,float offset);
+    static std::shared_ptr<Mesh> vertexFromHeightMap(std::vector<float> data, int width, int height, float offset);
 
 
 

@@ -6,6 +6,8 @@ in vec2 texcoord;
 uniform sampler2D heightMap;
 uniform sampler2D normalMap;
 uniform vec2 resolution;
+uniform float offset;
+
 
 const float eps = 1e-15;
 
@@ -44,12 +46,27 @@ float DY(){
   return (dy21+dy10)/2.0;
 }
 
+vec3 computeNormal(vec3 v1, vec3 v2, vec3 v3){
+    vec3 v12 = v2 - v1;
+    vec3 v13 = v3 - v1;
+    return normalize(cross(v12,v13));
+}
+
+vec3 buildPos(float x, float y){
+  float px = offset*x*resolution.x;
+  float py = getTex(x,y);
+  float pz = offset*y*resolution.y;
+
+  return vec3(px,py,pz);
+}
+
+
+
 
 
 
 void main()
 {
-    float height = texture(heightMap, texcoord).r;
     vec4 n = texture(normalMap,texcoord);
     /**
     float dx = dFdxFine(height);
@@ -58,6 +75,7 @@ void main()
     float dx = DX();
     float dy = DY();
     /**/
+    float dz = sqrt(1-dx*dx+dy*dy);
 
 
     if(abs(dx) <= eps){
@@ -67,9 +85,13 @@ void main()
       dy = 0;
     }
 
-    vec2 slant = normalize(vec2(dx,dy));
-    slant = n.xy;
-    FragColor = vec4(slant.x,slant.y,length(slant),0);
 
+
+
+
+    vec2 slant = normalize(vec2(dx,dy));
+    slant = n.xz;
+    FragColor = vec4(slant.x,-slant.y,length(slant),0);
+    //FragColor = vec4(length(slant),0,0,0);
 }
 

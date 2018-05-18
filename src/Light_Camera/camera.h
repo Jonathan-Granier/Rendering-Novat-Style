@@ -167,6 +167,8 @@ class Camera {
    * @brief Set the camera to a hard code fixe point.
    */
   void setFixePosition();
+
+  void setFixePosition2();
 protected:
   /**
    * @brief

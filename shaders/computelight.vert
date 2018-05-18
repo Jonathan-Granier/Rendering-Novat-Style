@@ -10,7 +10,7 @@ uniform mat3 normalMat;
 
 
 uniform vec3 lightPosition;
-uniform sampler2D lightMap;
+uniform sampler2D shadeLightMap;
 
 // declare an interface block; see 'Advanced GLSL' for what these are.
 
@@ -25,8 +25,8 @@ void main()
     vec4 position = vec4(aPos,1.0);
     texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
 
-    lightDir = mdvMat * normalize(vec4(texture(lightMap,texCoord)));
-  //lightDir = mdvMat * normalize(vec4(lightPosition,1.0) - position);
+    lightDir =  mdvMat * normalize(vec4(texture(shadeLightMap,texCoord)));
+    //lightDir = mdvMat * normalize(vec4(lightPosition,1.0) - position);
     normal = normalMat * aNormal;
 
     gl_Position = projMat * mdvMat * modelMat * position;

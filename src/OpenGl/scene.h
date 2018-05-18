@@ -28,12 +28,18 @@ public:
                     GAUSSGENERATED,
     };
 */
+
+
     /**
      * @brief Loads a mesh with ml , loads the differents textures and compute the center and the radius of the Scene
      * @param filepaths : the path of the mesh
      * @param typeFile : the type of the mesh
      */
-    Scene(std::vector<std::string> const &filepaths, int widthViewport, int heightViewport);
+    Scene(int widthViewport, int heightViewport);
+
+
+    void createScene(const std::vector<std::string> &filepaths);
+
     /**
      * @brief Draw the Scene from an shader
      * @param shader :  the shader to use for draw the Scene
@@ -56,21 +62,20 @@ public:
      * @brief Draw the normal map with the shader in parameter.
      * @param shader to draw
      */
+
+    void drawEditHeightMap(std::shared_ptr<Shader> shader);
     void drawNormalMap(std::shared_ptr<Shader> shader);
     void drawSlantMap(std::shared_ptr<Shader> shader);
-//    void drawCurvatureMap(std::shared_ptr<Shader> shader);
-//    void drawCorrectCurvatureMap(std::shared_ptr<Shader> shader);
-    void drawLightMap(std::shared_ptr<Shader> shader);
+    void drawShadeLightMap(std::shared_ptr<Shader> shader);
+    void drawShadowLightMap(std::shared_ptr<Shader> shader);
     void drawParallaxMap(std::shared_ptr<Shader> shader);
-
+    void drawShadingMap(std::shared_ptr<Shader> shader);
     void drawAsciiTex(std::shared_ptr<Shader> shader);
 
-//    void initializeGaussMap();
-//    void computeCurvatureMap();
-//    void computeLightMap(glm::vec3 lightPosition, float lightYaw, float lightPitch);
-//    void computeParallaxMap(glm::vec3 lightPosition);
+
     void generateGaussHeightMap();
-    void generateSlantLightAndParalaxMaps(glm::vec3 lightPos, float pitch, float yaw);
+    void generateEditHeightAndNormalMap();
+    void generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightPos, float pitch, float yaw);
 
     void reloadGenerateTexturesShader();
 
@@ -120,36 +125,34 @@ public:
     void reloadGaussHeightMap();
 
 
-    void addGaussMaps(unsigned int id);
+    void addGaussMaps(unsigned int id, bool enabled = false);
 
 
 
 
     unsigned int getCurrentMapsIndex() const;
 
+
+    void setTypeShading(int typeShading);
+
+    void setDoShadow(bool doShadow);
+    void setTypeMerge(int t);
+    void setShadeSelector(int s);
 private:
 
-    /*
-    struct HeightMapGauss{
-        std::shared_ptr<GeneratedTexture>   gaussMap;
-        std::shared_ptr<GeneratedTexture>   interGaussMap;
+    enum TYPE_MERGE{
+        NONE,
+        LIGHT,
+        SHADE,
     };
 
-
-    std::shared_ptr<Maps>         _loadedMaps;
-    std::shared_ptr<Maps>         _loadedMapsGauss;
-    std::shared_ptr<Maps>         _generatedMaps;
-    std::shared_ptr<Maps>         _generatedMapsGauss;
-
-    std::shared_ptr<HeightMapGauss> _loadedHeightMapGauss;
-    std::shared_ptr<HeightMapGauss> _generatedHeightMapGauss;
-*/
 
     struct MapsManager{
         unsigned int ID;
         bool enabled;
         std::shared_ptr<Maps>   maps;
     };
+
 
 
     std::vector<std::shared_ptr<MapsManager>>           _mapsManagers;
@@ -167,42 +170,34 @@ private:
     std::vector<std::shared_ptr<LoadTexture>>           _textures;
     std::shared_ptr<LoadTexture>                        _asciiTex;
 
-/*
-    float        _sigma;
-    int          _gaussBlurFactor;
-    int          _lightSelector;
-    float        _lightThreshold;
-    */
-
-  //  const int           _MAXLIGHTSELECTOR = 5;
-    const float         _MAXLIGHTTRESHOLD = M_PI/2.2;
-    const float         _MINLIGHTRESHOLD = 0;
-    //const float         _WIDTHGENTEX = 1024;
-    //const float         _HEIGHTGENTEX = 1024;
-    //const std::string   _HEIGHTMAPNAME = "heightMap" ;
 
 
-    //TYPE_MESH _typeMeshUsed;
+
+    TYPE_MERGE _typeMerge;
+
+    int _typeShading;
+    bool _doShadow;
+    int _shadeSelector;
+
+
     int _widthViewport;
     int _heightViewport;
 
-    //bool _isComputeCurvatureMap;
-    //bool _isInitializedGaussMap;
+    bool _reloadEditHeightMap;
 
 
     void initializeGenShader();
-    void initializeMaps(const std::vector<std::string> &filepaths);
+    void initializeMaps(std::shared_ptr<Texture> heightMap);
+    void initializeGenMaps();
+    std::shared_ptr<Texture> computeGenHeightMap();
     void initializeTexture();
-    //void initializeHeightMapGauss(std::shared_ptr<HeightMapGauss> gauss, std::shared_ptr<Texture> ref);
-    //std::shared_ptr<Texture> computeGenHeightMap();
-    //void computeGaussBlur(std::shared_ptr<Maps> gaussMaps, std::shared_ptr<HeightMapGauss> gaussHeightMap,std::shared_ptr<Texture> refHeightMap);
-    //void majCurrentMap();
 
 
     std::shared_ptr<MapsManager> findFromID(unsigned int id);
     void printMapsManagers();
     void initStackMaps();
     std::shared_ptr<Maps> getMapsFromSupply();
+
 };
 
 #endif // SCENE_H

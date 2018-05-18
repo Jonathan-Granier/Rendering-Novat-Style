@@ -109,13 +109,9 @@ DIST          = shaders/toon1D.frag \
 		shaders/curvature.frag \
 		shaders/drawtexture.frag \
 		shaders/drawtexture.vert \
-		shaders/heightmap.frag \
-		shaders/heightmap.vert \
 		shaders/curvaturecyril.frag \
 		shaders/computelight.vert \
 		shaders/computelight.frag \
-		shaders/generatelight.frag \
-		shaders/generatelight.vert \
 		shaders/gaussBlur.frag \
 		shaders/gaussBlur.vert \
 		shaders/correctcurvature.frag \
@@ -124,6 +120,18 @@ DIST          = shaders/toon1D.frag \
 		shaders/slant.vert \
 		shaders/parallax.frag \
 		shaders/parallax.vert \
+		shaders/shadelight.vert \
+		shaders/shadelight.frag \
+		shaders/shadowlight.vert \
+		shaders/shadowlight.frag \
+		shaders/normalmap.vert \
+		shaders/normalmap.frag \
+		shaders/editheightmap.frag \
+		shaders/editheightmap.vert \
+		shaders/genheightmap.frag \
+		shaders/genheightmap.vert \
+		shaders/shading.frag \
+		shaders/shading.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -930,6 +938,7 @@ moc_viewer.cpp: src/OpenGl/shader.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
@@ -961,7 +970,24 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-bin/debug/main.o: src/MainWindow/main.cpp 
+bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
+		src/MainWindow/viewer.h \
+		src/OpenGl/shader.h \
+		src/OpenGl/scene.h \
+		src/OpenGl/mesh.h \
+		src/OpenGl/vertex.h \
+		src/OpenGl/loadtexture.h \
+		src/OpenGl/texture.h \
+		src/OpenGl/generatedtexture.h \
+		src/OpenGl/meshloader.h \
+		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h \
+		src/OpenGl/shadowmap.h \
+		src/Light_Camera/camera.h \
+		src/Light_Camera/trackball.h \
+		lib/glm_add.h \
+		src/Light_Camera/light.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
 
 bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
@@ -974,6 +1000,7 @@ bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
@@ -992,6 +1019,7 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h \
 		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
@@ -1020,6 +1048,7 @@ bin/debug/meshloader.o: src/OpenGl/meshloader.cpp src/OpenGl/meshloader.h \
 
 bin/debug/texture.o: src/OpenGl/texture.cpp src/OpenGl/texture.h \
 		src/OpenGl/shader.h \
+		src/OpenGl/caller.h \
 		lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/texture.o src/OpenGl/texture.cpp
 
@@ -1053,7 +1082,8 @@ bin/debug/shadowmap.o: src/OpenGl/shadowmap.cpp src/OpenGl/shadowmap.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/meshloader.h \
-		src/OpenGl/maps.h
+		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shadowmap.o src/OpenGl/shadowmap.cpp
 
 bin/debug/loadtexture.o: src/OpenGl/loadtexture.cpp src/OpenGl/loadtexture.h \
@@ -1076,6 +1106,7 @@ bin/debug/scene.o: src/OpenGl/scene.cpp src/OpenGl/scene.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
+		src/OpenGl/lighttextures.h \
 		src/OpenGl/heightmap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/scene.o src/OpenGl/scene.cpp
 
@@ -1092,6 +1123,7 @@ bin/debug/maps.o: src/OpenGl/maps.cpp src/OpenGl/maps.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/mesh.h \
 		src/OpenGl/vertex.h \
+		src/OpenGl/lighttextures.h \
 		src/OpenGl/meshloader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/maps.o src/OpenGl/maps.cpp
 

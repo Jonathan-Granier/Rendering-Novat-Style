@@ -13,7 +13,9 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -21,6 +23,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
@@ -42,6 +45,7 @@ public:
     QAction *actionNormal_Map;
     QAction *actionCurvature_Map;
     QAction *actionLight_Map;
+    QAction *generateModelAction;
     QWidget *centralwidget;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
@@ -67,27 +71,7 @@ public:
     QLabel *lightPosValue;
     QSpacerItem *horizontalSpacer_2;
     QSlider *lightSlider;
-    QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *sigmaLabel;
-    QLabel *sigmaValue;
-    QSpacerItem *horizontalSpacer;
-    QSlider *sigmaSlider;
-    QVBoxLayout *verticalLayout_5;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *lightThresholdLabel;
-    QLabel *lightThresholdValue;
-    QSpacerItem *horizontalSpacer_3;
-    QSlider *lightThresholdSlider;
     QWidget *mainWidget;
-    QWidget *verticalLayoutWidget_3;
-    QVBoxLayout *GaussBlurLayout;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *gaussBlurLabel;
-    QLabel *gaussBlurValue;
-    QSpacerItem *horizontalSpacer_4;
-    QSlider *gaussBlurSlider;
-    QPushButton *GaussBlurButton;
     QSlider *drawModeSlider;
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *settingsLayout;
@@ -95,10 +79,29 @@ public:
     QHBoxLayout *horizontalLayout_8;
     QPushButton *reloadButton;
     QPushButton *addButton;
+    QGroupBox *groupBox;
+    QWidget *horizontalLayoutWidget_2;
+    QHBoxLayout *horizontalLayout_2;
+    QRadioButton *typeShading0;
+    QRadioButton *typeShading1;
+    QRadioButton *typeShading2;
+    QCheckBox *shadowCheckBox;
+    QGroupBox *typeMergeBox;
+    QWidget *horizontalLayoutWidget_3;
+    QHBoxLayout *typeMergeLayout;
+    QRadioButton *typeMerge0;
+    QRadioButton *typeMerge1;
+    QRadioButton *typeMerge2;
+    QGroupBox *shadeSelectorGroupeBox;
+    QWidget *horizontalLayoutWidget_4;
+    QHBoxLayout *horizontalLayout_4;
+    QRadioButton *shade0;
+    QRadioButton *shade1;
+    QRadioButton *shade2;
+    QRadioButton *shade3;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
-    QMenu *menuMultiEchelle;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -132,6 +135,8 @@ public:
         actionCurvature_Map->setObjectName(QStringLiteral("actionCurvature_Map"));
         actionLight_Map = new QAction(MainWindow);
         actionLight_Map->setObjectName(QStringLiteral("actionLight_Map"));
+        generateModelAction = new QAction(MainWindow);
+        generateModelAction->setObjectName(QStringLiteral("generateModelAction"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayoutWidget = new QWidget(centralwidget);
@@ -222,7 +227,7 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(centralwidget);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(450, 830, 521, 149));
+        verticalLayoutWidget_2->setGeometry(QRect(450, 830, 481, 51));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -255,114 +260,12 @@ public:
 
         verticalLayout_4->addWidget(lightSlider);
 
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        sigmaLabel = new QLabel(verticalLayoutWidget_2);
-        sigmaLabel->setObjectName(QStringLiteral("sigmaLabel"));
-
-        horizontalLayout_2->addWidget(sigmaLabel);
-
-        sigmaValue = new QLabel(verticalLayoutWidget_2);
-        sigmaValue->setObjectName(QStringLiteral("sigmaValue"));
-
-        horizontalLayout_2->addWidget(sigmaValue);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_2);
-
-        sigmaSlider = new QSlider(verticalLayoutWidget_2);
-        sigmaSlider->setObjectName(QStringLiteral("sigmaSlider"));
-        sigmaSlider->setMaximum(100);
-        sigmaSlider->setValue(10);
-        sigmaSlider->setOrientation(Qt::Horizontal);
-
-        verticalLayout_3->addWidget(sigmaSlider);
-
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        lightThresholdLabel = new QLabel(verticalLayoutWidget_2);
-        lightThresholdLabel->setObjectName(QStringLiteral("lightThresholdLabel"));
-
-        horizontalLayout_4->addWidget(lightThresholdLabel);
-
-        lightThresholdValue = new QLabel(verticalLayoutWidget_2);
-        lightThresholdValue->setObjectName(QStringLiteral("lightThresholdValue"));
-
-        horizontalLayout_4->addWidget(lightThresholdValue);
-
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_4->addItem(horizontalSpacer_3);
-
-
-        verticalLayout_5->addLayout(horizontalLayout_4);
-
-        lightThresholdSlider = new QSlider(verticalLayoutWidget_2);
-        lightThresholdSlider->setObjectName(QStringLiteral("lightThresholdSlider"));
-        lightThresholdSlider->setMinimum(20);
-        lightThresholdSlider->setMaximum(100);
-        lightThresholdSlider->setValue(40);
-        lightThresholdSlider->setOrientation(Qt::Horizontal);
-
-        verticalLayout_5->addWidget(lightThresholdSlider);
-
-
-        verticalLayout_3->addLayout(verticalLayout_5);
-
-
-        verticalLayout_4->addLayout(verticalLayout_3);
-
 
         verticalLayout_2->addLayout(verticalLayout_4);
 
         mainWidget = new QWidget(centralwidget);
         mainWidget->setObjectName(QStringLiteral("mainWidget"));
         mainWidget->setGeometry(QRect(10, 10, 1191, 781));
-        verticalLayoutWidget_3 = new QWidget(centralwidget);
-        verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
-        verticalLayoutWidget_3->setGeometry(QRect(980, 830, 207, 91));
-        GaussBlurLayout = new QVBoxLayout(verticalLayoutWidget_3);
-        GaussBlurLayout->setObjectName(QStringLiteral("GaussBlurLayout"));
-        GaussBlurLayout->setContentsMargins(0, 0, 0, 0);
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        gaussBlurLabel = new QLabel(verticalLayoutWidget_3);
-        gaussBlurLabel->setObjectName(QStringLiteral("gaussBlurLabel"));
-
-        horizontalLayout_5->addWidget(gaussBlurLabel);
-
-        gaussBlurValue = new QLabel(verticalLayoutWidget_3);
-        gaussBlurValue->setObjectName(QStringLiteral("gaussBlurValue"));
-
-        horizontalLayout_5->addWidget(gaussBlurValue);
-
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_5->addItem(horizontalSpacer_4);
-
-
-        GaussBlurLayout->addLayout(horizontalLayout_5);
-
-        gaussBlurSlider = new QSlider(verticalLayoutWidget_3);
-        gaussBlurSlider->setObjectName(QStringLiteral("gaussBlurSlider"));
-        gaussBlurSlider->setOrientation(Qt::Horizontal);
-
-        GaussBlurLayout->addWidget(gaussBlurSlider);
-
-        GaussBlurButton = new QPushButton(verticalLayoutWidget_3);
-        GaussBlurButton->setObjectName(QStringLiteral("GaussBlurButton"));
-        GaussBlurButton->setAutoDefault(false);
-
-        GaussBlurLayout->addWidget(GaussBlurButton);
-
         drawModeSlider = new QSlider(centralwidget);
         drawModeSlider->setObjectName(QStringLiteral("drawModeSlider"));
         drawModeSlider->setGeometry(QRect(20, 800, 1171, 20));
@@ -392,6 +295,91 @@ public:
 
         horizontalLayout_8->addWidget(addButton);
 
+        groupBox = new QGroupBox(centralwidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setGeometry(QRect(950, 830, 301, 51));
+        groupBox->setCheckable(false);
+        horizontalLayoutWidget_2 = new QWidget(groupBox);
+        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
+        horizontalLayoutWidget_2->setGeometry(QRect(0, 20, 296, 23));
+        horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_2);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
+        typeShading0 = new QRadioButton(horizontalLayoutWidget_2);
+        typeShading0->setObjectName(QStringLiteral("typeShading0"));
+        typeShading0->setChecked(true);
+
+        horizontalLayout_2->addWidget(typeShading0);
+
+        typeShading1 = new QRadioButton(horizontalLayoutWidget_2);
+        typeShading1->setObjectName(QStringLiteral("typeShading1"));
+
+        horizontalLayout_2->addWidget(typeShading1);
+
+        typeShading2 = new QRadioButton(horizontalLayoutWidget_2);
+        typeShading2->setObjectName(QStringLiteral("typeShading2"));
+
+        horizontalLayout_2->addWidget(typeShading2);
+
+        shadowCheckBox = new QCheckBox(centralwidget);
+        shadowCheckBox->setObjectName(QStringLiteral("shadowCheckBox"));
+        shadowCheckBox->setGeometry(QRect(950, 960, 111, 21));
+        typeMergeBox = new QGroupBox(centralwidget);
+        typeMergeBox->setObjectName(QStringLiteral("typeMergeBox"));
+        typeMergeBox->setGeometry(QRect(950, 900, 301, 51));
+        typeMergeBox->setCheckable(false);
+        horizontalLayoutWidget_3 = new QWidget(typeMergeBox);
+        horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
+        horizontalLayoutWidget_3->setGeometry(QRect(0, 20, 296, 23));
+        typeMergeLayout = new QHBoxLayout(horizontalLayoutWidget_3);
+        typeMergeLayout->setObjectName(QStringLiteral("typeMergeLayout"));
+        typeMergeLayout->setContentsMargins(0, 0, 0, 0);
+        typeMerge0 = new QRadioButton(horizontalLayoutWidget_3);
+        typeMerge0->setObjectName(QStringLiteral("typeMerge0"));
+        typeMerge0->setChecked(true);
+
+        typeMergeLayout->addWidget(typeMerge0);
+
+        typeMerge1 = new QRadioButton(horizontalLayoutWidget_3);
+        typeMerge1->setObjectName(QStringLiteral("typeMerge1"));
+
+        typeMergeLayout->addWidget(typeMerge1);
+
+        typeMerge2 = new QRadioButton(horizontalLayoutWidget_3);
+        typeMerge2->setObjectName(QStringLiteral("typeMerge2"));
+
+        typeMergeLayout->addWidget(typeMerge2);
+
+        shadeSelectorGroupeBox = new QGroupBox(centralwidget);
+        shadeSelectorGroupeBox->setObjectName(QStringLiteral("shadeSelectorGroupeBox"));
+        shadeSelectorGroupeBox->setGeometry(QRect(460, 900, 421, 51));
+        horizontalLayoutWidget_4 = new QWidget(shadeSelectorGroupeBox);
+        horizontalLayoutWidget_4->setObjectName(QStringLiteral("horizontalLayoutWidget_4"));
+        horizontalLayoutWidget_4->setGeometry(QRect(0, 20, 420, 23));
+        horizontalLayout_4 = new QHBoxLayout(horizontalLayoutWidget_4);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        shade0 = new QRadioButton(horizontalLayoutWidget_4);
+        shade0->setObjectName(QStringLiteral("shade0"));
+        shade0->setChecked(true);
+
+        horizontalLayout_4->addWidget(shade0);
+
+        shade1 = new QRadioButton(horizontalLayoutWidget_4);
+        shade1->setObjectName(QStringLiteral("shade1"));
+
+        horizontalLayout_4->addWidget(shade1);
+
+        shade2 = new QRadioButton(horizontalLayoutWidget_4);
+        shade2->setObjectName(QStringLiteral("shade2"));
+
+        horizontalLayout_4->addWidget(shade2);
+
+        shade3 = new QRadioButton(horizontalLayoutWidget_4);
+        shade3->setObjectName(QStringLiteral("shade3"));
+
+        horizontalLayout_4->addWidget(shade3);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -400,8 +388,6 @@ public:
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
         menuAide->setObjectName(QStringLiteral("menuAide"));
-        menuMultiEchelle = new QMenu(menubar);
-        menuMultiEchelle->setObjectName(QStringLiteral("menuMultiEchelle"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -410,8 +396,8 @@ public:
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuAide->menuAction());
-        menubar->addAction(menuMultiEchelle->menuAction());
         menuFile->addAction(loadModelAction);
+        menuFile->addAction(generateModelAction);
         menuFile->addAction(screenshotAction);
         menuFile->addSeparator();
         menuFile->addAction(exitAction);
@@ -420,12 +406,6 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(lightSlider, SIGNAL(valueChanged(int)), lightPosValue, SLOT(setNum(int)));
-        QObject::connect(sigmaSlider, SIGNAL(valueChanged(int)), sigmaValue, SLOT(setNum(int)));
-        QObject::connect(lightThresholdSlider, SIGNAL(valueChanged(int)), lightThresholdValue, SLOT(setNum(int)));
-        QObject::connect(gaussBlurSlider, SIGNAL(valueChanged(int)), gaussBlurValue, SLOT(setNum(int)));
-
-        GaussBlurButton->setDefault(false);
-
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -461,6 +441,7 @@ public:
         actionNormal_Map->setText(QApplication::translate("MainWindow", "Normal Map", nullptr));
         actionCurvature_Map->setText(QApplication::translate("MainWindow", "Curvature Map", nullptr));
         actionLight_Map->setText(QApplication::translate("MainWindow", "Light Map", nullptr));
+        generateModelAction->setText(QApplication::translate("MainWindow", "Generer un model", nullptr));
         informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Shading :</span></p></body></html>", nullptr));
         label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin</span></p></body></html>", nullptr));
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Shader courant</span></p></body></html>", nullptr));
@@ -470,18 +451,24 @@ public:
         currentMaps->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
         lightPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Position vertical de la lumi\303\250re :</span></p></body></html>", nullptr));
         lightPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">45</span></p></body></html>", nullptr));
-        sigmaLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Sigma (*10) : </span></p></body></html>", nullptr));
-        sigmaValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">10</span></p></body></html>", nullptr));
-        lightThresholdLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Limite d'angle de la lumi\303\250re :</span> (PI/) (*10):</p></body></html>", nullptr));
-        lightThresholdValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">30</span></p></body></html>", nullptr));
-        gaussBlurLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">GaussBlur Facteur :</span></p></body></html>", nullptr));
-        gaussBlurValue->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        GaussBlurButton->setText(QApplication::translate("MainWindow", "Recompute height Map", nullptr));
         reloadButton->setText(QApplication::translate("MainWindow", "Recharger", nullptr));
         addButton->setText(QApplication::translate("MainWindow", "Ajouter", nullptr));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Type de lumi\303\250re", nullptr));
+        typeShading0->setText(QApplication::translate("MainWindow", "max(l.n,0)", nullptr));
+        typeShading1->setText(QApplication::translate("MainWindow", "l.n*0.5 + 0.5", nullptr));
+        typeShading2->setText(QApplication::translate("MainWindow", "abs(l.n)", nullptr));
+        shadowCheckBox->setText(QApplication::translate("MainWindow", "Ombre port\303\251e", nullptr));
+        typeMergeBox->setTitle(QApplication::translate("MainWindow", "Type de fusion", nullptr));
+        typeMerge0->setText(QApplication::translate("MainWindow", "Aucune", nullptr));
+        typeMerge1->setText(QApplication::translate("MainWindow", "Lumi\303\250re", nullptr));
+        typeMerge2->setText(QApplication::translate("MainWindow", "Ombrage", nullptr));
+        shadeSelectorGroupeBox->setTitle(QApplication::translate("MainWindow", "Selection shading", nullptr));
+        shade0->setText(QApplication::translate("MainWindow", "Flou", nullptr));
+        shade1->setText(QApplication::translate("MainWindow", "Details", nullptr));
+        shade2->setText(QApplication::translate("MainWindow", "Mix", nullptr));
+        shade3->setText(QApplication::translate("MainWindow", "Custom", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
-        menuMultiEchelle->setTitle(QApplication::translate("MainWindow", "MultiEchelle", nullptr));
     } // retranslateUi
 
 };

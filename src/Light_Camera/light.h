@@ -39,6 +39,7 @@ public:
 
 
     void setFixePosition();
+    void setFixePosition(float yaw, float pitch);
 
     glm::vec3 position() const;
 

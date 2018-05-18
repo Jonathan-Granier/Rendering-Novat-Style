@@ -22,11 +22,10 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     moussePos = centerAndNormalize(moussePos,width,height);
     float theta= orientedAngle(_oldmoussePosition,moussePos);
     _yaw -= theta;
-
     //Modulo
     _yaw = _yaw - 2*M_PI*floor(_yaw/(2.0 * M_PI));
 
-
+    cout << "Yaw : " << _yaw << endl;
     _oldmoussePosition = moussePos;
     updatePosition();
 
@@ -46,6 +45,12 @@ void Light::setFixePosition()
 {
     _yaw = -M_PI/4.0f;
     _pitch = M_PI/4.0f;
+    updatePosition();
+}
+
+void Light::setFixePosition(float yaw, float pitch){
+    _yaw = yaw;
+    _pitch = pitch;
     updatePosition();
 }
 

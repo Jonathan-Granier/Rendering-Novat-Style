@@ -659,8 +659,6 @@ shared_ptr<Texture> MeshLoader::normalFromHeightMap(vector<float> data, int widt
 
 shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, int height,float offset){
 
-
-
     if(data.size() != width*height){
         cerr << "[vertexFormHeightMap] : incorrect size of data. Have : " << data.size() << " data but : " << width*height << " expected." << endl;
     }
@@ -744,6 +742,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 
     return make_shared<Mesh>(vertices,indices,width,height,ymin,ymax);
+
+
 }
 
 

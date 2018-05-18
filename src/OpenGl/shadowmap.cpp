@@ -15,6 +15,7 @@ ShadowMap::ShadowMap(string name, const int &width, const int &height):
 }
 void ShadowMap::initialize()
 {
+    cout << "Coucou" << endl;
     // configure depth map FBO
     // -----------------------
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
