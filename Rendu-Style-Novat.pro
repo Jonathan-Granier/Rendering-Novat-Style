@@ -122,6 +122,10 @@ DISTFILES += \
     shaders/genheightmap.frag \
     shaders/genheightmap.vert \
     shaders/shading.frag \
-    shaders/shading.vert
+    shaders/shading.vert \
+    shaders/morpho.frag \
+    shaders/morpho.vert \
+    shaders/mergeshadow.frag \
+    shaders/mergeshadow.vert
 
 FORMS +=  src/MainWindow/mainwindow.ui

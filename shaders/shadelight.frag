@@ -37,9 +37,7 @@ uniform float yaw;
 uniform float pitch;
 uniform int lightSelector;
 uniform float threshold;
-uniform bool doMerge;
-uniform bool none;
-
+uniform bool doEdit;
 
 
 #define PI 3.14159265359
@@ -67,8 +65,6 @@ float averageAngle(float y1, float y2){
 
 
 float smoothTheta(float theta){
-
-
 
   float f = smoothstep(threshold,PI2,abs(theta));
   return -f+1;
@@ -116,7 +112,7 @@ vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
   //slint = normalize(slint);
 
 
-  float normS = s.z;
+  float normS = clamp(s.z,0,1);
 
   if(normS <= 0){
     slint = normL;
@@ -159,30 +155,14 @@ void main()
 
   vec2 l = lightPosition.xz;
   currentYaw = yaw;
-  //newLightDir = Rotation3D(yaw,pitch);
-  newLightDir = computeLight(s,l,currentYaw);
+  if(doEdit)
+    newLightDir = computeLight(s,l,currentYaw);
+  else
+    newLightDir = Rotation3D(yaw,pitch);
   float newYaw = currentYaw;
 
 
-/**/
-  if(lightSelector != 0 && doMerge){
-    float previousYaw = texture(shadeAnglesMap,texCoord).r;
-    newYaw = averageAngle(currentYaw,previousYaw);
-    newLightDir = Rotation3D(newYaw,pitch);
-  }
-/**/
-
-
-
-
-
-  if(none){
-    outBufferDir = vec4(lightPosition,0);
-  }else
-  {
-    outBufferDir = newLightDir;
-  }
-  //outBufferDir = vec4(previousYaw,0,0,0);
+  outBufferDir = newLightDir;
   outBufferAngles = vec4(newYaw,pitch,0.0,0.0);
 
 }

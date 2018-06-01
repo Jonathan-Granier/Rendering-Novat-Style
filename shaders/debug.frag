@@ -26,7 +26,7 @@ vec4 Ambientlighting(float k, vec4 c, float I){
 
 /**
 Compute the diffuse lighting
-    k : Coefficient
+    k : Coefficientsxwqs
     c : color of object
     n : normal Vector
     l : light Vector

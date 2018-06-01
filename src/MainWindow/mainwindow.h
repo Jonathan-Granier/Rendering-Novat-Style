@@ -39,6 +39,7 @@ public:
 
 
 
+
 protected:
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
@@ -57,6 +58,9 @@ protected:
 
 
 
+
+
+protected slots:
 
 private slots:
     /**
@@ -80,8 +84,8 @@ private slots:
      */
     void about();
 
-
     void updateLightPosition(int angle);
+    void updateShadowLightPosition(int angle);
     //void updateSigma(int sigma);
     //void updateLightThreshold(int t);
     //void updateGaussBlurFactor(int g);
@@ -89,8 +93,21 @@ private slots:
     void setupInformationPanelSlot();
     void updateDrawMode(int d);
     void addNewPanel();
-    void updateShadow(int s);
 
+
+    void shadowEnabled(int b);
+    void shadowEnabledMorpho(int b);
+    void shadowEnabledLightDir(int b);
+    void shadowUpdateLightPosition(int angle);
+
+
+
+    void shadeEnabledLightDir(int b);
+    void shadeUpdateLightPosition(int angle);
+
+
+    QColor selectColor(QColor currentColor);
+    QString loadTexture();
 
 private:
 
@@ -114,8 +131,15 @@ private:
 
     unsigned int _ID;
 
+    QButtonGroup* _currentMapsSelector;
+
+
     void setupMenu();
     void setupControlePanel();
+    void setupShadeSettings();
+    void setupShadowSettings();
+    void setupColorSettings();
+
     void refreshInformationPanel();
     QGroupBox *createNewPanel(int id, bool firstPanel);
     void setButtons();

@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -47,58 +48,63 @@ public:
     QAction *actionLight_Map;
     QAction *generateModelAction;
     QWidget *centralwidget;
-    QWidget *verticalLayoutWidget;
-    QVBoxLayout *verticalLayout;
-    QLabel *informationTitle;
-    QHBoxLayout *horizontalLayout_6;
-    QLabel *label_6;
-    QFrame *line_7;
-    QLabel *label_5;
-    QFrame *line_8;
-    QLabel *label;
-    QFrame *lineInfo;
-    QHBoxLayout *horizontalLayout;
-    QLabel *drawMode;
-    QFrame *line_5;
-    QLabel *shader;
-    QFrame *line_6;
-    QLabel *currentMaps;
-    QWidget *verticalLayoutWidget_2;
-    QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *verticalLayout_4;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *lightPosLabel;
-    QLabel *lightPosValue;
-    QSpacerItem *horizontalSpacer_2;
-    QSlider *lightSlider;
     QWidget *mainWidget;
-    QSlider *drawModeSlider;
-    QWidget *verticalLayoutWidget_4;
-    QVBoxLayout *settingsLayout;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout_8;
     QPushButton *reloadButton;
     QPushButton *addButton;
-    QGroupBox *groupBox;
-    QWidget *horizontalLayoutWidget_2;
-    QHBoxLayout *horizontalLayout_2;
-    QRadioButton *typeShading0;
-    QRadioButton *typeShading1;
-    QRadioButton *typeShading2;
-    QCheckBox *shadowCheckBox;
-    QGroupBox *typeMergeBox;
+    QGroupBox *multiScaleGroupeBox;
+    QWidget *verticalLayoutWidget_4;
+    QVBoxLayout *settingsLayout;
+    QFrame *line;
     QWidget *horizontalLayoutWidget_3;
-    QHBoxLayout *typeMergeLayout;
-    QRadioButton *typeMerge0;
-    QRadioButton *typeMerge1;
-    QRadioButton *typeMerge2;
-    QGroupBox *shadeSelectorGroupeBox;
-    QWidget *horizontalLayoutWidget_4;
+    QHBoxLayout *horizontalLayout_5;
+    QLabel *label_6;
+    QLabel *shader;
+    QWidget *verticalLayoutWidget_3;
+    QVBoxLayout *verticalLayout_3;
+    QHBoxLayout *horizontalLayout;
+    QLabel *informationTitle;
+    QLabel *drawMode;
+    QSpacerItem *horizontalSpacer_3;
+    QSlider *drawModeSlider;
+    QGroupBox *colorGroupeBox;
+    QWidget *gridLayoutWidget;
+    QGridLayout *colorGridLayout;
+    QRadioButton *colorRadio2;
+    QRadioButton *colorRadio3;
+    QRadioButton *colorRadio0;
+    QRadioButton *colorRadio1;
+    QPushButton *colorButton0;
+    QPushButton *colorButton1;
+    QPushButton *colorButton2;
+    QPushButton *colorButton3;
+    QGroupBox *shadowGroupBox;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *shadowVerticalLayout;
+    QCheckBox *shadowCheckBoxLightDir;
+    QCheckBox *shadowCheckBoxMorpho;
+    QVBoxLayout *verticalLayout_7;
+    QHBoxLayout *horizontalLayout_7;
+    QLabel *lightShadowPosLabel;
+    QLabel *lightShadowPosValue;
+    QSpacerItem *horizontalSpacer_4;
+    QSlider *lightShadowSlider;
+    QGroupBox *shadingGroupeBox;
+    QWidget *verticalLayoutWidget_5;
+    QVBoxLayout *verticalLayout_5;
+    QCheckBox *shadeCheckBoxLightDir;
     QHBoxLayout *horizontalLayout_4;
-    QRadioButton *shade0;
-    QRadioButton *shade1;
-    QRadioButton *shade2;
-    QRadioButton *shade3;
+    QRadioButton *shadeRadio0;
+    QRadioButton *shadeRadio1;
+    QRadioButton *shadeRadio2;
+    QRadioButton *shadeRadio3;
+    QVBoxLayout *verticalLayout_4;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *lightShadingPosLabel;
+    QLabel *lightShadingPosValue;
+    QSpacerItem *horizontalSpacer_2;
+    QSlider *lightShadingSlider;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
@@ -109,7 +115,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModal);
-        MainWindow->resize(1583, 1036);
+        MainWindow->resize(1578, 967);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
         icon.addFile(QStringLiteral("../../../../../../../../../../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
@@ -139,149 +145,12 @@ public:
         generateModelAction->setObjectName(QStringLiteral("generateModelAction"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        verticalLayoutWidget = new QWidget(centralwidget);
-        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 840, 421, 131));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        informationTitle = new QLabel(verticalLayoutWidget);
-        informationTitle->setObjectName(QStringLiteral("informationTitle"));
-
-        verticalLayout->addWidget(informationTitle);
-
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_6 = new QLabel(verticalLayoutWidget);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        horizontalLayout_6->addWidget(label_6);
-
-        line_7 = new QFrame(verticalLayoutWidget);
-        line_7->setObjectName(QStringLiteral("line_7"));
-        line_7->setFrameShape(QFrame::VLine);
-        line_7->setFrameShadow(QFrame::Sunken);
-
-        horizontalLayout_6->addWidget(line_7);
-
-        label_5 = new QLabel(verticalLayoutWidget);
-        label_5->setObjectName(QStringLiteral("label_5"));
-
-        horizontalLayout_6->addWidget(label_5);
-
-        line_8 = new QFrame(verticalLayoutWidget);
-        line_8->setObjectName(QStringLiteral("line_8"));
-        line_8->setFrameShape(QFrame::VLine);
-        line_8->setFrameShadow(QFrame::Sunken);
-
-        horizontalLayout_6->addWidget(line_8);
-
-        label = new QLabel(verticalLayoutWidget);
-        label->setObjectName(QStringLiteral("label"));
-
-        horizontalLayout_6->addWidget(label);
-
-
-        verticalLayout->addLayout(horizontalLayout_6);
-
-        lineInfo = new QFrame(verticalLayoutWidget);
-        lineInfo->setObjectName(QStringLiteral("lineInfo"));
-        lineInfo->setFrameShape(QFrame::HLine);
-        lineInfo->setFrameShadow(QFrame::Sunken);
-
-        verticalLayout->addWidget(lineInfo);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        drawMode = new QLabel(verticalLayoutWidget);
-        drawMode->setObjectName(QStringLiteral("drawMode"));
-
-        horizontalLayout->addWidget(drawMode);
-
-        line_5 = new QFrame(verticalLayoutWidget);
-        line_5->setObjectName(QStringLiteral("line_5"));
-        line_5->setFrameShape(QFrame::VLine);
-        line_5->setFrameShadow(QFrame::Sunken);
-
-        horizontalLayout->addWidget(line_5);
-
-        shader = new QLabel(verticalLayoutWidget);
-        shader->setObjectName(QStringLiteral("shader"));
-
-        horizontalLayout->addWidget(shader);
-
-        line_6 = new QFrame(verticalLayoutWidget);
-        line_6->setObjectName(QStringLiteral("line_6"));
-        line_6->setFrameShape(QFrame::VLine);
-        line_6->setFrameShadow(QFrame::Sunken);
-
-        horizontalLayout->addWidget(line_6);
-
-        currentMaps = new QLabel(verticalLayoutWidget);
-        currentMaps->setObjectName(QStringLiteral("currentMaps"));
-
-        horizontalLayout->addWidget(currentMaps);
-
-
-        verticalLayout->addLayout(horizontalLayout);
-
-        verticalLayoutWidget_2 = new QWidget(centralwidget);
-        verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(450, 830, 481, 51));
-        verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        lightPosLabel = new QLabel(verticalLayoutWidget_2);
-        lightPosLabel->setObjectName(QStringLiteral("lightPosLabel"));
-
-        horizontalLayout_3->addWidget(lightPosLabel);
-
-        lightPosValue = new QLabel(verticalLayoutWidget_2);
-        lightPosValue->setObjectName(QStringLiteral("lightPosValue"));
-
-        horizontalLayout_3->addWidget(lightPosValue);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_2);
-
-
-        verticalLayout_4->addLayout(horizontalLayout_3);
-
-        lightSlider = new QSlider(verticalLayoutWidget_2);
-        lightSlider->setObjectName(QStringLiteral("lightSlider"));
-        lightSlider->setMaximum(89);
-        lightSlider->setValue(45);
-        lightSlider->setOrientation(Qt::Horizontal);
-
-        verticalLayout_4->addWidget(lightSlider);
-
-
-        verticalLayout_2->addLayout(verticalLayout_4);
-
         mainWidget = new QWidget(centralwidget);
         mainWidget->setObjectName(QStringLiteral("mainWidget"));
         mainWidget->setGeometry(QRect(10, 10, 1191, 781));
-        drawModeSlider = new QSlider(centralwidget);
-        drawModeSlider->setObjectName(QStringLiteral("drawModeSlider"));
-        drawModeSlider->setGeometry(QRect(20, 800, 1171, 20));
-        drawModeSlider->setMaximum(8);
-        drawModeSlider->setOrientation(Qt::Horizontal);
-        drawModeSlider->setTickPosition(QSlider::TicksBelow);
-        verticalLayoutWidget_4 = new QWidget(centralwidget);
-        verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
-        verticalLayoutWidget_4->setGeometry(QRect(1210, 20, 361, 121));
-        settingsLayout = new QVBoxLayout(verticalLayoutWidget_4);
-        settingsLayout->setObjectName(QStringLiteral("settingsLayout"));
-        settingsLayout->setSizeConstraint(QLayout::SetMinimumSize);
-        settingsLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(1370, 950, 201, 31));
+        horizontalLayoutWidget->setGeometry(QRect(1370, 740, 201, 31));
         horizontalLayout_8 = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
@@ -295,95 +164,262 @@ public:
 
         horizontalLayout_8->addWidget(addButton);
 
-        groupBox = new QGroupBox(centralwidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(950, 830, 301, 51));
-        groupBox->setCheckable(false);
-        horizontalLayoutWidget_2 = new QWidget(groupBox);
-        horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(0, 20, 296, 23));
-        horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_2);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        typeShading0 = new QRadioButton(horizontalLayoutWidget_2);
-        typeShading0->setObjectName(QStringLiteral("typeShading0"));
-        typeShading0->setChecked(true);
-
-        horizontalLayout_2->addWidget(typeShading0);
-
-        typeShading1 = new QRadioButton(horizontalLayoutWidget_2);
-        typeShading1->setObjectName(QStringLiteral("typeShading1"));
-
-        horizontalLayout_2->addWidget(typeShading1);
-
-        typeShading2 = new QRadioButton(horizontalLayoutWidget_2);
-        typeShading2->setObjectName(QStringLiteral("typeShading2"));
-
-        horizontalLayout_2->addWidget(typeShading2);
-
-        shadowCheckBox = new QCheckBox(centralwidget);
-        shadowCheckBox->setObjectName(QStringLiteral("shadowCheckBox"));
-        shadowCheckBox->setGeometry(QRect(950, 960, 111, 21));
-        typeMergeBox = new QGroupBox(centralwidget);
-        typeMergeBox->setObjectName(QStringLiteral("typeMergeBox"));
-        typeMergeBox->setGeometry(QRect(950, 900, 301, 51));
-        typeMergeBox->setCheckable(false);
-        horizontalLayoutWidget_3 = new QWidget(typeMergeBox);
+        multiScaleGroupeBox = new QGroupBox(centralwidget);
+        multiScaleGroupeBox->setObjectName(QStringLiteral("multiScaleGroupeBox"));
+        multiScaleGroupeBox->setGeometry(QRect(1210, 10, 361, 721));
+        verticalLayoutWidget_4 = new QWidget(multiScaleGroupeBox);
+        verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
+        verticalLayoutWidget_4->setGeometry(QRect(0, 20, 361, 121));
+        settingsLayout = new QVBoxLayout(verticalLayoutWidget_4);
+        settingsLayout->setObjectName(QStringLiteral("settingsLayout"));
+        settingsLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        settingsLayout->setContentsMargins(0, 0, 0, 0);
+        line = new QFrame(centralwidget);
+        line->setObjectName(QStringLiteral("line"));
+        line->setGeometry(QRect(1200, 770, 371, 21));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        horizontalLayoutWidget_3 = new QWidget(centralwidget);
         horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(0, 20, 296, 23));
-        typeMergeLayout = new QHBoxLayout(horizontalLayoutWidget_3);
-        typeMergeLayout->setObjectName(QStringLiteral("typeMergeLayout"));
-        typeMergeLayout->setContentsMargins(0, 0, 0, 0);
-        typeMerge0 = new QRadioButton(horizontalLayoutWidget_3);
-        typeMerge0->setObjectName(QStringLiteral("typeMerge0"));
-        typeMerge0->setChecked(true);
+        horizontalLayoutWidget_3->setGeometry(QRect(10, 900, 201, 21));
+        horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget_3);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
+        label_6 = new QLabel(horizontalLayoutWidget_3);
+        label_6->setObjectName(QStringLiteral("label_6"));
 
-        typeMergeLayout->addWidget(typeMerge0);
+        horizontalLayout_5->addWidget(label_6);
 
-        typeMerge1 = new QRadioButton(horizontalLayoutWidget_3);
-        typeMerge1->setObjectName(QStringLiteral("typeMerge1"));
+        shader = new QLabel(horizontalLayoutWidget_3);
+        shader->setObjectName(QStringLiteral("shader"));
+        shader->setStyleSheet(QStringLiteral(""));
+        shader->setAlignment(Qt::AlignCenter);
 
-        typeMergeLayout->addWidget(typeMerge1);
+        horizontalLayout_5->addWidget(shader);
 
-        typeMerge2 = new QRadioButton(horizontalLayoutWidget_3);
-        typeMerge2->setObjectName(QStringLiteral("typeMerge2"));
+        verticalLayoutWidget_3 = new QWidget(centralwidget);
+        verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
+        verticalLayoutWidget_3->setGeometry(QRect(10, 810, 311, 81));
+        verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget_3);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        informationTitle = new QLabel(verticalLayoutWidget_3);
+        informationTitle->setObjectName(QStringLiteral("informationTitle"));
+        informationTitle->setStyleSheet(QStringLiteral(""));
+        informationTitle->setAlignment(Qt::AlignCenter);
 
-        typeMergeLayout->addWidget(typeMerge2);
+        horizontalLayout->addWidget(informationTitle);
 
-        shadeSelectorGroupeBox = new QGroupBox(centralwidget);
-        shadeSelectorGroupeBox->setObjectName(QStringLiteral("shadeSelectorGroupeBox"));
-        shadeSelectorGroupeBox->setGeometry(QRect(460, 900, 421, 51));
-        horizontalLayoutWidget_4 = new QWidget(shadeSelectorGroupeBox);
-        horizontalLayoutWidget_4->setObjectName(QStringLiteral("horizontalLayoutWidget_4"));
-        horizontalLayoutWidget_4->setGeometry(QRect(0, 20, 420, 23));
-        horizontalLayout_4 = new QHBoxLayout(horizontalLayoutWidget_4);
+        drawMode = new QLabel(verticalLayoutWidget_3);
+        drawMode->setObjectName(QStringLiteral("drawMode"));
+        drawMode->setStyleSheet(QStringLiteral("font: 9pt \"Sans Serif\";"));
+        drawMode->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout->addWidget(drawMode);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_3->addLayout(horizontalLayout);
+
+        drawModeSlider = new QSlider(verticalLayoutWidget_3);
+        drawModeSlider->setObjectName(QStringLiteral("drawModeSlider"));
+        drawModeSlider->setMinimum(0);
+        drawModeSlider->setMaximum(13);
+        drawModeSlider->setValue(13);
+        drawModeSlider->setOrientation(Qt::Horizontal);
+        drawModeSlider->setTickPosition(QSlider::TicksBelow);
+
+        verticalLayout_3->addWidget(drawModeSlider);
+
+        colorGroupeBox = new QGroupBox(centralwidget);
+        colorGroupeBox->setObjectName(QStringLiteral("colorGroupeBox"));
+        colorGroupeBox->setGeometry(QRect(1070, 800, 491, 121));
+        gridLayoutWidget = new QWidget(colorGroupeBox);
+        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
+        gridLayoutWidget->setGeometry(QRect(10, 20, 471, 101));
+        colorGridLayout = new QGridLayout(gridLayoutWidget);
+        colorGridLayout->setObjectName(QStringLiteral("colorGridLayout"));
+        colorGridLayout->setContentsMargins(0, 0, 0, 0);
+        colorRadio2 = new QRadioButton(gridLayoutWidget);
+        colorRadio2->setObjectName(QStringLiteral("colorRadio2"));
+
+        colorGridLayout->addWidget(colorRadio2, 0, 2, 1, 1);
+
+        colorRadio3 = new QRadioButton(gridLayoutWidget);
+        colorRadio3->setObjectName(QStringLiteral("colorRadio3"));
+
+        colorGridLayout->addWidget(colorRadio3, 0, 3, 1, 1);
+
+        colorRadio0 = new QRadioButton(gridLayoutWidget);
+        colorRadio0->setObjectName(QStringLiteral("colorRadio0"));
+        colorRadio0->setChecked(true);
+
+        colorGridLayout->addWidget(colorRadio0, 0, 0, 1, 1);
+
+        colorRadio1 = new QRadioButton(gridLayoutWidget);
+        colorRadio1->setObjectName(QStringLiteral("colorRadio1"));
+
+        colorGridLayout->addWidget(colorRadio1, 0, 1, 1, 1);
+
+        colorButton0 = new QPushButton(gridLayoutWidget);
+        colorButton0->setObjectName(QStringLiteral("colorButton0"));
+
+        colorGridLayout->addWidget(colorButton0, 1, 0, 1, 1);
+
+        colorButton1 = new QPushButton(gridLayoutWidget);
+        colorButton1->setObjectName(QStringLiteral("colorButton1"));
+
+        colorGridLayout->addWidget(colorButton1, 1, 1, 1, 1);
+
+        colorButton2 = new QPushButton(gridLayoutWidget);
+        colorButton2->setObjectName(QStringLiteral("colorButton2"));
+
+        colorGridLayout->addWidget(colorButton2, 1, 2, 1, 1);
+
+        colorButton3 = new QPushButton(gridLayoutWidget);
+        colorButton3->setObjectName(QStringLiteral("colorButton3"));
+
+        colorGridLayout->addWidget(colorButton3, 1, 3, 1, 1);
+
+        shadowGroupBox = new QGroupBox(centralwidget);
+        shadowGroupBox->setObjectName(QStringLiteral("shadowGroupBox"));
+        shadowGroupBox->setGeometry(QRect(330, 800, 361, 121));
+        shadowGroupBox->setCheckable(true);
+        shadowGroupBox->setChecked(false);
+        verticalLayoutWidget = new QWidget(shadowGroupBox);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(10, 20, 341, 101));
+        shadowVerticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        shadowVerticalLayout->setObjectName(QStringLiteral("shadowVerticalLayout"));
+        shadowVerticalLayout->setContentsMargins(0, 0, 0, 0);
+        shadowCheckBoxLightDir = new QCheckBox(verticalLayoutWidget);
+        shadowCheckBoxLightDir->setObjectName(QStringLiteral("shadowCheckBoxLightDir"));
+        shadowCheckBoxLightDir->setChecked(true);
+
+        shadowVerticalLayout->addWidget(shadowCheckBoxLightDir);
+
+        shadowCheckBoxMorpho = new QCheckBox(verticalLayoutWidget);
+        shadowCheckBoxMorpho->setObjectName(QStringLiteral("shadowCheckBoxMorpho"));
+        shadowCheckBoxMorpho->setChecked(true);
+
+        shadowVerticalLayout->addWidget(shadowCheckBoxMorpho);
+
+        verticalLayout_7 = new QVBoxLayout();
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        lightShadowPosLabel = new QLabel(verticalLayoutWidget);
+        lightShadowPosLabel->setObjectName(QStringLiteral("lightShadowPosLabel"));
+
+        horizontalLayout_7->addWidget(lightShadowPosLabel);
+
+        lightShadowPosValue = new QLabel(verticalLayoutWidget);
+        lightShadowPosValue->setObjectName(QStringLiteral("lightShadowPosValue"));
+
+        horizontalLayout_7->addWidget(lightShadowPosValue);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_4);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_7);
+
+        lightShadowSlider = new QSlider(verticalLayoutWidget);
+        lightShadowSlider->setObjectName(QStringLiteral("lightShadowSlider"));
+        lightShadowSlider->setMaximum(89);
+        lightShadowSlider->setValue(45);
+        lightShadowSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_7->addWidget(lightShadowSlider);
+
+
+        shadowVerticalLayout->addLayout(verticalLayout_7);
+
+        shadingGroupeBox = new QGroupBox(centralwidget);
+        shadingGroupeBox->setObjectName(QStringLiteral("shadingGroupeBox"));
+        shadingGroupeBox->setGeometry(QRect(700, 800, 361, 121));
+        verticalLayoutWidget_5 = new QWidget(shadingGroupeBox);
+        verticalLayoutWidget_5->setObjectName(QStringLiteral("verticalLayoutWidget_5"));
+        verticalLayoutWidget_5->setGeometry(QRect(10, 20, 341, 101));
+        verticalLayout_5 = new QVBoxLayout(verticalLayoutWidget_5);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_5->setContentsMargins(0, 0, 0, 0);
+        shadeCheckBoxLightDir = new QCheckBox(verticalLayoutWidget_5);
+        shadeCheckBoxLightDir->setObjectName(QStringLiteral("shadeCheckBoxLightDir"));
+        shadeCheckBoxLightDir->setChecked(true);
+        shadeCheckBoxLightDir->setTristate(false);
+
+        verticalLayout_5->addWidget(shadeCheckBoxLightDir);
+
+        horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        shade0 = new QRadioButton(horizontalLayoutWidget_4);
-        shade0->setObjectName(QStringLiteral("shade0"));
-        shade0->setChecked(true);
+        shadeRadio0 = new QRadioButton(verticalLayoutWidget_5);
+        shadeRadio0->setObjectName(QStringLiteral("shadeRadio0"));
+        shadeRadio0->setChecked(false);
 
-        horizontalLayout_4->addWidget(shade0);
+        horizontalLayout_4->addWidget(shadeRadio0);
 
-        shade1 = new QRadioButton(horizontalLayoutWidget_4);
-        shade1->setObjectName(QStringLiteral("shade1"));
+        shadeRadio1 = new QRadioButton(verticalLayoutWidget_5);
+        shadeRadio1->setObjectName(QStringLiteral("shadeRadio1"));
 
-        horizontalLayout_4->addWidget(shade1);
+        horizontalLayout_4->addWidget(shadeRadio1);
 
-        shade2 = new QRadioButton(horizontalLayoutWidget_4);
-        shade2->setObjectName(QStringLiteral("shade2"));
+        shadeRadio2 = new QRadioButton(verticalLayoutWidget_5);
+        shadeRadio2->setObjectName(QStringLiteral("shadeRadio2"));
 
-        horizontalLayout_4->addWidget(shade2);
+        horizontalLayout_4->addWidget(shadeRadio2);
 
-        shade3 = new QRadioButton(horizontalLayoutWidget_4);
-        shade3->setObjectName(QStringLiteral("shade3"));
+        shadeRadio3 = new QRadioButton(verticalLayoutWidget_5);
+        shadeRadio3->setObjectName(QStringLiteral("shadeRadio3"));
+        shadeRadio3->setChecked(true);
 
-        horizontalLayout_4->addWidget(shade3);
+        horizontalLayout_4->addWidget(shadeRadio3);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_4);
+
+        verticalLayout_4 = new QVBoxLayout();
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        lightShadingPosLabel = new QLabel(verticalLayoutWidget_5);
+        lightShadingPosLabel->setObjectName(QStringLiteral("lightShadingPosLabel"));
+
+        horizontalLayout_3->addWidget(lightShadingPosLabel);
+
+        lightShadingPosValue = new QLabel(verticalLayoutWidget_5);
+        lightShadingPosValue->setObjectName(QStringLiteral("lightShadingPosValue"));
+
+        horizontalLayout_3->addWidget(lightShadingPosValue);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_4->addLayout(horizontalLayout_3);
+
+        lightShadingSlider = new QSlider(verticalLayoutWidget_5);
+        lightShadingSlider->setObjectName(QStringLiteral("lightShadingSlider"));
+        lightShadingSlider->setMaximum(89);
+        lightShadingSlider->setValue(45);
+        lightShadingSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_4->addWidget(lightShadingSlider);
+
+
+        verticalLayout_5->addLayout(verticalLayout_4);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1583, 20));
+        menubar->setGeometry(QRect(0, 0, 1578, 20));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
@@ -405,7 +441,8 @@ public:
         menuAide->addAction(actionA_propos);
 
         retranslateUi(MainWindow);
-        QObject::connect(lightSlider, SIGNAL(valueChanged(int)), lightPosValue, SLOT(setNum(int)));
+        QObject::connect(lightShadingSlider, SIGNAL(valueChanged(int)), lightShadingPosValue, SLOT(setNum(int)));
+        QObject::connect(lightShadowSlider, SIGNAL(valueChanged(int)), lightShadowPosValue, SLOT(setNum(int)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -442,31 +479,35 @@ public:
         actionCurvature_Map->setText(QApplication::translate("MainWindow", "Curvature Map", nullptr));
         actionLight_Map->setText(QApplication::translate("MainWindow", "Light Map", nullptr));
         generateModelAction->setText(QApplication::translate("MainWindow", "Generer un model", nullptr));
-        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:16pt; font-weight:600; text-decoration: underline;\">Shading :</span></p></body></html>", nullptr));
-        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin</span></p></body></html>", nullptr));
-        label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Shader courant</span></p></body></html>", nullptr));
-        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Maps Courantes</span></p></body></html>", nullptr));
-        drawMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        shader->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        currentMaps->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        lightPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Position vertical de la lumi\303\250re :</span></p></body></html>", nullptr));
-        lightPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600;\">45</span></p></body></html>", nullptr));
         reloadButton->setText(QApplication::translate("MainWindow", "Recharger", nullptr));
         addButton->setText(QApplication::translate("MainWindow", "Ajouter", nullptr));
-        groupBox->setTitle(QApplication::translate("MainWindow", "Type de lumi\303\250re", nullptr));
-        typeShading0->setText(QApplication::translate("MainWindow", "max(l.n,0)", nullptr));
-        typeShading1->setText(QApplication::translate("MainWindow", "l.n*0.5 + 0.5", nullptr));
-        typeShading2->setText(QApplication::translate("MainWindow", "abs(l.n)", nullptr));
-        shadowCheckBox->setText(QApplication::translate("MainWindow", "Ombre port\303\251e", nullptr));
-        typeMergeBox->setTitle(QApplication::translate("MainWindow", "Type de fusion", nullptr));
-        typeMerge0->setText(QApplication::translate("MainWindow", "Aucune", nullptr));
-        typeMerge1->setText(QApplication::translate("MainWindow", "Lumi\303\250re", nullptr));
-        typeMerge2->setText(QApplication::translate("MainWindow", "Ombrage", nullptr));
-        shadeSelectorGroupeBox->setTitle(QApplication::translate("MainWindow", "Selection shading", nullptr));
-        shade0->setText(QApplication::translate("MainWindow", "Flou", nullptr));
-        shade1->setText(QApplication::translate("MainWindow", "Details", nullptr));
-        shade2->setText(QApplication::translate("MainWindow", "Mix", nullptr));
-        shade3->setText(QApplication::translate("MainWindow", "Custom", nullptr));
+        multiScaleGroupeBox->setTitle(QApplication::translate("MainWindow", "Multi-Echelle", nullptr));
+        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin :</span></p></body></html>", nullptr));
+        shader->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
+        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; text-decoration: underline;\">Shader courant :</span></p></body></html>", nullptr));
+        drawMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
+        colorGroupeBox->setTitle(QApplication::translate("MainWindow", "Couleur", nullptr));
+        colorRadio2->setText(QApplication::translate("MainWindow", "Carte de couleur", nullptr));
+        colorRadio3->setText(QApplication::translate("MainWindow", "Cel-shading", nullptr));
+        colorRadio0->setText(QApplication::translate("MainWindow", "Couleur Unique", nullptr));
+        colorRadio1->setText(QApplication::translate("MainWindow", "Aquarelle", nullptr));
+        colorButton0->setText(QApplication::translate("MainWindow", "Choisir couleur", nullptr));
+        colorButton1->setText(QApplication::translate("MainWindow", "Choisir couleur", nullptr));
+        colorButton2->setText(QApplication::translate("MainWindow", "Charger Texture", nullptr));
+        colorButton3->setText(QApplication::translate("MainWindow", "Charger Texture", nullptr));
+        shadowGroupBox->setTitle(QApplication::translate("MainWindow", "Ombres Port\303\251es", nullptr));
+        shadowCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re", nullptr));
+        shadowCheckBoxMorpho->setText(QApplication::translate("MainWindow", "Faire la Morphologie", nullptr));
+        lightShadowPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", nullptr));
+        lightShadowPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", nullptr));
+        shadingGroupeBox->setTitle(QApplication::translate("MainWindow", " Ombrage", nullptr));
+        shadeCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re ", nullptr));
+        shadeRadio0->setText(QApplication::translate("MainWindow", "Flou", nullptr));
+        shadeRadio1->setText(QApplication::translate("MainWindow", "Details", nullptr));
+        shadeRadio2->setText(QApplication::translate("MainWindow", "Overlay", nullptr));
+        shadeRadio3->setText(QApplication::translate("MainWindow", "Wartercolor", nullptr));
+        lightShadingPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", nullptr));
+        lightShadingPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", nullptr));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
     } // retranslateUi

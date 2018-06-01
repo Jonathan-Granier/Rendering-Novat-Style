@@ -13,9 +13,14 @@ uniform sampler2D shadeLightMap;
 uniform sampler2D shadeAnglesMap;
 uniform sampler2D shadowLightMap;
 uniform sampler2D shadowAnglesMap;
-uniform sampler2D shadingMap;
-uniform sampler2D asciiTex;
 uniform sampler2D parallaxMap;
+uniform sampler2D morphoErosionMap;
+uniform sampler2D morphoDilationMap;
+uniform sampler2D mergeShadowMap;
+uniform sampler2D shadingMap;
+
+uniform sampler2D asciiTex;
+
 uniform float ymin;
 uniform float ymax;
 uniform vec2 moussePos;
@@ -270,6 +275,18 @@ void main()
       valueDisplay = texture(parallaxMap, texCoordDisplay);
     }
     if(selectTexture == 9){
+      FragColor = texture(morphoErosionMap,      texCoord);
+      valueDisplay = texture(morphoErosionMap, texCoordDisplay);
+    }
+    if(selectTexture == 10){
+      FragColor = texture(morphoDilationMap,      texCoord);
+      valueDisplay = texture(morphoDilationMap, texCoordDisplay);
+    }
+    if(selectTexture == 11){
+      FragColor = texture(mergeShadowMap,      texCoord);
+      valueDisplay = texture(mergeShadowMap, texCoordDisplay);
+    }
+    if(selectTexture == 12){
       FragColor = texture(shadingMap,      texCoord);
       valueDisplay = texture(shadingMap, texCoordDisplay);
     }

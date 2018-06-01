@@ -10,10 +10,16 @@ using namespace std;
 using namespace glm;
 
 Scene::Scene(int widthViewport,int heightViewport) :
+    _plainColor(vec4(1.0,1.0,1.0,1.0)),
+    _waterColor(vec4(0.545,0.573,0.675,1.0)),
     _currentIndex(0),
-    _typeShading(0),
     _doShadow(false),
-    _shadeSelector(0),
+    _doEditShadeLightDir(true),
+    _doEditShadowLightDir(true),
+    _doShadowMorpo(true),
+    _shadeSelector(3),
+    _colorSelector(0),
+    _pitchLightShadow(M_PI/4.0),
     _widthViewport(widthViewport),
     _heightViewport(heightViewport)
 {
@@ -22,7 +28,6 @@ Scene::Scene(int widthViewport,int heightViewport) :
     initializeTexture();
     //initializeGenMaps();
     initStackMaps();
-    _typeMerge = NONE;
 
     _meshSphere = MeshLoader::vertexFromObj("models/sphere.obj");
 }
@@ -70,14 +75,19 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
     _mapsManagers[_currentIndex]->maps->sendShadingMap(shader);
     _mapsManagers[_currentIndex]->maps->sendNormalMapToShader(shader);
     _mapsManagers[_currentIndex]->maps->sendShadeLightMapToShader(shader);
-    _mapsManagers[_currentIndex]->maps->sendParallaxMap(shader);
+    _mapsManagers[_currentIndex]->maps->sendMergeShadowMap(shader);
 
     for(unsigned int i=0;i<_textures.size();i++){
         _textures[i]->sendToShader(shader);
     }
+    _colorMapTex->sendToShader(shader);
+    _celShadingTex->sendToShader(shader);
+
+    shader->setVec4("plainColor",_plainColor);
+    shader->setVec4("waterColor",_waterColor);
+    shader->setInt("colorSelector",_colorSelector);
 
 
-    shader->setInt("typeShading",_typeShading);
     shader->setBool("doShadow",_doShadow);
     mat4 modelMesh;
     shader->setMat4("modelMat",modelMesh);
@@ -96,15 +106,17 @@ void Scene::drawOnlyMesh(){
     _mountains->draw();
 }
 
-void Scene::drawHeightMap(shared_ptr<Shader> shader){           _mapsManagers[_currentIndex]->maps->drawHeightMap(shader);}
-void Scene::drawEditHeightMap(shared_ptr<Shader> shader){       _mapsManagers[_currentIndex]->maps->drawEditHeightMap(shader);}
-void Scene::drawNormalMap(shared_ptr<Shader> shader){           _mapsManagers[_currentIndex]->maps->drawNormalMap(shader); }
-void Scene::drawSlantMap(shared_ptr<Shader> shader){            _mapsManagers[_currentIndex]->maps->drawSlantMap(shader);}
-void Scene::drawShadeLightMap(std::shared_ptr<Shader> shader){  _mapsManagers[_currentIndex]->maps->drawShadeLightMap(shader); }
-void Scene::drawShadowLightMap(std::shared_ptr<Shader> shader){ _mapsManagers[_currentIndex]->maps->drawShadowLightMap(shader); }
-void Scene::drawParallaxMap(std::shared_ptr<Shader> shader){    _mapsManagers[_currentIndex]->maps->drawParallaxMap(shader);}
-void Scene::drawShadingMap(std::shared_ptr<Shader> shader){     _mapsManagers[_currentIndex]->maps->drawShadingMap(shader);}
-
+void Scene::drawHeightMap(shared_ptr<Shader> shader){               _mapsManagers[_currentIndex]->maps->drawHeightMap(shader);}
+void Scene::drawEditHeightMap(shared_ptr<Shader> shader){           _mapsManagers[_currentIndex]->maps->drawEditHeightMap(shader);}
+void Scene::drawNormalMap(shared_ptr<Shader> shader){               _mapsManagers[_currentIndex]->maps->drawNormalMap(shader); }
+void Scene::drawSlantMap(shared_ptr<Shader> shader){                _mapsManagers[_currentIndex]->maps->drawSlantMap(shader);}
+void Scene::drawShadeLightMap(std::shared_ptr<Shader> shader){      _mapsManagers[_currentIndex]->maps->drawShadeLightMap(shader); }
+void Scene::drawShadowLightMap(std::shared_ptr<Shader> shader){     _mapsManagers[_currentIndex]->maps->drawShadowLightMap(shader); }
+void Scene::drawParallaxMap(std::shared_ptr<Shader> shader){        _mapsManagers[_currentIndex]->maps->drawParallaxMap(shader);}
+void Scene::drawMorphoErosionMap(std::shared_ptr<Shader> shader){   _mapsManagers[_currentIndex]->maps->drawMorphoErosionMap(shader);}
+void Scene::drawMorphoDilationMap(std::shared_ptr<Shader> shader){  _mapsManagers[_currentIndex]->maps->drawMorphoDilationMap(shader);}
+void Scene::drawMergeShadowMap(std::shared_ptr<Shader> shader){     _mapsManagers[_currentIndex]->maps->drawMergeShadowMap(shader);}
+void Scene::drawShadingMap(std::shared_ptr<Shader> shader){         _mapsManagers[_currentIndex]->maps->drawShadingMap(shader);}
 
 void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 {
@@ -127,7 +139,6 @@ void Scene::generateEditHeightAndNormalMap(){
     bool firstMap = true;
     shared_ptr<Texture> previousHeightMap;
     if(_reloadEditHeightMap){
-        cout << "I generate NormalMap " << endl;
         for(int i = _mapsManagers.size()-1; i >=0 ; i--){
             if(_mapsManagers[i]->enabled){
                 _mapsManagers[i]->maps->generateEditHeightMap(_widthViewport,_heightViewport,previousHeightMap,firstMap);
@@ -146,47 +157,26 @@ void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalM
 
     bool firstMap = true;
     int i;
-    std::shared_ptr<LightTextures> previousShadeLightMap;
-    std::shared_ptr<LightTextures> previousShadowLightMap;
     std::shared_ptr<Texture>       previousShadingMap;
-
-    bool none = false;
-    bool doMergeLight = false;
-    bool doMergeShade = false;
-
-
-    switch(_typeMerge){
-    case NONE:
-        none = true;
-        break;
-    case LIGHT:
-        doMergeLight = true;
-        break;
-    case SHADE:
-        doMergeShade = true;
-        break;
-    }
-
-
+    std::shared_ptr<Texture>       previousShadowMap;
 
 
     for(i=_mapsManagers.size()-1; i>=0;i--){
         if(_mapsManagers[i]->enabled){
             _mapsManagers[i]->maps->generateNormalMap(_widthViewport,_heightViewport);
             _mapsManagers[i]->maps->generateSlantMap(_widthViewport,_heightViewport);
-            if(firstMap){
-                _mapsManagers[i]->maps->generateShadeLightMap(_widthViewport,_heightViewport,lightPos,pitch,yaw,none);
-                _mapsManagers[i]->maps->generateShadowLightMap(_widthViewport,_heightViewport,lightPos,pitch,yaw);
+
+            _mapsManagers[i]->maps->generateShadeLightMap(_widthViewport,_heightViewport,lightPos,pitch,yaw,_doEditShadeLightDir);
+            _mapsManagers[i]->maps->generateShadowLightMap(_widthViewport,_heightViewport,lightPos,_pitchLightShadow,yaw,_doEditShadowLightDir);
+            if(_doShadow){
+                _mapsManagers[i]->maps->generateParallaxMap(_widthViewport,_heightViewport,lightPos);
+                _mapsManagers[i]->maps->generateMorphoErosionMap(_widthViewport,_heightViewport,_doShadowMorpo);
+                _mapsManagers[i]->maps->generateMorphoDilationMap(_widthViewport,_heightViewport,_doShadowMorpo);
+                _mapsManagers[i]->maps->generateMergeShadowMap(_widthViewport,_heightViewport,previousShadowMap,firstMap);
+                previousShadowMap      = _mapsManagers[i]->maps->getMorphoDilationMap();
             }
-            else{
-                _mapsManagers[i]->maps->generateShadeLightMap(_widthViewport,_heightViewport,previousShadeLightMap,pitch,doMergeLight,none);
-                _mapsManagers[i]->maps->generateShadowLightMap(_widthViewport,_heightViewport,previousShadowLightMap,pitch);
-            }
-            _mapsManagers[i]->maps->generateParallaxMap(_widthViewport,_heightViewport,lightPos);
-            _mapsManagers[i]->maps->generateShadingMap(_widthViewport,_heightViewport,mdvMat,normalMat,lightPos,_typeShading,previousShadingMap,firstMap,doMergeShade,_shadeSelector);
+            _mapsManagers[i]->maps->generateShadingMap(_widthViewport,_heightViewport,mdvMat,normalMat,lightPos,previousShadingMap,firstMap,_shadeSelector);
             firstMap = false;
-            previousShadeLightMap  = _mapsManagers[i]->maps->getShadeLightMap();
-            previousShadowLightMap = _mapsManagers[i]->maps->getShadowLightMap();
             previousShadingMap     = _mapsManagers[i]->maps->getShadingMap();
         }
     }
@@ -204,6 +194,8 @@ void Scene::reloadGenerateTexturesShader(){
     _genShaders->shadowLightShader->reload();
     _genShaders->gaussBlurShader->reload();
     _genShaders->parallaxShader->reload();
+    _genShaders->morphoShader->reload();
+    _genShaders->mergeShadowShader->reload();
     _genShaders->shadingShader->reload();
     _reloadEditHeightMap = true;
 }
@@ -221,6 +213,13 @@ vec3 Scene::center() const
 float Scene::radius() const
 {
     return _mountains->radius();
+}
+
+// TODO Voir le lien entre Id et index si il est constant et adapter le code en fonction (plus de fonction supprimé)
+void Scene::selectCurrentMaps(int id)
+{
+    if(_mapsManagers[id]->enabled)
+        _currentIndex = id;
 }
 
 
@@ -304,10 +303,7 @@ unsigned int Scene::getCurrentMapsIndex() const
     return _currentIndex;
 }
 
-void Scene::setTypeShading(int typeShading)
-{
-    _typeShading = typeShading;
-}
+
 
 void Scene::setDoShadow(bool doShadow)
 {
@@ -318,19 +314,71 @@ void Scene::setDoShadow(bool doShadow)
 
 
 
-void Scene::setTypeMerge(int t){
-    switch(t){
-    case 0 : _typeMerge = NONE; break;
-    case 1 : _typeMerge = LIGHT; break;
-    case 2 : _typeMerge = SHADE; break;
-    }
 
-}
 
 void Scene::setShadeSelector(int s){
     _shadeSelector = s;
 }
 
+void Scene::setPitchLightShadow(float pitchLightShadow)
+{
+    _pitchLightShadow = pitchLightShadow;
+}
+
+void Scene::setDoEditShadeLightDir(bool doEditShadeLightDir)
+{
+    _doEditShadeLightDir = doEditShadeLightDir;
+}
+
+void Scene::setDoEditShadowLightDir(bool doEditShadowLightDir)
+{
+    _doEditShadowLightDir = doEditShadowLightDir;
+}
+
+void Scene::setDoShadowMorpo(bool doShadowMorpo)
+{
+    _doShadowMorpo = doShadowMorpo;
+}
+
+void Scene::setPlainColor(const glm::vec4 &plainColor)
+{
+    _plainColor = plainColor;
+}
+
+glm::vec4 Scene::getPlainColor() const
+{
+    return _plainColor;
+}
+
+
+void Scene::setWaterColor(const glm::vec4 &waterColor)
+{
+    _waterColor = waterColor;
+
+}
+
+
+glm::vec4 Scene::getWaterColor() const
+{
+    return _waterColor;
+}
+
+
+
+
+void Scene::loadColorMapTex(std::string filepaths){
+    _colorMapTex    = make_shared<LoadTexture>("colorMapTex",filepaths);
+
+}
+
+void Scene::loadCelShadingTex(std::string filepaths){
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex",filepaths);
+}
+
+void Scene::setColorSelector(int colorSelector)
+{
+    _colorSelector = colorSelector;
+}
 
 /************************************************
  *              Private Functions               *
@@ -350,6 +398,8 @@ void Scene::initializeGenShader(){
     _genShaders->shadowLightShader          = make_shared<Shader>("shaders/shadowlight.vert","shaders/shadowlight.frag");
     _genShaders->gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
     _genShaders->parallaxShader             = make_shared<Shader>("shaders/parallax.vert","shaders/parallax.frag");
+    _genShaders->morphoShader               = make_shared<Shader>("shaders/morpho.vert","shaders/morpho.frag");
+    _genShaders->mergeShadowShader          = make_shared<Shader>("shaders/mergeshadow.vert","shaders/mergeshadow.frag");
     _genShaders->shadingShader              = make_shared<Shader>("shaders/shading.vert","shaders/shading.frag");
 }
 
@@ -363,8 +413,6 @@ void Scene::initializeMaps(std::shared_ptr<Texture> heightMap){
         mapsManager->maps->create(heightMap,heightMap->getWidth(),heightMap->getHeight(),_mountains->getYmin(),_mountains->getYmax());
         mapsManager->ID = 0;
         mapsManager->enabled = true;
-
-
         if(_mapsManagers.empty())
             _mapsManagers.push_back(mapsManager);
         else
@@ -391,9 +439,9 @@ void Scene::initializeTexture(){
     shared_ptr<LoadTexture> texture4 = make_shared<LoadTexture>("degrade_debug", "textures/dégradé_debug.png");
     shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
     shared_ptr<LoadTexture> texture6 = make_shared<LoadTexture>("degrade_neige", "textures/degrade_neige.png");
-    _asciiTex = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
-
-
+    _asciiTex       = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/degrade_neige.png");
+    _colorMapTex    = make_shared<LoadTexture>("colorMapTex","textures/degrade_neige.png");
 
     _textures.push_back(texture1);
     _textures.push_back(texture2);

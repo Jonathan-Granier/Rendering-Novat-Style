@@ -39,17 +39,41 @@ void main()
          12
 
     */
+
+
+
+    /*
+           10-20
+         / | / |
+        01-11-21
+        | / | /
+        02-12
+
+      */
     vec3 v11 = buildPos(texcoord.x,texcoord.y);
-    vec3 v21 = buildPos(texcoord.x+1.0/resolution.x,texcoord.y);
-    vec3 v01 = buildPos(texcoord.x-1.0/resolution.x,texcoord.y);
-    vec3 v12 = buildPos(texcoord.x,texcoord.y+1.0/resolution.y);
     vec3 v10 = buildPos(texcoord.x,texcoord.y-1.0/resolution.y);
+    vec3 v20 = buildPos(texcoord.x+1.0/resolution.x,texcoord.y-1.0/resolution.y);
+    vec3 v01 = buildPos(texcoord.x-1.0/resolution.x,texcoord.y);
+    vec3 v21 = buildPos(texcoord.x+1.0/resolution.x,texcoord.y);
+    vec3 v02 = buildPos(texcoord.x-1.0/resolution.x,texcoord.y+1.0/resolution.y);
+    vec3 v12 = buildPos(texcoord.x,texcoord.y+1.0/resolution.y);
+
+
 
     vec3 normal = vec3(0,0,0);
+    /**/
+    normal += computeNormal(v11,v20,v10);
+    normal += computeNormal(v11,v21,v20);
+    normal += computeNormal(v11,v12,v21);
+    normal += computeNormal(v11,v02,v12);
+    normal += computeNormal(v11,v01,v02);
+    normal += computeNormal(v11,v10,v01);
+/**
     normal += computeNormal(v11,v10,v01);
     normal += computeNormal(v11,v21,v10);
     normal += computeNormal(v11,v12,v21);
     normal += computeNormal(v11,v01,v12);
+/**/
     normal = normalize(normal);
 
    // FragColor = vec4(height,height,height,0);

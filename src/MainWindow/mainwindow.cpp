@@ -20,6 +20,8 @@
 #include <QCheckBox>
 #include <QInputDialog>
 #include <QRadioButton>
+#include <QGridLayout>
+#include <QColorDialog>
 
 using namespace std;
 MainWindow::MainWindow() :
@@ -30,6 +32,9 @@ MainWindow::MainWindow() :
      ui->setupUi(this);
      setupMenu();
      setupControlePanel();
+     setupShadeSettings();
+     setupShadowSettings();
+     setupColorSettings();
 
      _viewer = make_unique<Viewer>();
      QObject::connect(_viewer.get(),&Viewer::initializeDone,this,&MainWindow::setupInformationPanelSlot);
@@ -39,8 +44,11 @@ MainWindow::MainWindow() :
      ui->mainWidget->setLayout(centralLayout);
 
     setButtons();
+    _currentMapsSelector = new QButtonGroup();
 
     ui->settingsLayout->addWidget(createNewPanel(0,true));
+    //ui->settingsLayout->addWidget(createNewPanel(0,true));
+
 }
 
 MainWindow::~MainWindow()
@@ -86,9 +94,13 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 
     if(ke->key()==Qt::Key_W){
         _viewer->previousDrawMode();
+        int value = ui->drawModeSlider->value();
+        ui->drawModeSlider->setValue((value-1+14)%14);
     }
     if(ke->key()==Qt::Key_X){
         _viewer->nextDrawMode();
+        int value = ui->drawModeSlider->value();
+        ui->drawModeSlider->setValue((value+1)%14);
     }
 
     if(ke->key()==Qt::Key_A){
@@ -99,9 +111,10 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         }
 
     }
+    /*
     if(ke->key()==Qt::Key_B){
         _viewer->nextMaps();
-    }
+    }*/
     refreshInformationPanel();
 }
 
@@ -164,6 +177,13 @@ void MainWindow::updateLightPosition(int angle)
     _viewer->setHeightLight((float)angle);
      ui->mainWidget->setFocus();
 }
+
+void MainWindow::updateShadowLightPosition(int angle)
+{
+    _viewer->setPitchShadowLight((float)angle);
+     ui->mainWidget->setFocus();
+}
+
 /*
 void MainWindow::updateSigma(int sigma)
 {
@@ -203,13 +223,57 @@ void MainWindow::addNewPanel()
 
 }
 
-
-void MainWindow::updateShadow(int s){
-    if(s==0)
-        _viewer->setDoShadow(false);
+void MainWindow::shadowEnabled(int b)
+{
+    if(b==0)
+        _viewer->shadowEnabled(false);
     else
-        _viewer->setDoShadow(true);
+        _viewer->shadowEnabled(true);
      ui->mainWidget->setFocus();
+}
+
+void MainWindow::shadowEnabledMorpho(int b)
+{
+
+    if(b==0)
+        _viewer->shadowEnabledMorpho(false);
+    else
+        _viewer->shadowEnabledMorpho(true);
+
+    ui->mainWidget->setFocus();
+}
+
+void MainWindow::shadowEnabledLightDir(int b)
+{
+
+    if(b==0)
+        _viewer->shadowEnabledLightDir(false);
+    else
+        _viewer->shadowEnabledLightDir(true);
+
+    ui->mainWidget->setFocus();
+}
+
+void MainWindow::shadeEnabledLightDir(int b)
+{
+    if(b==0)
+        _viewer->shadeEnabledLightDir(false);
+    else
+        _viewer->shadeEnabledLightDir(true);
+    ui->mainWidget->setFocus();
+}
+
+QColor MainWindow::selectColor(QColor currentColor)
+{
+    return QColorDialog::getColor(currentColor,this);
+}
+
+QString MainWindow::loadTexture()
+{
+    QFileDialog browser;
+    QString fileName = browser.getOpenFileName(this, tr("Charger une texture"), QDir::currentPath()+"/textures",tr("Textures (*.png)"));
+    browser.close();
+    return fileName;
 }
 
 
@@ -231,66 +295,97 @@ void MainWindow::setupMenu(){
 void MainWindow::setupControlePanel()
 {
     connect(ui->drawModeSlider,&QSlider::valueChanged,this,&MainWindow::updateDrawMode);
-    ui->lightSlider->setSliderPosition(45);
-    connect(ui->lightSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
+}
 
 
-    connect(ui->typeShading0,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeShading(0);
 
-        }
-    );
-    connect(ui->typeShading1,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeShading(1);
-        }
-    );
-    connect(ui->typeShading2,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeShading(2);
-        }
-    );
+void MainWindow::setupShadeSettings(){
 
-    connect(ui->typeMerge0,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeMerge(0);
-
-        }
-    );
-    connect(ui->typeMerge1,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeMerge(1);
-
-        }
-    );
-    connect(ui->typeMerge2,&QRadioButton::pressed,this, [this](){
-            this->_viewer->setTypeMerge(2);
-        }
-    );
-
-    connect(ui->shade0,&QRadioButton::pressed,this, [this](){
+    connect(ui->shadeRadio0,&QRadioButton::pressed,this, [this](){
             this->_viewer->setShadeSelector(0);
 
         }
     );
-    connect(ui->shade1,&QRadioButton::pressed,this, [this](){
+    connect(ui->shadeRadio1,&QRadioButton::pressed,this, [this](){
             this->_viewer->setShadeSelector(1);
 
         }
     );
 
-    connect(ui->shade2,&QRadioButton::pressed,this, [this](){
+    connect(ui->shadeRadio2,&QRadioButton::pressed,this, [this](){
             this->_viewer->setShadeSelector(2);
 
         }
     );
 
-    connect(ui->shade3,&QRadioButton::pressed,this, [this](){
+    connect(ui->shadeRadio3,&QRadioButton::pressed,this, [this](){
             this->_viewer->setShadeSelector(3);
 
         }
     );
 
+    connect(ui->shadeCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::shadeEnabledLightDir);
+        connect(ui->lightShadingSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
+}
 
-    connect(ui->shadowCheckBox,&QCheckBox::stateChanged,this,&MainWindow::updateShadow);
 
-   // connect(ui->GaussBlurButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
+void MainWindow::setupShadowSettings(){
+    connect(ui->shadowGroupBox,&QGroupBox::toggled,this,&MainWindow::shadowEnabled);
+    connect(ui->shadowCheckBoxMorpho,&QRadioButton::toggled,this,&MainWindow::shadowEnabledMorpho);
+    connect(ui->shadowCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::shadowEnabledLightDir);
+    connect(ui->lightShadowSlider,&QSlider::valueChanged,this,&MainWindow::updateShadowLightPosition);
+}
+
+void MainWindow::setupColorSettings(){
+    connect(ui->colorRadio0,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setColorSelector(0);
+
+        }
+    );
+    connect(ui->colorRadio1,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setColorSelector(1);
+
+        }
+    );
+
+    connect(ui->colorRadio2,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setColorSelector(2);
+
+        }
+    );
+
+    connect(ui->colorRadio3,&QRadioButton::pressed,this, [this](){
+            this->_viewer->setColorSelector(3);
+
+        }
+    );
+
+    connect(ui->colorButton0,&QRadioButton::pressed,this,[this](){
+        QColor c = selectColor(_viewer->getPlainColor());
+        if(c.isValid())
+            _viewer->setPlainColor(c);
+    }
+    );
+    connect(ui->colorButton1,&QRadioButton::pressed,this,[this](){
+        QColor c = selectColor(_viewer->getWaterColor());
+        if(c.isValid())
+            _viewer->setWaterColor(c);
+    }
+    );
+
+    connect(ui->colorButton3,&QRadioButton::pressed,this,[this](){
+        QString s = loadTexture();
+        if(!s.isEmpty())
+            _viewer->loadColorMapTex(s);
+    }
+    );
+
+    connect(ui->colorButton3,&QRadioButton::pressed,this,[this](){
+        QString s = loadTexture();
+        if(!s.isEmpty())
+            _viewer->loadCelShadingTex(s);
+    }
+    );
 
 }
 
@@ -299,24 +394,25 @@ void MainWindow::refreshInformationPanel(){
 
     ui->drawMode->setText(QString::fromStdString(_viewer->getCurrentDrawMode()));
     ui->shader->setText(QString::fromStdString(_viewer->getCurrentShader()));
-    ui->currentMaps->setText(QStringLiteral("%1").arg(_viewer->getCurrentMapsIndex()));
+    //ui->currentMaps->setText(QStringLiteral("%1").arg(_viewer->getCurrentMapsIndex()));
     //ui->lightMode->setText(QStringLiteral("%1").arg(_viewer->getLightSelector()));
 }
 
 
 QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
 
-    QString title = QString("Gauss ID : %1").arg(id);
+    QString title = QString("Maps ID : %1").arg(id);
+
 
     QGroupBox *mainGroupBox = new QGroupBox(title);
     QVBoxLayout *mainLayout = new QVBoxLayout();
-
+    mainGroupBox->setCheckable(true);
 
 
 
     QHBoxLayout *lightLayout = new QHBoxLayout();
     QHBoxLayout *gaussLayout = new QHBoxLayout();
-    QHBoxLayout *settingsLayout = new QHBoxLayout();
+   // QHBoxLayout *settingsLayout = new QHBoxLayout();
 
 
     QSlider *lightSlider = new QSlider(Qt::Horizontal);
@@ -355,7 +451,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
                 }
         );
 
-        QLabel *gaussInfoLabel  = new QLabel("Gauss Blur Facteur :");
+        QLabel *gaussInfoLabel  = new QLabel("Niveau de flou :");
         QLabel *gaussValueLabel = new QLabel();
         gaussValueLabel->setNum(0);
         connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
@@ -365,14 +461,13 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
         gaussLayout->addWidget(gaussSlider);
     }
 
-    QLabel *enabledLabel = new QLabel("Activer ");
-    QCheckBox *enabledBox = new QCheckBox();
 
-    if(firstPanel){
-        enabledBox->setChecked(true);
+    if(!firstPanel){
+        mainGroupBox->setChecked(false);
     }
 
-    connect(enabledBox, &QCheckBox::stateChanged,
+
+    connect(mainGroupBox, &QGroupBox::toggled,
             [this,id](int value){
                 bool b=true;
                 if(value==0) b=false ;
@@ -380,22 +475,39 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
                 this->ui->mainWidget->setFocus();
             }
     );
-
-
-    settingsLayout->addWidget(enabledLabel);
-    settingsLayout->addWidget(enabledBox);
-
+/**
     if(!firstPanel){
         QPushButton *deleteButton = new QPushButton("Supprimer");
         settingsLayout->addWidget(deleteButton);
     }
-
+/**/
 
     mainLayout->addLayout(lightLayout);
     mainLayout->addLayout(gaussLayout);
-    mainLayout->addLayout(settingsLayout);
+   // mainLayout->addLayout(settingsLayout);
 
-    mainGroupBox->setLayout(mainLayout);
+
+
+
+    QRadioButton *selectCurrent = new QRadioButton;
+    if(firstPanel){
+        selectCurrent->setChecked(true);
+    }
+
+    connect(selectCurrent, &QRadioButton::toggled,
+            [this,id](){
+                this->_viewer->selectCurrentMaps(id);
+                this->ui->mainWidget->setFocus();
+            }
+    );
+
+
+    _currentMapsSelector->addButton(selectCurrent);
+    QGridLayout *gridLayout = new QGridLayout;
+    gridLayout->addWidget(selectCurrent,0,0,1,1);
+    gridLayout->addLayout(mainLayout,0,1,1,9);
+
+    mainGroupBox->setLayout(gridLayout);
 
     return mainGroupBox;
 

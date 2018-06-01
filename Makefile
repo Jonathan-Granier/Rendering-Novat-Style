@@ -132,6 +132,10 @@ DIST          = shaders/toon1D.frag \
 		shaders/genheightmap.vert \
 		shaders/shading.frag \
 		shaders/shading.vert \
+		shaders/morpho.frag \
+		shaders/morpho.vert \
+		shaders/mergeshadow.frag \
+		shaders/mergeshadow.vert \
 		/usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \

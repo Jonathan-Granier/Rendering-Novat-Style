@@ -25,7 +25,7 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     //Modulo
     _yaw = _yaw - 2*M_PI*floor(_yaw/(2.0 * M_PI));
 
-    cout << "Yaw : " << _yaw << endl;
+
     _oldmoussePosition = moussePos;
     updatePosition();
 

@@ -19,7 +19,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QTime>
-
+#include <QColor>
 
 #include "src/OpenGl/shader.h"
 #include "src/OpenGl/scene.h"
@@ -39,18 +39,18 @@ class Viewer : public QOpenGLWidget
 public:
 
     enum DRAWMODE{  CLASSICAL,      /*!< Mode for draw the Scene with the camera and the ligth       */
-                  //  SHADOWMAP,    /*!< Mode for draw only the shadow map of the Scene              */
                     HEIGHTMAP,      /*!< Mode for draw the height map of the current mesh            */
                     EDITHEIGHTMAP,  /*!< Mode for draw the edit height map of the current mesh       */
                     SLANTMAP,       /*!< Mode for draw the slant map of the current mesh             */
                     NORMALMAP,      /*!< Mode for draw the normal map of the current mesh            */
-                 // CURVATURE,      /*!< Mode for draw the curvature map of the current mesh         */
-                 // CORRECURV,      /*!< Mode for draw the correct curvature map of the current mesh */
                     SHADELIGHTMAP , /*!< Mode for draw the light map of the current mesh             */
                     SHADEANGLESMAP, /*!< Mode for draw the angle map of the current mesh             */
                     SHADOWLIGHTMAP,
                     SHADOWANGLESMAP,
                     PARALLAX,
+                    MORPHOEROSION,
+                    MORPHODILATION,
+                    MERGESHADOW,
                     SHADING
                                     /*!< Mode for draw the parallax map of the current mesh          */
                  };
@@ -100,6 +100,7 @@ public:
 
     void setHeightLight(float theta);
     float getHeightLight();
+    void setPitchShadowLight(float p);
     /**
      * @brief Reset the camera postion.
      */
@@ -148,6 +149,7 @@ public:
 
     //void switchScene();
 
+    void selectCurrentMaps(int id);
     void nextMaps();
     void previousMaps();
 
@@ -183,8 +185,26 @@ public:
     void setTypeShading(int t);
     void setShadeSelector(int s);
     void setDoShadow(bool s);
-    void setTypeMerge(int t);
+
+    void shadowEnabled(int b);
+    void shadowEnabledMorpho(int b);
+    void shadowEnabledLightDir(int b);
+
+    void shadeEnabledLightDir(int b);
+
+
+    void setPlainColor(const QColor &plainColor);
+    QColor getPlainColor() const;
+    void setWaterColor(const QColor &waterColor);
+    QColor getWaterColor() const;
+
+    void loadColorMapTex(QString filepaths);
+    void loadCelShadingTex(QString filepaths);
+
+    void setColorSelector(int c);
+
     void makeATest(int numTest);
+
 
 
 signals :

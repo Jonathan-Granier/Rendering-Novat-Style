@@ -9,7 +9,7 @@ using namespace std;
 using namespace glm;
 
 
-#define NUMBEROFTEX 1
+
 #define NOTEXTUREOBJ 1
 
 MeshLoader::MeshLoader()
@@ -341,7 +341,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
             Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                  //x
                               floatValue,                                                                        //y (altitude)
                               0.0f,                                                                              //z
-                              float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[0].size()*currentFileInfo->ncols/NUMBEROFTEX -1),    //u
+                              float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[0].size()*currentFileInfo->ncols -1),    //u
                               0.0f);                                                                             //v
             vertices.push_back(v);
             if(floatValue > maxy) maxy = floatValue;
@@ -379,8 +379,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                     Vertex v = Vertex(j*currentFileInfo->offset+xSizeSlab*jSchemaIndex,                                                          //x
                                       floatValue,                                                                                                //y (altitude)
                                       i*currentFileInfo->offset+zSizeSlab*iSchemaIndex,                                                          //z
-                                      float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols/NUMBEROFTEX -1),    //u
-                                      float(i+iSchemaIndex*currentFileInfo->nrows)/float(schema.size()*currentFileInfo->nrows/NUMBEROFTEX -1 ) );                 //v
+                                      float(j+jSchemaIndex*currentFileInfo->ncols)/float(schema[iSchemaIndex].size()*currentFileInfo->ncols -1),    //u
+                                      float(i+iSchemaIndex*currentFileInfo->nrows)/float(schema.size()*currentFileInfo->nrows -1 ) );                 //v
                     vertices.push_back(v);
 
                     if(floatValue > maxy) maxy = floatValue;
@@ -683,7 +683,6 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
     }
 
 
-
     for(int i=1 ; i<height ; i++){
         for(int j=0 ; j<width ; j++){
             Vertex v = Vertex(j*offset,
@@ -727,6 +726,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
             }
 
             currentIndex++;
+
         }
     }
 
@@ -746,6 +746,11 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 }
 
+//TODO
+void MeshLoader::saveHeightMap(shared_ptr<Texture> heightMap, string filepaths){
+
+
+}
 
 
 /*Private */

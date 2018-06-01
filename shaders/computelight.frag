@@ -7,31 +7,14 @@ in vec4 lightDir;
 in vec3 normal;
 in vec2 texCoord;
 uniform bool doShadow;
-uniform int typeShading;
-uniform sampler2D parallaxMap;
+uniform sampler2D mergeShadowMap;
 uniform sampler2D shadingMap;
-uniform sampler2D degrade_neige;
-/**
-Compute the diffuse lighting
-    k : Coefficient
-    c : color of object
-    n : normal Vector
-    l : light Vector
-    I : light intensity
-**/
-// Lambertien
-vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
-    return k*c*max(dot(n,l),0.0) * I;
-}
+uniform sampler2D colorMapTex;
+uniform sampler2D celShadingTex;
+uniform vec4      plainColor;
+uniform vec4      waterColor;
+uniform int       colorSelector;
 
-//Cosin Shading
-vec4 DiffuseLighting2(float k,vec4 c, vec4 n , vec4 l, float I){
-  return k*c*(dot(n,l)*0.5 + 0.5) * I;
-}
-//????
-vec4 DiffuseLighting3(float k,vec4 c, vec4 n , vec4 l, float I){
-  return k*c*(abs(dot(n,l))) * I;
-}
 
 float shadow(){
   int min = -1;
@@ -39,10 +22,10 @@ float shadow(){
 
 
   float shadow = 0;
-  vec2 texelSize = 1.0 / textureSize(parallaxMap, 0);
+  vec2 texelSize = 1.0 / textureSize(mergeShadowMap, 0);
   for(int x = min; x <= max; x++){
     for(int y = min ; y <= max; y++){
-      shadow +=  texture(parallaxMap,texCoord + vec2(x,y)*texelSize).r;
+      shadow +=  texture(mergeShadowMap,texCoord + vec2(x,y)*texelSize).r;
     }
   }
   shadow /= pow(max+abs(min)+1,2.0);
@@ -51,45 +34,54 @@ float shadow(){
 
 }
 
+vec4 watercolor(float density, vec4 color){
+  float d = density;
+  vec4 c = color;
+
+  return c-(c-c*c)*((1-2*d));
+}
+
 
 
 void main()
 {
-    vec4 color =vec4(1.0,1.0,1.0,1.0);
 
+  vec4 color;
+  float Kd = 1;
+  float lightIntensity = 1.0;
 
-    float Kd = 1;
-    float lightIntensity = 1.0;
+  vec4 n = vec4(normalize(normal),0.0);
+  vec4 l = normalize(lightDir);
 
-    vec4 n = vec4(normalize(normal),0.0);
-    vec4 l = normalize(lightDir);
-
-    vec4 Cd;
-    if(typeShading == 0){
-      Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    }
-    if(typeShading == 1){
-      Cd = DiffuseLighting2(Kd,color,n,l,lightIntensity);
-    }
-    if(typeShading == 2){
-       Cd = DiffuseLighting3(Kd,color,n,l,lightIntensity);
-    }
-    //FragColor = vec4(p,0,0,0);
+  float Cd;
 
 
 
-    Cd = texture(shadingMap,texCoord).r * color;
 
-    //Cd = Cd*color;
-    //float shadow = pow((shadow() + 1) * 0.5,(1.0/2.2));
-   // float shadow = shadow()/2.0;
-    if(doShadow)
-       FragColor = shadow()*Cd;
-    else
-       //FragColor = texture(degrade_neige,vec2(texture(shadingMap,texCoord).r ,0.5));
-      FragColor = Cd;
+  Cd = texture(shadingMap,texCoord).r;
 
-    //FragColor = shadow()*color;
+
+  //float shadow = pow((shadow() + 1) * 0.5,(1.0/2.2));
+  float shadow = (shadow()+1) * 0.5; // Watercolor
+
+
+
+  if(colorSelector == 0){
+    color = Cd*plainColor;
+  }
+  else if(colorSelector == 1){
+    color = watercolor(Cd,waterColor);
+  }
+  else if(colorSelector == 2){
+    color = texture(colorMapTex,vec2(Cd ,0.5));
+  }
+  else if(colorSelector == 3){
+    color = texture(celShadingTex,vec2(Cd,0.5));
+  }
+  if(doShadow)
+     color = shadow*color;
+
+  FragColor = color;
 }
 
 

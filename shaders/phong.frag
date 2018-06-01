@@ -9,9 +9,8 @@ in vec3 Normal;
 in vec2 texCoord;
 
 uniform bool doShadow;
-uniform int typeShading;
 uniform sampler2D depthMap;
-uniform sampler2D parallaxMap;
+uniform sampler2D mergeShadowMap;
 /**
 Compute the ambient lighting
     k : Coefficient
@@ -33,14 +32,6 @@ Compute the diffuse lighting
 **/
 vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
     return k*c*max(dot(n,l),0.0) * I;
-}
-
-vec4 DiffuseLighting2(float k,vec4 c, vec4 n , vec4 l, float I){
-  return k*c*(dot(n,l)*0.5 + 0.5) * I;
-}
-
-vec4 DiffuseLighting3(float k,vec4 c, vec4 n , vec4 l, float I){
-  return k*c*(abs(dot(n,l))) * I;
 }
 
 
@@ -65,10 +56,10 @@ float shadow(){
 
 
   float shadow = 0;
-  vec2 texelSize = 1.0 / textureSize(parallaxMap, 0);
+  vec2 texelSize = 1.0 / textureSize(mergeShadowMap, 0);
   for(int x = min; x <= max; x++){
     for(int y = min ; y <= max; y++){
-      shadow +=  texture(parallaxMap,texCoord + vec2(x,y)*texelSize).r;
+      shadow +=  texture(mergeShadowMap,texCoord + vec2(x,y)*texelSize).r;
     }
   }
   shadow /= pow(max+abs(min)+1,2.0);
@@ -96,15 +87,8 @@ void main()
     vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
     //vec4 Cd2 = DiffuseLighting2(Kd,color,n,l,lightIntensity);
 
-    if(typeShading == 0){
-      Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-    }
-    if(typeShading == 1){
-      Cd = DiffuseLighting2(Kd,color,n,l,lightIntensity);
-    }
-    if(typeShading == 2){
-       Cd = DiffuseLighting3(Kd,color,n,l,lightIntensity);
-    }
+    Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
+
     float shadow = pow((shadow() + 1) * 0.5,(1.0/2.2));
 
     if(doShadow)

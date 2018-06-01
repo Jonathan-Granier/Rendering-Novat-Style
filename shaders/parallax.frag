@@ -50,7 +50,7 @@ void main()
     if(isnan(stepH)){
       stepH = 0;
     }
-   /**
+   /**/
     if(castRay(texCoord,l2D,h,stepH))
       FragColor = vec4(1,0,0,0);
     else/**/
@@ -59,7 +59,7 @@ void main()
 
     //float c = castRay(texCoord,l2D,h,stepH);
 
-   // FragColor = vec4(stepH,0,0,0);
+   //FragColor = vec4(h,0,0,0);
 
 
 }

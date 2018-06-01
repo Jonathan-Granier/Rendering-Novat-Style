@@ -21,7 +21,7 @@ uniform float yaw;
 uniform float pitch;
 uniform int lightSelector;
 uniform float threshold;
-
+uniform bool doEdit;
 
 #define PI 3.14159265359
 #define PI2 PI/2.2
@@ -111,15 +111,10 @@ void main()
 
   vec2 l = lightPosition.xz;
   newYaw = yaw;
-  newLightDir = computeLight(s,l,newYaw);
-/**
-  }else
-  {
-    vec2 l  = texture(shadowLightMap,texCoord).xz;
-    newYaw = texture(shadowAnglesMap,texCoord).x;
+  if(doEdit)
     newLightDir = computeLight(s,l,newYaw);
-  }
-**/
+  else
+    newLightDir = Rotation3D(yaw,pitch);
 
 
   outBufferDir = newLightDir;

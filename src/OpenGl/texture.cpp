@@ -44,6 +44,26 @@ void Texture::draw(std::shared_ptr<Shader> shader)
 
 
 
+/*
+void Texture::getMinMaxRED(float *_min, float *max){
+    GLint numBytes = _width*_height;
+    float* pixels = (float*)malloc(sizeof(float)*numBytes);
+    //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
+
+
+    glActiveTexture(GL_TEXTURE0 + _ID);
+    glBindTexture(GL_TEXTURE_2D ,_ID);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
+
+    min = -10000;
+    max = 10000;
+    for(int i=0; i < numBytes; i++){
+
+    }
+
+}
+*/
+
 vector<float> Texture::getDataRED(){
     GLint numBytes = _width*_height;
     float* pixels = (float*)malloc(sizeof(float)*numBytes);
@@ -68,6 +88,9 @@ vector<float> Texture::getDataRED(){
     return dataVec;
 
 }
+
+
+
 
 
 void Texture::printValueRED(){

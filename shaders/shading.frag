@@ -8,9 +8,7 @@ uniform sampler2D normalMap;
 uniform sampler2D shadingMap;
 uniform mat3 normalMat;
 uniform mat4 mdvMat;
-uniform int typeShading;
 uniform bool firstMap;
-uniform bool doMerge;
 uniform int shadeSelector;
 
 // Light !
@@ -29,28 +27,29 @@ float DiffuseLighting( vec4 n, vec4 l){
     return max(dot(n,l),0);
 }
 
-float DiffuseLighting2(vec4 n , vec4 l){
-  return dot(n,l)*0.5 + 0.5;
+
+float watercolor(float blur, float detail){
+  float b = blur;//*(bmax-bmin) + bmin;
+  float d = detail;
+
+  return d-(d-d*d)*((1-2*b));
 }
 
-float DiffuseLighting3(vec4 n , vec4 l){
-  return abs(dot(n,l));
-}
 
 
-
-
-
-float overlay(float blur, float detail , float f){
+float overlay(float blur, float detail){
   float bmin = 0.1;
   float bmax = 1-bmin;
 
   float b = blur*(bmax-bmin) + bmin;
   float d = detail;
+  /**/
   if(blur>0.5){
     return 1-2*(1-d)*(1-b);
   }
   return 2*b*d;
+
+
 }
 
 float softlight(float blur, float detail , float f){
@@ -89,37 +88,30 @@ void main()
     vec4 l = normalize(mdvMat * normalize(texture(shadeLightMap,texcoord)));
     float Cd;
 
-    if(typeShading == 0){
+
       Cd = DiffuseLighting(n,l);
-    }
-    if(typeShading == 1){
-      Cd = DiffuseLighting2(n,l);
-    }
-    if(typeShading == 2){
-       Cd = DiffuseLighting3(n,l);
-    }
 
 /**/
 
 
-    if(!firstMap && doMerge && shadeSelector == 0)
+    if(!firstMap && shadeSelector == 0)
     {
       float pCd = texture(shadingMap,texcoord).r;
       Cd = pCd;
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }
-    else if(!firstMap && doMerge && shadeSelector == 2)
+    else if(!firstMap && shadeSelector == 2)
     {
       float pCd = texture(shadingMap,texcoord).r;
-      Cd =  mix(pCd,Cd,0.5);
+      Cd =  overlay(Cd,pCd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }
-    else if(!firstMap && doMerge && shadeSelector == 3)
+    else if(!firstMap && shadeSelector == 3)
     {
       float pCd = texture(shadingMap,texcoord).r;
-      Cd =  overlay(pCd,Cd,0.5);
+      Cd =  watercolor(pCd,Cd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }

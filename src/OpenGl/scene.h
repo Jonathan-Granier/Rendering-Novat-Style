@@ -69,6 +69,9 @@ public:
     void drawShadeLightMap(std::shared_ptr<Shader> shader);
     void drawShadowLightMap(std::shared_ptr<Shader> shader);
     void drawParallaxMap(std::shared_ptr<Shader> shader);
+    void drawMorphoErosionMap(std::shared_ptr<Shader> shader);
+    void drawMorphoDilationMap(std::shared_ptr<Shader> shader);
+    void drawMergeShadowMap(std::shared_ptr<Shader> shader);
     void drawShadingMap(std::shared_ptr<Shader> shader);
     void drawAsciiTex(std::shared_ptr<Shader> shader);
 
@@ -109,7 +112,7 @@ public:
 
 //    float getLightThreshold() const;
 
-
+    void selectCurrentMaps(int id);
     void nextMaps();
     void previousMaps();
 
@@ -133,18 +136,28 @@ public:
     unsigned int getCurrentMapsIndex() const;
 
 
-    void setTypeShading(int typeShading);
 
     void setDoShadow(bool doShadow);
-    void setTypeMerge(int t);
     void setShadeSelector(int s);
+    void setPitchLightShadow(float pitchLightShadow);
+
+    void setDoEditShadeLightDir(bool doEditShadeLightDir);
+    void setDoEditShadowLightDir(bool doEditShadowLightDir);
+
+    void setDoShadowMorpo(bool doShadowMorpo);
+
+    void setPlainColor(const glm::vec4 &plainColor);
+    glm::vec4 getPlainColor() const;
+    void setWaterColor(const glm::vec4 &waterColor);
+    glm::vec4 getWaterColor() const;
+
+    void loadColorMapTex(std::string filepaths);
+    void loadCelShadingTex(std::string filepaths);
+
+    void setColorSelector(int colorSelector);
 private:
 
-    enum TYPE_MERGE{
-        NONE,
-        LIGHT,
-        SHADE,
-    };
+
 
 
     struct MapsManager{
@@ -159,7 +172,6 @@ private:
     //std::shared_ptr<Maps>                               _currentMaps;
     std::shared_ptr<GenShaders>                         _genShaders;
     std::shared_ptr<Mesh>                               _mountains;
-    unsigned int                                        _currentIndex;
 
 
     std::vector<std::shared_ptr<Maps>>                  _supplyMaps;   /**< There is conflig between glew and QT , and it's impossible to create a new FBO in the paintGL context without break the QT's FBOs.
@@ -169,16 +181,22 @@ private:
     std::shared_ptr<Mesh>                               _meshSphere;
     std::vector<std::shared_ptr<LoadTexture>>           _textures;
     std::shared_ptr<LoadTexture>                        _asciiTex;
+    std::shared_ptr<LoadTexture>                        _celShadingTex;
+    std::shared_ptr<LoadTexture>                        _colorMapTex;
 
+    glm::vec4                                           _plainColor;
+    glm::vec4                                           _waterColor;
 
+    unsigned int _currentIndex;
 
-
-    TYPE_MERGE _typeMerge;
-
-    int _typeShading;
     bool _doShadow;
-    int _shadeSelector;
+    bool _doEditShadeLightDir;
+    bool _doEditShadowLightDir;
+    bool _doShadowMorpo;
 
+    int _shadeSelector;
+    int _colorSelector;
+    float _pitchLightShadow;
 
     int _widthViewport;
     int _heightViewport;

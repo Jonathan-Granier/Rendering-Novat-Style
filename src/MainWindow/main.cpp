@@ -11,10 +11,14 @@
 
 
 // TODO
-/* Faire un recreate pour scene sans devoir refaire tout l'objet.
- * Faire une double texture pour le calcule de la lumière.
- * Faire les normals sous forme de shader.
- * Faire passer les fonction openGl par caller.
+/*
+ * Faire la morpologie mathématique
+ * Rename parallax to shadow
+ * Faire la save d'une heightMap en format MNT.
+ * Faire le min et max d'une heightMap flouté.
+ * Transferet l'info du viewPort afin d'aléger l'appelle des fonctions
+ * Faire la doc
+ * Virer ce qui ne sert plus à rien
  */
 
 

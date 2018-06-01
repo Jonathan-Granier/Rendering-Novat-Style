@@ -60,6 +60,7 @@ public:
 
     static std::shared_ptr<LoadTexture> textureFromMNT(const std::vector<std::string> &filepaths);
 
+    static void saveHeightMap(std::shared_ptr<Texture> heightMap, std::string filepaths);
 private:
     /**
      * @brief A basic struct to store the header information in a header of a MNT file
