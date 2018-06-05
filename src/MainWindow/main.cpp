@@ -23,6 +23,20 @@
 
 
 
+/***
+ *
+ * Les truc à installer :
+ * QT5 (qt5-default + qt5-qmake + qtdeclarative5-dev
+ * Glew : (libglew-dev sous debian)
+ * glm :  libglm-dev
+ * libglfw3-dev
+ * libxcursor-dev
+ * libxrandr-dev
+ * libxi-dev
+ * libxinerama-dev
+ * */
+
+
 #include "mainwindow.h"
 #include <qapplication.h>
 

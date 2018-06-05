@@ -29,7 +29,7 @@ CONFIG(release, release|debug) {
 DEFINES += QT_DEPRECATED_WARNINGS
 
 #LIBS += -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
-LIBS += -lGLEW -lglfw3 -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -ldl
+LIBS += -lGLEW -lglfw -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -ldl
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.

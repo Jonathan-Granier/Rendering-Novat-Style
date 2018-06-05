@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'viewer.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,14 +12,12 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'viewer.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.7.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Viewer_t {
     QByteArrayData data[3];
     char stringdata0[23];
@@ -73,9 +71,10 @@ void Viewer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
         {
             typedef void (Viewer::*_t)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Viewer::initializeDone)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Viewer::initializeDone)) {
                 *result = 0;
                 return;
             }
@@ -84,9 +83,9 @@ void Viewer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject Viewer::staticMetaObject = {
+const QMetaObject Viewer::staticMetaObject = {
     { &QOpenGLWidget::staticMetaObject, qt_meta_stringdata_Viewer.data,
-      qt_meta_data_Viewer,  qt_static_metacall, nullptr, nullptr}
+      qt_meta_data_Viewer,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -97,9 +96,9 @@ const QMetaObject *Viewer::metaObject() const
 
 void *Viewer::qt_metacast(const char *_clname)
 {
-    if (!_clname) return nullptr;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_Viewer.stringdata0))
-        return static_cast<void*>(this);
+        return static_cast<void*>(const_cast< Viewer*>(this));
     return QOpenGLWidget::qt_metacast(_clname);
 }
 
@@ -123,7 +122,6 @@ int Viewer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 // SIGNAL 0
 void Viewer::initializeDone()
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+    QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
 }
-QT_WARNING_POP
 QT_END_MOC_NAMESPACE

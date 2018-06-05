@@ -11,7 +11,7 @@ using namespace glm;
 
 Scene::Scene(int widthViewport,int heightViewport) :
     _plainColor(vec4(1.0,1.0,1.0,1.0)),
-    _waterColor(vec4(0.545,0.573,0.675,1.0)),
+    _waterColor(vec4(0.694,0.78,0.902,1.0)),
     _currentIndex(0),
     _doShadow(false),
     _doEditShadeLightDir(true),
@@ -440,7 +440,7 @@ void Scene::initializeTexture(){
     shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
     shared_ptr<LoadTexture> texture6 = make_shared<LoadTexture>("degrade_neige", "textures/degrade_neige.png");
     _asciiTex       = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
-    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/degrade_neige.png");
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/cel_shading.png");
     _colorMapTex    = make_shared<LoadTexture>("colorMapTex","textures/degrade_neige.png");
 
     _textures.push_back(texture1);

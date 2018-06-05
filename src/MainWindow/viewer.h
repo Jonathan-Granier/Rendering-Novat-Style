@@ -239,7 +239,8 @@ private:
     void loadScene();
     void initShaders();
     void initDrawTexture(int numTex);
-    void makeTestForOneOrientation(int numEssai,QString orientation);
+
+    void takeScreenShot(QString name);
 };
 
 #endif // VIEWER_H

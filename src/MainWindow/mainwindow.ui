@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1578</width>
-    <height>967</height>
+    <width>1586</width>
+    <height>1011</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -32,7 +32,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1191</width>
+      <width>1201</width>
       <height>781</height>
      </rect>
     </property>
@@ -66,7 +66,7 @@
    <widget class="QGroupBox" name="multiScaleGroupeBox">
     <property name="geometry">
      <rect>
-      <x>1210</x>
+      <x>1220</x>
       <y>10</y>
       <width>361</width>
       <height>721</height>
@@ -79,7 +79,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>20</y>
+       <y>30</y>
        <width>361</width>
        <height>121</height>
       </rect>
@@ -110,7 +110,7 @@
       <x>10</x>
       <y>900</y>
       <width>201</width>
-      <height>21</height>
+      <height>22</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -215,8 +215,8 @@
      <rect>
       <x>1070</x>
       <y>800</y>
-      <width>491</width>
-      <height>121</height>
+      <width>511</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -226,8 +226,8 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>471</width>
+       <y>30</y>
+       <width>491</width>
        <height>101</height>
       </rect>
      </property>
@@ -300,7 +300,7 @@
       <x>330</x>
       <y>800</y>
       <width>361</width>
-      <height>121</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -316,9 +316,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>30</y>
        <width>341</width>
-       <height>101</height>
+       <height>111</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="shadowVerticalLayout">
@@ -399,7 +399,7 @@
       <x>700</x>
       <y>800</y>
       <width>361</width>
-      <height>121</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -409,9 +409,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>30</y>
        <width>341</width>
-       <height>101</height>
+       <height>113</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -523,8 +523,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1578</width>
-     <height>20</height>
+     <width>1586</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -11,6 +11,12 @@ in vec2 texCoord;
 uniform bool doShadow;
 uniform sampler2D depthMap;
 uniform sampler2D mergeShadowMap;
+uniform sampler2D colorMapTex;
+uniform sampler2D celShadingTex;
+uniform vec4      plainColor;
+uniform vec4      waterColor;
+uniform int       colorSelector;
+
 /**
 Compute the ambient lighting
     k : Coefficient
@@ -30,9 +36,18 @@ Compute the diffuse lighting
     l : light Vector
     I : light intensity
 **/
-vec4 DiffuseLighting(float k, vec4 c, vec4 n, vec4 l, float I){
-    return k*c*max(dot(n,l),0.0) * I;
+float DiffuseLighting(vec4 n, vec4 l){
+    return max(dot(n,l),0.0);
 }
+
+vec4 watercolor(float density, vec4 color){
+  float d = density;
+  vec4 c = color;
+
+  return c-(c-c*c)*((1-2*d));
+}
+
+
 
 
 
@@ -72,7 +87,6 @@ float shadow(){
 
 void main()
 {
-    vec4 color =vec4(1.0,1.0,1.0,1.0);
 
     float Ka = 0.5;
     float Kd = 1;
@@ -83,20 +97,29 @@ void main()
     vec4 l=  normalize(lightDir);
 
 
-    vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
-    vec4 Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
+  //  vec4 Ca = Ambientlighting(Ka,color,lightIntensity);
+    float Cd = DiffuseLighting(n,l);
     //vec4 Cd2 = DiffuseLighting2(Kd,color,n,l,lightIntensity);
-
-    Cd = DiffuseLighting(Kd,color,n,l,lightIntensity);
-
-    float shadow = pow((shadow() + 1) * 0.5,(1.0/2.2));
+    float shadow = (shadow()+1) * 0.5;
+   vec4 color;
 
     if(doShadow)
-       FragColor = shadow*Cd;
-    else
-       FragColor = Cd;
+       Cd = shadow*Cd;
+    if(colorSelector == 0){
+      color = Cd*plainColor;
+    }
+    else if(colorSelector == 1){
+      color = watercolor(Cd,waterColor);
+    }
+    else if(colorSelector == 2){
+      color = texture(colorMapTex,vec2(Cd ,0.5));
+    }
+    else if(colorSelector == 3){
+      color = texture(celShadingTex,vec2(Cd,0.5));
+    }
 
-    //FragColor = vec4(1.0,0.0,0.0,1.0);
+
+    FragColor = color;
 }
 
 

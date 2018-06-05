@@ -5,8 +5,12 @@
 #include <QStringList>
 #include <QString>
 #include "src/OpenGl/meshloader.h"
-#include "glm/gtx/string_cast.hpp"
+/*
+// TODO DELETE ET trouve une solution
+#define GLM_ENABLE_EXPERIMENTAL
 
+#include "glm/gtx/string_cast.hpp"
+*/
 
 using namespace std;
 using namespace glm;
@@ -258,10 +262,11 @@ void Viewer::reloadShader(){
 
 
 void Viewer::printCamAndLight(){
-    cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
+   /* cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
     cout << "mdv mat : " << glm::to_string(_cam->mdvMatrix()) << endl;
     cout << "normal mat : " << glm::to_string(_cam ->normalMatrix()) << endl;
     cout << " light's angles : yaw : " << _light->yaw() << " pitch : " << _light->pitch() << endl;
+  */
 }
 
 void Viewer::fixeCamAndLight()
@@ -599,22 +604,39 @@ void Viewer::setColorSelector(int c)
 
 
 void Viewer::makeATest(int numTest){
-   /* // Set camera
-    _cam->setFixePosition2();
-    // Set light
-    //North
-    _light->setFixePosition(2.47764,0.785498);
-    makeTestForOneOrientation(numTest,"North");
-    _light->setFixePosition(3.79852,0.785498);
-    makeTestForOneOrientation(numTest,"East");
-    _light->setFixePosition(5.56718,0.785498);
-    makeTestForOneOrientation(numTest,"South");
-    _light->setFixePosition(0.807116,0.785498);
-    makeTestForOneOrientation(numTest,"West");
+    // Compute light :
+    // Normal
+    // Normal + ombre porté
+    // Normal + color
+    // Normal + color + ombre porté
+    setShadeSelector(3);
+    setColorSelector(0);
+    shadowEnabled(false);
 
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode.png").arg(numTest));
+    shadowEnabled(true);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée.png").arg(numTest));
+    setColorSelector(1);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_1.png").arg(numTest));
+    setColorSelector(2);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_2.png").arg(numTest));
+    setColorSelector(3);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_3.png").arg(numTest));
+    // Lambercien
 
-*/
-
+    nextShader();
+    setColorSelector(0);
+    shadowEnabled(false);
+    shadowEnabledLightDir(false);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien.png").arg(numTest));
+    shadowEnabled(true);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée.png").arg(numTest));
+    setColorSelector(1);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_1.png").arg(numTest));
+    setColorSelector(2);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_2.png").arg(numTest));
+    setColorSelector(3);
+    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_3.png").arg(numTest));
 }
 
 
@@ -650,29 +672,11 @@ void Viewer::initDrawTexture(int numTex){
 }
 
 
-void Viewer::makeTestForOneOrientation(int numEssai,QString orientation){
-/*
-    // Set phong
-    _lightShaders->setShader(2);
-    _scene->setTypeShading(0);
+void Viewer::takeScreenShot(QString name){
+
     update();
-    QImage screenshot1 = grabFramebuffer();
-    screenshot1.save(QString("screenshots/Essai_%1_phong_%2_0.png").arg(numEssai).arg(orientation));
+    QImage screenshot = grabFramebuffer();
+    screenshot.save(name);
+    cout << "screenshot save at " << name.toStdString() << endl;
 
-    _scene->setTypeShading(1);
-    update();
-    QImage screenshot2 = grabFramebuffer();
-    screenshot2.save(QString("screenshots/Essai_%1_phong_%2_1.png").arg(numEssai).arg(orientation));
-
-    // set computelight
-     _lightShaders->setShader(1);
-     update();
-     QImage screenshot3 = grabFramebuffer();
-     screenshot3.save(QString("screenshots/Essai_%1_slint_%2_1.png").arg(numEssai).arg(orientation));
-
-     _scene->setTypeShading(0);
-     update();
-     QImage screenshot4 = grabFramebuffer();
-     screenshot4.save(QString("screenshots/Essai_%1_slint_%2_0.png").arg(numEssai).arg(orientation));
-*/
 }

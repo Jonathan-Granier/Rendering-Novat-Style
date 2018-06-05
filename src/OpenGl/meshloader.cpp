@@ -256,10 +256,10 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
         unsigned int normalIndex    = normalIndices[i];
 
         // Get the attributes thanks to the index
-        Vertex v;
+        Vertex v;/**/
         if(NOTEXTUREOBJ)
             v = Vertex(positions[ positionIndex-1],normals[ normalIndex-1]);
-        else
+        else/**/ //TODO
             v = Vertex(positions[ positionIndex-1],normals[ normalIndex-1 ],texCoords[ texCoordIndex-1 ]);
         vertices.push_back(v);
 

@@ -1,4 +1,4 @@
-// This file is part of Gratin, a programmable Node-based System 
+// This file is part of Gratin, a programmable Node-based System
 // for GPU-friendly Applications.
 //
 // Copyright (C) 2013-2014 Romain Vergne <romain.vergne@inria.fr>

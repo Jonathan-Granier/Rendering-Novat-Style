@@ -65,7 +65,8 @@ void main()
   float shadow = (shadow()+1) * 0.5; // Watercolor
 
 
-
+  if(doShadow)
+     Cd = shadow*Cd;
   if(colorSelector == 0){
     color = Cd*plainColor;
   }
@@ -78,8 +79,7 @@ void main()
   else if(colorSelector == 3){
     color = texture(celShadingTex,vec2(Cd,0.5));
   }
-  if(doShadow)
-     color = shadow*color;
+
 
   FragColor = color;
 }

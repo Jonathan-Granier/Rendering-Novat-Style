@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.7.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -115,7 +115,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setWindowModality(Qt::WindowModal);
-        MainWindow->resize(1578, 967);
+        MainWindow->resize(1586, 1011);
         MainWindow->setBaseSize(QSize(1220, 1010));
         QIcon icon;
         icon.addFile(QStringLiteral("../../../../../../../../../../../../../../images/RSN.ico"), QSize(), QIcon::Normal, QIcon::Off);
@@ -147,7 +147,7 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         mainWidget = new QWidget(centralwidget);
         mainWidget->setObjectName(QStringLiteral("mainWidget"));
-        mainWidget->setGeometry(QRect(10, 10, 1191, 781));
+        mainWidget->setGeometry(QRect(10, 10, 1201, 781));
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
         horizontalLayoutWidget->setGeometry(QRect(1370, 740, 201, 31));
@@ -166,10 +166,10 @@ public:
 
         multiScaleGroupeBox = new QGroupBox(centralwidget);
         multiScaleGroupeBox->setObjectName(QStringLiteral("multiScaleGroupeBox"));
-        multiScaleGroupeBox->setGeometry(QRect(1210, 10, 361, 721));
+        multiScaleGroupeBox->setGeometry(QRect(1220, 10, 361, 721));
         verticalLayoutWidget_4 = new QWidget(multiScaleGroupeBox);
         verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
-        verticalLayoutWidget_4->setGeometry(QRect(0, 20, 361, 121));
+        verticalLayoutWidget_4->setGeometry(QRect(0, 30, 361, 121));
         settingsLayout = new QVBoxLayout(verticalLayoutWidget_4);
         settingsLayout->setObjectName(QStringLiteral("settingsLayout"));
         settingsLayout->setSizeConstraint(QLayout::SetMinimumSize);
@@ -181,7 +181,7 @@ public:
         line->setFrameShadow(QFrame::Sunken);
         horizontalLayoutWidget_3 = new QWidget(centralwidget);
         horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(10, 900, 201, 21));
+        horizontalLayoutWidget_3->setGeometry(QRect(10, 900, 201, 22));
         horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget_3);
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
@@ -238,10 +238,10 @@ public:
 
         colorGroupeBox = new QGroupBox(centralwidget);
         colorGroupeBox->setObjectName(QStringLiteral("colorGroupeBox"));
-        colorGroupeBox->setGeometry(QRect(1070, 800, 491, 121));
+        colorGroupeBox->setGeometry(QRect(1070, 800, 511, 151));
         gridLayoutWidget = new QWidget(colorGroupeBox);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 20, 471, 101));
+        gridLayoutWidget->setGeometry(QRect(10, 30, 491, 101));
         colorGridLayout = new QGridLayout(gridLayoutWidget);
         colorGridLayout->setObjectName(QStringLiteral("colorGridLayout"));
         colorGridLayout->setContentsMargins(0, 0, 0, 0);
@@ -288,12 +288,12 @@ public:
 
         shadowGroupBox = new QGroupBox(centralwidget);
         shadowGroupBox->setObjectName(QStringLiteral("shadowGroupBox"));
-        shadowGroupBox->setGeometry(QRect(330, 800, 361, 121));
+        shadowGroupBox->setGeometry(QRect(330, 800, 361, 151));
         shadowGroupBox->setCheckable(true);
         shadowGroupBox->setChecked(false);
         verticalLayoutWidget = new QWidget(shadowGroupBox);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 20, 341, 101));
+        verticalLayoutWidget->setGeometry(QRect(10, 30, 341, 111));
         shadowVerticalLayout = new QVBoxLayout(verticalLayoutWidget);
         shadowVerticalLayout->setObjectName(QStringLiteral("shadowVerticalLayout"));
         shadowVerticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -343,10 +343,10 @@ public:
 
         shadingGroupeBox = new QGroupBox(centralwidget);
         shadingGroupeBox->setObjectName(QStringLiteral("shadingGroupeBox"));
-        shadingGroupeBox->setGeometry(QRect(700, 800, 361, 121));
+        shadingGroupeBox->setGeometry(QRect(700, 800, 361, 151));
         verticalLayoutWidget_5 = new QWidget(shadingGroupeBox);
         verticalLayoutWidget_5->setObjectName(QStringLiteral("verticalLayoutWidget_5"));
-        verticalLayoutWidget_5->setGeometry(QRect(10, 20, 341, 101));
+        verticalLayoutWidget_5->setGeometry(QRect(10, 30, 341, 113));
         verticalLayout_5 = new QVBoxLayout(verticalLayoutWidget_5);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
@@ -419,7 +419,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1578, 20));
+        menubar->setGeometry(QRect(0, 0, 1586, 25));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuAide = new QMenu(menubar);
@@ -449,67 +449,61 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Rendu Style Nova", nullptr));
-        loadModelAction->setText(QApplication::translate("MainWindow", "Charger un model", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Rendu Style Nova", Q_NULLPTR));
+        loadModelAction->setText(QApplication::translate("MainWindow", "Charger un model", Q_NULLPTR));
 #ifndef QT_NO_STATUSTIP
-        loadModelAction->setStatusTip(QApplication::translate("MainWindow", "Charger un model existant (.obj ou .mnt)", nullptr));
+        loadModelAction->setStatusTip(QApplication::translate("MainWindow", "Charger un model existant (.obj ou .mnt)", Q_NULLPTR));
 #endif // QT_NO_STATUSTIP
-#ifndef QT_NO_SHORTCUT
-        loadModelAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", nullptr));
-#endif // QT_NO_SHORTCUT
-        screenshotAction->setText(QApplication::translate("MainWindow", "Capture d'ecran", nullptr));
+        loadModelAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", Q_NULLPTR));
+        screenshotAction->setText(QApplication::translate("MainWindow", "Capture d'ecran", Q_NULLPTR));
 #ifndef QT_NO_STATUSTIP
-        screenshotAction->setStatusTip(QApplication::translate("MainWindow", "Sauvegarder une capture d'ecran dans un fichier", nullptr));
+        screenshotAction->setStatusTip(QApplication::translate("MainWindow", "Sauvegarder une capture d'ecran dans un fichier", Q_NULLPTR));
 #endif // QT_NO_STATUSTIP
-#ifndef QT_NO_SHORTCUT
-        screenshotAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", nullptr));
-#endif // QT_NO_SHORTCUT
-        actionAide->setText(QApplication::translate("MainWindow", "Aide", nullptr));
-        actionA_propos->setText(QApplication::translate("MainWindow", "A propos", nullptr));
-        exitAction->setText(QApplication::translate("MainWindow", "Quitter", nullptr));
+        screenshotAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+P", Q_NULLPTR));
+        actionAide->setText(QApplication::translate("MainWindow", "Aide", Q_NULLPTR));
+        actionA_propos->setText(QApplication::translate("MainWindow", "A propos", Q_NULLPTR));
+        exitAction->setText(QApplication::translate("MainWindow", "Quitter", Q_NULLPTR));
 #ifndef QT_NO_STATUSTIP
-        exitAction->setStatusTip(QApplication::translate("MainWindow", "Quitter l'application", nullptr));
+        exitAction->setStatusTip(QApplication::translate("MainWindow", "Quitter l'application", Q_NULLPTR));
 #endif // QT_NO_STATUSTIP
-#ifndef QT_NO_SHORTCUT
-        exitAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", nullptr));
-#endif // QT_NO_SHORTCUT
-        actionMesh->setText(QApplication::translate("MainWindow", "Mesh", nullptr));
-        actionHeight_Map->setText(QApplication::translate("MainWindow", "Height Map", nullptr));
-        actionNormal_Map->setText(QApplication::translate("MainWindow", "Normal Map", nullptr));
-        actionCurvature_Map->setText(QApplication::translate("MainWindow", "Curvature Map", nullptr));
-        actionLight_Map->setText(QApplication::translate("MainWindow", "Light Map", nullptr));
-        generateModelAction->setText(QApplication::translate("MainWindow", "Generer un model", nullptr));
-        reloadButton->setText(QApplication::translate("MainWindow", "Recharger", nullptr));
-        addButton->setText(QApplication::translate("MainWindow", "Ajouter", nullptr));
-        multiScaleGroupeBox->setTitle(QApplication::translate("MainWindow", "Multi-Echelle", nullptr));
-        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin :</span></p></body></html>", nullptr));
-        shader->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; text-decoration: underline;\">Shader courant :</span></p></body></html>", nullptr));
-        drawMode->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        colorGroupeBox->setTitle(QApplication::translate("MainWindow", "Couleur", nullptr));
-        colorRadio2->setText(QApplication::translate("MainWindow", "Carte de couleur", nullptr));
-        colorRadio3->setText(QApplication::translate("MainWindow", "Cel-shading", nullptr));
-        colorRadio0->setText(QApplication::translate("MainWindow", "Couleur Unique", nullptr));
-        colorRadio1->setText(QApplication::translate("MainWindow", "Aquarelle", nullptr));
-        colorButton0->setText(QApplication::translate("MainWindow", "Choisir couleur", nullptr));
-        colorButton1->setText(QApplication::translate("MainWindow", "Choisir couleur", nullptr));
-        colorButton2->setText(QApplication::translate("MainWindow", "Charger Texture", nullptr));
-        colorButton3->setText(QApplication::translate("MainWindow", "Charger Texture", nullptr));
-        shadowGroupBox->setTitle(QApplication::translate("MainWindow", "Ombres Port\303\251es", nullptr));
-        shadowCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re", nullptr));
-        shadowCheckBoxMorpho->setText(QApplication::translate("MainWindow", "Faire la Morphologie", nullptr));
-        lightShadowPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", nullptr));
-        lightShadowPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", nullptr));
-        shadingGroupeBox->setTitle(QApplication::translate("MainWindow", " Ombrage", nullptr));
-        shadeCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re ", nullptr));
-        shadeRadio0->setText(QApplication::translate("MainWindow", "Flou", nullptr));
-        shadeRadio1->setText(QApplication::translate("MainWindow", "Details", nullptr));
-        shadeRadio2->setText(QApplication::translate("MainWindow", "Overlay", nullptr));
-        shadeRadio3->setText(QApplication::translate("MainWindow", "Wartercolor", nullptr));
-        lightShadingPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", nullptr));
-        lightShadingPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", nullptr));
-        menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", nullptr));
-        menuAide->setTitle(QApplication::translate("MainWindow", "Aide", nullptr));
+        exitAction->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", Q_NULLPTR));
+        actionMesh->setText(QApplication::translate("MainWindow", "Mesh", Q_NULLPTR));
+        actionHeight_Map->setText(QApplication::translate("MainWindow", "Height Map", Q_NULLPTR));
+        actionNormal_Map->setText(QApplication::translate("MainWindow", "Normal Map", Q_NULLPTR));
+        actionCurvature_Map->setText(QApplication::translate("MainWindow", "Curvature Map", Q_NULLPTR));
+        actionLight_Map->setText(QApplication::translate("MainWindow", "Light Map", Q_NULLPTR));
+        generateModelAction->setText(QApplication::translate("MainWindow", "Generer un model", Q_NULLPTR));
+        reloadButton->setText(QApplication::translate("MainWindow", "Recharger", Q_NULLPTR));
+        addButton->setText(QApplication::translate("MainWindow", "Ajouter", Q_NULLPTR));
+        multiScaleGroupeBox->setTitle(QApplication::translate("MainWindow", "Multi-Echelle", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin :</span></p></body></html>", Q_NULLPTR));
+        shader->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
+        informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; text-decoration: underline;\">Shader courant :</span></p></body></html>", Q_NULLPTR));
+        drawMode->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
+        colorGroupeBox->setTitle(QApplication::translate("MainWindow", "Couleur", Q_NULLPTR));
+        colorRadio2->setText(QApplication::translate("MainWindow", "Carte de couleur", Q_NULLPTR));
+        colorRadio3->setText(QApplication::translate("MainWindow", "Cel-shading", Q_NULLPTR));
+        colorRadio0->setText(QApplication::translate("MainWindow", "Couleur Unique", Q_NULLPTR));
+        colorRadio1->setText(QApplication::translate("MainWindow", "Aquarelle", Q_NULLPTR));
+        colorButton0->setText(QApplication::translate("MainWindow", "Choisir couleur", Q_NULLPTR));
+        colorButton1->setText(QApplication::translate("MainWindow", "Choisir couleur", Q_NULLPTR));
+        colorButton2->setText(QApplication::translate("MainWindow", "Charger Texture", Q_NULLPTR));
+        colorButton3->setText(QApplication::translate("MainWindow", "Charger Texture", Q_NULLPTR));
+        shadowGroupBox->setTitle(QApplication::translate("MainWindow", "Ombres Port\303\251es", Q_NULLPTR));
+        shadowCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re", Q_NULLPTR));
+        shadowCheckBoxMorpho->setText(QApplication::translate("MainWindow", "Faire la Morphologie", Q_NULLPTR));
+        lightShadowPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", Q_NULLPTR));
+        lightShadowPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", Q_NULLPTR));
+        shadingGroupeBox->setTitle(QApplication::translate("MainWindow", " Ombrage", Q_NULLPTR));
+        shadeCheckBoxLightDir->setText(QApplication::translate("MainWindow", "Orienter la lumi\303\250re ", Q_NULLPTR));
+        shadeRadio0->setText(QApplication::translate("MainWindow", "Flou", Q_NULLPTR));
+        shadeRadio1->setText(QApplication::translate("MainWindow", "Details", Q_NULLPTR));
+        shadeRadio2->setText(QApplication::translate("MainWindow", "Overlay", Q_NULLPTR));
+        shadeRadio3->setText(QApplication::translate("MainWindow", "Wartercolor", Q_NULLPTR));
+        lightShadingPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", Q_NULLPTR));
+        lightShadingPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", Q_NULLPTR));
+        menuAide->setTitle(QApplication::translate("MainWindow", "Aide", Q_NULLPTR));
     } // retranslateUi
 
 };
