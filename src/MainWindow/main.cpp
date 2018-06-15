@@ -37,6 +37,15 @@
  * */
 
 
+
+/**
+  TODO : Coloriage
+  Difference gradient
+  Multi-Echelle.
+*/
+
+
+
 #include "mainwindow.h"
 #include <qapplication.h>
 

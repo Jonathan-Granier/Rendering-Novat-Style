@@ -9,8 +9,8 @@ uniform int operator;
 uniform bool doMorpho;
 
 float morphoFilter(int type){
-  int min = -2;
-  int max = 2;
+  int min = -5;
+  int max = 5;
 
   float shadow = 1;
 
@@ -37,13 +37,13 @@ void main()
 
 /**/
     // Erosion
-    if(operator == 0 && doMorpho){
+    if(operator == 1 && doMorpho){
       if(shadow == 0){
         shadow = morphoFilter(1);
       }
     }
     //Dilation
-    else if(operator == 1 && doMorpho){
+    else if(operator == 0 && doMorpho){
       if(shadow == 1){
         shadow = morphoFilter(0);
       }

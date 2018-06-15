@@ -137,7 +137,7 @@ vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
     //thetaSign = 1;rr
   //}
 
-  theta = theta * smoothTheta(theta)* normS;
+  theta = theta * smoothTheta(theta);
   newYaw += theta;
   newYaw = modulo(newYaw);
   //return vec4(theta,0,0,1);
@@ -167,6 +167,7 @@ void main()
 
 
   outBufferDir = newLightDir;
-  outBufferAngles = vec4(newYaw,pitch,0.0,0.0);
+
+  outBufferAngles = vec4(newYaw,newYaw,newYaw,0.0);
 
 }

@@ -43,7 +43,7 @@ void Light::moveAroundXZ(float theta)
 
 void Light::setFixePosition()
 {
-    _yaw = -M_PI/4.0f;
+    _yaw = 3.76215;
     _pitch = M_PI/4.0f;
     updatePosition();
 }

@@ -373,7 +373,7 @@ void MainWindow::setupColorSettings(){
     }
     );
 
-    connect(ui->colorButton3,&QRadioButton::pressed,this,[this](){
+    connect(ui->colorButton2,&QRadioButton::pressed,this,[this](){
         QString s = loadTexture();
         if(!s.isEmpty())
             _viewer->loadColorMapTex(s);

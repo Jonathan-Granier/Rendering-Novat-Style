@@ -186,7 +186,7 @@ void writeNumber(float number, int min_int_digits, int dec_digits, vec3 num_colo
 #define WriteChar(char,char_color) writeNormalChar(char,char_color,uv,asciiTex,color)
 
 void displayVec4(inout vec3 color, vec4 v){
-
+/**
   vec3 fontColor = TURQUOISE;
   vec2 pos = vec2(10,350);
   float scale = 1./50.;
@@ -199,7 +199,7 @@ void displayVec4(inout vec3 color, vec4 v){
   WriteNumber(v.z,1,5,fontColor);
   WriteChar(comma,fontColor);
   WriteNumber(v.a,1,5,fontColor);
-
+/**/
 }
 
 
@@ -227,8 +227,8 @@ void main()
 
     if(selectTexture == 0){
       float grayValue = texture(heightMap, texCoord).r;
-      grayValue = (grayValue - ymin)/(ymax-ymin);
-      FragColor = vec4(grayValue,grayValue,grayValue,1.0);
+      //grayValue = (grayValue - ymin)/(ymax-ymin);
+      FragColor = vec4(fwidth(grayValue)/50.0);
 
       float grayValueDisplay = texture(heightMap, texCoordDisplay).r;
       valueDisplay = vec4(grayValueDisplay,grayValueDisplay,grayValueDisplay,1.0);
@@ -244,7 +244,7 @@ void main()
 
     }
     if(selectTexture == 2){
-      FragColor = texture(normalMap,     texCoord);
+      FragColor = fwidth(texture(normalMap,     texCoord)*10);
       valueDisplay = texture(normalMap, texCoordDisplay);
     }
     if(selectTexture == 3){
@@ -258,7 +258,7 @@ void main()
     if(selectTexture == 5){
 
       vec4 value = texture(shadeAnglesMap,      texCoord);
-      FragColor = vec4(value.x/(2*PI),value.y,value.z,value.w);
+      FragColor = vec4(value.x/(2*PI),value.y/(2*PI),value.z/(2*PI),value.w);
       valueDisplay = texture(shadeAnglesMap, texCoordDisplay);
     }
     if(selectTexture == 6){
@@ -267,7 +267,7 @@ void main()
     }
     if(selectTexture == 7){
       vec4 value = texture(shadowAnglesMap,      texCoord);
-      FragColor = vec4(value.x/(2*PI),value.y,value.z,value.w);
+      FragColor = vec4(value.x/(2*PI),value.y/(2*PI),value.z/(2*PI),value.w);
       valueDisplay = texture(shadowAnglesMap, texCoordDisplay);
     }
     if(selectTexture == 8){
@@ -287,7 +287,7 @@ void main()
       valueDisplay = texture(mergeShadowMap, texCoordDisplay);
     }
     if(selectTexture == 12){
-      FragColor = texture(shadingMap,      texCoord);
+      FragColor = fwidth(texture(shadingMap,      texCoord))*6;
       valueDisplay = texture(shadingMap, texCoordDisplay);
     }
     displayVec4(FragColor.xyz,valueDisplay);

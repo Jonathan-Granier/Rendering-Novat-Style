@@ -78,5 +78,6 @@ void main()
 
    // FragColor = vec4(height,height,height,0);
     FragColor = vec4(normal.x,normal.y,-normal.z,0); // For oriente z up .
+ // FragColor = vec4(normal.x,normal.z,normal.y,0);
 }
 

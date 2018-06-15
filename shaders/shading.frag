@@ -104,7 +104,7 @@ void main()
     else if(!firstMap && shadeSelector == 2)
     {
       float pCd = texture(shadingMap,texcoord).r;
-      Cd =  overlay(Cd,pCd);
+      Cd = overlay(Cd,pCd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }

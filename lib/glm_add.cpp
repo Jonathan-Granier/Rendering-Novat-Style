@@ -9,10 +9,10 @@ glm::vec3 normal(glm::vec3 v){
     return glm::vec3( v[0] * tmp, v[1] * tmp, v[2] * tmp );
 }
 bool hasNan(glm::vec3 v){
-   return (isnan(v[0]) || isnan(v[1]) || isnan(v[2]));
+   return (std::isnan(v[0]) || std::isnan(v[1]) || std::isnan(v[2]));
 }
 bool hasInf(glm::vec3 v){
-    return (isinf(v[0]) || isinf(v[1]) || isinf(v[2]));
+    return (std::isinf(v[0]) || std::isinf(v[1]) || std::isinf(v[2]));
 }
 
 glm::mat4 translateEq(glm::mat4 m, glm::vec3 v){

@@ -8,9 +8,9 @@
 /*
 // TODO DELETE ET trouve une solution
 #define GLM_ENABLE_EXPERIMENTAL
-
+/**/
 #include "glm/gtx/string_cast.hpp"
-*/
+/**/
 
 using namespace std;
 using namespace glm;
@@ -55,6 +55,7 @@ void Viewer::initializeGL(){
     // init OpenGL settings
     glEnable(GL_MULTISAMPLE);
     glClearColor(0.345f, 0.647f, 0.827f, 1.0f); //  Bleu denim
+    //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
@@ -83,7 +84,7 @@ void Viewer::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _scene->generateGaussHeightMap();
     _scene->generateEditHeightAndNormalMap();
-    _scene->generateSlantLightAndParalaxMaps(_cam->mdvMatrix(),_cam->mdvMatrix(),_light->position(),_light->pitch(),_light->yaw());
+    _scene->generateSlantLightAndParalaxMaps(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
     switch(_drawMode){
 
     case HEIGHTMAP:
@@ -170,7 +171,7 @@ void Viewer::paintGL(){
         _lightShaders->use();
         _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
         _lightShaders->setMat4("projMat",_cam->projMatrix());
-        _lightShaders->setMat3("normalMat",_cam->mdvMatrix());
+        _lightShaders->setMat3("normalMat",_cam->normalMatrix());
         _lightShaders->setVec3("lightPosition",_light->position());
         _lightShaders->setVec3("cameraPosition",_cam->view());
         _scene->draw(_lightShaders,_light->position());
@@ -262,11 +263,11 @@ void Viewer::reloadShader(){
 
 
 void Viewer::printCamAndLight(){
-   /* cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
+    cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
     cout << "mdv mat : " << glm::to_string(_cam->mdvMatrix()) << endl;
     cout << "normal mat : " << glm::to_string(_cam ->normalMatrix()) << endl;
     cout << " light's angles : yaw : " << _light->yaw() << " pitch : " << _light->pitch() << endl;
-  */
+
 }
 
 void Viewer::fixeCamAndLight()

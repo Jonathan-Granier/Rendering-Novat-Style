@@ -213,6 +213,10 @@ signals :
 private:
 
 
+    int _lastTime;
+    int _nbFrames;
+
+
     QOpenGLContext *m_context;
 
     std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */

@@ -72,7 +72,7 @@ void Mesh::setupMesh()
     _VBO.bind(GL_ARRAY_BUFFER);
 
 */
-
+    cout << _indices.size() << endl;
     // create buffers/arrays
     glGenVertexArrays(1,&_VAO);
     glGenBuffers(1,&_VBO);

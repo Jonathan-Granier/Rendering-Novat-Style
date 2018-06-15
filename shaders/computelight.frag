@@ -34,13 +34,21 @@ float shadow(){
 
 }
 
-vec4 watercolor(float density, vec4 color){
+vec4 watercolor(vec4 color,float density ){
   float d = density;
   vec4 c = color;
 
   return c-(c-c*c)*((1-2*d));
 }
 
+
+
+float watercolorfloat(float shading, float shadow){
+  float d = shadow;
+  float c = shading;
+
+  return c-(c-c*c)*((1-d));
+}
 
 
 void main()
@@ -66,12 +74,13 @@ void main()
 
 
   if(doShadow)
-     Cd = shadow*Cd;
-  if(colorSelector == 0){
+     //Cd = watercolorfloat(Cd,shadow());
+    Cd = shadow*Cd;
+    if(colorSelector == 0){
     color = Cd*plainColor;
   }
   else if(colorSelector == 1){
-    color = watercolor(Cd,waterColor);
+    color = watercolor(waterColor,Cd);
   }
   else if(colorSelector == 2){
     color = texture(colorMapTex,vec2(Cd ,0.5));
