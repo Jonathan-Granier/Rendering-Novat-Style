@@ -137,7 +137,7 @@ vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
     //thetaSign = 1;rr
   //}
 
-  theta = theta * smoothTheta(theta);
+  theta = theta * smoothTheta(theta)*normS;
   newYaw += theta;
   newYaw = modulo(newYaw);
   //return vec4(theta,0,0,1);

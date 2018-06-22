@@ -94,7 +94,7 @@ float sinYF(vec2 t){
 }
 
 float sinY(vec2 t){
-    return sin((t.y)*5)*300;
+    return sin((t.y+cos(t.x))*5)*300;
 }
 
 
@@ -115,7 +115,7 @@ float anneau(vec2 t){
 void main()
 {
   float p = perlin(texCoord);
-  outBuffer = sinYF(texCoord);
+  outBuffer = anneau(texCoord);
 }
 
 

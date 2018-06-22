@@ -227,8 +227,8 @@ void main()
 
     if(selectTexture == 0){
       float grayValue = texture(heightMap, texCoord).r;
-      //grayValue = (grayValue - ymin)/(ymax-ymin);
-      FragColor = vec4(fwidth(grayValue)/50.0);
+      grayValue = (grayValue - ymin)/(ymax-ymin);
+      FragColor = vec4(grayValue,grayValue,grayValue,1.0);
 
       float grayValueDisplay = texture(heightMap, texCoordDisplay).r;
       valueDisplay = vec4(grayValueDisplay,grayValueDisplay,grayValueDisplay,1.0);
@@ -287,7 +287,7 @@ void main()
       valueDisplay = texture(mergeShadowMap, texCoordDisplay);
     }
     if(selectTexture == 12){
-      FragColor = fwidth(texture(shadingMap,      texCoord))*6;
+      FragColor = texture(shadingMap,      texCoord);
       valueDisplay = texture(shadingMap, texCoordDisplay);
     }
     displayVec4(FragColor.xyz,valueDisplay);
