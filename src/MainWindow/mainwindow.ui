@@ -36,6 +36,9 @@
       <height>781</height>
      </rect>
     </property>
+    <zorder>verticalLayoutWidget_3</zorder>
+    <zorder>shadowCheckBoxLightDir</zorder>
+    <zorder>lightShadowPosLabel</zorder>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -103,38 +106,6 @@
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>900</y>
-      <width>201</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Mode de dessin :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="shader">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
@@ -227,7 +198,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>491</width>
+       <width>495</width>
        <height>101</height>
       </rect>
      </property>

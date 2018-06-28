@@ -23,7 +23,7 @@
 
 #include "src/OpenGl/shader.h"
 #include "src/OpenGl/scene.h"
-#include "src/OpenGl/shadowmap.h"
+
 
 
 #include "src/Light_Camera/camera.h"
@@ -124,13 +124,13 @@ public:
      * @brief Switch to the next shader.
      * @return The current name of the shader.
      */
-    std::string nextShader();
+   // std::string nextShader();
 
     /**
      * @brief Switch to the previous shader.
      * @return The currant name of the shader.
      */
-    std::string previousShader();
+   // std::string previousShader();
 
 
     void previousDrawMode();
@@ -155,8 +155,6 @@ public:
 
 
     std::string getCurrentDrawMode();
-    std::string getCurrentShader();
-
 
 
 /*
@@ -203,7 +201,7 @@ public:
 
     void setColorSelector(int c);
 
-    void makeATest(int numTest);
+ //   void makeATest(int numTest);
 
 
 

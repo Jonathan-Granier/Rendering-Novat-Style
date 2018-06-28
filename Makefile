@@ -62,7 +62,6 @@ SOURCES       = src/MainWindow/main.cpp \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
-		src/OpenGl/shadowmap.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
 		src/OpenGl/scene.cpp \
@@ -84,7 +83,6 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/glad.o \
 		bin/debug/stb_image.o \
 		bin/debug/glm_add.o \
-		bin/debug/shadowmap.o \
 		bin/debug/loadtexture.o \
 		bin/debug/generatedtexture.o \
 		bin/debug/scene.o \
@@ -93,9 +91,7 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/caller.o \
 		bin/debug/lighttextures.o \
 		bin/debug/moc_viewer.o
-DIST          = shaders/toon1D.frag \
-		shaders/toon1D.vert \
-		shaders/debug.vert \
+DIST          = shaders/debug.vert \
 		shaders/debug.frag \
 		shaders/phong.frag \
 		shaders/phong.vert \
@@ -211,7 +207,6 @@ DIST          = shaders/toon1D.frag \
 		src/Light_Camera/trackball.h \
 		lib/stb_image.h \
 		lib/glm_add.h \
-		src/OpenGl/shadowmap.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/scene.h \
@@ -232,7 +227,6 @@ DIST          = shaders/toon1D.frag \
 		lib/glad.c \
 		lib/stb_image.cpp \
 		lib/glm_add.cpp \
-		src/OpenGl/shadowmap.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
 		src/OpenGl/scene.cpp \
@@ -407,8 +401,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/shadowmap.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h src/OpenGl/maps.h src/OpenGl/caller.h src/OpenGl/lighttextures.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/shadowmap.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp src/OpenGl/maps.cpp src/OpenGl/caller.cpp src/OpenGl/lighttextures.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h src/OpenGl/maps.h src/OpenGl/caller.h src/OpenGl/lighttextures.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/glad.c lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp src/OpenGl/maps.cpp src/OpenGl/caller.cpp src/OpenGl/lighttextures.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/MainWindow/mainwindow.ui $(DISTDIR)/
 
 
@@ -448,7 +442,6 @@ moc_viewer.cpp: src/OpenGl/shader.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
 		src/OpenGl/lighttextures.h \
-		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -488,7 +481,6 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
 		src/OpenGl/lighttextures.h \
-		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -507,7 +499,6 @@ bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
 		src/OpenGl/lighttextures.h \
-		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -526,7 +517,6 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/OpenGl/meshloader.h \
 		src/OpenGl/maps.h \
 		src/OpenGl/lighttextures.h \
-		src/OpenGl/shadowmap.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
 		lib/glm_add.h \
@@ -578,19 +568,6 @@ bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
 
 bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o lib/glm_add.cpp
-
-bin/debug/shadowmap.o: src/OpenGl/shadowmap.cpp src/OpenGl/shadowmap.h \
-		src/OpenGl/shader.h \
-		src/OpenGl/texture.h \
-		src/OpenGl/scene.h \
-		src/OpenGl/mesh.h \
-		src/OpenGl/vertex.h \
-		src/OpenGl/loadtexture.h \
-		src/OpenGl/generatedtexture.h \
-		src/OpenGl/meshloader.h \
-		src/OpenGl/maps.h \
-		src/OpenGl/lighttextures.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/shadowmap.o src/OpenGl/shadowmap.cpp
 
 bin/debug/loadtexture.o: src/OpenGl/loadtexture.cpp src/OpenGl/loadtexture.h \
 		src/OpenGl/shader.h \

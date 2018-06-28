@@ -10,46 +10,22 @@ using namespace std;
 using namespace glm;
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 {
-    ShaderInfo *s = new ShaderInfo;
-    s->fragmentPath = fragmentPath;
-    s->vertexPath = vertexPath;
-    s->name = getName(vertexPath);
-    initialize(s);
-    _shaderInfos.push_back(s);
-    _currentIndexShader = 0;
+    _fragmentPath = fragmentPath;
+    _vertexPath = vertexPath;
+    _name = getName(vertexPath);
+    initialize();
 
 
 }
-
-
-
 
 Shader::~Shader(){
-
-    for(ShaderInfo *s: _shaderInfos){
-        if(glIsProgram(s->id)) {
-          glDeleteProgram(s->id);
-        }
-        delete(s);
-    }
-
+    glDeleteProgram(_id);
 }
-
-void Shader::add(const GLchar *vertexPath, const GLchar *fragmentPath)
-{
-    ShaderInfo *s = new ShaderInfo;
-    s->fragmentPath = fragmentPath;
-    s->vertexPath = vertexPath;
-    s->name = getName(vertexPath);
-    initialize(s);
-    _shaderInfos.push_back(s);
-}
-
 
 
 void Shader::use()
 {
-    glUseProgram(_shaderInfos[_currentIndexShader]->id );
+    glUseProgram(_id );
 }
 
 void Shader::disable()
@@ -57,42 +33,17 @@ void Shader::disable()
     glUseProgram(0);
 }
 
-void Shader::next()
-{
-    _currentIndexShader++;
-    if(_currentIndexShader==_shaderInfos.size())
-        _currentIndexShader = 0;
-}
-
-void Shader::previous()
-{
-    if(_currentIndexShader==0)
-       _currentIndexShader=_shaderInfos.size();
-    _currentIndexShader--;
-}
-
-
-void Shader::setShader(unsigned int index){
-    if(index >= 0 && index < _shaderInfos.size())
-        _currentIndexShader = index;
-}
-
 void Shader::reload()
 {
-    for(ShaderInfo *s : _shaderInfos){
-        initialize(s);
-    }
+    initialize();
 }
 
 unsigned int Shader::ID() const
 {
-    return _shaderInfos[_currentIndexShader]->id ;
+    return _id ;
 }
 
 
-string Shader::name() const{
-    return _shaderInfos[_currentIndexShader]->name;
-}
 
 // utility uniform functions
 // ------------------------------------------------------------------------
@@ -103,61 +54,61 @@ void Shader::setBool(const string &name, bool value)
 // ------------------------------------------------------------------------
 void Shader::setInt(const string &name, int value)
 {
-   glUniform1i(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), value);
+   glUniform1i(glGetUniformLocation(_id , name.c_str()), value);
 }
 // ------------------------------------------------------------------------
 void Shader::setFloat(const string &name, float value)
 {
-   glUniform1f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), value);
+   glUniform1f(glGetUniformLocation(_id , name.c_str()), value);
 }
 // ------------------------------------------------------------------------
 void Shader::setVec2(const string &name, const vec2 &value)
 {
-   glUniform2fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
+   glUniform2fv(glGetUniformLocation(_id , name.c_str()), 1, &value[0]);
 }
 void Shader::setVec2(const string &name, float x, float y)
 {
-   glUniform2f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y);
+   glUniform2f(glGetUniformLocation(_id , name.c_str()), x, y);
 }
 // ------------------------------------------------------------------------
 void Shader::setVec3(const string &name, const vec3 &value)
 {
-   glUniform3fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
+   glUniform3fv(glGetUniformLocation(_id , name.c_str()), 1, &value[0]);
 }
 void Shader::setVec3(const string &name, float x, float y, float z)
 {
-   glUniform3f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y, z);
+   glUniform3f(glGetUniformLocation(_id , name.c_str()), x, y, z);
 }
 // ------------------------------------------------------------------------
 void Shader::setVec4(const string &name, const vec4 &value)
 {
-   glUniform4fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, &value[0]);
+   glUniform4fv(glGetUniformLocation(_id , name.c_str()), 1, &value[0]);
 }
 void Shader::setVec4(const string &name, float x, float y, float z, float w)
 {
-   glUniform4f(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), x, y, z, w);
+   glUniform4f(glGetUniformLocation(_id , name.c_str()), x, y, z, w);
 }
 // ------------------------------------------------------------------------
 void Shader::setMat2(const string &name, const mat2 &mat)
 {
-   glUniformMatrix2fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
+   glUniformMatrix2fv(glGetUniformLocation(_id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
 void Shader::setMat3(const string &name, const mat3 &mat)
 {
-   glUniformMatrix3fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
+   glUniformMatrix3fv(glGetUniformLocation(_id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
 void Shader::setMat4(const string &name, const mat4 &mat)
 {
-   glUniformMatrix4fv(glGetUniformLocation(_shaderInfos[_currentIndexShader]->id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
+   glUniformMatrix4fv(glGetUniformLocation(_id , name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
 /************************************************
  *              Private Functions               *
  ************************************************/
 
-void Shader::initialize(ShaderInfo *shaderInfo)
+void Shader::initialize()
 {
 
     // 1. retrieve the vertex/fragment source code from filePath
@@ -169,8 +120,8 @@ void Shader::initialize(ShaderInfo *shaderInfo)
        try
        {
            // open files
-           vShaderFile.open(shaderInfo->vertexPath);
-           fShaderFile.open(shaderInfo->fragmentPath);
+           vShaderFile.open(_vertexPath);
+           fShaderFile.open(_fragmentPath);
            stringstream vShaderStream, fShaderStream;
            // read file's buffer contents into streams
            vShaderStream << vShaderFile.rdbuf();
@@ -198,24 +149,22 @@ void Shader::initialize(ShaderInfo *shaderInfo)
        vertex = glCreateShader(GL_VERTEX_SHADER);
        glShaderSource(vertex, 1, &vShaderCode, NULL);
        glCompileShader(vertex);
-       checkCompileErrors(vertex,"VERTEX",shaderInfo->name);
+       checkCompileErrors(vertex,"VERTEX",_name);
 
        //Fragment Shader
        fragment = glCreateShader(GL_FRAGMENT_SHADER);
        glShaderSource(fragment, 1, &fShaderCode, NULL);
        glCompileShader(fragment);
        // print compile errors if any
-       checkCompileErrors(fragment,"FRAGMENT",shaderInfo->name);
+       checkCompileErrors(fragment,"FRAGMENT",_name);
 
        // shader Program
-       unsigned int id;
-       id = glCreateProgram();
-       glAttachShader(id, vertex);
-       glAttachShader(id, fragment);
-       glLinkProgram(id);
+       _id = glCreateProgram();
+       glAttachShader(_id, vertex);
+       glAttachShader(_id, fragment);
+       glLinkProgram(_id);
        // print linking errors if any
-       checkCompileErrors(id,"PROGRAM",shaderInfo->name);
-       shaderInfo->id = id;
+       checkCompileErrors(_id,"PROGRAM",_name);
 }
 
 void Shader::checkCompileErrors(GLuint shader, string type,string name)

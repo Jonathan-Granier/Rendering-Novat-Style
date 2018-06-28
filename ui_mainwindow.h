@@ -57,10 +57,6 @@ public:
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *settingsLayout;
     QFrame *line;
-    QWidget *horizontalLayoutWidget_3;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *label_6;
-    QLabel *shader;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout;
@@ -179,24 +175,6 @@ public:
         line->setGeometry(QRect(1200, 770, 371, 21));
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
-        horizontalLayoutWidget_3 = new QWidget(centralwidget);
-        horizontalLayoutWidget_3->setObjectName(QStringLiteral("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(10, 900, 201, 22));
-        horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget_3);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
-        label_6 = new QLabel(horizontalLayoutWidget_3);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        horizontalLayout_5->addWidget(label_6);
-
-        shader = new QLabel(horizontalLayoutWidget_3);
-        shader->setObjectName(QStringLiteral("shader"));
-        shader->setStyleSheet(QStringLiteral(""));
-        shader->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_5->addWidget(shader);
-
         verticalLayoutWidget_3 = new QWidget(centralwidget);
         verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
         verticalLayoutWidget_3->setGeometry(QRect(10, 810, 311, 81));
@@ -241,7 +219,7 @@ public:
         colorGroupeBox->setGeometry(QRect(1070, 800, 511, 151));
         gridLayoutWidget = new QWidget(colorGroupeBox);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 30, 491, 101));
+        gridLayoutWidget->setGeometry(QRect(10, 30, 495, 101));
         colorGridLayout = new QGridLayout(gridLayoutWidget);
         colorGridLayout->setObjectName(QStringLiteral("colorGridLayout"));
         colorGridLayout->setContentsMargins(0, 0, 0, 0);
@@ -476,8 +454,6 @@ public:
         reloadButton->setText(QApplication::translate("MainWindow", "Recharger", Q_NULLPTR));
         addButton->setText(QApplication::translate("MainWindow", "Ajouter", Q_NULLPTR));
         multiScaleGroupeBox->setTitle(QApplication::translate("MainWindow", "Multi-Echelle", Q_NULLPTR));
-        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" text-decoration: underline;\">Mode de dessin :</span></p></body></html>", Q_NULLPTR));
-        shader->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
         informationTitle->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; text-decoration: underline;\">Shader courant :</span></p></body></html>", Q_NULLPTR));
         drawMode->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
         colorGroupeBox->setTitle(QApplication::translate("MainWindow", "Couleur", Q_NULLPTR));

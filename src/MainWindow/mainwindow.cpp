@@ -85,12 +85,6 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_D){
         _viewer->fixeCamAndLight();
     }
-    if(ke->key()==Qt::Key_Q){
-        _viewer->previousShader();
-    }
-    if(ke->key()==Qt::Key_S){
-        _viewer->nextShader();
-    }
 
     if(ke->key()==Qt::Key_W){
         _viewer->previousDrawMode();
@@ -103,18 +97,6 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
         ui->drawModeSlider->setValue((value+1)%14);
     }
 
-    if(ke->key()==Qt::Key_A){
-        bool ok;
-        int numText = QInputDialog::getInt(this,tr("Numero du test"),tr("Numero du test :"),0,0,1000,1,&ok);
-        if(ok){
-            _viewer->makeATest(numText);
-        }
-
-    }
-    /*
-    if(ke->key()==Qt::Key_B){
-        _viewer->nextMaps();
-    }*/
     refreshInformationPanel();
 }
 
@@ -393,7 +375,6 @@ void MainWindow::setupColorSettings(){
 void MainWindow::refreshInformationPanel(){
 
     ui->drawMode->setText(QString::fromStdString(_viewer->getCurrentDrawMode()));
-    ui->shader->setText(QString::fromStdString(_viewer->getCurrentShader()));
     //ui->currentMaps->setText(QStringLiteral("%1").arg(_viewer->getCurrentMapsIndex()));
     //ui->lightMode->setText(QStringLiteral("%1").arg(_viewer->getLightSelector()));
 }

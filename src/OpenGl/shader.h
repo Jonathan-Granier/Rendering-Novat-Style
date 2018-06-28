@@ -40,7 +40,7 @@ public:
      * @param vertexPath :  a path of a vertex shader.
      * @param fragmentPaht :  a path of a fragment shader.
      */
-    void add(const GLchar* vertexPath, const GLchar* fragmentPath);
+   // void add(const GLchar* vertexPath, const GLchar* fragmentPath);
 
     /**
      * @brief activate the current shader.
@@ -54,14 +54,14 @@ public:
     /**
      * @brief Switch to the next shader. Go to 0 if the current Shader is the last in the array.
      */
-    void next();
+//    void next();
     /**
      * @brief Switch to the previous shader. if the current shader is the first, go to the last shader in the array.
      */
-    void previous();
+//    void previous();
 
 
-    void setShader(unsigned int index);
+//    void setShader(unsigned int index);
 
     /**
      * @brief Read and compile all shaders
@@ -74,11 +74,7 @@ public:
      */
     unsigned int ID() const;
 
-    /**
-     * @brief get the current name program.
-     * @return the current name program.
-     */
-    std::string name() const;
+
 
     // utility uniform functions
     /**
@@ -166,21 +162,18 @@ public:
 
 private:
 
-    struct ShaderInfo{
-        unsigned int id;                /** < the program ID*/
-        const GLchar* vertexPath;       /** < the path of the vertex shader*/
-        const GLchar* fragmentPath;     /** < the path of the fragment shader*/
-        std::string name;         /** < Name of the shader */
-    };
-    unsigned int _currentIndexShader;   /** < The index of the current shader */
-    std::vector<ShaderInfo*> _shaderInfos;   /** < A Stack of shaderInfo */
-
+   // struct ShaderInfo{
+    unsigned int _id;                /** < the program ID*/
+    const GLchar* _vertexPath;       /** < the path of the vertex shader*/
+    const GLchar* _fragmentPath;     /** < the path of the fragment shader*/
+    std::string _name;               /** < Name of the shader */
+    //};
 
     /**
      * @brief Reads, compiles the vertex and the fragment of the current shader and store the id
      * @shaderInfo : The current shader
      */
-    void initialize(ShaderInfo *shaderInfo);
+    void initialize();
 
 
     /**

@@ -746,11 +746,6 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
 
 }
 
-//TODO
-void MeshLoader::saveHeightMap(shared_ptr<Texture> heightMap, string filepaths){
-
-
-}
 
 
 /*Private */

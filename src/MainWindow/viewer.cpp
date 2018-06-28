@@ -276,20 +276,20 @@ void Viewer::fixeCamAndLight()
     _light->setFixePosition();
     update();
 }
-
+/*
 string Viewer::nextShader()
 {
     _lightShaders->next();
     update();
     return _lightShaders->name();
-}
-
+}*/
+/*
 string Viewer::previousShader()
 {
     _lightShaders->previous();
     update();
     return _lightShaders->name();
-}
+}*/
 
 
 void Viewer::nextDrawMode(){
@@ -478,14 +478,6 @@ string Viewer::getCurrentDrawMode()
 
 
 
-string Viewer::getCurrentShader()
-{
-
-    return _lightShaders->name();
-}
-
-
-
 void Viewer::setGaussBlurFactor(unsigned int id, float g)
 {
     _scene->setGaussBlurFactor(id,g);
@@ -604,42 +596,6 @@ void Viewer::setColorSelector(int c)
 
 
 
-void Viewer::makeATest(int numTest){
-    // Compute light :
-    // Normal
-    // Normal + ombre porté
-    // Normal + color
-    // Normal + color + ombre porté
-    setShadeSelector(3);
-    setColorSelector(0);
-    shadowEnabled(false);
-
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode.png").arg(numTest));
-    shadowEnabled(true);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée.png").arg(numTest));
-    setColorSelector(1);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_1.png").arg(numTest));
-    setColorSelector(2);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_2.png").arg(numTest));
-    setColorSelector(3);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_ourMethode_portée_color_3.png").arg(numTest));
-    // Lambercien
-
-    nextShader();
-    setColorSelector(0);
-    shadowEnabled(false);
-    shadowEnabledLightDir(false);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien.png").arg(numTest));
-    shadowEnabled(true);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée.png").arg(numTest));
-    setColorSelector(1);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_1.png").arg(numTest));
-    setColorSelector(2);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_2.png").arg(numTest));
-    setColorSelector(3);
-    takeScreenShot(QString("screenshots/NovatRDV/%1_high_lambercien_portée_color_3.png").arg(numTest));
-}
-
 
 /************************************************
  *              Private Functions               *
@@ -656,11 +612,11 @@ void Viewer::loadScene()
 }
 
 void Viewer::initShaders(){
-    _lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
-    _lightShaders->add("shaders/computelight.vert", "shaders/computelight.frag");
-    _lightShaders->add("shaders/phong.vert", "shaders/phong.frag");
-    _lightShaders->add("shaders/phongspec.vert", "shaders/phongspec.frag");
-    _lightShaders->add("shaders/toon1D.vert","shaders/toon1D.frag");
+    //_lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
+    _lightShaders = make_shared<Shader>("shaders/computelight.vert", "shaders/computelight.frag");
+    //_lightShaders->add("shaders/phong.vert", "shaders/phong.frag");
+    //_lightShaders->add("shaders/phongspec.vert", "shaders/phongspec.frag");
+    //_lightShaders->add("shaders/toon1D.vert","shaders/toon1D.frag");
 
     _drawTextureShader = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
 

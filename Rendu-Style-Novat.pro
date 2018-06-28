@@ -53,7 +53,6 @@ SOURCES += \
     lib/glad.c \
     lib/stb_image.cpp \
     lib/glm_add.cpp \
-    src/OpenGl/shadowmap.cpp \
     src/OpenGl/loadtexture.cpp \
     src/OpenGl/generatedtexture.cpp \
     src/OpenGl/scene.cpp \
@@ -76,7 +75,6 @@ HEADERS += \
     src/Light_Camera/trackball.h \
     lib/stb_image.h \
     lib/glm_add.h \
-    src/OpenGl/shadowmap.h \
     src/OpenGl/loadtexture.h \
     src/OpenGl/generatedtexture.h \
     src/OpenGl/scene.h \
@@ -86,8 +84,6 @@ HEADERS += \
     src/OpenGl/lighttextures.h
 
 DISTFILES += \
-    shaders/toon1D.frag \
-    shaders/toon1D.vert \
     shaders/debug.vert \
     shaders/debug.frag \
     shaders/phong.frag \
