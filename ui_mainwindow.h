@@ -207,8 +207,8 @@ public:
         drawModeSlider = new QSlider(verticalLayoutWidget_3);
         drawModeSlider->setObjectName(QStringLiteral("drawModeSlider"));
         drawModeSlider->setMinimum(0);
-        drawModeSlider->setMaximum(13);
-        drawModeSlider->setValue(13);
+        drawModeSlider->setMaximum(11);
+        drawModeSlider->setValue(11);
         drawModeSlider->setOrientation(Qt::Horizontal);
         drawModeSlider->setTickPosition(QSlider::TicksBelow);
 

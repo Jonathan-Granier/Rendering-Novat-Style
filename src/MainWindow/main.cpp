@@ -38,6 +38,7 @@
  *      Normaliser Get-Set name
  *      Gestion error , voir si on arrive à faire fonctionner le caller.
  *      Rajouter bouton lambertien
+ *      Factoriser maps et faire une stack de maps --> voir si possible et plus simple
  *
  * Recherche :
  *      Morphomath : taille dépendant, orientation pente

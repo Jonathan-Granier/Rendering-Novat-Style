@@ -89,12 +89,12 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
     if(ke->key()==Qt::Key_W){
         _viewer->previousDrawMode();
         int value = ui->drawModeSlider->value();
-        ui->drawModeSlider->setValue((value-1+14)%14);
+        ui->drawModeSlider->setValue((value-1+12)%12);
     }
     if(ke->key()==Qt::Key_X){
         _viewer->nextDrawMode();
         int value = ui->drawModeSlider->value();
-        ui->drawModeSlider->setValue((value+1)%14);
+        ui->drawModeSlider->setValue((value+1)%12);
     }
 
     refreshInformationPanel();

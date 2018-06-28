@@ -5,7 +5,7 @@
 #include "generatedtexture.h"
 #include "mesh.h"
 #include "shader.h"
-#include "lighttextures.h"
+//#include "lighttextures.h"
 
 
 struct GenShaders{
@@ -95,8 +95,8 @@ public:
    // void setHeightMap(std::shared_ptr<Texture> heightMap);
     std::shared_ptr<Texture> getHeightMap();
     std::shared_ptr<GeneratedTexture> getEditHeightMap() const;
-    std::shared_ptr<LightTextures> getShadeLightMap() const;
-    std::shared_ptr<LightTextures> getShadowLightMap() const;
+    std::shared_ptr<GeneratedTexture> getShadeLightMap() const;
+    std::shared_ptr<GeneratedTexture> getShadowLightMap() const;
     std::shared_ptr<GeneratedTexture> getShadingMap() const;
     std::shared_ptr<GeneratedTexture> getMorphoDilationMap() const;
 
@@ -114,8 +114,8 @@ private :
     std::shared_ptr<GeneratedTexture>   _editHeightMap;
     std::shared_ptr<GeneratedTexture>   _normalMap;
     std::shared_ptr<GeneratedTexture>   _slantMap;
-    std::shared_ptr<LightTextures>      _shadeLightMap;
-    std::shared_ptr<LightTextures>      _shadowLightMap;
+    std::shared_ptr<GeneratedTexture>      _shadeLightMap;
+    std::shared_ptr<GeneratedTexture>      _shadowLightMap;
     std::shared_ptr<GeneratedTexture>   _parallaxMap;
     std::shared_ptr<GeneratedTexture>   _morphoErosionMap;
     std::shared_ptr<GeneratedTexture>   _morphoDilationMap;

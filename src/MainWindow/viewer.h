@@ -44,9 +44,7 @@ public:
                     SLANTMAP,       /*!< Mode for draw the slant map of the current mesh             */
                     NORMALMAP,      /*!< Mode for draw the normal map of the current mesh            */
                     SHADELIGHTMAP , /*!< Mode for draw the light map of the current mesh             */
-                    SHADEANGLESMAP, /*!< Mode for draw the angle map of the current mesh             */
                     SHADOWLIGHTMAP,
-                    SHADOWANGLESMAP,
                     PARALLAX,
                     MORPHOEROSION,
                     MORPHODILATION,

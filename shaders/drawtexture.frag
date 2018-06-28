@@ -10,9 +10,7 @@ uniform sampler2D normalMap;
 uniform sampler2D slantMap;
 uniform sampler2D curvatureMap;
 uniform sampler2D shadeLightMap;
-uniform sampler2D shadeAnglesMap;
 uniform sampler2D shadowLightMap;
-uniform sampler2D shadowAnglesMap;
 uniform sampler2D parallaxMap;
 uniform sampler2D morphoErosionMap;
 uniform sampler2D morphoDilationMap;
@@ -244,7 +242,7 @@ void main()
 
     }
     if(selectTexture == 2){
-      FragColor = fwidth(texture(normalMap,     texCoord)*10);
+      FragColor = texture(normalMap,     texCoord);
       valueDisplay = texture(normalMap, texCoordDisplay);
     }
     if(selectTexture == 3){
@@ -256,37 +254,26 @@ void main()
       valueDisplay = texture(shadeLightMap, texCoordDisplay);
     }
     if(selectTexture == 5){
-
-      vec4 value = texture(shadeAnglesMap,      texCoord);
-      FragColor = vec4(value.x/(2*PI),value.y/(2*PI),value.z/(2*PI),value.w);
-      valueDisplay = texture(shadeAnglesMap, texCoordDisplay);
-    }
-    if(selectTexture == 6){
       FragColor = texture(shadowLightMap,      texCoord);
       valueDisplay = texture(shadowLightMap, texCoordDisplay);
     }
-    if(selectTexture == 7){
-      vec4 value = texture(shadowAnglesMap,      texCoord);
-      FragColor = vec4(value.x/(2*PI),value.y/(2*PI),value.z/(2*PI),value.w);
-      valueDisplay = texture(shadowAnglesMap, texCoordDisplay);
-    }
-    if(selectTexture == 8){
+    if(selectTexture == 6){
       FragColor = texture(parallaxMap,      texCoord);
       valueDisplay = texture(parallaxMap, texCoordDisplay);
     }
-    if(selectTexture == 9){
+    if(selectTexture == 7){
       FragColor = texture(morphoErosionMap,      texCoord);
       valueDisplay = texture(morphoErosionMap, texCoordDisplay);
     }
-    if(selectTexture == 10){
+    if(selectTexture == 8){
       FragColor = texture(morphoDilationMap,      texCoord);
       valueDisplay = texture(morphoDilationMap, texCoordDisplay);
     }
-    if(selectTexture == 11){
+    if(selectTexture == 9){
       FragColor = texture(mergeShadowMap,      texCoord);
       valueDisplay = texture(mergeShadowMap, texCoordDisplay);
     }
-    if(selectTexture == 12){
+    if(selectTexture == 10){
       FragColor = texture(shadingMap,      texCoord);
       valueDisplay = texture(shadingMap, texCoordDisplay);
     }

@@ -282,12 +282,12 @@ std::shared_ptr<GeneratedTexture> Maps::getEditHeightMap() const
 {
     return _editHeightMap;
 }
-std::shared_ptr<LightTextures> Maps::getShadeLightMap() const
+std::shared_ptr<GeneratedTexture> Maps::getShadeLightMap() const
 {
     return _shadeLightMap;
 }
 
-std::shared_ptr<LightTextures> Maps::getShadowLightMap() const
+std::shared_ptr<GeneratedTexture> Maps::getShadowLightMap() const
 {
     return _shadowLightMap;
 }
@@ -315,8 +315,8 @@ void Maps::initialize(shared_ptr<GenShaders> shaders)
     _editHeightMap      = make_shared<GeneratedTexture>("editHeightMap",_width,_height,shaders->editHeightMapShader);
     _normalMap          = make_shared<GeneratedTexture>("normalMap",_width,_height,shaders->normalMapShader);
     _slantMap           = make_shared<GeneratedTexture>("slantMap",_width,_height,shaders->slantShader);
-    _shadeLightMap      = make_shared<LightTextures>("shadeLightMap","shadeAnglesMap",_width,_height,shaders->shadeLightShader);
-    _shadowLightMap     = make_shared<LightTextures>("shadowLightMap","shadowAnglesMap",_width,_height,shaders->shadowLightShader);
+    _shadeLightMap      = make_shared<GeneratedTexture>("shadeLightMap",_width,_height,shaders->shadeLightShader);
+    _shadowLightMap     = make_shared<GeneratedTexture>("shadowLightMap",_width,_height,shaders->shadowLightShader);
     _parallaxMap        = make_shared<GeneratedTexture>("parallaxMap",_width,_height,shaders->parallaxShader);
     _morphoErosionMap   = make_shared<GeneratedTexture>("morphoErosionMap",_width,_height,shaders->morphoShader);
     _morphoDilationMap  = make_shared<GeneratedTexture>("morphoDilationMap",_width,_height,shaders->morphoShader);

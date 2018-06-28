@@ -118,52 +118,39 @@ void Viewer::paintGL(){
         _scene->drawShadeLightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
-    case SHADEANGLESMAP:
-        _drawTextureShader->use();
-        initDrawTexture(5);
-        _scene->drawShadeLightMap(_drawTextureShader);
-        _drawTextureShader->disable();
-        break;
     case SHADOWLIGHTMAP :
         _drawTextureShader->use();
-        initDrawTexture(6);
+        initDrawTexture(5);
         _scene->drawShadowLightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
-    case SHADOWANGLESMAP:
-        _drawTextureShader->use();
-        initDrawTexture(7);
-        _scene->drawShadowLightMap(_drawTextureShader);
-        _drawTextureShader->disable();
-        break;
-
     case PARALLAX :
         _drawTextureShader->use();
-        initDrawTexture(8);
+        initDrawTexture(6);
         _scene->drawParallaxMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case MORPHOEROSION :
         _drawTextureShader->use();
-        initDrawTexture(9);
+        initDrawTexture(7);
         _scene->drawMorphoErosionMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case MORPHODILATION :
         _drawTextureShader->use();
-        initDrawTexture(10);
+        initDrawTexture(8);
         _scene->drawMorphoDilationMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case MERGESHADOW :
         _drawTextureShader->use();
-        initDrawTexture(11);
+        initDrawTexture(9);
         _scene->drawMergeShadowMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case SHADING :
         _drawTextureShader->use();
-        initDrawTexture(12);
+        initDrawTexture(10);
         _scene->drawShadingMap(_drawTextureShader);
         _drawTextureShader->disable();
          break;
@@ -298,13 +285,11 @@ void Viewer::nextDrawMode(){
         case EDITHEIGHTMAP:   _drawMode = NORMALMAP      ; break;
         case NORMALMAP:       _drawMode = SLANTMAP       ; break;
         case SLANTMAP :       _drawMode = SHADELIGHTMAP  ; break;
-        case SHADELIGHTMAP :  _drawMode = SHADEANGLESMAP ; break;
-        case SHADEANGLESMAP:  _drawMode = SHADOWLIGHTMAP ; break;
-        case SHADOWLIGHTMAP:  _drawMode = SHADOWANGLESMAP; break;
-        case SHADOWANGLESMAP: _drawMode = PARALLAX       ; break;
+        case SHADELIGHTMAP :  _drawMode = SHADOWLIGHTMAP ; break;
+        case SHADOWLIGHTMAP:  _drawMode = PARALLAX       ; break;
         case PARALLAX :       _drawMode = MORPHOEROSION  ; break;
         case MORPHOEROSION :  _drawMode = MORPHODILATION ; break;
-        case MORPHODILATION :  _drawMode = MERGESHADOW   ; break;
+        case MORPHODILATION : _drawMode = MERGESHADOW    ; break;
         case MERGESHADOW :    _drawMode = SHADING        ; break;
         case SHADING :        _drawMode = CLASSICAL      ; break;
         case CLASSICAL:       _drawMode = HEIGHTMAP      ; break;
@@ -321,15 +306,13 @@ void Viewer::setDrawMode(int d)
         case 2 :  _drawMode = NORMALMAP      ; break;
         case 3 :  _drawMode = SLANTMAP       ; break;
         case 4 :  _drawMode = SHADELIGHTMAP  ; break;
-        case 5 :  _drawMode = SHADEANGLESMAP ; break;
-        case 6 :  _drawMode = SHADOWLIGHTMAP ; break;
-        case 7 :  _drawMode = SHADOWANGLESMAP; break;
-        case 8 :  _drawMode = PARALLAX       ; break;
-        case 9:  _drawMode = MORPHOEROSION  ; break;
-        case 10:  _drawMode = MORPHODILATION ; break;
-        case 11:  _drawMode = MERGESHADOW    ; break;
-        case 12:  _drawMode = SHADING        ; break;
-        case 13 :  _drawMode = CLASSICAL      ; break;
+        case 5 :  _drawMode = SHADOWLIGHTMAP ; break;
+        case 6 :  _drawMode = PARALLAX       ; break;
+        case 7:   _drawMode = MORPHOEROSION  ; break;
+        case 8:   _drawMode = MORPHODILATION ; break;
+        case 9:   _drawMode = MERGESHADOW    ; break;
+        case 10:  _drawMode = SHADING        ; break;
+        case 11:  _drawMode = CLASSICAL      ; break;
         default:  _drawMode = CLASSICAL      ; break;
     }
     update();
@@ -337,20 +320,18 @@ void Viewer::setDrawMode(int d)
 
 void Viewer::previousDrawMode(){
     switch(_drawMode){
-        case HEIGHTMAP:         _drawMode = CLASSICAL      ; break;
-        case EDITHEIGHTMAP:     _drawMode = HEIGHTMAP      ; break;
-        case NORMALMAP:         _drawMode = EDITHEIGHTMAP  ; break;
-        case SLANTMAP :         _drawMode = NORMALMAP      ; break;
-        case SHADELIGHTMAP :    _drawMode = SLANTMAP       ; break;
-        case SHADEANGLESMAP:    _drawMode = SHADELIGHTMAP  ; break;
-        case SHADOWLIGHTMAP:    _drawMode = SHADEANGLESMAP ; break;
-        case SHADOWANGLESMAP:   _drawMode = SHADOWLIGHTMAP ; break;
-        case PARALLAX :         _drawMode = SHADOWANGLESMAP; break;
-        case MORPHOEROSION :    _drawMode = PARALLAX       ; break;
-        case MORPHODILATION :   _drawMode = MORPHOEROSION  ; break;
-        case MERGESHADOW :      _drawMode = MORPHODILATION ; break;
-        case SHADING :          _drawMode = MERGESHADOW    ; break;
-        case CLASSICAL:         _drawMode = SHADING        ; break;
+        case HEIGHTMAP:         _drawMode = CLASSICAL       ; break;
+        case EDITHEIGHTMAP:     _drawMode = HEIGHTMAP       ; break;
+        case NORMALMAP:         _drawMode = EDITHEIGHTMAP   ; break;
+        case SLANTMAP :         _drawMode = NORMALMAP       ; break;
+        case SHADELIGHTMAP :    _drawMode = SLANTMAP        ; break;
+        case SHADOWLIGHTMAP:    _drawMode = SHADELIGHTMAP   ; break;
+        case PARALLAX :         _drawMode = SHADOWLIGHTMAP  ; break;
+        case MORPHOEROSION :    _drawMode = PARALLAX        ; break;
+        case MORPHODILATION :   _drawMode = MORPHOEROSION   ; break;
+        case MERGESHADOW :      _drawMode = MORPHODILATION  ; break;
+        case SHADING :          _drawMode = MERGESHADOW     ; break;
+        case CLASSICAL:         _drawMode = SHADING         ; break;
     }
     update();
 }
@@ -445,14 +426,8 @@ string Viewer::getCurrentDrawMode()
         case SHADELIGHTMAP :
             stringDrawMode = "Shade Light Map";
         break;
-        case SHADEANGLESMAP:
-            stringDrawMode = "Shade Angles Map";
-        break;
         case SHADOWLIGHTMAP :
             stringDrawMode = "Shadow Light Map";
-        break;
-        case SHADOWANGLESMAP:
-            stringDrawMode = "Shadow Angles Map";
         break;
         case PARALLAX :
             stringDrawMode = "Parallax Map";

@@ -58,8 +58,7 @@ SOURCES += \
     src/OpenGl/scene.cpp \
     src/OpenGl/heightmap.cpp \
     src/OpenGl/maps.cpp \
-    src/OpenGl/caller.cpp \
-    src/OpenGl/lighttextures.cpp
+    src/OpenGl/caller.cpp
 
 
 HEADERS += \
@@ -80,8 +79,7 @@ HEADERS += \
     src/OpenGl/scene.h \
     src/OpenGl/heightmap.h \
     src/OpenGl/maps.h \
-    src/OpenGl/caller.h \
-    src/OpenGl/lighttextures.h
+    src/OpenGl/caller.h
 
 DISTFILES += \
     shaders/debug.vert \

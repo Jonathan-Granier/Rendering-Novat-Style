@@ -23,7 +23,6 @@
 
 
 layout(location = 0) out vec4 outBufferDir;
-layout(location = 1) out vec4 outBufferAngles;
 
 in vec2 texCoord;
 
@@ -167,7 +166,5 @@ void main()
 
 
   outBufferDir = newLightDir;
-
-  outBufferAngles = vec4(newYaw,newYaw,newYaw,0.0);
 
 }
