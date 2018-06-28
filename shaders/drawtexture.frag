@@ -1,4 +1,17 @@
+/**
+  Created by Jonathan Granier
+  Shader for draw a texture select by selectTexture
+  Show the value pointed by the mousse.
+
+**/
+
+
+
+
+
 #version 330 core
+
+
 out vec4 FragColor;
 
 in vec2 texCoord;
@@ -8,7 +21,6 @@ uniform sampler2D heightMap;
 uniform sampler2D editHeightMap;
 uniform sampler2D normalMap;
 uniform sampler2D slantMap;
-uniform sampler2D curvatureMap;
 uniform sampler2D shadeLightMap;
 uniform sampler2D shadowLightMap;
 uniform sampler2D parallaxMap;
@@ -24,11 +36,17 @@ uniform float ymax;
 uniform vec2 moussePos;
 /*
   Select the texture to draw :
-  0 - depthMap
-  1 - heightMap
-  2 - normalMap
-  3 - curvatureMap
-  4 - lightMap
+  0 - heightMap
+  1  - editHeightMap
+  2  - normalMap
+  3  - slantMap
+  4  - shadeLightMap
+  5  - shadowLightMap
+  6  - parallaxMap
+  7  - morphoErosionMap
+  8  - morphoDilationMap
+  9  - mergeShadowMap
+  10 - shadingMap
 */
 
 uniform int selectTexture;
@@ -183,8 +201,10 @@ void writeNumber(float number, int min_int_digits, int dec_digits, vec3 num_colo
 #define WriteNumber(number,min_int_digits,dec_digits,number_color) writeNumber(number,min_int_digits,dec_digits,number_color,uv,asciiTex,color)
 #define WriteChar(char,char_color) writeNormalChar(char,char_color,uv,asciiTex,color)
 
+
+// Display the value of a pixel
 void displayVec4(inout vec3 color, vec4 v){
-/**
+/**/
   vec3 fontColor = TURQUOISE;
   vec2 pos = vec2(10,350);
   float scale = 1./50.;
@@ -278,8 +298,5 @@ void main()
       valueDisplay = texture(shadingMap, texCoordDisplay);
     }
     displayVec4(FragColor.xyz,valueDisplay);
-
-    //FragColor = texture(asciiTex, texCoord);
-   // FragColor = vec4(gl_FragCoord.x/1146.0 , gl_FragCoord.y/751.0,0,0);
 
 }

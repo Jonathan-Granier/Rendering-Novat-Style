@@ -1,8 +1,8 @@
-#version 450 core
+#version 330 core
 
 out vec4 FragColor;
 
-in vec2 texcoord;
+in vec2 texCoord;
 uniform sampler2D editHeightMap;
 uniform vec2 resolution;
 uniform float offset;
@@ -33,14 +33,6 @@ vec3 buildPos(float x, float y){
 
 void main()
 {
-        /*
-         10
-      01 11 21
-         12
-
-    */
-
-
 
     /*
            10-20
@@ -50,13 +42,13 @@ void main()
         02-12
 
       */
-    vec3 v11 = buildPos(texcoord.x,texcoord.y);
-    vec3 v10 = buildPos(texcoord.x,texcoord.y-1.0/resolution.y);
-    vec3 v20 = buildPos(texcoord.x+1.0/resolution.x,texcoord.y-1.0/resolution.y);
-    vec3 v01 = buildPos(texcoord.x-1.0/resolution.x,texcoord.y);
-    vec3 v21 = buildPos(texcoord.x+1.0/resolution.x,texcoord.y);
-    vec3 v02 = buildPos(texcoord.x-1.0/resolution.x,texcoord.y+1.0/resolution.y);
-    vec3 v12 = buildPos(texcoord.x,texcoord.y+1.0/resolution.y);
+    vec3 v11 = buildPos(texCoord.x,texCoord.y);
+    vec3 v10 = buildPos(texCoord.x,texCoord.y-1.0/resolution.y);
+    vec3 v20 = buildPos(texCoord.x+1.0/resolution.x,texCoord.y-1.0/resolution.y);
+    vec3 v01 = buildPos(texCoord.x-1.0/resolution.x,texCoord.y);
+    vec3 v21 = buildPos(texCoord.x+1.0/resolution.x,texCoord.y);
+    vec3 v02 = buildPos(texCoord.x-1.0/resolution.x,texCoord.y+1.0/resolution.y);
+    vec3 v12 = buildPos(texCoord.x,texCoord.y+1.0/resolution.y);
 
 
 
@@ -68,16 +60,8 @@ void main()
     normal += computeNormal(v11,v02,v12);
     normal += computeNormal(v11,v01,v02);
     normal += computeNormal(v11,v10,v01);
-/**
-    normal += computeNormal(v11,v10,v01);
-    normal += computeNormal(v11,v21,v10);
-    normal += computeNormal(v11,v12,v21);
-    normal += computeNormal(v11,v01,v12);
-/**/
     normal = normalize(normal);
 
-   // FragColor = vec4(height,height,height,0);
     FragColor = vec4(normal.x,normal.y,-normal.z,0); // For oriente z up .
- // FragColor = vec4(normal.x,normal.z,normal.y,0);
 }
 

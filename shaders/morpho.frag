@@ -1,8 +1,8 @@
-#version 450 core
+#version 330 core
 
 out vec4 FragColor;
 
-in vec2 texcoord;
+in vec2 texCoord;
 uniform vec2 resolution;
 uniform sampler2D shadowMap;
 uniform int operator;
@@ -20,7 +20,7 @@ float morphoFilter(int type){
   vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
   for(int x = min; x <= max; x++){
     for(int y = min ; y <= max; y++){
-      if(texture(shadowMap,texcoord + vec2(x,y)*texelSize).r == type)
+      if(texture(shadowMap,texCoord + vec2(x,y)*texelSize).r == type)
         return type;
     }
   }
@@ -33,7 +33,7 @@ float morphoFilter(int type){
 
 void main()
 {
-    float shadow = texture(shadowMap, texcoord).r;
+    float shadow = texture(shadowMap, texCoord).r;
 
 /**/
     // Erosion

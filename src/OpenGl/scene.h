@@ -162,7 +162,6 @@ private:
 
 
     std::vector<std::shared_ptr<MapsManager>>           _mapsManagers;
-    //std::shared_ptr<Maps>                               _currentMaps;
     std::shared_ptr<GenShaders>                         _genShaders;
     std::shared_ptr<Mesh>                               _mountains;
 

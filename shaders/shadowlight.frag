@@ -1,36 +1,19 @@
 #version 330 core
-
-/*Les question lumière
-  Hauteur
-  Inversion pente
-  Paralax : multi echelle ? Même hauteur ?
-  */
-
 layout(location = 0) out vec4 outBufferDir;
 
 in vec2 texCoord;
 
-
 uniform sampler2D slantMap;
-uniform sampler2D shadowLightMap;
-uniform sampler2D shadowAnglesMap;
 
 uniform vec3 lightPosition;
 uniform float yaw;
 uniform float pitch;
-uniform int lightSelector;
 uniform float threshold;
 uniform bool doEdit;
 
+
 #define PI 3.14159265359
-#define PI2 PI/2.2
-#define PI4 PI/4.0
-float eps = 1e-2;
-
-
-float modulo(float y){
-  return y - 2*PI*floor(y/(2.0 * PI));
-}
+#define PI2 PI/2.0
 
 
 
@@ -38,15 +21,13 @@ float cosTheta(vec2 v1, vec2 v2){
   return dot(v1,v2)/(length(v1) * length(v2));
 }
 
+float modulo(float y){
+  return y - 2*PI*floor(y/(2.0 * PI));
+}
+
+
+
 float smoothTheta(float theta){
-
-
-  if(abs(theta) < threshold){
-    return 1;
-  }
-  if(threshold > PI2){
-    return 0;
-  }
 
   float f = smoothstep(threshold,PI2,abs(theta));
   return -f+1;
@@ -67,34 +48,32 @@ vec4 Rotation3D(in float localYaw,in float localPitch){
 }
 
 
-
-
 vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
   vec2 normL = normalize(l);
-  vec2 slint = normalize(vec2(s.x,-s.y)) ; // Because the light and the curve have not the same Y axis
+  vec2 slant = normalize(vec2(s.x,-s.y)) ; // Because the light and the slant have not the same Y axis
 
-  if(cosTheta(normL,slint) < 0){
-     slint = -slint;
+
+  if(cosTheta(normL,slant) < 0){
+     slant = -slant;
   }
-
-  float normS = s.z;
+  float normS = clamp(s.z,0,1);
 
   if(normS <= 0){
-    slint = normL;
+    slant = normL;
   }
 
 
-  float det = normL.x * slint.y - normL.y* slint.x;
+  float det = normL.x * slant.y - normL.y* slant.x;
   float thetaSign = (det/abs(det));
 
   if(isnan(thetaSign)){
 
     thetaSign = 1;
   }
-  float theta = thetaSign* (acos(cosTheta(normL,slint)));
+  float theta = thetaSign* (acos(cosTheta(normL,slant)));
 
 
-  theta = theta *normS * smoothTheta(theta);
+  theta = theta * smoothTheta(theta)*normS;
   newYaw += theta;
   newYaw = modulo(newYaw);
   return Rotation3D(newYaw,pitch);
@@ -102,14 +81,14 @@ vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
 }
 
 
+
 void main()
 {
   vec4 s = texture(slantMap,texCoord);
   vec4 newLightDir;
-  float newYaw;
 
   vec2 l = lightPosition.xz;
-  newYaw = yaw;
+  float newYaw = yaw;
   if(doEdit)
     newLightDir = computeLight(s,l,newYaw);
   else
@@ -117,4 +96,5 @@ void main()
 
 
   outBufferDir = newLightDir;
+
 }

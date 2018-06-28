@@ -82,10 +82,6 @@ HEADERS += \
     src/OpenGl/caller.h
 
 DISTFILES += \
-    shaders/phong.frag \
-    shaders/phong.vert \
-    shaders/shadowmap.frag \
-    shaders/shadowmap.vert \
     shaders/drawtexture.frag \
     shaders/drawtexture.vert \
     shaders/computelight.vert \

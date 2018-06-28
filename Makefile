@@ -89,11 +89,7 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/maps.o \
 		bin/debug/caller.o \
 		bin/debug/moc_viewer.o
-DIST          = shaders/phong.frag \
-		shaders/phong.vert \
-		shaders/shadowmap.frag \
-		shaders/shadowmap.vert \
-		shaders/drawtexture.frag \
+DIST          = shaders/drawtexture.frag \
 		shaders/drawtexture.vert \
 		shaders/computelight.vert \
 		shaders/computelight.frag \

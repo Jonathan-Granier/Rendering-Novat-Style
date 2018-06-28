@@ -1,66 +1,30 @@
 #version 330 core
-
-/*Les question lumière
-  Hauteur
-  Inversion pente
-  Paralax : multi echelle ? Même hauteur ?
-  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 layout(location = 0) out vec4 outBufferDir;
 
 in vec2 texCoord;
 
-uniform sampler2D curvatureMap;
 uniform sampler2D slantMap;
-uniform sampler2D shadeLightMap;
-uniform sampler2D shadeAnglesMap;
 
 uniform vec3 lightPosition;
 uniform float yaw;
 uniform float pitch;
-uniform int lightSelector;
 uniform float threshold;
 uniform bool doEdit;
 
 
 #define PI 3.14159265359
 #define PI2 PI/2.0
-#define PI4 PI/4.0
-float eps = 1e-2;
+
 
 
 float cosTheta(vec2 v1, vec2 v2){
   return dot(v1,v2)/(length(v1) * length(v2));
 }
 
-
-
 float modulo(float y){
   return y - 2*PI*floor(y/(2.0 * PI));
 }
 
-
-float averageAngle(float y1, float y2){
-   float aveC = (cos(y1)+cos(y2))/2.0;
-   float aveS = (sin(y1)+sin(y2))/2.0;
-   return modulo(atan(aveS,aveC));
-}
 
 
 float smoothTheta(float theta){
@@ -84,62 +48,34 @@ vec4 Rotation3D(in float localYaw,in float localPitch){
 }
 
 
-
-
-float smoothReverse(float dot){
-  float edgeMin = 0.0;
-  float edgeMax = 0.0;
-
-  float s = smoothstep(edgeMin,edgeMax,dot);
-
-  return s*PI;
-
-}
-
-
 vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
   vec2 normL = normalize(l);
-  vec2 slint = normalize(vec2(s.x,-s.y)) ; // Because the light and the curve have not the same Y axis
+  vec2 slant = normalize(vec2(s.x,-s.y)) ; // Because the light and the slant have not the same Y axis
 
 
-  /**/
-  if(cosTheta(normL,slint) < 0){
-     slint = -slint;
-     //return vec4(0,1,0,1);
+  if(cosTheta(normL,slant) < 0){
+     slant = -slant;
   }
-  /**/
-  //slint = normalize(slint);
-
-  /**/
   float normS = clamp(s.z,0,1);
-  /**
-  normS = clamp(sqrt(s.z),0,1);
-  /**
-  normS = smoothstep(0,1,s.z);
-  /**/
+
   if(normS <= 0){
-    slint = normL;
+    slant = normL;
   }
 
 
-  float det = normL.x * slint.y - normL.y* slint.x;
+  float det = normL.x * slant.y - normL.y* slant.x;
   float thetaSign = (det/abs(det));
 
   if(isnan(thetaSign)){
 
     thetaSign = 1;
   }
-  float theta = thetaSign* (acos(cosTheta(normL,slint)));
+  float theta = thetaSign* (acos(cosTheta(normL,slant)));
 
-  //if(isnan((acos(cosTheta(normL,slint))))){
-    //return vec4(1,0,0,0);
-    //thetaSign = 1;rr
-  //}
 
   theta = theta * smoothTheta(theta)*normS;
   newYaw += theta;
   newYaw = modulo(newYaw);
-  //return vec4(theta,0,0,1);
   return Rotation3D(newYaw,pitch);
 
 }
@@ -148,21 +84,15 @@ vec4 computeLight(in vec4 s,in vec2 l, inout float newYaw){
 
 void main()
 {
-  //vec4 c = texture(curvatureMap,  texCoord);
   vec4 s = texture(slantMap,texCoord);
-  //vec2 l = lightPosition.xz;
   vec4 newLightDir;
-  float currentYaw;
-
-
 
   vec2 l = lightPosition.xz;
-  currentYaw = yaw;
+  float newYaw = yaw;
   if(doEdit)
-    newLightDir = computeLight(s,l,currentYaw);
+    newLightDir = computeLight(s,l,newYaw);
   else
     newLightDir = Rotation3D(yaw,pitch);
-  float newYaw = currentYaw;
 
 
   outBufferDir = newLightDir;

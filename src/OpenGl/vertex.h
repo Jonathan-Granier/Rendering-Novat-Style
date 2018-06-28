@@ -71,13 +71,12 @@ public:
      * @param pz : the z of the position.
      */
     Vertex(float px, float py, float pz);
+
     /**
      * @brief test if that is superior to this
      * @param that : a vertex
      * @return true if that > this, else otherwise.
      */
-
-
     bool operator<(const Vertex that) const;
     /**
      * @brief Print the actual vertex.

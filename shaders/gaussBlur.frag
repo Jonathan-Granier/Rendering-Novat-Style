@@ -11,7 +11,7 @@
 
 layout(location = 0) out vec4 outbuff;
 
-in vec2 texcoord;
+in vec2 texCoord;
 
 uniform sampler2D img;
 uniform int direction;
@@ -26,10 +26,10 @@ void main() {
   float fac   = -1.0/(2.0*sigma*sigma);
   float sumW  = 1.0;
   
-  vec4 v = texture(img,texcoord);
+  vec4 v = texture(img,texCoord);
   for(int r=1;r<=halfsize;r+=1) {
-    vec4  left  = texture(img,texcoord-cdir);
-    vec4  right = texture(img,texcoord+cdir);
+    vec4  left  = texture(img,texCoord-cdir);
+    vec4  right = texture(img,texCoord+cdir);
     float w     = exp(fac*float(r*r));
     
     v    += w*(left+right);
@@ -38,6 +38,4 @@ void main() {
   } 
 
   outbuff = v/sumW;
-  float d = sin(texcoord.x*20)*10;
-  //outbuff = vec4(d,d,d,d);
 }

@@ -1,8 +1,8 @@
-#version 450 core
+#version 330 core
 
 out vec4 FragColor;
 
-in vec2 texcoord;
+in vec2 texCoord;
 
 uniform sampler2D normalMap;
 uniform sampler2D shadingMap;
@@ -83,9 +83,8 @@ float hardlight(float blur, float detail , float f){
 
 void main()
 {
-    vec4 n = normalize(vec4(normalMat * texture(normalMap,texcoord).xyz,0));
-    //vec4 l = normalize(mdvMat * normalize(vec4(lightPosition,0)));
-    vec4 l = normalize(mdvMat * normalize(texture(shadeLightMap,texcoord)));
+    vec4 n = normalize(vec4(normalMat * texture(normalMap,texCoord).xyz,0));
+    vec4 l = normalize(mdvMat * normalize(texture(shadeLightMap,texCoord)));
     float Cd;
 
 
@@ -96,21 +95,21 @@ void main()
 
     if(!firstMap && shadeSelector == 0)
     {
-      float pCd = texture(shadingMap,texcoord).r;
+      float pCd = texture(shadingMap,texCoord).r;
       Cd = pCd;
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }
     else if(!firstMap && shadeSelector == 2)
     {
-      float pCd = texture(shadingMap,texcoord).r;
+      float pCd = texture(shadingMap,texCoord).r;
       Cd = overlay(Cd,pCd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }
     else if(!firstMap && shadeSelector == 3)
     {
-      float pCd = texture(shadingMap,texcoord).r;
+      float pCd = texture(shadingMap,texCoord).r;
       Cd =  watercolor(pCd,Cd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;

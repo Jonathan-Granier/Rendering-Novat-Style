@@ -24,7 +24,7 @@
  *      Faire le readme
  *
  * Nettoyage:
- *      Transferet l'info du viewPort afin d'aléger l'appelle des fonctions
+ *      [DONE] Transferet l'info du viewPort afin d'aléger l'appelle des fonctions
  *      [DONE] Enlever shadow map
  *      [DONE] Enlever stack shader ->
  *      faire une fonction pour le lambertien
@@ -41,20 +41,27 @@
  *      Factoriser maps et faire une stack de maps --> voir si possible et plus simple
  *      Gestion Memoire --> verifier les fuites possibles
  *      Verifier le bug texture qu'on avait avec une petite MNT et voir comment le résoudre
- *
- *
+ *      Shader -> Normaliser les axes
+ *      Shader -> verifier les input
+ *      Swith Erosion/Dilatation
  * Recherche :
  *
- *      Multi echelle : Vérifier creation et fusion --> doit respecter la pyraide laplacienne
+ *      Multi echelle : Vérifier creation et fusion --> doit respecter la pyramide laplacienne
  *      Couleur en fonction de l'altitude.
+ *      Voir le fichier recherche si on peut le nettoyer et le rendre plus propre.
  *
  *
  *
+ * Transfert :
+ *      Donner le rapport + soutenance , avec les sources (.tex et schema).
  *
  *
+ * Divers :
+ *      Faire fonctionner sur mon pc pour le rdv avec Renaud , vendredi 6 juillet.
  *
+ *      [DONE] Mail Arthur
  *
- *
+ *      Corriger coquille (un schema + ; et imprimer le rapport )
  *
  *
  *

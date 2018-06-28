@@ -1,16 +1,22 @@
-#version 450 core
+/**
+  Created by Jonathan Granier
+  The seconde part of the Laplacian pyramid , do the difference beetween two heightMap.
+**/
+
+
+#version 330 core
 
 out vec4 FragColor;
 
-in vec2 texcoord;
+in vec2 texCoord;
 uniform sampler2D currentHeightMap;
 uniform sampler2D previousHeightMap;
 uniform bool firstMap;
 
 void main()
 {
-    float currentHeight = texture(currentHeightMap, texcoord).r;
-    float previousHeight = texture(previousHeightMap, texcoord).r;
+    float currentHeight = texture(currentHeightMap, texCoord).r;
+    float previousHeight = texture(previousHeightMap, texCoord).r;
     float height;
     if(firstMap)
       height = currentHeight;

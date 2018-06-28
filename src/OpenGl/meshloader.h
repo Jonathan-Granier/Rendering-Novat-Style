@@ -22,21 +22,6 @@ public:
     MeshLoader();
 
     /**
-     * @brief Load and index a cube from a hard code tab (without normal)
-     * @return a indexed Mesh pointer
-     */
-    static std::shared_ptr<Mesh> cubeFromHardCode();
-
-    static std::shared_ptr<Mesh> axisFromHardCode();
-
-    /**
-     * @brief Load and index a plane from a hard code tab
-     * @return a indexed Mesh pointer
-     */
-    static std::shared_ptr<Mesh> planeFromHardCode();
-
-
-    /**
      * @brief Load and index a unique OBJ from a file
      * @param path : the path of the OBJ
      * @return a indexed Mesh pointer
@@ -48,9 +33,6 @@ public:
      * @return a indexed Mesh pointer
      */
     static std::shared_ptr<Mesh> vertexFromMNT(const std::vector<std::string> &filepaths);
-
-
- //   Texture* textureFromMNT(const std::vector<std::string> &filepaths,std::string name);
 
 
     static std::shared_ptr<Texture> normalFromHeightMap(std::vector<float> data, int width, int height, float offset);
