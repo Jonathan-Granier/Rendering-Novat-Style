@@ -20,14 +20,7 @@ class Scene
 {
 public:
 
-/*
-    enum TYPE_MESH {
-                    LOADED,
-                    GAUSSLOADED,
-                    GENERATED,
-                    GAUSSGENERATED,
-    };
-*/
+
 
 
     /**
@@ -198,9 +191,8 @@ private:
     int _colorSelector;
     float _pitchLightShadow;
 
-    int _widthViewport;
-    int _heightViewport;
 
+    std::shared_ptr<ViewportSize> _viewportSize;
     bool _reloadEditHeightMap;
 
 

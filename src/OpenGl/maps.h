@@ -13,8 +13,6 @@ struct GenShaders{
     std::shared_ptr<Shader>         slantShader;
     std::shared_ptr<Shader>         editHeightMapShader;
     std::shared_ptr<Shader>         normalMapShader;
-    std::shared_ptr<Shader>         curvatureShader;
-    std::shared_ptr<Shader>         correctCurvatureShader;
     std::shared_ptr<Shader>         shadeLightShader;
     std::shared_ptr<Shader>         shadowLightShader;
     std::shared_ptr<Shader>         parallaxShader;
@@ -24,11 +22,16 @@ struct GenShaders{
 };
 
 
+struct ViewportSize{
+    int width;
+    int height;
+};
+
+
 class Maps
 {
 public:
-    Maps(std::shared_ptr<GenShaders> shaders, std::shared_ptr<Texture> heightMap, float ymin, float ymax);
-    Maps(std::shared_ptr<GenShaders> shaders);
+    Maps(std::shared_ptr<GenShaders> shaders,std::shared_ptr<ViewportSize> viewportSize);
 
 
 
@@ -36,20 +39,20 @@ public:
     void create(int width, int height, float ymin, float ymax);
     void create(std::shared_ptr<Texture> heightMap, int width, int height, float ymin, float ymax);
 
-    void generateHeightMap(int widthViewport, int heightViewport, std::shared_ptr<Texture> refHeightMap);
-    void generateEditHeightMap(int widthViewport, int heightViewport, std::shared_ptr<Texture> previousHeightMap, bool firstMap);
-    void generateNormalMap(int widthViewport, int heightViewport);
-    void generateSlantMap(int widthViewport,int heightViewport);
+    void generateHeightMap(std::shared_ptr<Texture> refHeightMap);
+    void generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool firstMap);
+    void generateNormalMap();
+    void generateSlantMap();
 
-    void generateShadeLightMap(int widthViewport, int heightViewport, glm::vec3 lightPos, float pitch , float yaw, bool doEdit);
+    void generateShadeLightMap(glm::vec3 lightPos, float pitch , float yaw, bool doEdit);
     //void generateShadeLightMap(int widthViewport, int heightViewport, std::shared_ptr<LightTextures> previousShadeLightMap, float pitch, bool doMerge,bool none);
-    void generateShadowLightMap(int widthViewport, int heightViewport, glm::vec3 lightPos, float pitch, float yaw, bool doEdit);
+    void generateShadowLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit);
     //void generateShadowLightMap(int widthViewport, int heightViewport, std::shared_ptr<LightTextures> previousShadowLightMap, float pitch);
-    void generateParallaxMap(int widthViewport, int heightViewport,glm::vec3 lightPos);
-    void generateMorphoErosionMap(int widthViewport, int heightViewport, bool doMorpho);
-    void generateMorphoDilationMap(int widthViewport, int heightViewport,bool doMorpho);
-    void generateMergeShadowMap(int widthViewport, int heightViewport, std::shared_ptr<Texture> previousShadowMap, bool firstMap);
-    void generateShadingMap(int widthViewport, int heightViewport, glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, std::shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector);
+    void generateParallaxMap(glm::vec3 lightPos);
+    void generateMorphoErosionMap(bool doMorpho);
+    void generateMorphoDilationMap(bool doMorpho);
+    void generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool firstMap);
+    void generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, std::shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector);
 
 
     void drawHeightMap(std::shared_ptr<Shader> shader);
@@ -114,13 +117,16 @@ private :
     std::shared_ptr<GeneratedTexture>   _editHeightMap;
     std::shared_ptr<GeneratedTexture>   _normalMap;
     std::shared_ptr<GeneratedTexture>   _slantMap;
-    std::shared_ptr<GeneratedTexture>      _shadeLightMap;
-    std::shared_ptr<GeneratedTexture>      _shadowLightMap;
+    std::shared_ptr<GeneratedTexture>   _shadeLightMap;
+    std::shared_ptr<GeneratedTexture>   _shadowLightMap;
     std::shared_ptr<GeneratedTexture>   _parallaxMap;
     std::shared_ptr<GeneratedTexture>   _morphoErosionMap;
     std::shared_ptr<GeneratedTexture>   _morphoDilationMap;
     std::shared_ptr<GeneratedTexture>   _mergeShadowMap;
     std::shared_ptr<GeneratedTexture>   _shadingMap;
+
+
+    std::shared_ptr<ViewportSize>       _viewportSize;
 
 
     int _width;

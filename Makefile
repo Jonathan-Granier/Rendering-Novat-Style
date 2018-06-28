@@ -89,25 +89,16 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/maps.o \
 		bin/debug/caller.o \
 		bin/debug/moc_viewer.o
-DIST          = shaders/debug.vert \
-		shaders/debug.frag \
-		shaders/phong.frag \
+DIST          = shaders/phong.frag \
 		shaders/phong.vert \
-		shaders/phongspec.frag \
-		shaders/phongspec.vert \
 		shaders/shadowmap.frag \
 		shaders/shadowmap.vert \
-		shaders/curvature.vert \
-		shaders/curvature.frag \
 		shaders/drawtexture.frag \
 		shaders/drawtexture.vert \
-		shaders/curvaturecyril.frag \
 		shaders/computelight.vert \
 		shaders/computelight.frag \
 		shaders/gaussBlur.frag \
 		shaders/gaussBlur.vert \
-		shaders/correctcurvature.frag \
-		shaders/correctcurvature.vert \
 		shaders/slant.frag \
 		shaders/slant.vert \
 		shaders/parallax.frag \

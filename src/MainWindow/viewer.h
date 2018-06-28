@@ -118,17 +118,6 @@ public:
      */
     void fixeCamAndLight();
 
-    /**
-     * @brief Switch to the next shader.
-     * @return The current name of the shader.
-     */
-   // std::string nextShader();
-
-    /**
-     * @brief Switch to the previous shader.
-     * @return The currant name of the shader.
-     */
-   // std::string previousShader();
 
 
     void previousDrawMode();
@@ -155,22 +144,7 @@ public:
     std::string getCurrentDrawMode();
 
 
-/*
-    float getSigma() const;
-    void setSigma(float sigma);
 
-    void nextLight();
-    void previousLight();
-    int getLightSelector() const;
-
-    float getLightThreshold();
-    void setLightThreshold(float lightThreshold);
-
-
-
-    void setGaussBlurFactor(int f);
-    int getGaussBlurFactor();
-*/
 
     void setGaussBlurFactor(unsigned int id, float g);
     void setLightThreshold(unsigned int id, float t);
@@ -217,7 +191,6 @@ private:
 
     std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */
     std::shared_ptr<Shader>     _drawTextureShader;
-    //std::shared_ptr<ShadowMap>  _shadowMap;
 
     std::shared_ptr<Scene>      _scene;            /** < A Scene pointer.  */
     std::shared_ptr<Camera>     _cam;              /** < A Camera pointer. */

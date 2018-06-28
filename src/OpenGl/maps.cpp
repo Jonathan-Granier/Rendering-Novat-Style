@@ -3,12 +3,13 @@
 #include <iostream>
 using namespace std;
 
-Maps::Maps(shared_ptr<GenShaders> shaders):
+Maps::Maps(shared_ptr<GenShaders> shaders, std::shared_ptr<ViewportSize> viewportSize):
     _gaussBlurFactor(3),
     _lightThreshold(M_PI/3.0)
 {
     _width = 1024;
     _height = 1024;
+    _viewportSize = viewportSize;
     initialize(shaders);
 }
 
@@ -39,33 +40,33 @@ void Maps::create(shared_ptr<Texture> heightMap,int width, int height,float ymin
     _factorIsChange = false;
 }
 
-void Maps::generateHeightMap(int widthViewport,int heightViewport,std::shared_ptr<Texture> refHeightMap){
+void Maps::generateHeightMap(std::shared_ptr<Texture> refHeightMap){
     if(!_isGenerate && _factorIsChange)
     {
         _gaussBlurHMap->startGenerate();
         _gaussBlurHMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
         _gaussBlurHMap->generatorShader()->setInt("direction",0);
         refHeightMap->sendToShader(_gaussBlurHMap->generatorShader(),"img");
-        _gaussBlurHMap->generate(widthViewport,heightViewport);
+        _gaussBlurHMap->generate(_viewportSize->width,_viewportSize->height);
 
 
         _gaussBlurVMap->startGenerate();
         _gaussBlurVMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
         _gaussBlurVMap->generatorShader()->setInt("direction",1);
         _gaussBlurHMap->sendToShader(_gaussBlurVMap->generatorShader(),"img");
-        _gaussBlurVMap->generate(widthViewport,heightViewport);
+        _gaussBlurVMap->generate(_viewportSize->width,_viewportSize->height);
 
         _heightMap = _gaussBlurVMap;
         _heightMap->setMeshOffset(refHeightMap->meshOffset());
-        generateNormalMap(widthViewport,heightViewport);
-        generateSlantMap(widthViewport,heightViewport);
+        generateNormalMap();
+        generateSlantMap();
         _isGenerate = true;
         _factorIsChange = false;
     }
 }
 
 
-void Maps::generateEditHeightMap(int widthViewport,int heightViewport,std::shared_ptr<Texture> previousHeightMap,bool firstMap){
+void Maps::generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool firstMap){
 
     _editHeightMap->startGenerate();
     _editHeightMap->generatorShader()->setBool("firstMap",firstMap);
@@ -76,34 +77,34 @@ void Maps::generateEditHeightMap(int widthViewport,int heightViewport,std::share
         _yminEdit = -1000;
         //TODO arbitrary , need to find a better solution (Without check all the values).
     }
-    _editHeightMap->generate(widthViewport,heightViewport);
+    _editHeightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 
-void Maps::generateNormalMap(int widthViewport,int heightViewport){
+void Maps::generateNormalMap(){
 
     //_normalMap = MeshLoader::normalFromHeightMap(_heightMap->getDataRED(),_width,_height,_heightMap->meshOffset());
     _normalMap->startGenerate();
     _normalMap->generatorShader()->setVec2("resolution",_width,_height);
     _normalMap->generatorShader()->setFloat("offset",_heightMap->meshOffset());
     _editHeightMap->sendToShader(_normalMap->generatorShader());
-    _normalMap->generate(widthViewport,heightViewport);
+    _normalMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 
 
 
-void Maps::generateSlantMap(int widthViewport,int heightViewport)
+void Maps::generateSlantMap()
 {
     _slantMap->startGenerate();
     _slantMap->generatorShader()->setVec2("resolution",_width,_height);
     _slantMap->generatorShader()->setFloat("offset",_heightMap->meshOffset());
     _heightMap->sendToShader(_slantMap->generatorShader());
     _normalMap->sendToShader(_slantMap->generatorShader());
-    _slantMap->generate(widthViewport,heightViewport);
+    _slantMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateShadeLightMap(int widthViewport, int heightViewport, glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
+void Maps::generateShadeLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
 {
     _shadeLightMap->startGenerate();
     _shadeLightMap->generatorShader()->setVec3("lightPosition",lightPos);
@@ -113,10 +114,10 @@ void Maps::generateShadeLightMap(int widthViewport, int heightViewport, glm::vec
     _shadeLightMap->generatorShader()->setFloat("threshold",_lightThreshold);
     _shadeLightMap->generatorShader()->setBool("doEdit",doEdit);
     _slantMap->sendToShader(_shadeLightMap->generatorShader());
-    _shadeLightMap->generate(widthViewport,heightViewport);
+    _shadeLightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateShadowLightMap(int widthViewport, int heightViewport, glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
+void Maps::generateShadowLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
 {
     _shadowLightMap->startGenerate();
     _shadowLightMap->generatorShader()->setVec3("lightPosition",lightPos);
@@ -126,10 +127,10 @@ void Maps::generateShadowLightMap(int widthViewport, int heightViewport, glm::ve
     _shadowLightMap->generatorShader()->setFloat("threshold",_lightThreshold);
     _shadowLightMap->generatorShader()->setBool("doEdit",doEdit);
     _slantMap->sendToShader(_shadowLightMap->generatorShader());
-    _shadowLightMap->generate(widthViewport,heightViewport);
+    _shadowLightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateParallaxMap(int widthViewport, int heightViewport,glm::vec3 lightPos)
+void Maps::generateParallaxMap(glm::vec3 lightPos)
 {
     _parallaxMap->startGenerate();
     _parallaxMap->generatorShader()->setFloat("ymin",_yminEdit);
@@ -139,42 +140,42 @@ void Maps::generateParallaxMap(int widthViewport, int heightViewport,glm::vec3 l
     _parallaxMap->generatorShader()->setVec3("lightPosition",lightPos);
     _editHeightMap->sendToShader(_parallaxMap->generatorShader(),"heightMap");
     _shadowLightMap->sendToShader(_parallaxMap->generatorShader());
-    _parallaxMap->generate(widthViewport,heightViewport);
+    _parallaxMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateMorphoErosionMap(int widthViewport, int heightViewport,bool doMorpho)
+void Maps::generateMorphoErosionMap(bool doMorpho)
 {
     _morphoErosionMap->startGenerate();
     _morphoErosionMap->generatorShader()->setVec2("resolution",_width,_height);
     _morphoErosionMap->generatorShader()->setInt("operator",0);
     _morphoDilationMap->generatorShader()->setBool("doMorpho",doMorpho);
     _parallaxMap->sendToShader(_morphoErosionMap->generatorShader(),"shadowMap");
-    _morphoErosionMap->generate(widthViewport,heightViewport);
+    _morphoErosionMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateMorphoDilationMap(int widthViewport, int heightViewport, bool doMorpho)
+void Maps::generateMorphoDilationMap(bool doMorpho)
 {
     _morphoDilationMap->startGenerate();
     _morphoDilationMap->generatorShader()->setVec2("resolution",_width,_height);
     _morphoErosionMap->generatorShader()->setInt("operator",1);
     _morphoErosionMap->generatorShader()->setBool("doMorpho",doMorpho);
     _morphoErosionMap->sendToShader(_morphoDilationMap->generatorShader(),"shadowMap");
-    _morphoDilationMap->generate(widthViewport,heightViewport);
+    _morphoDilationMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 
 
-void Maps::generateMergeShadowMap(int widthViewport, int heightViewport, std::shared_ptr<Texture> previousShadowMap, bool firstMap)
+void Maps::generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool firstMap)
 {
     _mergeShadowMap->startGenerate();
     _morphoDilationMap->sendToShader(_mergeShadowMap->generatorShader(),"currentShadowMap");
     _mergeShadowMap->generatorShader()->setBool("firstMap",firstMap);
     if(!firstMap)
         previousShadowMap->sendToShader(_mergeShadowMap->generatorShader(),"previousShadowMap");
-    _mergeShadowMap->generate(widthViewport,heightViewport);
+    _mergeShadowMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateShadingMap(int widthViewport, int heightViewport, glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, shared_ptr<Texture> previousShadingMap,bool firstMap, int shadeSelector)
+void Maps::generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector)
 {
     _shadingMap->startGenerate();
     _shadingMap->generatorShader()->setMat4("mdvMat",mdvMat);
@@ -186,7 +187,7 @@ void Maps::generateShadingMap(int widthViewport, int heightViewport, glm::mat4 m
     _shadeLightMap->sendToShader(_shadingMap->generatorShader());
     if(!firstMap)
         previousShadingMap->sendToShader(_shadingMap->generatorShader());
-    _shadingMap->generate(widthViewport,heightViewport);
+    _shadingMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 void Maps::drawHeightMap(shared_ptr<Shader> shader){

@@ -54,7 +54,7 @@ void Viewer::initializeGL(){
 
     // init OpenGL settings
     glEnable(GL_MULTISAMPLE);
-    glClearColor(0.345f, 0.647f, 0.827f, 1.0f); //  Bleu denim
+    glClearColor(0.345f, 0.647f, 0.827f, 1.0f); // Cyan
     //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -62,7 +62,6 @@ void Viewer::initializeGL(){
 
 
 
-    //loadScene();
     if(_needInitializeScene){ // I don't know why but i need to reInitialize the OpenGl context . I have probleme with meshLoader.
         _scene  = make_shared<Scene>(width(),height());
         _needInitializeScene = false;

@@ -19,10 +19,13 @@ Scene::Scene(int widthViewport,int heightViewport) :
     _doShadowMorpo(true),
     _shadeSelector(3),
     _colorSelector(0),
-    _pitchLightShadow(M_PI/4.0),
-    _widthViewport(widthViewport),
-    _heightViewport(heightViewport)
+    _pitchLightShadow(M_PI/4.0)
+
 {
+    _viewportSize = make_shared<ViewportSize>();
+    _viewportSize->width = widthViewport;
+    _viewportSize->height = heightViewport;
+
     _reloadEditHeightMap = true;
     initializeGenShader();
     initializeTexture();
@@ -127,7 +130,7 @@ void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 void Scene::generateGaussHeightMap(){
     for(shared_ptr<MapsManager> m:_mapsManagers){
         if(m->ID != 0){
-            m->maps->generateHeightMap(_widthViewport,_heightViewport,_mapsManagers[0]->maps->getHeightMap());
+            m->maps->generateHeightMap(_mapsManagers[0]->maps->getHeightMap());
         }
     }
 }
@@ -141,9 +144,9 @@ void Scene::generateEditHeightAndNormalMap(){
     if(_reloadEditHeightMap){
         for(int i = _mapsManagers.size()-1; i >=0 ; i--){
             if(_mapsManagers[i]->enabled){
-                _mapsManagers[i]->maps->generateEditHeightMap(_widthViewport,_heightViewport,previousHeightMap,firstMap);
+                _mapsManagers[i]->maps->generateEditHeightMap(previousHeightMap,firstMap);
                 firstMap = false;
-                _mapsManagers[i]->maps->generateNormalMap(_widthViewport,_heightViewport);
+                _mapsManagers[i]->maps->generateNormalMap();
                 previousHeightMap = _mapsManagers[i]->maps->getEditHeightMap();
             }
         }
@@ -163,19 +166,19 @@ void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalM
 
     for(i=_mapsManagers.size()-1; i>=0;i--){
         if(_mapsManagers[i]->enabled){
-            _mapsManagers[i]->maps->generateNormalMap(_widthViewport,_heightViewport);
-            _mapsManagers[i]->maps->generateSlantMap(_widthViewport,_heightViewport);
+            _mapsManagers[i]->maps->generateNormalMap();
+            _mapsManagers[i]->maps->generateSlantMap();
 
-            _mapsManagers[i]->maps->generateShadeLightMap(_widthViewport,_heightViewport,lightPos,pitch,yaw,_doEditShadeLightDir);
-            _mapsManagers[i]->maps->generateShadowLightMap(_widthViewport,_heightViewport,lightPos,_pitchLightShadow,yaw,_doEditShadowLightDir);
+            _mapsManagers[i]->maps->generateShadeLightMap(lightPos,pitch,yaw,_doEditShadeLightDir);
+            _mapsManagers[i]->maps->generateShadowLightMap(lightPos,_pitchLightShadow,yaw,_doEditShadowLightDir);
             if(_doShadow){
-                _mapsManagers[i]->maps->generateParallaxMap(_widthViewport,_heightViewport,lightPos);
-                _mapsManagers[i]->maps->generateMorphoErosionMap(_widthViewport,_heightViewport,_doShadowMorpo);
-                _mapsManagers[i]->maps->generateMorphoDilationMap(_widthViewport,_heightViewport,_doShadowMorpo);
-                _mapsManagers[i]->maps->generateMergeShadowMap(_widthViewport,_heightViewport,previousShadowMap,firstMap);
+                _mapsManagers[i]->maps->generateParallaxMap(lightPos);
+                _mapsManagers[i]->maps->generateMorphoErosionMap(_doShadowMorpo);
+                _mapsManagers[i]->maps->generateMorphoDilationMap(_doShadowMorpo);
+                _mapsManagers[i]->maps->generateMergeShadowMap(previousShadowMap,firstMap);
                 previousShadowMap      = _mapsManagers[i]->maps->getMorphoDilationMap();
             }
-            _mapsManagers[i]->maps->generateShadingMap(_widthViewport,_heightViewport,mdvMat,normalMat,lightPos,previousShadingMap,firstMap,_shadeSelector);
+            _mapsManagers[i]->maps->generateShadingMap(mdvMat,normalMat,lightPos,previousShadingMap,firstMap,_shadeSelector);
             firstMap = false;
             previousShadingMap     = _mapsManagers[i]->maps->getShadingMap();
         }
@@ -188,8 +191,6 @@ void Scene::reloadGenerateTexturesShader(){
     _genShaders->editHeightMapShader->reload();
     _genShaders->normalMapShader->reload();
     _genShaders->slantShader->reload();
-    _genShaders->curvatureShader->reload();
-    _genShaders->correctCurvatureShader->reload();
     _genShaders->shadeLightShader->reload();
     _genShaders->shadowLightShader->reload();
     _genShaders->gaussBlurShader->reload();
@@ -392,8 +393,6 @@ void Scene::initializeGenShader(){
     _genShaders->editHeightMapShader        = make_shared<Shader>("shaders/editheightmap.vert","shaders/editheightmap.frag");
     _genShaders->normalMapShader            = make_shared<Shader>("shaders/normalmap.vert","shaders/normalmap.frag");
     _genShaders->slantShader                = make_shared<Shader>("shaders/slant.vert","shaders/slant.frag");
-    _genShaders->curvatureShader            = make_shared<Shader>("shaders/curvature.vert","shaders/curvature.frag");
-    _genShaders->correctCurvatureShader     = make_shared<Shader>("shaders/correctcurvature.vert","shaders/correctcurvature.frag");
     _genShaders->shadeLightShader           = make_shared<Shader>("shaders/shadelight.vert","shaders/shadelight.frag");
     _genShaders->shadowLightShader          = make_shared<Shader>("shaders/shadowlight.vert","shaders/shadowlight.frag");
     _genShaders->gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
@@ -426,7 +425,7 @@ shared_ptr<Texture> Scene::computeGenHeightMap(){
     HeightMap heightMap = HeightMap("heightMap",1024,1024);
     heightMap.initialize();
     heightMap.startGenerate();
-    vector<float> data = heightMap.generate(_widthViewport,_heightViewport);
+    vector<float> data = heightMap.generate(_viewportSize->width,_viewportSize->height);
     return make_shared<LoadTexture>("heightMap", data,GL_R32F,   GL_RED,1024 ,1024);
 }
 
@@ -477,7 +476,7 @@ void Scene::printMapsManagers(){
 
 void Scene::initStackMaps(){
     for(int i=0 ; i < 10 ; i++){
-        std::shared_ptr<Maps> m =  make_shared<Maps>(_genShaders);
+        std::shared_ptr<Maps> m =  make_shared<Maps>(_genShaders,_viewportSize);
         _supplyMaps.push_back(m);
     }
 }
