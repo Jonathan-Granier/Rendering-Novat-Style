@@ -36,7 +36,6 @@ void main()
     texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
 
     lightDir =  mdvMat * normalize(vec4(texture(shadeLightMap,texCoord)));
-    //lightDir = mdvMat * normalize(vec4(lightPosition,1.0) - position);
     normal = normalMat * aNormal;
 
     gl_Position = projMat * mdvMat * modelMat * position;

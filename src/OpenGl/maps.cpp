@@ -66,16 +66,16 @@ void Maps::generateHeightMap(std::shared_ptr<Texture> refHeightMap){
 }
 
 
-void Maps::generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool firstMap){
+void Maps::generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool lastMap){
 
     _editHeightMap->startGenerate();
-    _editHeightMap->generatorShader()->setBool("firstMap",firstMap);
+    _editHeightMap->generatorShader()->setBool("lastMap",lastMap);
     _heightMap->sendToShader(_editHeightMap->generatorShader(),"currentHeightMap");
-    if(!firstMap){
+    if(!lastMap){
         previousHeightMap->sendToShader(_editHeightMap->generatorShader(),"previousHeightMap");
         _ymaxEdit = 1000;
         _yminEdit = -1000;
-        //TODO arbitrary , need to find a better solution (Without check all the values).
+        //Arbitrary , need to find a better solution (Without check all the values).
     }
     _editHeightMap->generate(_viewportSize->width,_viewportSize->height);
 }
@@ -165,12 +165,12 @@ void Maps::generateMorphoDilationMap(bool doMorpho)
 
 
 
-void Maps::generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool firstMap)
+void Maps::generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool lastMap)
 {
     _mergeShadowMap->startGenerate();
     _morphoDilationMap->sendToShader(_mergeShadowMap->generatorShader(),"currentShadowMap");
-    _mergeShadowMap->generatorShader()->setBool("firstMap",firstMap);
-    if(!firstMap)
+    _mergeShadowMap->generatorShader()->setBool("firstMap",lastMap);
+    if(!lastMap)
         previousShadowMap->sendToShader(_mergeShadowMap->generatorShader(),"previousShadowMap");
     _mergeShadowMap->generate(_viewportSize->width,_viewportSize->height);
 }
@@ -213,19 +213,17 @@ void Maps::drawMergeShadowMap(std::shared_ptr<Shader> shader){   _mergeShadowMap
 void Maps::drawShadingMap(std::shared_ptr<Shader> shader){       _shadingMap->draw(shader);}
 
 
-
-
-
-void Maps::sendEditHeightMapToShader(std::shared_ptr<Shader> shader){       _editHeightMap->sendToShader(shader) ;}
-void Maps::sendNormalMapToShader(std::shared_ptr<Shader> shader){           _normalMap->sendToShader(shader)     ;}
-void Maps::sendShadeLightMapToShader(std::shared_ptr<Shader> shader){       _shadeLightMap->sendToShader(shader) ;}
-void Maps::sendShadowLightMapToShader(std::shared_ptr<Shader> shader){      _shadowLightMap->sendToShader(shader);}
-void Maps::sendParallaxMap(std::shared_ptr<Shader> shader){                 _parallaxMap->sendToShader(shader)   ;}
-
-void Maps::sendMorphoErosionMap(std::shared_ptr<Shader> shader){            _morphoErosionMap->sendToShader(shader);}
+void Maps::sendHeightMapToShader(std::shared_ptr<Shader> shader){           _heightMap->sendToShader(shader)        ;}
+void Maps::sendEditHeightMapToShader(std::shared_ptr<Shader> shader){       _editHeightMap->sendToShader(shader)    ;}
+void Maps::sendNormalMapToShader(std::shared_ptr<Shader> shader){           _normalMap->sendToShader(shader)        ;}
+void Maps::sendSlantMapToShader(std::shared_ptr<Shader> shader){            _slantMap->sendToShader(shader)         ;}
+void Maps::sendShadeLightMapToShader(std::shared_ptr<Shader> shader){       _shadeLightMap->sendToShader(shader)    ;}
+void Maps::sendShadowLightMapToShader(std::shared_ptr<Shader> shader){      _shadowLightMap->sendToShader(shader)   ;}
+void Maps::sendParallaxMap(std::shared_ptr<Shader> shader){                 _parallaxMap->sendToShader(shader)      ;}
+void Maps::sendMorphoErosionMap(std::shared_ptr<Shader> shader){            _morphoErosionMap->sendToShader(shader) ;}
 void Maps::sendMorphoDilationMap(std::shared_ptr<Shader> shader){           _morphoDilationMap->sendToShader(shader);}
-void Maps::sendMergeShadowMap(std::shared_ptr<Shader> shader){              _mergeShadowMap->sendToShader(shader);}
-void Maps::sendShadingMap(std::shared_ptr<Shader> shader){                  _shadingMap->sendToShader(shader)    ;}
+void Maps::sendMergeShadowMap(std::shared_ptr<Shader> shader){              _mergeShadowMap->sendToShader(shader)   ;}
+void Maps::sendShadingMap(std::shared_ptr<Shader> shader){                  _shadingMap->sendToShader(shader)       ;}
 
 
 

@@ -21,14 +21,24 @@ uniform sampler2D mergeShadowMap;
 uniform sampler2D shadingMap;
 uniform sampler2D colorMapTex;
 uniform sampler2D celShadingTex;
+uniform sampler2D heightMap;
+
 uniform vec4      plainColor;
 uniform vec4      waterColor;
 uniform int       colorSelector;
+uniform float     ymax;
+uniform float     ymin;
 
 
+/*-------------------------------------
+  SHADOW
+    Compute the value of shadow of the current pixel.
 
-// return value of shadow beetween [0,1] with antialiasing
-float shadow(){
+  Output
+    value of shadow between 0 and 1 with antialiasing
+
+*/
+  float shadow(){
   int max = 1;
   int min = -max;
 
@@ -45,8 +55,17 @@ float shadow(){
 
 }
 
-/* watercolor function  --> show report for more information (p. 21-22) or the paper watercolor by [Bousseau et al].
- TLDR : just a overlay function that mix 2 value.
+/*-------------------------------------
+  WATERCOLOR
+  Show report for more information (p. 21-22) or the paper watercolor by [Bousseau et al].
+  TLDR : just a overlay function that mix 2 value.
+
+  Input
+    vec4 color : a constante color.
+    float density : a value between 0 and 1.
+
+  Output
+    vec3 : a color.
 */
 vec4 watercolor(vec4 color,float density ){
   float d = density;
@@ -55,14 +74,24 @@ vec4 watercolor(vec4 color,float density ){
   return c-(c-c*c)*((1-2*d));
 }
 
+/*-------------------------------------
+  HSV2RGB
+  Convert a hsv value to a rgb value
+  Input
+    vec3 hsv :
+      h angle in degrees
+      s a value between 0 and 1
+      v a value between 0 and 1
 
+
+  Output
+    vec3 : rgb value between 0 and 1.
+*/
 vec3 hsv2rgb(vec3 hsv)
 {
     float      hh, p, q, t, ff;
     int        i;
     vec3         rgb;
-
-
 
     if(hsv.y <= 0.0) {
         rgb.r = hsv.y;
@@ -73,7 +102,7 @@ vec3 hsv2rgb(vec3 hsv)
     hh = hsv.x;
     if(hh >= 360.0) hh = 0.0;
     hh /= 60.0;
-    i = hh;
+    i = int(hh);
     ff = hh - i;
     p = hsv.z * (1.0 - hsv.y);
     q = hsv.z * (1.0 - (hsv.y * ff));
@@ -117,7 +146,34 @@ vec3 hsv2rgb(vec3 hsv)
 }
 
 
-vec3 xtoon(float cd){
+/*-------------------------------------
+  Color with a xtoon , scale on shading (cd) and current height.
+
+  h between 220 - 190 scale on height
+  s fixe : 0.6
+  v between 0.5 - 1.0 scale on shading
+
+  Input
+    float cd : shading value
+
+  Output
+    vec4 : a color.
+*/
+
+
+vec4 xtoon(float cd){
+  float height = texture(heightMap,texCoord).r;
+  height = (height - ymin)/(ymax-ymin);
+
+  vec3 hsv;
+  hsv.x = 220.0 - 30.0*height;
+  hsv.y = 0.6;
+  hsv.z = 0.5 + cd*0.5;
+
+
+  //hsv = vec3(200,0.6,0.7);
+  vec3 rgb = hsv2rgb(hsv);
+  return vec4(rgb,1);
 
 }
 
@@ -159,6 +215,7 @@ void main()
   }
 
 
+  //FragColor = xtoon(Cd);
   FragColor = color;
 }
 

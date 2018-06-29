@@ -171,7 +171,6 @@ private:
 
 
     std::shared_ptr<Mesh>                               _meshSphere;
-    std::vector<std::shared_ptr<LoadTexture>>           _textures;
     std::shared_ptr<LoadTexture>                        _asciiTex;
     std::shared_ptr<LoadTexture>                        _celShadingTex;
     std::shared_ptr<LoadTexture>                        _colorMapTex;

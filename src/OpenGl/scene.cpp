@@ -79,10 +79,13 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
     _mapsManagers[_currentIndex]->maps->sendNormalMapToShader(shader);
     _mapsManagers[_currentIndex]->maps->sendShadeLightMapToShader(shader);
     _mapsManagers[_currentIndex]->maps->sendMergeShadowMap(shader);
+    _mapsManagers[_currentIndex]->maps->sendHeightMapToShader(shader);
+    shader->setFloat("ymax",_mountains->getYmax());
+    shader->setFloat("ymin",_mountains->getYmin());
 
-    for(unsigned int i=0;i<_textures.size();i++){
-        _textures[i]->sendToShader(shader);
-    }
+    cout << _mountains->getYmax() << endl;
+    cout << _mountains->getYmin() << endl;
+
     _colorMapTex->sendToShader(shader);
     _celShadingTex->sendToShader(shader);
 
@@ -128,24 +131,31 @@ void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 
 
 void Scene::generateGaussHeightMap(){
-    for(shared_ptr<MapsManager> m:_mapsManagers){
-        if(m->ID != 0){
-            m->maps->generateHeightMap(_mapsManagers[0]->maps->getHeightMap());
+    bool firstMap = true;
+    unsigned int previousI = 0;
+    for(unsigned int i = 0; i < _mapsManagers.size(); i++)
+    {
+        if(_mapsManagers[i]->enabled){
+            if(!firstMap)
+                _mapsManagers[i]->maps->generateHeightMap(_mapsManagers[previousI]->maps->getHeightMap());
+            previousI = i;
+            firstMap = false;
         }
     }
+
 }
 
 
 void Scene::generateEditHeightAndNormalMap(){
 
 
-    bool firstMap = true;
+    bool lastMap = true;
     shared_ptr<Texture> previousHeightMap;
     if(_reloadEditHeightMap){
         for(int i = _mapsManagers.size()-1; i >=0 ; i--){
             if(_mapsManagers[i]->enabled){
-                _mapsManagers[i]->maps->generateEditHeightMap(previousHeightMap,firstMap);
-                firstMap = false;
+                _mapsManagers[i]->maps->generateEditHeightMap(previousHeightMap,lastMap);
+                lastMap = false;
                 _mapsManagers[i]->maps->generateNormalMap();
                 previousHeightMap = _mapsManagers[i]->maps->getEditHeightMap();
             }
@@ -432,23 +442,9 @@ shared_ptr<Texture> Scene::computeGenHeightMap(){
 
 
 void Scene::initializeTexture(){
-    shared_ptr<LoadTexture> texture1 = make_shared<LoadTexture>("container", "textures/container.jpg");
-    shared_ptr<LoadTexture> texture2 = make_shared<LoadTexture>("awesomeface", "textures/awesomeface.png");
-    shared_ptr<LoadTexture> texture3 = make_shared<LoadTexture>("neige_ombre", "textures/dégradé_neige_ombre.png");
-    shared_ptr<LoadTexture> texture4 = make_shared<LoadTexture>("degrade_debug", "textures/dégradé_debug.png");
-    shared_ptr<LoadTexture> texture5 = make_shared<LoadTexture>("flat_color_debug", "textures/flat_color.png");
-    shared_ptr<LoadTexture> texture6 = make_shared<LoadTexture>("degrade_neige", "textures/degrade_neige.png");
     _asciiTex       = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
     _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/cel_shading.png");
     _colorMapTex    = make_shared<LoadTexture>("colorMapTex","textures/degrade_neige.png");
-
-    _textures.push_back(texture1);
-    _textures.push_back(texture2);
-    _textures.push_back(texture3);
-    _textures.push_back(texture4);
-    _textures.push_back(texture5);
-    _textures.push_back(texture6);
-
 }
 
 

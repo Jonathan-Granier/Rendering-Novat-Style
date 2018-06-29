@@ -51,7 +51,7 @@ public:
     void generateParallaxMap(glm::vec3 lightPos);
     void generateMorphoErosionMap(bool doMorpho);
     void generateMorphoDilationMap(bool doMorpho);
-    void generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool firstMap);
+    void generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool lastMap);
     void generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, std::shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector);
 
 
@@ -67,9 +67,10 @@ public:
     void drawMergeShadowMap(std::shared_ptr<Shader> shader);
     void drawShadingMap(std::shared_ptr<Shader> shader);
 
-
+    void sendHeightMapToShader(std::shared_ptr<Shader> shader);
     void sendEditHeightMapToShader(std::shared_ptr<Shader> shader);
     void sendNormalMapToShader(std::shared_ptr<Shader> shader);
+    void sendSlantMapToShader(std::shared_ptr<Shader> shader);
     void sendShadeLightMapToShader(std::shared_ptr<Shader> shader);
     void sendShadowLightMapToShader(std::shared_ptr<Shader> shader);
     void sendParallaxMap(std::shared_ptr<Shader> shader);
