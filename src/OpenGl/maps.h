@@ -15,7 +15,7 @@ struct GenShaders{
     std::shared_ptr<Shader>         normalMapShader;
     std::shared_ptr<Shader>         shadeLightShader;
     std::shared_ptr<Shader>         shadowLightShader;
-    std::shared_ptr<Shader>         parallaxShader;
+    std::shared_ptr<Shader>         shadowShader;
     std::shared_ptr<Shader>         morphoShader;
     std::shared_ptr<Shader>         mergeShadowShader;
     std::shared_ptr<Shader>         shadingShader;
@@ -40,19 +40,17 @@ public:
     void create(std::shared_ptr<Texture> heightMap, int width, int height, float ymin, float ymax);
 
     void generateHeightMap(std::shared_ptr<Texture> refHeightMap);
-    void generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool firstMap);
+    void generateEditHeightMap(std::shared_ptr<Texture> nextHeightMap, bool firstMap);
     void generateNormalMap();
     void generateSlantMap();
 
     void generateShadeLightMap(glm::vec3 lightPos, float pitch , float yaw, bool doEdit);
-    //void generateShadeLightMap(int widthViewport, int heightViewport, std::shared_ptr<LightTextures> previousShadeLightMap, float pitch, bool doMerge,bool none);
     void generateShadowLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit);
-    //void generateShadowLightMap(int widthViewport, int heightViewport, std::shared_ptr<LightTextures> previousShadowLightMap, float pitch);
-    void generateParallaxMap(glm::vec3 lightPos);
+    void generateShadowMap();
     void generateMorphoErosionMap(bool doMorpho);
     void generateMorphoDilationMap(bool doMorpho);
     void generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool lastMap);
-    void generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, std::shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector);
+    void generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, std::shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector);
 
 
     void drawHeightMap(std::shared_ptr<Shader> shader);
@@ -61,7 +59,7 @@ public:
     void drawSlantMap(std::shared_ptr<Shader> shader);
     void drawShadeLightMap(std::shared_ptr<Shader> shader);
     void drawShadowLightMap(std::shared_ptr<Shader> shader);
-    void drawParallaxMap(std::shared_ptr<Shader> shader);
+    void drawShadowMap(std::shared_ptr<Shader> shader);
     void drawMorphoErosionMap(std::shared_ptr<Shader> shader);
     void drawMorphoDilationMap(std::shared_ptr<Shader> shader);
     void drawMergeShadowMap(std::shared_ptr<Shader> shader);
@@ -73,7 +71,7 @@ public:
     void sendSlantMapToShader(std::shared_ptr<Shader> shader);
     void sendShadeLightMapToShader(std::shared_ptr<Shader> shader);
     void sendShadowLightMapToShader(std::shared_ptr<Shader> shader);
-    void sendParallaxMap(std::shared_ptr<Shader> shader);
+    void sendShadowMap(std::shared_ptr<Shader> shader);
     void sendMorphoErosionMap(std::shared_ptr<Shader>  shader);
     void sendMorphoDilationMap(std::shared_ptr<Shader>  shader);
     void sendMergeShadowMap(std::shared_ptr<Shader> shader);
@@ -103,8 +101,10 @@ public:
     std::shared_ptr<GeneratedTexture> getShadowLightMap() const;
     std::shared_ptr<GeneratedTexture> getShadingMap() const;
     std::shared_ptr<GeneratedTexture> getMorphoDilationMap() const;
+    std::shared_ptr<GeneratedTexture> getMorphoErosionMap() const;
 
 private :
+
 
 
 
@@ -120,7 +120,7 @@ private :
     std::shared_ptr<GeneratedTexture>   _slantMap;
     std::shared_ptr<GeneratedTexture>   _shadeLightMap;
     std::shared_ptr<GeneratedTexture>   _shadowLightMap;
-    std::shared_ptr<GeneratedTexture>   _parallaxMap;
+    std::shared_ptr<GeneratedTexture>   _shadowMap;
     std::shared_ptr<GeneratedTexture>   _morphoErosionMap;
     std::shared_ptr<GeneratedTexture>   _morphoDilationMap;
     std::shared_ptr<GeneratedTexture>   _mergeShadowMap;
@@ -150,8 +150,6 @@ private :
     const float         _MINLIGHTRESHOLD = 0;
 
     void initialize(std::shared_ptr<GenShaders> shaders);
-
-    //void resize();
     void resize();
 };
 

@@ -17,6 +17,8 @@ in vec4 lightDir;
 in vec3 normal;
 in vec2 texCoord;
 uniform bool doShadow;
+uniform bool doDefaultShading;
+
 uniform sampler2D mergeShadowMap;
 uniform sampler2D shadingMap;
 uniform sampler2D colorMapTex;
@@ -149,8 +151,8 @@ vec3 hsv2rgb(vec3 hsv)
 /*-------------------------------------
   Color with a xtoon , scale on shading (cd) and current height.
 
-  h between 220 - 190 scale on height
-  s fixe : 0.6
+  h between 220 - 195 scale on height
+  s between 0 - 1
   v between 0.5 - 1.0 scale on shading
 
   Input
@@ -166,18 +168,25 @@ vec4 xtoon(float cd){
   height = (height - ymin)/(ymax-ymin);
 
   vec3 hsv;
-  hsv.x = 220.0 - 30.0*height;
-  hsv.y = 0.6;
-  hsv.z = 0.5 + cd*0.5;
+  hsv.x = 220.0 - 25.0*height;
+  hsv.y = 1-cd;
+  hsv.z = 0.4 + cd*0.6;
 
 
-  //hsv = vec3(200,0.6,0.7);
+  //hsv = vec3(220,0.6,0.7);
   vec3 rgb = hsv2rgb(hsv);
   return vec4(rgb,1);
 
 }
 
-
+/**
+Compute the Lambertien
+    n : normal Vector
+    l : light Vector
+**/
+float Lambertien( vec4 n, vec4 l){
+    return max(dot(n,l),0);
+}
 
 
 void main()
@@ -188,7 +197,10 @@ void main()
   vec4 l = normalize(lightDir);
 
   float Cd;
-  Cd = texture(shadingMap,texCoord).r;
+  if(doDefaultShading)
+    Cd = Lambertien(n,l);
+  else
+    Cd = texture(shadingMap,texCoord).r;
 
 
   float shadow = (shadow()+1) * 0.5;
@@ -202,7 +214,7 @@ void main()
 
   vec4 color;
   if(colorSelector == 0){
-    color = Cd*plainColor;
+    color = plainColor *Cd;
   }
   else if(colorSelector == 1){
     color = watercolor(waterColor,Cd);
@@ -215,8 +227,8 @@ void main()
   }
 
 
-  //FragColor = xtoon(Cd);
   FragColor = color;
+  //FragColor = color;
 }
 
 

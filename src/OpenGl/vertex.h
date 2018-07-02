@@ -14,15 +14,15 @@ public:
     /**
      * @brief The position of the vertex
      */
-    glm::vec3 Position;
+    glm::vec3 position;
     /**
      * @brief The normal of the vertex
      */
-    glm::vec3 Normal;
+    glm::vec3 normal;
     /**
      * @brief the texture coordinates of the vertex
      */
-    glm::vec2 TexCoords;
+    glm::vec2 texCoords;
 
     /**
      * @brief Basic constructor , all equal 0

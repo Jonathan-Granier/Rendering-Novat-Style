@@ -3,7 +3,6 @@
 out vec4 FragColor;
 
 in vec2 texCoord;
-uniform vec2 resolution;
 uniform sampler2D shadowMap;
 uniform int operator;
 uniform bool doMorpho;
@@ -11,11 +10,6 @@ uniform bool doMorpho;
 float morphoFilter(int type){
   int min = -5;
   int max = 5;
-
-  float shadow = 1;
-
-  int numberType = 0;
-
 
   vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
   for(int x = min; x <= max; x++){
@@ -36,16 +30,16 @@ void main()
     float shadow = texture(shadowMap, texCoord).r;
 
 /**/
-    // Erosion
-    if(operator == 1 && doMorpho){
-      if(shadow == 0){
-        shadow = morphoFilter(1);
-      }
-    }
     //Dilation
-    else if(operator == 0 && doMorpho){
+    if(operator == 1 && doMorpho){
       if(shadow == 1){
         shadow = morphoFilter(0);
+      }
+    }
+    //Erosion
+    else if(operator == 0 && doMorpho){
+      if(shadow == 0){
+        shadow = morphoFilter(1);
       }
     }
 /**/

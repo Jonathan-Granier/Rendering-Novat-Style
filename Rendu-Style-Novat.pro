@@ -90,8 +90,6 @@ DISTFILES += \
     shaders/gaussBlur.vert \
     shaders/slant.frag \
     shaders/slant.vert \
-    shaders/parallax.frag \
-    shaders/parallax.vert \
     shaders/shadelight.vert \
     shaders/shadelight.frag \
     shaders/shadowlight.vert \
@@ -107,6 +105,8 @@ DISTFILES += \
     shaders/morpho.frag \
     shaders/morpho.vert \
     shaders/mergeshadow.frag \
-    shaders/mergeshadow.vert
+    shaders/mergeshadow.vert \
+    shaders/shadowmap.frag \
+    shaders/shadowmap.vert
 
 FORMS +=  src/MainWindow/mainwindow.ui

@@ -17,9 +17,11 @@ Scene::Scene(int widthViewport,int heightViewport) :
     _doEditShadeLightDir(true),
     _doEditShadowLightDir(true),
     _doShadowMorpo(true),
+    _doDefaultShading(false),
     _shadeSelector(3),
     _colorSelector(0),
     _pitchLightShadow(M_PI/4.0)
+
 
 {
     _viewportSize = make_shared<ViewportSize>();
@@ -29,7 +31,7 @@ Scene::Scene(int widthViewport,int heightViewport) :
     _reloadEditHeightMap = true;
     initializeGenShader();
     initializeTexture();
-    //initializeGenMaps();
+    //InitializeGenMaps();
     initStackMaps();
 
     _meshSphere = MeshLoader::vertexFromObj("models/sphere.obj");
@@ -42,7 +44,7 @@ void Scene::createScene(const vector<string> &filepaths){
 
     if(filepaths.empty()){
 
-        cout << "Generate heightMap ... " << endl;
+        cout << "generate heightMap ... " << endl;
         shared_ptr<Texture> heightMap = computeGenHeightMap();
         heightMap->setMeshOffset(1.0);
         initializeMaps(heightMap);
@@ -70,11 +72,9 @@ void Scene::createScene(const vector<string> &filepaths){
 
 
 
-void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
+void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
 
 
-    //cout << "I Draw id :" << _currentIndex << endl;
-    //printMapsManagers();
     _mapsManagers[_currentIndex]->maps->sendShadingMap(shader);
     _mapsManagers[_currentIndex]->maps->sendNormalMapToShader(shader);
     _mapsManagers[_currentIndex]->maps->sendShadeLightMapToShader(shader);
@@ -83,26 +83,30 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightPosition){
     shader->setFloat("ymax",_mountains->getYmax());
     shader->setFloat("ymin",_mountains->getYmin());
 
-    cout << _mountains->getYmax() << endl;
-    cout << _mountains->getYmin() << endl;
+
 
     _colorMapTex->sendToShader(shader);
     _celShadingTex->sendToShader(shader);
-
     shader->setVec4("plainColor",_plainColor);
     shader->setVec4("waterColor",_waterColor);
     shader->setInt("colorSelector",_colorSelector);
 
 
     shader->setBool("doShadow",_doShadow);
+    shader->setBool("doDefaultShading",_doDefaultShading);
+    shader->setVec3("lightDirection",lightDirection);
+
+
     mat4 modelMesh;
     shader->setMat4("modelMat",modelMesh);
     _mountains->draw();
     mat4 modelSphere;
-    modelSphere = glm::translate(modelSphere,lightPosition*_mountains->radius());
-    modelSphere = glm::scale(modelSphere,vec3(_mountains->radius()/20.0,_mountains->radius()/20.0,_mountains->radius()/20.0));
+    modelSphere = glm::translate(modelSphere,lightDirection*_mountains->getRadius());
+    modelSphere = glm::scale(modelSphere,vec3(_mountains->getRadius()/20.0,_mountains->getRadius()/20.0,_mountains->getRadius()/20.0));
     shader->setMat4("modelMat",modelSphere);
-   _meshSphere->draw();
+    _meshSphere->draw();
+
+
 
 
     glActiveTexture(GL_TEXTURE0);
@@ -118,7 +122,7 @@ void Scene::drawNormalMap(shared_ptr<Shader> shader){               _mapsManager
 void Scene::drawSlantMap(shared_ptr<Shader> shader){                _mapsManagers[_currentIndex]->maps->drawSlantMap(shader);}
 void Scene::drawShadeLightMap(std::shared_ptr<Shader> shader){      _mapsManagers[_currentIndex]->maps->drawShadeLightMap(shader); }
 void Scene::drawShadowLightMap(std::shared_ptr<Shader> shader){     _mapsManagers[_currentIndex]->maps->drawShadowLightMap(shader); }
-void Scene::drawParallaxMap(std::shared_ptr<Shader> shader){        _mapsManagers[_currentIndex]->maps->drawParallaxMap(shader);}
+void Scene::drawShadowMap(std::shared_ptr<Shader> shader){          _mapsManagers[_currentIndex]->maps->drawShadowMap(shader);}
 void Scene::drawMorphoErosionMap(std::shared_ptr<Shader> shader){   _mapsManagers[_currentIndex]->maps->drawMorphoErosionMap(shader);}
 void Scene::drawMorphoDilationMap(std::shared_ptr<Shader> shader){  _mapsManagers[_currentIndex]->maps->drawMorphoDilationMap(shader);}
 void Scene::drawMergeShadowMap(std::shared_ptr<Shader> shader){     _mapsManagers[_currentIndex]->maps->drawMergeShadowMap(shader);}
@@ -150,14 +154,14 @@ void Scene::generateEditHeightAndNormalMap(){
 
 
     bool lastMap = true;
-    shared_ptr<Texture> previousHeightMap;
+    shared_ptr<Texture> nextHeightMap;
     if(_reloadEditHeightMap){
         for(int i = _mapsManagers.size()-1; i >=0 ; i--){
             if(_mapsManagers[i]->enabled){
-                _mapsManagers[i]->maps->generateEditHeightMap(previousHeightMap,lastMap);
+                _mapsManagers[i]->maps->generateEditHeightMap(nextHeightMap,lastMap);
                 lastMap = false;
                 _mapsManagers[i]->maps->generateNormalMap();
-                previousHeightMap = _mapsManagers[i]->maps->getEditHeightMap();
+                nextHeightMap = _mapsManagers[i]->maps->getHeightMap();
             }
         }
         _reloadEditHeightMap = false;
@@ -174,7 +178,7 @@ void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalM
     std::shared_ptr<Texture>       previousShadowMap;
 
 
-    for(i=_mapsManagers.size()-1; i>=0;i--){
+    for(i=_mapsManagers.size()-1; i >= 0 ;i--){
         if(_mapsManagers[i]->enabled){
             _mapsManagers[i]->maps->generateNormalMap();
             _mapsManagers[i]->maps->generateSlantMap();
@@ -182,13 +186,13 @@ void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalM
             _mapsManagers[i]->maps->generateShadeLightMap(lightPos,pitch,yaw,_doEditShadeLightDir);
             _mapsManagers[i]->maps->generateShadowLightMap(lightPos,_pitchLightShadow,yaw,_doEditShadowLightDir);
             if(_doShadow){
-                _mapsManagers[i]->maps->generateParallaxMap(lightPos);
-                _mapsManagers[i]->maps->generateMorphoErosionMap(_doShadowMorpo);
+                _mapsManagers[i]->maps->generateShadowMap();
                 _mapsManagers[i]->maps->generateMorphoDilationMap(_doShadowMorpo);
+                _mapsManagers[i]->maps->generateMorphoErosionMap(_doShadowMorpo);
                 _mapsManagers[i]->maps->generateMergeShadowMap(previousShadowMap,firstMap);
-                previousShadowMap      = _mapsManagers[i]->maps->getMorphoDilationMap();
+                previousShadowMap      = _mapsManagers[i]->maps->getMorphoErosionMap();
             }
-            _mapsManagers[i]->maps->generateShadingMap(mdvMat,normalMat,lightPos,previousShadingMap,firstMap,_shadeSelector);
+            _mapsManagers[i]->maps->generateShadingMap(mdvMat,normalMat,previousShadingMap,firstMap,_shadeSelector);
             firstMap = false;
             previousShadingMap     = _mapsManagers[i]->maps->getShadingMap();
         }
@@ -204,7 +208,7 @@ void Scene::reloadGenerateTexturesShader(){
     _genShaders->shadeLightShader->reload();
     _genShaders->shadowLightShader->reload();
     _genShaders->gaussBlurShader->reload();
-    _genShaders->parallaxShader->reload();
+    _genShaders->shadowShader->reload();
     _genShaders->morphoShader->reload();
     _genShaders->mergeShadowShader->reload();
     _genShaders->shadingShader->reload();
@@ -215,15 +219,15 @@ void Scene::reloadGenerateTexturesShader(){
 
 
 
-vec3 Scene::center() const
+vec3 Scene::getCenter() const
 {
-    return _mountains->center();
+    return _mountains->getCenter();
 }
 
 
-float Scene::radius() const
+float Scene::getRadius() const
 {
-    return _mountains->radius();
+    return _mountains->getRadius();
 }
 
 // TODO Voir le lien entre Id et index si il est constant et adapter le code en fonction (plus de fonction supprimé)
@@ -391,6 +395,12 @@ void Scene::setColorSelector(int colorSelector)
     _colorSelector = colorSelector;
 }
 
+void Scene::setDoDefaultShading(bool doDefaultShading)
+{
+    _doDefaultShading = doDefaultShading;
+}
+
+
 /************************************************
  *              Private Functions               *
  ************************************************/
@@ -406,7 +416,7 @@ void Scene::initializeGenShader(){
     _genShaders->shadeLightShader           = make_shared<Shader>("shaders/shadelight.vert","shaders/shadelight.frag");
     _genShaders->shadowLightShader          = make_shared<Shader>("shaders/shadowlight.vert","shaders/shadowlight.frag");
     _genShaders->gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
-    _genShaders->parallaxShader             = make_shared<Shader>("shaders/parallax.vert","shaders/parallax.frag");
+    _genShaders->shadowShader               = make_shared<Shader>("shaders/shadowmap.vert","shaders/shadowmap.frag");
     _genShaders->morphoShader               = make_shared<Shader>("shaders/morpho.vert","shaders/morpho.frag");
     _genShaders->mergeShadowShader          = make_shared<Shader>("shaders/mergeshadow.vert","shaders/mergeshadow.frag");
     _genShaders->shadingShader              = make_shared<Shader>("shaders/shading.vert","shaders/shading.frag");
@@ -415,7 +425,7 @@ void Scene::initializeGenShader(){
 
 void Scene::initializeMaps(std::shared_ptr<Texture> heightMap){
 
-        _mountains = MeshLoader::vertexFromHeightMap(heightMap->getDataRED(),heightMap->getWidth(),heightMap->getHeight(),heightMap->meshOffset());
+        _mountains = MeshLoader::vertexFromHeightMap(heightMap->getDataRED(),heightMap->getWidth(),heightMap->getHeight(),heightMap->getMeshOffset());
 
         shared_ptr<MapsManager> mapsManager = make_shared<MapsManager>();
         mapsManager->maps = getMapsFromSupply();

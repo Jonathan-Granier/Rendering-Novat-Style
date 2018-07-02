@@ -32,7 +32,7 @@ public:
     std::vector<float> getDataRED();
     void printValueRED();
 
-    int meshOffset() const;
+    int getMeshOffset() const;
     void setMeshOffset(int meshOffset);
 
 
@@ -43,10 +43,10 @@ public:
 
     std::string getName() const;
 
-    unsigned int getID() const;
+    unsigned int getId() const;
 
 protected:
-    unsigned int _ID;       /*!< ID of the texture assign by glGenTextures().*/
+    unsigned int _id;       /*!< ID of the texture assign by glGenTextures().*/
     std::string _name;      /*!< The name of the texture. */
     int _width, _height;    /*!< Size of the texture      */
 

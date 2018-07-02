@@ -18,15 +18,15 @@ public:
 
     void reloadShader();
 
-    std::shared_ptr<Shader> generatorShader() const;
+    std::shared_ptr<Shader> getGeneratorShader() const;
 
 
 
 
 protected:
     std::shared_ptr<Shader> _generatorShader;                   /** < The shader for generate the texture    */
-    GLuint _FBO;                         /** < Frame Buffer Object for the generate texture  */
-    GLint _QTFBO;                       /** < Frame buffer Object for save the FBO of QT, see QT doc for more information */
+    GLuint _fbo;                         /** < Frame Buffer Object for the generate texture  */
+    GLint _qtfbo;                       /** < Frame buffer Object for save the FBO of QT, see QT doc for more information */
 
 
 

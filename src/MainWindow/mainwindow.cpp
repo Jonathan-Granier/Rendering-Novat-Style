@@ -26,7 +26,7 @@
 using namespace std;
 MainWindow::MainWindow() :
     ui(new Ui::MainWindow),
-    _ID(0)
+    _id(0)
 {
 
      ui->setupUi(this);
@@ -43,12 +43,10 @@ MainWindow::MainWindow() :
      centralLayout->addWidget(_viewer.get());
      ui->mainWidget->setLayout(centralLayout);
 
-    setButtons();
+    setupButtons();
     _currentMapsSelector = new QButtonGroup();
 
     ui->settingsLayout->addWidget(createNewPanel(0,true));
-    //ui->settingsLayout->addWidget(createNewPanel(0,true));
-
 }
 
 MainWindow::~MainWindow()
@@ -199,49 +197,58 @@ void MainWindow::reloadGaussHeightMap(){
 
 void MainWindow::addNewPanel()
 {
-    _ID++;
-    ui->settingsLayout->addWidget(createNewPanel(_ID,false));
-    _viewer->addGaussMaps(_ID);
+    _id++;
+    ui->settingsLayout->addWidget(createNewPanel(_id,false));
+    _viewer->addGaussMaps(_id);
 
 }
 
-void MainWindow::shadowEnabled(int b)
+void MainWindow::setShadowEnabled(int b)
 {
     if(b==0)
-        _viewer->shadowEnabled(false);
+        _viewer->setShadowEnabled(false);
     else
-        _viewer->shadowEnabled(true);
+        _viewer->setShadowEnabled(true);
      ui->mainWidget->setFocus();
 }
 
-void MainWindow::shadowEnabledMorpho(int b)
+void MainWindow::setShadowEnabledMorpho(int b)
 {
 
     if(b==0)
-        _viewer->shadowEnabledMorpho(false);
+        _viewer->setShadowEnabledMorpho(false);
     else
-        _viewer->shadowEnabledMorpho(true);
+        _viewer->setShadowEnabledMorpho(true);
 
     ui->mainWidget->setFocus();
 }
 
-void MainWindow::shadowEnabledLightDir(int b)
+void MainWindow::setShadowEnabledLightDir(int b)
 {
 
     if(b==0)
-        _viewer->shadowEnabledLightDir(false);
+        _viewer->setShadowEnabledLightDir(false);
     else
-        _viewer->shadowEnabledLightDir(true);
+        _viewer->setShadowEnabledLightDir(true);
 
     ui->mainWidget->setFocus();
 }
 
-void MainWindow::shadeEnabledLightDir(int b)
+void MainWindow::setShadeEnabledLightDir(int b)
 {
     if(b==0)
-        _viewer->shadeEnabledLightDir(false);
+        _viewer->setShadeEnabledLightDir(false);
     else
-        _viewer->shadeEnabledLightDir(true);
+        _viewer->setShadeEnabledLightDir(true);
+    ui->mainWidget->setFocus();
+}
+
+void MainWindow::setDoDefaultShading(int b)
+{
+    if(b==0)
+        _viewer->setDoDefaultShading(false);
+    else
+        _viewer->setDoDefaultShading(true);
     ui->mainWidget->setFocus();
 }
 
@@ -277,6 +284,7 @@ void MainWindow::setupMenu(){
 void MainWindow::setupControlePanel()
 {
     connect(ui->drawModeSlider,&QSlider::valueChanged,this,&MainWindow::updateDrawMode);
+    connect(ui->doDefaultShading,&QCheckBox::toggled,this,&MainWindow::setDoDefaultShading);
 }
 
 
@@ -306,15 +314,15 @@ void MainWindow::setupShadeSettings(){
         }
     );
 
-    connect(ui->shadeCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::shadeEnabledLightDir);
+    connect(ui->shadeCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::setShadeEnabledLightDir);
         connect(ui->lightShadingSlider,&QSlider::valueChanged,this,&MainWindow::updateLightPosition);
 }
 
 
 void MainWindow::setupShadowSettings(){
-    connect(ui->shadowGroupBox,&QGroupBox::toggled,this,&MainWindow::shadowEnabled);
-    connect(ui->shadowCheckBoxMorpho,&QRadioButton::toggled,this,&MainWindow::shadowEnabledMorpho);
-    connect(ui->shadowCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::shadowEnabledLightDir);
+    connect(ui->shadowGroupBox,&QGroupBox::toggled,this,&MainWindow::setShadowEnabled);
+    connect(ui->shadowCheckBoxMorpho,&QRadioButton::toggled,this,&MainWindow::setShadowEnabledMorpho);
+    connect(ui->shadowCheckBoxLightDir,&QRadioButton::toggled,this,&MainWindow::setShadowEnabledLightDir);
     connect(ui->lightShadowSlider,&QSlider::valueChanged,this,&MainWindow::updateShadowLightPosition);
 }
 
@@ -369,6 +377,11 @@ void MainWindow::setupColorSettings(){
     }
     );
 
+}
+
+void MainWindow::setupButtons(){
+    connect(ui->addButton,&QPushButton::clicked,this,&MainWindow::addNewPanel);
+    connect(ui->reloadButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
 }
 
 
@@ -456,12 +469,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
                 this->ui->mainWidget->setFocus();
             }
     );
-/**
-    if(!firstPanel){
-        QPushButton *deleteButton = new QPushButton("Supprimer");
-        settingsLayout->addWidget(deleteButton);
-    }
-/**/
+
 
     mainLayout->addLayout(lightLayout);
     mainLayout->addLayout(gaussLayout);
@@ -494,8 +502,5 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
 
 
 }
-void MainWindow::setButtons(){
-    connect(ui->addButton,&QPushButton::clicked,this,&MainWindow::addNewPanel);
-    connect(ui->reloadButton,&QPushButton::clicked,this,&MainWindow::reloadGaussHeightMap);
-}
+
 

@@ -54,13 +54,12 @@ protected:
      * @param event
      */
     void closeEvent(QCloseEvent *event) override;
-    void keyPressEvent(QKeyEvent *ke);
+    void keyPressEvent(QKeyEvent *ke) override;
 
 
 
 
 
-protected slots:
 
 private slots:
     /**
@@ -95,16 +94,17 @@ private slots:
     void addNewPanel();
 
 
-    void shadowEnabled(int b);
-    void shadowEnabledMorpho(int b);
-    void shadowEnabledLightDir(int b);
-    void shadowUpdateLightPosition(int angle);
+    void setShadowEnabled(int b);
+    void setShadowEnabledMorpho(int b);
+    void setShadowEnabledLightDir(int b);
+    void setShadowUpdateLightPosition(int angle);
 
 
 
-    void shadeEnabledLightDir(int b);
-    void shadeUpdateLightPosition(int angle);
+    void setShadeEnabledLightDir(int b);
+    void setShadeUpdateLightPosition(int angle);
 
+    void setDoDefaultShading(int b);
 
     QColor selectColor(QColor currentColor);
     QString loadTexture();
@@ -129,7 +129,7 @@ private:
      * @brief the actual progress of the loading objects (Mesh and Textures).
      */
 
-    unsigned int _ID;
+    unsigned int _id;
 
     QButtonGroup* _currentMapsSelector;
 
@@ -139,10 +139,11 @@ private:
     void setupShadeSettings();
     void setupShadowSettings();
     void setupColorSettings();
+    void setupButtons();
 
     void refreshInformationPanel();
     QGroupBox *createNewPanel(int id, bool firstPanel);
-    void setButtons();
+
 };
 
 #endif // MAINWINDOW_H

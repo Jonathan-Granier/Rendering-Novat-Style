@@ -123,22 +123,22 @@ void Viewer::paintGL(){
         _scene->drawShadowLightMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
-    case PARALLAX :
+    case SHADOW :
         _drawTextureShader->use();
         initDrawTexture(6);
-        _scene->drawParallaxMap(_drawTextureShader);
-        _drawTextureShader->disable();
-        break;
-    case MORPHOEROSION :
-        _drawTextureShader->use();
-        initDrawTexture(7);
-        _scene->drawMorphoErosionMap(_drawTextureShader);
+        _scene->drawShadowMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case MORPHODILATION :
         _drawTextureShader->use();
-        initDrawTexture(8);
+        initDrawTexture(7);
         _scene->drawMorphoDilationMap(_drawTextureShader);
+        _drawTextureShader->disable();
+        break;
+    case MORPHOEROSION :
+        _drawTextureShader->use();
+        initDrawTexture(8);
+        _scene->drawMorphoErosionMap(_drawTextureShader);
         _drawTextureShader->disable();
         break;
     case MERGESHADOW :
@@ -154,14 +154,14 @@ void Viewer::paintGL(){
         _drawTextureShader->disable();
          break;
     case CLASSICAL:
-        _lightShaders->use();
-        _lightShaders->setMat4("mdvMat",_cam->mdvMatrix());
-        _lightShaders->setMat4("projMat",_cam->projMatrix());
-        _lightShaders->setMat3("normalMat",_cam->normalMatrix());
-        _lightShaders->setVec3("lightPosition",_light->position());
-        _lightShaders->setVec3("cameraPosition",_cam->view());
-        _scene->draw(_lightShaders,_light->position());
-        _lightShaders->disable();
+        _lightShader->use();
+        _lightShader->setMat4("mdvMat",_cam->mdvMatrix());
+        _lightShader->setMat4("projMat",_cam->projMatrix());
+        _lightShader->setMat3("normalMat",_cam->normalMatrix());
+        _lightShader->setVec3("lightPosition",_light->position());
+        _lightShader->setVec3("cameraPosition",_cam->view());
+        _scene->draw(_lightShader,_light->position());
+        _lightShader->disable();
         break;
     }
 }
@@ -236,11 +236,11 @@ void Viewer::resetTheCameraPosition(){
 }
 
 void Viewer::reloadShader(){
-    _lightShaders->reload();
+    _lightShader->reload();
     //_shadowMap->reloadShader();
     _drawTextureShader->reload();
     _scene->reloadGenerateTexturesShader();
-    cout << "Reload shader done " << endl;
+    cout << "reload shader done " << endl;
     update();
 
 }
@@ -265,16 +265,16 @@ void Viewer::fixeCamAndLight()
 /*
 string Viewer::nextShader()
 {
-    _lightShaders->next();
+    _lightShader->next();
     update();
-    return _lightShaders->name();
+    return _lightShader->name();
 }*/
 /*
 string Viewer::previousShader()
 {
-    _lightShaders->previous();
+    _lightShader->previous();
     update();
-    return _lightShaders->name();
+    return _lightShader->name();
 }*/
 
 
@@ -285,10 +285,10 @@ void Viewer::nextDrawMode(){
         case NORMALMAP:       _drawMode = SLANTMAP       ; break;
         case SLANTMAP :       _drawMode = SHADELIGHTMAP  ; break;
         case SHADELIGHTMAP :  _drawMode = SHADOWLIGHTMAP ; break;
-        case SHADOWLIGHTMAP:  _drawMode = PARALLAX       ; break;
-        case PARALLAX :       _drawMode = MORPHOEROSION  ; break;
-        case MORPHOEROSION :  _drawMode = MORPHODILATION ; break;
-        case MORPHODILATION : _drawMode = MERGESHADOW    ; break;
+        case SHADOWLIGHTMAP:  _drawMode = SHADOW         ; break;
+        case SHADOW :         _drawMode = MORPHODILATION ; break;
+        case MORPHODILATION : _drawMode = MORPHOEROSION  ; break;
+        case MORPHOEROSION :  _drawMode = MERGESHADOW    ; break;
         case MERGESHADOW :    _drawMode = SHADING        ; break;
         case SHADING :        _drawMode = CLASSICAL      ; break;
         case CLASSICAL:       _drawMode = HEIGHTMAP      ; break;
@@ -306,9 +306,9 @@ void Viewer::setDrawMode(int d)
         case 3 :  _drawMode = SLANTMAP       ; break;
         case 4 :  _drawMode = SHADELIGHTMAP  ; break;
         case 5 :  _drawMode = SHADOWLIGHTMAP ; break;
-        case 6 :  _drawMode = PARALLAX       ; break;
-        case 7:   _drawMode = MORPHOEROSION  ; break;
-        case 8:   _drawMode = MORPHODILATION ; break;
+        case 6 :  _drawMode = SHADOW         ; break;
+        case 7:   _drawMode = MORPHODILATION ; break;
+        case 8:   _drawMode = MORPHOEROSION  ; break;
         case 9:   _drawMode = MERGESHADOW    ; break;
         case 10:  _drawMode = SHADING        ; break;
         case 11:  _drawMode = CLASSICAL      ; break;
@@ -325,10 +325,10 @@ void Viewer::previousDrawMode(){
         case SLANTMAP :         _drawMode = NORMALMAP       ; break;
         case SHADELIGHTMAP :    _drawMode = SLANTMAP        ; break;
         case SHADOWLIGHTMAP:    _drawMode = SHADELIGHTMAP   ; break;
-        case PARALLAX :         _drawMode = SHADOWLIGHTMAP  ; break;
-        case MORPHOEROSION :    _drawMode = PARALLAX        ; break;
-        case MORPHODILATION :   _drawMode = MORPHOEROSION   ; break;
-        case MERGESHADOW :      _drawMode = MORPHODILATION  ; break;
+        case SHADOW :           _drawMode = SHADOWLIGHTMAP  ; break;
+        case MORPHODILATION :   _drawMode = SHADOW          ; break;
+        case MORPHOEROSION :    _drawMode = MORPHODILATION  ; break;
+        case MERGESHADOW :      _drawMode = MORPHOEROSION   ; break;
         case SHADING :          _drawMode = MERGESHADOW     ; break;
         case CLASSICAL:         _drawMode = SHADING         ; break;
     }
@@ -340,7 +340,7 @@ void Viewer::previousDrawMode(){
 /*
 void Viewer::switchScene(){
     _scene->nextMaps();
-    //_scene->switchTypeMeshUsed();
+    //_scene->switchTypeMeshused();
     //_cam    = make_shared<Camera>(_scene->radius(),_scene->center());
     //_cam->initialize(width(),height(),true);
     update();
@@ -408,46 +408,47 @@ void Viewer::generateScene(){
 
 string Viewer::getCurrentDrawMode()
 {
-    string stringDrawMode;
+    string stringdrawMode;
     switch(_drawMode){
         case HEIGHTMAP:
-            stringDrawMode = "Height Map";
+            stringdrawMode = "Height Map";
         break;
         case EDITHEIGHTMAP:
-            stringDrawMode = "Edit Height Map";
+            stringdrawMode = "Edit Height Map";
         break;
         case NORMALMAP:
-            stringDrawMode = "Normal Map";
+            stringdrawMode = "Normal Map";
         break;
         case SLANTMAP:
-            stringDrawMode = "Slant Map";
+            stringdrawMode = "Slant Map";
         break;
         case SHADELIGHTMAP :
-            stringDrawMode = "Shade Light Map";
+            stringdrawMode = "Shade Light Map";
         break;
         case SHADOWLIGHTMAP :
-            stringDrawMode = "Shadow Light Map";
+            stringdrawMode = "Shadow Light Map";
         break;
-        case PARALLAX :
-            stringDrawMode = "Parallax Map";
-        break;
-        case MORPHOEROSION :
-            stringDrawMode = "Morpho Erosion Map";
+        case SHADOW :
+            stringdrawMode = "Shadow Map";
         break;
         case MORPHODILATION :
-            stringDrawMode = "Morpho Dilation Map";
+            stringdrawMode = "Morpho Dilation Map";
         break;
+        case MORPHOEROSION :
+            stringdrawMode = "Morpho Erosion Map";
+        break;
+
         case MERGESHADOW :
-            stringDrawMode = "Merge Shadow Map";
+            stringdrawMode = "Merge Shadow Map";
         break;
         case SHADING :
-            stringDrawMode = "Shading Map";
+            stringdrawMode = "Shading Map";
         break;
         case CLASSICAL:
-            stringDrawMode = "World";
+            stringdrawMode = "World";
         break;
     }
-    return stringDrawMode;
+    return stringdrawMode;
 }
 
 
@@ -494,25 +495,25 @@ void Viewer::setShadeSelector(int s){
 }
 // TODO Armoniser les noms
 
-void Viewer::shadowEnabled(int b)
+void Viewer::setShadowEnabled(int b)
 {
     _scene->setDoShadow(b);
     update();
 }
 
-void Viewer::shadowEnabledMorpho(int b)
+void Viewer::setShadowEnabledMorpho(int b)
 {
     _scene->setDoShadowMorpo(b);
     update();
 }
 
-void Viewer::shadowEnabledLightDir(int b)
+void Viewer::setShadowEnabledLightDir(int b)
 {
     _scene->setDoEditShadowLightDir(b);
     update();
 }
 
-void Viewer::shadeEnabledLightDir(int b)
+void Viewer::setShadeEnabledLightDir(int b)
 {
     _scene->setDoEditShadeLightDir(b);
     update();
@@ -569,6 +570,11 @@ void Viewer::setColorSelector(int c)
 }
 
 
+void Viewer::setDoDefaultShading(bool b)
+{
+   _scene->setDoDefaultShading(b);
+   update();
+}
 
 
 /************************************************
@@ -577,21 +583,13 @@ void Viewer::setColorSelector(int c)
 void Viewer::loadScene()
 {
     _scene->createScene(_filepaths);
-    _cam    = make_shared<Camera>(_scene->radius(),_scene->center());
+    _cam    = make_shared<Camera>(_scene->getRadius(),_scene->getCenter());
     _cam->initialize(width(),height(),true);
-    //_shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
-    //_shadowMap->initialize();
-
 
 }
 
 void Viewer::initShaders(){
-    //_lightShaders = make_shared<Shader>("shaders/debug.vert", "shaders/debug.frag");
-    _lightShaders = make_shared<Shader>("shaders/computelight.vert", "shaders/computelight.frag");
-    //_lightShaders->add("shaders/phong.vert", "shaders/phong.frag");
-    //_lightShaders->add("shaders/phongspec.vert", "shaders/phongspec.frag");
-    //_lightShaders->add("shaders/toon1D.vert","shaders/toon1D.frag");
-
+    _lightShader = make_shared<Shader>("shaders/computelight.vert", "shaders/computelight.frag");
     _drawTextureShader = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
 
 }

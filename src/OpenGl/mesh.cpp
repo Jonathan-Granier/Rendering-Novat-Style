@@ -41,9 +41,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, int 
 
 
 Mesh::~Mesh(){
-    glDeleteVertexArrays(1, &_VAO);
-    glDeleteBuffers(1,&_EBO);
-    glDeleteBuffers(1,&_VBO);
+    glDeleteVertexArrays(1, &_vao);
+    glDeleteBuffers(1,&_ebo);
+    glDeleteBuffers(1,&_vbo);
 
 
 }
@@ -53,7 +53,7 @@ void Mesh::draw()
 {
 
     // draw mesh
-    glBindVertexArray(_VAO);
+    glBindVertexArray(_vao);
     glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
@@ -63,28 +63,28 @@ void Mesh::draw()
 // CATAPULTAGE
 void Mesh::setupMesh()
 {
-    /*_VAO.create();
-    _VBO.create();
-    _EBO.create();
+    /*_vao.create();
+    _vbo.create();
+    _ebo.create();
 
-    _VAO.bind();
+    _vao.bind();
 
-    _VBO.bind(GL_ARRAY_BUFFER);
+    _vbo.bind(GL_ARRAY_BUFFER);
 
 */
     cout << _indices.size() << endl;
     // create buffers/arrays
-    glGenVertexArrays(1,&_VAO);
-    glGenBuffers(1,&_VBO);
-    glGenBuffers(1,&_EBO);
+    glGenVertexArrays(1,&_vao);
+    glGenBuffers(1,&_vbo);
+    glGenBuffers(1,&_ebo);
 
 
-    glBindVertexArray(_VAO);
+    glBindVertexArray(_vao);
     // load data into vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER,_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER,_vbo);
 
     glBufferData(GL_ARRAY_BUFFER,_vertices.size() * sizeof(Vertex),&_vertices[0],GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,_indices.size()*sizeof(unsigned int),&_indices[0],GL_STATIC_DRAW);
 
     // set the vertex attribute pointers
@@ -93,10 +93,10 @@ void Mesh::setupMesh()
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)0);
     // vertex normals
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
     // vertex texture coords
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
     glBindVertexArray(0);
 
 
@@ -108,7 +108,7 @@ void Mesh::computeCenter(){
 
     // computing center
     for(i=0;i<_vertices.size();i++) {
-      c += _vertices[i].Position;
+      c += _vertices[i].position;
     }
     _center = c/(float)_vertices.size();
 
@@ -128,7 +128,7 @@ void Mesh::computeRadius(){
 
     _radius = 0.0;
     for(i=0;i<_vertices.size();i++) {
-      c = _vertices[i].Position-_center;
+      c = _vertices[i].position-_center;
 
       r = sqrt(c[0]*c[0]+c[1]*c[1]+c[2]*c[2]);
       _radius = r>_radius ? r : _radius;
@@ -152,7 +152,7 @@ vector<float> Mesh::getNormalMapObjectSpace(){
     for(int i = 0 ; i < _height ; i++){
         for(int j=0; j < _width; j++){
             index = i*_width + j;
-            glm::vec3 n = _vertices[index].Normal;
+            glm::vec3 n = _vertices[index].normal;
             normalMap.push_back(n.x);
             normalMap.push_back(n.y);
             normalMap.push_back(n.z);
@@ -177,7 +177,7 @@ vector<float> Mesh::getNormalMapZUp(){
     for(int i = _height-1 ; i>= 0 ; i--){
         for(int j=0; j < _width; j++){
             index = i*_width + j;
-            glm::vec3 n = _vertices[index].Normal;
+            glm::vec3 n = _vertices[index].normal;
             n = glm::normalize(normalMat * n);
 
             normalMap.push_back(n.x);
@@ -200,12 +200,12 @@ vector<float> Mesh::getHeightMap()
 
 
     for(Vertex v : _vertices){
-        heightMap.push_back(v.Position.y);
-        if(v.Position.y > _ymax){
-            _ymax = v.Position.y;
+        heightMap.push_back(v.position.y);
+        if(v.position.y > _ymax){
+            _ymax = v.position.y;
         }
-        if(v.Position.y < _ymin){
-            _ymin = v.Position.y;
+        if(v.position.y < _ymin){
+            _ymin = v.position.y;
         }
     }
     return heightMap;
@@ -223,12 +223,12 @@ vector<float> Mesh::getReverseHeightMap(){
     for(int i = _height-1 ; i>= 0 ; i--){
         for(int j=0; j < _width; j++){
             index = i*_width + j;
-            heightMap.push_back(_vertices[index].Position.y);
-            if(_vertices[index].Position.y > _ymax){
-                _ymax = _vertices[index].Position.y;
+            heightMap.push_back(_vertices[index].position.y);
+            if(_vertices[index].position.y > _ymax){
+                _ymax = _vertices[index].position.y;
             }
-            if(_vertices[index].Position.y < _ymin){
-                _ymin = _vertices[index].Position.y;
+            if(_vertices[index].position.y < _ymin){
+                _ymin = _vertices[index].position.y;
             }
         }
     }
@@ -240,12 +240,12 @@ vector<float> Mesh::getReverseHeightMap(){
 
 
 
-glm::vec3 Mesh::center() const
+glm::vec3 Mesh::getCenter() const
 {
     return _center;
 }
 
-float Mesh::radius() const
+float Mesh::getRadius() const
 {
     return _radius;
 }

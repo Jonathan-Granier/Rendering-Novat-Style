@@ -92,13 +92,13 @@ public:
      * @brief get _center
      * @return the center of the mesh
      */
-    glm::vec3 center() const;
+    glm::vec3 getCenter() const;
 
     /**
      * @brief get _radius
      * @return the radius of the mesh
      */
-    float radius() const;
+    float getRadius() const;
 
 
 
@@ -117,9 +117,9 @@ private :
 
 
 
-    unsigned int _VAO;                       /** < a Vertex Array Object. */
-    unsigned int _VBO;                      /** < a Vertex Buffer Object.*/
-    unsigned int _EBO;                      /** < a Element Buffer Object.*/
+    unsigned int _vao;                       /** < a Vertex Array Object. */
+    unsigned int _vbo;                      /** < a Vertex Buffer Object.*/
+    unsigned int _ebo;                      /** < a Element Buffer Object.*/
     std::vector<Vertex> _vertices;      /** < a vector of vertex.*/
     std::vector<unsigned int> _indices; /** <  a vector of int that define the indices of vertex of polygons of the mesh.*/
     glm::vec3 _center;                  /** < The radius of the mesh.*/

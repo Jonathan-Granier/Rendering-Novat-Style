@@ -51,17 +51,6 @@ public:
      */
     void disable();
 
-    /**
-     * @brief Switch to the next shader. Go to 0 if the current Shader is the last in the array.
-     */
-//    void next();
-    /**
-     * @brief Switch to the previous shader. if the current shader is the first, go to the last shader in the array.
-     */
-//    void previous();
-
-
-//    void setShader(unsigned int index);
 
     /**
      * @brief Read and compile all shaders
@@ -72,7 +61,7 @@ public:
      * @brief get the current id program.
      * @return the current id program.
      */
-    unsigned int ID() const;
+    unsigned int getId() const;
 
 
 

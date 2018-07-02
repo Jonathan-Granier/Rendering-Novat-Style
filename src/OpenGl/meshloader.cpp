@@ -343,8 +343,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromMNT(const vector<string> &filepaths)
                         (miny+maxy)/2,
                         currentFileInfo->nrows*schema.size()/2 * currentFileInfo->offset);
     for(unsigned int i=0;i<vertices.size();i++){
-        vertices[i].Normal = normalize(vertices[i].Normal);
-        vertices[i].Position -= shift_Pos;
+        vertices[i].normal = normalize(vertices[i].normal);
+        vertices[i].position -= shift_Pos;
     }
 
 
@@ -507,7 +507,7 @@ shared_ptr<Texture> MeshLoader::normalFromHeightMap(vector<float> data, int widt
     for(int i = height-1 ; i>= 0 ; i--){
         for(int j=0; j < width; j++){
             int index = i*width + j;
-            glm::vec3 n = normalize(vertices[index].Normal);
+            glm::vec3 n = normalize(vertices[index].normal);
             //cout<< "(" << vertices[index].Position.x << "," << vertices[index].Position.y << "," << vertices[index].Position.z <<")" << "|";
             n = glm::normalize(normalMat * n);
 
@@ -602,8 +602,8 @@ shared_ptr<Mesh> MeshLoader::vertexFromHeightMap(vector<float> data, int width, 
                         (ymin+ymax)/2,
                         height/2 * offset);
     for(unsigned int i=0;i<vertices.size();i++){
-        vertices[i].Normal = normalize(vertices[i].Normal);
-        vertices[i].Position -= shift_Pos;
+        vertices[i].normal = normalize(vertices[i].normal);
+        vertices[i].position -= shift_Pos;
     }
 
 
@@ -669,12 +669,12 @@ void MeshLoader::checkHeader(string value,string goal){
 // V1,V2,V3 in counterclockwise direction !
 
 void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
-    vec3 v12 = v2->Position - v1->Position;
-    vec3 v13 = v3->Position - v1->Position;
+    vec3 v12 = v2->position - v1->position;
+    vec3 v13 = v3->position - v1->position;
     vec3 nf  = normalize(cross(v12,v13));
-    v1->Normal+=nf;
-    v2->Normal+=nf;
-    v3->Normal+=nf;
+    v1->normal+=nf;
+    v2->normal+=nf;
+    v3->normal+=nf;
 }
 
 
@@ -708,45 +708,45 @@ vector<std::shared_ptr<MeshLoader::FileInfo>> MeshLoader::getFileInfosFromFiles(
 }
 
 
-void MeshLoader::readHeader(std::shared_ptr<FileInfo> FileInfo)
+void MeshLoader::readHeader(std::shared_ptr<FileInfo> fileInfo)
 {
 
     string value;
     //Number of colomns
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"ncols");
-    getline(FileInfo->filestream,value);
-    FileInfo->ncols = stoi(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->ncols = stoi(value);
 
     //Number of lines
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"nrows");
-    getline(FileInfo->filestream,value);
-    FileInfo->nrows = stoi(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->nrows = stoi(value);
 
     //Position x of the corner
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"xllcorner");
-    getline(FileInfo->filestream,value);
-    FileInfo->xllcorner = stof(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->xllcorner = stof(value);
 
     //Position y of the corner
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"yllcorner");
-    getline(FileInfo->filestream,value);
-    FileInfo->yllcorner = stof(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->yllcorner = stof(value);
 
     //Size of a cell
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"cellsize");
-    getline(FileInfo->filestream,value);
-    FileInfo->offset = stof(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->offset = stof(value);
 
     //Error value TODO USE
-    getline(FileInfo->filestream,value,' ');
+    getline(fileInfo->filestream,value,' ');
     checkHeader(value,"NODATA_value");
-    getline(FileInfo->filestream,value);
-    FileInfo->noDataValue = stof(value);
+    getline(fileInfo->filestream,value);
+    fileInfo->noDataValue = stof(value);
 }
 
 

@@ -21,18 +21,18 @@ Texture::Texture(std::string name): _name(name){}
 
 void Texture::sendToShader(shared_ptr<Shader> shader)
 {
-    glActiveTexture(GL_TEXTURE0 + _ID);
-    shader->setInt(_name,_ID);
-    glBindTexture(GL_TEXTURE_2D, _ID);
+    glActiveTexture(GL_TEXTURE0 + _id);
+    shader->setInt(_name,_id);
+    glBindTexture(GL_TEXTURE_2D, _id);
 }
 
 
 
 void Texture::sendToShader(shared_ptr<Shader> shader,string name)
 {
-    glActiveTexture(GL_TEXTURE0 + _ID);
-    shader->setInt(name,_ID);
-    glBindTexture(GL_TEXTURE_2D, _ID);
+    glActiveTexture(GL_TEXTURE0 + _id);
+    shader->setInt(name,_id);
+    glBindTexture(GL_TEXTURE_2D, _id);
 }
 
 
@@ -49,8 +49,8 @@ vector<float> Texture::getDataRED(){
     //glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
 
 
-    glActiveTexture(GL_TEXTURE0 + _ID);
-    glBindTexture(GL_TEXTURE_2D ,_ID);
+    glActiveTexture(GL_TEXTURE0 + _id);
+    glBindTexture(GL_TEXTURE_2D ,_id);
     glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
 
 
@@ -77,8 +77,8 @@ void Texture::printValueRED(){
     GLint numBytes = _width*_height;
     float pixels[numBytes];
 
-    glActiveTexture(GL_TEXTURE0 + _ID);
-    glBindTexture(GL_TEXTURE_2D ,_ID);
+    glActiveTexture(GL_TEXTURE0 + _id);
+    glBindTexture(GL_TEXTURE_2D ,_id);
     glGetTexImage(GL_TEXTURE_2D,0,GL_RED,GL_FLOAT,pixels);
 
 
@@ -93,7 +93,7 @@ void Texture::printValueRED(){
 }
 
 
-int Texture::meshOffset() const
+int Texture::getMeshOffset() const
 {
     return _meshOffset;
 }
@@ -118,9 +118,9 @@ std::string Texture::getName() const
     return _name;
 }
 
-unsigned int Texture::getID() const
+unsigned int Texture::getId() const
 {
-    return _ID;
+    return _id;
 }
 
 /************************************************

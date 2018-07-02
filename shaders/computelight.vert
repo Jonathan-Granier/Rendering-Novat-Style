@@ -20,7 +20,7 @@ uniform mat4 projMat;
 uniform mat3 normalMat;
 
 
-uniform vec3 lightPosition;
+uniform vec3 lightDirection;
 uniform sampler2D shadeLightMap;
 
 
@@ -35,7 +35,7 @@ void main()
     vec4 position = vec4(aPos,1.0);
     texCoord = vec2(aTexCoord.x,(aTexCoord.y -1) * -1);
 
-    lightDir =  mdvMat * normalize(vec4(texture(shadeLightMap,texCoord)));
+    lightDir =  mdvMat * normalize(vec4(lightDirection,0));
     normal = normalMat * aNormal;
 
     gl_Position = projMat * mdvMat * modelMat * position;

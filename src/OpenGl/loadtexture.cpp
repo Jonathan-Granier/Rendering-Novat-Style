@@ -16,7 +16,7 @@ LoadTexture::LoadTexture( const std::string &name , const std::string &path):
     unsigned char *data;
 
 
-    glGenTextures(1, &_ID);
+    glGenTextures(1, &_id);
 
     // load and generate the texture
     stbi_set_flip_vertically_on_load(true);
@@ -31,7 +31,7 @@ LoadTexture::LoadTexture( const std::string &name , const std::string &path):
         else if (nrComponents == 4)
             format = GL_RGBA;
 
-        glBindTexture(GL_TEXTURE_2D, _ID);
+        glBindTexture(GL_TEXTURE_2D, _id);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -57,8 +57,8 @@ LoadTexture::LoadTexture(const std::string &name, std::vector<float> data, GLint
     _width  = width;
     _height = height;
 
-    glGenTextures(1, &_ID);
-    glBindTexture(GL_TEXTURE_2D, _ID);
+    glGenTextures(1, &_id);
+    glBindTexture(GL_TEXTURE_2D, _id);
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, _width, _height, 0, format, GL_FLOAT, data.data());
 
 

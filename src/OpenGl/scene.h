@@ -37,10 +37,10 @@ public:
      * @brief Draw the Scene from an shader
      * @param shader :  the shader to use for draw the Scene
      */
-    void draw(std::shared_ptr<Shader> shader, glm::vec3 lightPosition);
+    void draw(std::shared_ptr<Shader> shader, glm::vec3 lightDirection);
 
     /**
-     * @brief draw only the mesh in the Scene, not the texture
+     * @brief Draw only the mesh in the Scene, not the texture
      */
     void drawOnlyMesh();
 
@@ -61,7 +61,7 @@ public:
     void drawSlantMap(std::shared_ptr<Shader> shader);
     void drawShadeLightMap(std::shared_ptr<Shader> shader);
     void drawShadowLightMap(std::shared_ptr<Shader> shader);
-    void drawParallaxMap(std::shared_ptr<Shader> shader);
+    void drawShadowMap(std::shared_ptr<Shader> shader);
     void drawMorphoErosionMap(std::shared_ptr<Shader> shader);
     void drawMorphoDilationMap(std::shared_ptr<Shader> shader);
     void drawMergeShadowMap(std::shared_ptr<Shader> shader);
@@ -83,27 +83,15 @@ public:
      * @brief get _center
      * @return the center of the Scene
      */
-    glm::vec3 center() const;
+    glm::vec3 getCenter() const;
     /**
      * @brief get _radius
      * @return the radius of the Scene
      */
-    float radius() const;
+    float getRadius() const;
 
 
 
-
-/*
-
-    float getSigma() const;
-    void setSigma(float sigma);
-
-    void previousLight();
-    void nextLight();
-    int getLightSelector() const;
-*/
-
-//    float getLightThreshold() const;
 
     void selectCurrentMaps(int id);
     void nextMaps();
@@ -148,6 +136,9 @@ public:
     void loadCelShadingTex(std::string filepaths);
 
     void setColorSelector(int colorSelector);
+
+    void setDoDefaultShading(bool doDefaultShading);
+
 private:
 
 
@@ -184,6 +175,7 @@ private:
     bool _doEditShadeLightDir;
     bool _doEditShadowLightDir;
     bool _doShadowMorpo;
+    bool _doDefaultShading;
 
     int _shadeSelector;
     int _colorSelector;

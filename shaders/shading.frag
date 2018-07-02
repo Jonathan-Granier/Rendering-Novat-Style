@@ -12,23 +12,19 @@ uniform bool firstMap;
 uniform int shadeSelector;
 
 // Light !
-uniform vec3 lightPosition;
 uniform sampler2D shadeLightMap;
 
 /**
-Compute the diffuse lighting
-    k : Coefficient
-    c : color of object
+Compute the Lambertien
     n : normal Vector
     l : light Vector
-    I : light intensity
 **/
-float DiffuseLighting( vec4 n, vec4 l){
+float Lambertien( vec4 n, vec4 l){
     return max(dot(n,l),0);
 }
 
 
-float watercolor(float blur, float detail){
+float watercolor(float detail, float blur ){
   float b = blur;//*(bmax-bmin) + bmin;
   float d = detail;
 
@@ -37,7 +33,7 @@ float watercolor(float blur, float detail){
 
 
 
-float overlay(float blur, float detail){
+float overlay(float detail, float blur){
   float bmin = 0.1;
   float bmax = 1-bmin;
 
@@ -52,43 +48,15 @@ float overlay(float blur, float detail){
 
 }
 
-float softlight(float blur, float detail , float f){
-  float b = blur;
-  float d = detail;
-  if(detail>0.5){
-    return 1-(1-b)*(1-(d-0.5));
-  }
-  return b*(d+0.5);
-}
-
-
-
-float hardlight(float blur, float detail , float f){
-  float b = blur;
-  /**
-  if(blur <= 0.5)
-      b = blur - f*blur + f;
-  else
-      b = blur - f*blur;
-  /**/
-
-  float d = detail;
-  if(detail>0.5){
-    return 1-2*(1-d)*(1-b);
-    //return 1-(1-2*(b-0.5))*(1-t);
-  }
-  return 2*b*d;
-}
-
 
 void main()
 {
     vec4 n = normalize(vec4(normalMat * texture(normalMap,texCoord).xyz,0));
     vec4 l = normalize(mdvMat * normalize(texture(shadeLightMap,texCoord)));
-    float Cd;
+    float cCd;
 
 
-      Cd = DiffuseLighting(n,l);
+      cCd = Lambertien(n,l);
 
 /**/
 
@@ -96,24 +64,21 @@ void main()
     if(!firstMap && shadeSelector == 0)
     {
       float pCd = texture(shadingMap,texCoord).r;
-      Cd = pCd;
-      //Cd = overlay(pCd,Cd);
-      //Cd = (Cd+pCd/2.0)/2.0;
+      cCd = pCd;
     }
     else if(!firstMap && shadeSelector == 2)
     {
       float pCd = texture(shadingMap,texCoord).r;
-      Cd = overlay(Cd,pCd);
-      //Cd = overlay(pCd,Cd);
-      //Cd = (Cd+pCd/2.0)/2.0;
+      cCd = overlay(pCd,cCd);
+
     }
     else if(!firstMap && shadeSelector == 3)
     {
       float pCd = texture(shadingMap,texCoord).r;
-      Cd =  watercolor(pCd,Cd);
+      cCd =  watercolor(cCd,pCd);
       //Cd = overlay(pCd,Cd);
       //Cd = (Cd+pCd/2.0)/2.0;
     }
 /**/
-    FragColor = vec4(Cd,Cd,Cd,0);
+    FragColor = vec4(cCd,cCd,cCd,0);
 }

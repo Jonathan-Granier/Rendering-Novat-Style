@@ -36,9 +36,6 @@
       <height>781</height>
      </rect>
     </property>
-    <zorder>verticalLayoutWidget_3</zorder>
-    <zorder>shadowCheckBoxLightDir</zorder>
-    <zorder>lightShadowPosLabel</zorder>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -487,6 +484,19 @@
       </item>
      </layout>
     </widget>
+   </widget>
+   <widget class="QCheckBox" name="doDefaultShading">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>910</y>
+      <width>141</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>do default shading</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

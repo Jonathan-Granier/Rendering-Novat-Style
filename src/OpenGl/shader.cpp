@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iostream>
 
-// Constructor : Compile and link the shaders to _ID
+// Constructor : Compile and link the shaders to _id
 
 using namespace std;
 using namespace glm;
@@ -38,7 +38,7 @@ void Shader::reload()
     initialize();
 }
 
-unsigned int Shader::ID() const
+unsigned int Shader::getId() const
 {
     return _id ;
 }
@@ -49,7 +49,7 @@ unsigned int Shader::ID() const
 // ------------------------------------------------------------------------
 void Shader::setBool(const string &name, bool value)
 {
-   glUniform1i(glGetUniformLocation(ID(), name.c_str()), (int)value);
+   glUniform1i(glGetUniformLocation(_id, name.c_str()), (int)value);
 }
 // ------------------------------------------------------------------------
 void Shader::setInt(const string &name, int value)

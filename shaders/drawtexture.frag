@@ -23,7 +23,7 @@ uniform sampler2D normalMap;
 uniform sampler2D slantMap;
 uniform sampler2D shadeLightMap;
 uniform sampler2D shadowLightMap;
-uniform sampler2D parallaxMap;
+uniform sampler2D shadowMap;
 uniform sampler2D morphoErosionMap;
 uniform sampler2D morphoDilationMap;
 uniform sampler2D mergeShadowMap;
@@ -42,7 +42,7 @@ uniform vec2 moussePos;
   3  - slantMap
   4  - shadeLightMap
   5  - shadowLightMap
-  6  - parallaxMap
+  6  - shadowMap
   7  - morphoErosionMap
   8  - morphoDilationMap
   9  - mergeShadowMap
@@ -278,16 +278,16 @@ void main()
       valueDisplay = texture(shadowLightMap, texCoordDisplay);
     }
     if(selectTexture == 6){
-      FragColor = texture(parallaxMap,      texCoord);
-      valueDisplay = texture(parallaxMap, texCoordDisplay);
+      FragColor = texture(shadowMap,      texCoord);
+      valueDisplay = texture(shadowMap, texCoordDisplay);
     }
     if(selectTexture == 7){
-      FragColor = texture(morphoErosionMap,      texCoord);
-      valueDisplay = texture(morphoErosionMap, texCoordDisplay);
-    }
-    if(selectTexture == 8){
       FragColor = texture(morphoDilationMap,      texCoord);
       valueDisplay = texture(morphoDilationMap, texCoordDisplay);
+    }
+    if(selectTexture == 8){
+      FragColor = texture(morphoErosionMap,      texCoord);
+      valueDisplay = texture(morphoErosionMap, texCoordDisplay);
     }
     if(selectTexture == 9){
       FragColor = texture(mergeShadowMap,      texCoord);

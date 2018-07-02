@@ -45,7 +45,7 @@ public:
                     NORMALMAP,      /*!< Mode for draw the normal map of the current mesh            */
                     SHADELIGHTMAP , /*!< Mode for draw the light map of the current mesh             */
                     SHADOWLIGHTMAP,
-                    PARALLAX,
+                    SHADOW,
                     MORPHOEROSION,
                     MORPHODILATION,
                     MERGESHADOW,
@@ -156,11 +156,11 @@ public:
     void setShadeSelector(int s);
     void setDoShadow(bool s);
 
-    void shadowEnabled(int b);
-    void shadowEnabledMorpho(int b);
-    void shadowEnabledLightDir(int b);
+    void setShadowEnabled(int b);
+    void setShadowEnabledMorpho(int b);
+    void setShadowEnabledLightDir(int b);
 
-    void shadeEnabledLightDir(int b);
+    void setShadeEnabledLightDir(int b);
 
 
     void setPlainColor(const QColor &plainColor);
@@ -172,8 +172,8 @@ public:
     void loadCelShadingTex(QString filepaths);
 
     void setColorSelector(int c);
+    void setDoDefaultShading(bool b);
 
- //   void makeATest(int numTest);
 
 
 
@@ -187,9 +187,9 @@ private:
     int _nbFrames;
 
 
-    QOpenGLContext *m_context;
+    QOpenGLContext *            _context;
 
-    std::shared_ptr<Shader>     _lightShaders;           /** < Shaders for compute the light. */
+    std::shared_ptr<Shader>     _lightShader;           /** < Shaders for compute the light. */
     std::shared_ptr<Shader>     _drawTextureShader;
 
     std::shared_ptr<Scene>      _scene;            /** < A Scene pointer.  */

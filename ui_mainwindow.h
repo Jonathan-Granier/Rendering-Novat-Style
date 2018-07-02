@@ -101,6 +101,7 @@ public:
     QLabel *lightShadingPosValue;
     QSpacerItem *horizontalSpacer_2;
     QSlider *lightShadingSlider;
+    QCheckBox *doDefaultShading;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuAide;
@@ -394,6 +395,9 @@ public:
 
         verticalLayout_5->addLayout(verticalLayout_4);
 
+        doDefaultShading = new QCheckBox(centralwidget);
+        doDefaultShading->setObjectName(QStringLiteral("doDefaultShading"));
+        doDefaultShading->setGeometry(QRect(20, 910, 141, 26));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -478,6 +482,7 @@ public:
         shadeRadio3->setText(QApplication::translate("MainWindow", "Wartercolor", Q_NULLPTR));
         lightShadingPosLabel->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Position vertical de la lumi\303\250re :</p></body></html>", Q_NULLPTR));
         lightShadingPosValue->setText(QApplication::translate("MainWindow", "<html><head/><body><p>45</p></body></html>", Q_NULLPTR));
+        doDefaultShading->setText(QApplication::translate("MainWindow", "do default shading", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("MainWindow", "Fichier", Q_NULLPTR));
         menuAide->setTitle(QApplication::translate("MainWindow", "Aide", Q_NULLPTR));
     } // retranslateUi

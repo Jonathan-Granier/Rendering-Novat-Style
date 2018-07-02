@@ -100,11 +100,11 @@ private:
     static void readHeader(std::shared_ptr<FileInfo> FileInfo);
     /**
      * @brief From this : (0,1,2,3,4,5)(indice of fileInfos) and each upper corner position ; build a 2D vector with indice of fileInfos
-     *  NW | N | NE
-     * ------------
-     *  W  | C | E
-     * ------------
-     *  SW | S  SE
+     *  1 | 5 |
+     * --------
+     *  0 | 2 |
+     * --------
+     *  3 | 4 |
      * @param fileInfos a set of FIleInfo
      * @return a schema with index of fileInfos in the cellules
      */

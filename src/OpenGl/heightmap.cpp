@@ -15,12 +15,12 @@ HeightMap::HeightMap(string name, const int &width, const int &height):
 void HeightMap::initialize()
 {
 
-    glGenFramebuffers(1,&_FBO);
-    glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
+    glGenFramebuffers(1,&_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
     // create depth texture
 
-    glGenTextures(1,&_ID);
-    glBindTexture(GL_TEXTURE_2D,_ID);
+    glGenTextures(1,&_id);
+    glBindTexture(GL_TEXTURE_2D,_id);
     glTexImage2D(GL_TEXTURE_2D,0,GL_R32F,_width,_height,0,GL_RED,GL_FLOAT,0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -33,7 +33,7 @@ void HeightMap::initialize()
     // attach depth texture as FBO's depth buffer
 
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_ID,0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_id,0);
     GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
     glDrawBuffer(DrawBuffers);
 
@@ -58,9 +58,9 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
 {
 
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // Qt have only one framebuffer actif
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_qtfbo); // Qt have only one framebuffer actif
 
-    glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
+    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
     glViewport(0,0,_width,_height);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -74,7 +74,7 @@ vector<float> HeightMap::generate(int widthViewport, int heightViewport)
     glReadPixels(0,0,_width,_height,GL_RED,GL_FLOAT,pixels);
 
 
-    glBindFramebuffer(GL_FRAMEBUFFER, _QTFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _qtfbo);
     _generatorShader->disable();
 
     glViewport(0,0,widthViewport,heightViewport);

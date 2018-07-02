@@ -5,7 +5,6 @@ out vec4 FragColor;
 in vec2 texCoord;
 uniform sampler2D heightMap;
 uniform sampler2D shadowLightMap;
-uniform vec3 lightPosition;
 
 uniform float ymin;
 uniform float ymax;
@@ -43,7 +42,6 @@ void main()
 {
     float h = texture(heightMap, texCoord).r;
     vec4 l = texture(shadowLightMap,texCoord);
-   // vec3 l = normalize(lightPosition);
 
     vec2 l2D = vec2(l.x/resolution.x, -l.z/resolution.y);
     float stepH = step * sqrt(1*1-length(l.xz)*length(l.xz));

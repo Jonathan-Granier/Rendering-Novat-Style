@@ -44,20 +44,20 @@ void Maps::generateHeightMap(std::shared_ptr<Texture> refHeightMap){
     if(!_isGenerate && _factorIsChange)
     {
         _gaussBlurHMap->startGenerate();
-        _gaussBlurHMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
-        _gaussBlurHMap->generatorShader()->setInt("direction",0);
-        refHeightMap->sendToShader(_gaussBlurHMap->generatorShader(),"img");
+        _gaussBlurHMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
+        _gaussBlurHMap->getGeneratorShader()->setInt("direction",0);
+        refHeightMap->sendToShader(_gaussBlurHMap->getGeneratorShader(),"img");
         _gaussBlurHMap->generate(_viewportSize->width,_viewportSize->height);
 
 
         _gaussBlurVMap->startGenerate();
-        _gaussBlurVMap->generatorShader()->setInt("halfsize",_gaussBlurFactor);
-        _gaussBlurVMap->generatorShader()->setInt("direction",1);
-        _gaussBlurHMap->sendToShader(_gaussBlurVMap->generatorShader(),"img");
+        _gaussBlurVMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
+        _gaussBlurVMap->getGeneratorShader()->setInt("direction",1);
+        _gaussBlurHMap->sendToShader(_gaussBlurVMap->getGeneratorShader(),"img");
         _gaussBlurVMap->generate(_viewportSize->width,_viewportSize->height);
 
         _heightMap = _gaussBlurVMap;
-        _heightMap->setMeshOffset(refHeightMap->meshOffset());
+        _heightMap->setMeshOffset(refHeightMap->getMeshOffset());
         generateNormalMap();
         generateSlantMap();
         _isGenerate = true;
@@ -66,28 +66,27 @@ void Maps::generateHeightMap(std::shared_ptr<Texture> refHeightMap){
 }
 
 
-void Maps::generateEditHeightMap(std::shared_ptr<Texture> previousHeightMap, bool lastMap){
+void Maps::generateEditHeightMap(std::shared_ptr<Texture> nextHeightMap, bool lastMap){
 
     _editHeightMap->startGenerate();
-    _editHeightMap->generatorShader()->setBool("lastMap",lastMap);
-    _heightMap->sendToShader(_editHeightMap->generatorShader(),"currentHeightMap");
+    _editHeightMap->getGeneratorShader()->setBool("lastMap",lastMap);
+    _heightMap->sendToShader(_editHeightMap->getGeneratorShader(),"currentHeightMap");
     if(!lastMap){
-        previousHeightMap->sendToShader(_editHeightMap->generatorShader(),"previousHeightMap");
+        nextHeightMap->sendToShader(_editHeightMap->getGeneratorShader(),"nextHeightMap");
+        //Arbitrary , need to find a better solution (Without check all the values).
         _ymaxEdit = 1000;
         _yminEdit = -1000;
-        //Arbitrary , need to find a better solution (Without check all the values).
+
     }
     _editHeightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 
 void Maps::generateNormalMap(){
-
-    //_normalMap = MeshLoader::normalFromHeightMap(_heightMap->getDataRED(),_width,_height,_heightMap->meshOffset());
     _normalMap->startGenerate();
-    _normalMap->generatorShader()->setVec2("resolution",_width,_height);
-    _normalMap->generatorShader()->setFloat("offset",_heightMap->meshOffset());
-    _editHeightMap->sendToShader(_normalMap->generatorShader());
+    _normalMap->getGeneratorShader()->setVec2("resolution",_width,_height);
+    _normalMap->getGeneratorShader()->setFloat("offset",_heightMap->getMeshOffset());
+    _editHeightMap->sendToShader(_normalMap->getGeneratorShader());
     _normalMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
@@ -97,69 +96,61 @@ void Maps::generateNormalMap(){
 void Maps::generateSlantMap()
 {
     _slantMap->startGenerate();
-    _slantMap->generatorShader()->setVec2("resolution",_width,_height);
-    _slantMap->generatorShader()->setFloat("offset",_heightMap->meshOffset());
-    _heightMap->sendToShader(_slantMap->generatorShader());
-    _normalMap->sendToShader(_slantMap->generatorShader());
+    _normalMap->sendToShader(_slantMap->getGeneratorShader());
     _slantMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 void Maps::generateShadeLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
 {
     _shadeLightMap->startGenerate();
-    _shadeLightMap->generatorShader()->setVec3("lightPosition",lightPos);
-    _shadeLightMap->generatorShader()->setFloat("yaw",yaw);
-    _shadeLightMap->generatorShader()->setFloat("pitch",pitch);
-    _shadeLightMap->generatorShader()->setInt("lightSelector",0);
-    _shadeLightMap->generatorShader()->setFloat("threshold",_lightThreshold);
-    _shadeLightMap->generatorShader()->setBool("doEdit",doEdit);
-    _slantMap->sendToShader(_shadeLightMap->generatorShader());
+    _shadeLightMap->getGeneratorShader()->setVec3("lightPosition",lightPos);
+    _shadeLightMap->getGeneratorShader()->setFloat("yaw",yaw);
+    _shadeLightMap->getGeneratorShader()->setFloat("pitch",pitch);
+    _shadeLightMap->getGeneratorShader()->setFloat("threshold",_lightThreshold);
+    _shadeLightMap->getGeneratorShader()->setBool("doEdit",doEdit);
+    _slantMap->sendToShader(_shadeLightMap->getGeneratorShader());
     _shadeLightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 void Maps::generateShadowLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
 {
     _shadowLightMap->startGenerate();
-    _shadowLightMap->generatorShader()->setVec3("lightPosition",lightPos);
-    _shadowLightMap->generatorShader()->setFloat("yaw",yaw);
-    _shadowLightMap->generatorShader()->setFloat("pitch",pitch);
-    _shadowLightMap->generatorShader()->setInt("lightSelector",0);
-    _shadowLightMap->generatorShader()->setFloat("threshold",_lightThreshold);
-    _shadowLightMap->generatorShader()->setBool("doEdit",doEdit);
-    _slantMap->sendToShader(_shadowLightMap->generatorShader());
+    _shadowLightMap->getGeneratorShader()->setVec3("lightPosition",lightPos);
+    _shadowLightMap->getGeneratorShader()->setFloat("yaw",yaw);
+    _shadowLightMap->getGeneratorShader()->setFloat("pitch",pitch);
+    _shadowLightMap->getGeneratorShader()->setFloat("threshold",_lightThreshold);
+    _shadowLightMap->getGeneratorShader()->setBool("doEdit",doEdit);
+    _slantMap->sendToShader(_shadowLightMap->getGeneratorShader());
     _shadowLightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateParallaxMap(glm::vec3 lightPos)
+void Maps::generateShadowMap()
 {
-    _parallaxMap->startGenerate();
-    _parallaxMap->generatorShader()->setFloat("ymin",_yminEdit);
-    _parallaxMap->generatorShader()->setFloat("ymax",_ymaxEdit);
-    _parallaxMap->generatorShader()->setFloat("step",_heightMap->meshOffset());
-    _parallaxMap->generatorShader()->setVec2("resolution",_width,_height);
-    _parallaxMap->generatorShader()->setVec3("lightPosition",lightPos);
-    _editHeightMap->sendToShader(_parallaxMap->generatorShader(),"heightMap");
-    _shadowLightMap->sendToShader(_parallaxMap->generatorShader());
-    _parallaxMap->generate(_viewportSize->width,_viewportSize->height);
+    _shadowMap->startGenerate();
+    _shadowMap->getGeneratorShader()->setFloat("ymin",_yminEdit);
+    _shadowMap->getGeneratorShader()->setFloat("ymax",_ymaxEdit);
+    _shadowMap->getGeneratorShader()->setFloat("step",_heightMap->getMeshOffset());
+    _shadowMap->getGeneratorShader()->setVec2("resolution",_width,_height);
+    _editHeightMap->sendToShader(_shadowMap->getGeneratorShader(),"heightMap");
+    _shadowLightMap->sendToShader(_shadowMap->getGeneratorShader());
+    _shadowMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 void Maps::generateMorphoErosionMap(bool doMorpho)
 {
     _morphoErosionMap->startGenerate();
-    _morphoErosionMap->generatorShader()->setVec2("resolution",_width,_height);
-    _morphoErosionMap->generatorShader()->setInt("operator",0);
-    _morphoDilationMap->generatorShader()->setBool("doMorpho",doMorpho);
-    _parallaxMap->sendToShader(_morphoErosionMap->generatorShader(),"shadowMap");
+    _morphoErosionMap->getGeneratorShader()->setInt("operator",0);
+    _morphoErosionMap->getGeneratorShader()->setBool("doMorpho",doMorpho);
+    _morphoDilationMap->sendToShader(_morphoErosionMap->getGeneratorShader(),"shadowMap");
     _morphoErosionMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
 void Maps::generateMorphoDilationMap(bool doMorpho)
 {
     _morphoDilationMap->startGenerate();
-    _morphoDilationMap->generatorShader()->setVec2("resolution",_width,_height);
-    _morphoErosionMap->generatorShader()->setInt("operator",1);
-    _morphoErosionMap->generatorShader()->setBool("doMorpho",doMorpho);
-    _morphoErosionMap->sendToShader(_morphoDilationMap->generatorShader(),"shadowMap");
+    _morphoDilationMap->getGeneratorShader()->setInt("operator",1);
+    _morphoDilationMap->getGeneratorShader()->setBool("doMorpho",doMorpho);
+    _shadowMap->sendToShader(_morphoDilationMap->getGeneratorShader(),"shadowMap");
     _morphoDilationMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
@@ -168,25 +159,24 @@ void Maps::generateMorphoDilationMap(bool doMorpho)
 void Maps::generateMergeShadowMap(std::shared_ptr<Texture> previousShadowMap, bool lastMap)
 {
     _mergeShadowMap->startGenerate();
-    _morphoDilationMap->sendToShader(_mergeShadowMap->generatorShader(),"currentShadowMap");
-    _mergeShadowMap->generatorShader()->setBool("firstMap",lastMap);
+    _morphoErosionMap->sendToShader(_mergeShadowMap->getGeneratorShader(),"currentShadowMap");
+    _mergeShadowMap->getGeneratorShader()->setBool("firstMap",lastMap);
     if(!lastMap)
-        previousShadowMap->sendToShader(_mergeShadowMap->generatorShader(),"previousShadowMap");
+        previousShadowMap->sendToShader(_mergeShadowMap->getGeneratorShader(),"previousShadowMap");
     _mergeShadowMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Maps::generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, glm::vec3 lightPosition, shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector)
+void Maps::generateShadingMap(glm::mat4 mdvMat, glm::mat3 normalMat, shared_ptr<Texture> previousShadingMap, bool firstMap, int shadeSelector)
 {
     _shadingMap->startGenerate();
-    _shadingMap->generatorShader()->setMat4("mdvMat",mdvMat);
-    _shadingMap->generatorShader()->setMat3("normalMat",normalMat);
-    _shadingMap->generatorShader()->setVec3("lightPosition",lightPosition);
-    _shadingMap->generatorShader()->setBool("firstMap",firstMap);
-    _shadingMap->generatorShader()->setInt("shadeSelector",shadeSelector);
-    _normalMap->sendToShader(_shadingMap->generatorShader());
-    _shadeLightMap->sendToShader(_shadingMap->generatorShader());
+    _shadingMap->getGeneratorShader()->setMat4("mdvMat",mdvMat);
+    _shadingMap->getGeneratorShader()->setMat3("normalMat",normalMat);
+    _shadingMap->getGeneratorShader()->setBool("firstMap",firstMap);
+    _shadingMap->getGeneratorShader()->setInt("shadeSelector",shadeSelector);
+    _normalMap->sendToShader(_shadingMap->getGeneratorShader());
+    _shadeLightMap->sendToShader(_shadingMap->getGeneratorShader());
     if(!firstMap)
-        previousShadingMap->sendToShader(_shadingMap->generatorShader());
+        previousShadingMap->sendToShader(_shadingMap->getGeneratorShader());
     _shadingMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
@@ -195,7 +185,7 @@ void Maps::drawHeightMap(shared_ptr<Shader> shader){
     shader->setFloat("ymax",_ymax);
     _heightMap->draw(shader);
 }
-//TODO , max et min
+
 void Maps::drawEditHeightMap(shared_ptr<Shader> shader){
     shader->setFloat("ymin",_yminEdit);
     shader->setFloat("ymax",_ymaxEdit);
@@ -206,7 +196,7 @@ void Maps::drawNormalMap(shared_ptr<Shader> shader){             _normalMap->dra
 void Maps::drawSlantMap(shared_ptr<Shader> shader){              _slantMap->draw(shader);}
 void Maps::drawShadeLightMap(shared_ptr<Shader> shader){         _shadeLightMap->draw(shader);}
 void Maps::drawShadowLightMap(shared_ptr<Shader> shader){        _shadowLightMap->draw(shader);}
-void Maps::drawParallaxMap(std::shared_ptr<Shader> shader){      _parallaxMap->draw(shader);}
+void Maps::drawShadowMap(std::shared_ptr<Shader> shader){        _shadowMap->draw(shader);}
 void Maps::drawMorphoErosionMap(std::shared_ptr<Shader> shader){ _morphoErosionMap->draw(shader);}
 void Maps::drawMorphoDilationMap(std::shared_ptr<Shader> shader){_morphoDilationMap->draw(shader);}
 void Maps::drawMergeShadowMap(std::shared_ptr<Shader> shader){   _mergeShadowMap->draw(shader);}
@@ -219,7 +209,7 @@ void Maps::sendNormalMapToShader(std::shared_ptr<Shader> shader){           _nor
 void Maps::sendSlantMapToShader(std::shared_ptr<Shader> shader){            _slantMap->sendToShader(shader)         ;}
 void Maps::sendShadeLightMapToShader(std::shared_ptr<Shader> shader){       _shadeLightMap->sendToShader(shader)    ;}
 void Maps::sendShadowLightMapToShader(std::shared_ptr<Shader> shader){      _shadowLightMap->sendToShader(shader)   ;}
-void Maps::sendParallaxMap(std::shared_ptr<Shader> shader){                 _parallaxMap->sendToShader(shader)      ;}
+void Maps::sendShadowMap(std::shared_ptr<Shader> shader){                   _shadowMap->sendToShader(shader)      ;}
 void Maps::sendMorphoErosionMap(std::shared_ptr<Shader> shader){            _morphoErosionMap->sendToShader(shader) ;}
 void Maps::sendMorphoDilationMap(std::shared_ptr<Shader> shader){           _morphoDilationMap->sendToShader(shader);}
 void Maps::sendMergeShadowMap(std::shared_ptr<Shader> shader){              _mergeShadowMap->sendToShader(shader)   ;}
@@ -301,6 +291,11 @@ std::shared_ptr<GeneratedTexture> Maps::getMorphoDilationMap() const
     return _morphoDilationMap;
 }
 
+std::shared_ptr<GeneratedTexture> Maps::getMorphoErosionMap() const
+{
+    return _morphoErosionMap;
+}
+
 /************************************************
  *              Private Functions               *
  ************************************************/
@@ -316,7 +311,7 @@ void Maps::initialize(shared_ptr<GenShaders> shaders)
     _slantMap           = make_shared<GeneratedTexture>("slantMap",_width,_height,shaders->slantShader);
     _shadeLightMap      = make_shared<GeneratedTexture>("shadeLightMap",_width,_height,shaders->shadeLightShader);
     _shadowLightMap     = make_shared<GeneratedTexture>("shadowLightMap",_width,_height,shaders->shadowLightShader);
-    _parallaxMap        = make_shared<GeneratedTexture>("parallaxMap",_width,_height,shaders->parallaxShader);
+    _shadowMap          = make_shared<GeneratedTexture>("shadowMap",_width,_height,shaders->shadowShader);
     _morphoErosionMap   = make_shared<GeneratedTexture>("morphoErosionMap",_width,_height,shaders->morphoShader);
     _morphoDilationMap  = make_shared<GeneratedTexture>("morphoDilationMap",_width,_height,shaders->morphoShader);
     _mergeShadowMap     = make_shared<GeneratedTexture>("mergeShadowMap",_width,_height,shaders->mergeShadowShader);
@@ -329,7 +324,7 @@ void Maps::initialize(shared_ptr<GenShaders> shaders)
     _slantMap->initialize();
     _shadeLightMap->initialize();
     _shadowLightMap->initialize();
-    _parallaxMap->initialize();
+    _shadowMap->initialize();
     _morphoErosionMap->initialize();
     _morphoDilationMap->initialize();
     _mergeShadowMap->initialize();
@@ -349,7 +344,7 @@ void Maps::resize()
     _slantMap->resize(_width,_height);
     _shadeLightMap->resize(_width,_height);
     _shadowLightMap->resize(_width,_height);
-    _parallaxMap->resize(_width,_height);
+    _shadowMap->resize(_width,_height);
     _morphoErosionMap->resize(_width,_height);
     _morphoDilationMap->resize(_width,_height);
     _mergeShadowMap->resize(_width,_height);

@@ -21,11 +21,11 @@ void GeneratedTexture::initialize()
 {
 
 
-    glGenFramebuffers(1,&_FBO);
-    glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
+    glGenFramebuffers(1,&_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
 
-    glGenTextures(1,&_ID);
-    glBindTexture(GL_TEXTURE_2D,_ID);
+    glGenTextures(1,&_id);
+    glBindTexture(GL_TEXTURE_2D,_id);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA32F,_width,_height,0,GL_RGBA,GL_FLOAT,0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -38,7 +38,7 @@ void GeneratedTexture::initialize()
     // attach depth texture as FBO's depth buffer
 
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_ID,0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_id,0);
 
 
 
@@ -58,8 +58,8 @@ void GeneratedTexture::startGenerate()
 
 void GeneratedTexture::generate(int widthViewport, int heightViewport)
 {
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_QTFBO); // In Qt we have only one framebuffer actif!
-    glBindFramebuffer(GL_FRAMEBUFFER,_FBO);
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_qtfbo); // In Qt we have only one framebuffer actif!
+    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
     glViewport(0,0,_width,_height);
     GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
     glDrawBuffer(DrawBuffers);
@@ -70,7 +70,7 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
 
     renderQuad();
 
-    glBindFramebuffer(GL_FRAMEBUFFER, _QTFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, _qtfbo);
     _generatorShader->disable();
     glViewport(0,0,widthViewport,heightViewport);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -83,7 +83,7 @@ void GeneratedTexture::generate(int widthViewport, int heightViewport)
 void GeneratedTexture::resize(int width, int height){
     _width = width;
     _height = height;
-    glBindTexture(GL_TEXTURE_2D,_ID);
+    glBindTexture(GL_TEXTURE_2D,_id);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA32F,_width,_height,0,GL_RGBA,GL_FLOAT,0);
 
 }
@@ -95,7 +95,7 @@ void GeneratedTexture::reloadShader()
     _generatorShader->reload();
 }
 
-std::shared_ptr<Shader> GeneratedTexture::generatorShader() const
+std::shared_ptr<Shader> GeneratedTexture::getGeneratorShader() const
 {
     return _generatorShader;
 }
