@@ -43,7 +43,7 @@ MainWindow::MainWindow() :
      centralLayout->addWidget(_viewer.get());
      ui->mainWidget->setLayout(centralLayout);
 
-    setupButtons();
+    //setupButtons();
     _currentMapsSelector = new QButtonGroup();
 
     ui->settingsLayout->addWidget(createNewPanel(0,true));
