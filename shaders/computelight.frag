@@ -227,8 +227,8 @@ void main()
   }
 
 
-  FragColor = color;
-  //FragColor = color;
+  FragColor = xtoon(Cd);
+  //FragColor = texture(celShadingTex,texCoord);
 }
 
 

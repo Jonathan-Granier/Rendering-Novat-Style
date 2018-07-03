@@ -31,7 +31,7 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
     create();
-    _filepaths.push_back("models/BDALTI_Alpe_d_huez.asc");
+    _filepaths.push_back("models/Basic/Est.asc");// BDALTI_Alpe_d_huez.asc");
     _light  = make_shared<Light>();
     _needInitializeScene = true;
 }

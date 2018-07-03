@@ -21,8 +21,7 @@
  * Doc :
  *      Faire la doc
  *      Faire le document résumé du code pour le prochain
- *      Faire le readme
- *
+ *      Faire le readme 
  * Nettoyage:
  *      [DONE] Transferet l'info du viewPort afin d'aléger l'appelle des fonctions
  *      [DONE] Enlever shadow map
@@ -44,6 +43,8 @@
  *      [DONE] Swith Erosion/Dilatation
  *      [DONE] Rename Paralax to shadow
  *      Interface en anglais.
+ *
+ *      Commentaire Shader ++.
 * Recherche :
  *
  *      Multi echelle : Vérifier creation et fusion --> doit respecter la pyramide laplacienne
@@ -66,6 +67,7 @@
  *
  *
  *
+ * Rapport file transfert.
  * /
 
 

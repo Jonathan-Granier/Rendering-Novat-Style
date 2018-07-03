@@ -236,8 +236,12 @@ vector<float> Mesh::getReverseHeightMap(){
 }
 
 
-
-
+void Mesh::printNormal(){
+    for(Vertex v : _vertices){
+        v.printNormal();
+        cout << endl;
+    }
+}
 
 
 glm::vec3 Mesh::getCenter() const

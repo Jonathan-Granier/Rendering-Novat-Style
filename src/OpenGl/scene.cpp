@@ -426,7 +426,7 @@ void Scene::initializeGenShader(){
 void Scene::initializeMaps(std::shared_ptr<Texture> heightMap){
 
         _mountains = MeshLoader::vertexFromHeightMap(heightMap->getDataRED(),heightMap->getWidth(),heightMap->getHeight(),heightMap->getMeshOffset());
-
+       // _mountains->printNormal();
         shared_ptr<MapsManager> mapsManager = make_shared<MapsManager>();
         mapsManager->maps = getMapsFromSupply();
         mapsManager->maps->create(heightMap,heightMap->getWidth(),heightMap->getHeight(),_mountains->getYmin(),_mountains->getYmax());
@@ -453,7 +453,7 @@ shared_ptr<Texture> Scene::computeGenHeightMap(){
 
 void Scene::initializeTexture(){
     _asciiTex       = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
-    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/cel_shading.png");
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/awesomeface.png");
     _colorMapTex    = make_shared<LoadTexture>("colorMapTex","textures/degrade_neige.png");
 }
 

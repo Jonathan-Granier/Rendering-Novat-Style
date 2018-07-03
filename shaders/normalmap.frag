@@ -12,13 +12,20 @@ float getTex(float x,float y){
   return texture(editHeightMap,vec2(x,y)).r;
 }
 
+
+
 vec3 computeNormal(vec3 v1, vec3 v2, vec3 v3){
+    if(v1 == 0 || v2 == 0 || v3 == 0)
+      return vec3(0);
     vec3 v12 = v2 - v1;
     vec3 v13 = v3 - v1;
     return normalize(cross(v12,v13));
 }
 
 vec3 buildPos(float x, float y){
+  if(x < 0 || x > 1 || y < 0 || y > 1)
+    return vec3(0.0,0.0,0.0);
+
   float px = offset*x*resolution.x;
   float py = getTex(x,y);
   float pz = offset*y*resolution.y;
@@ -63,5 +70,7 @@ void main()
     normal = normalize(normal);
 
     FragColor = vec4(normal.x,normal.y,-normal.z,0); // For oriente z up .
+
+    //FragColor = vec4(v10,0);
 }
 

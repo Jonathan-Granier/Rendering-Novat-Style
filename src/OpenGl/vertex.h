@@ -82,6 +82,7 @@ public:
      * @brief Print the actual vertex.
      */
     void print();
+    void printNormal();
 };
 
 

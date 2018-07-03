@@ -672,9 +672,11 @@ void MeshLoader::computeNormal(Vertex *v1, Vertex *v2, Vertex *v3){
     vec3 v12 = v2->position - v1->position;
     vec3 v13 = v3->position - v1->position;
     vec3 nf  = normalize(cross(v12,v13));
+
     v1->normal+=nf;
     v2->normal+=nf;
     v3->normal+=nf;
+
 }
 
 

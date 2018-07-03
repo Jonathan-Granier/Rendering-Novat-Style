@@ -57,3 +57,7 @@ void Vertex::print(){
           << ") texCoords : (" << texCoords.x  << "," << texCoords.y << ")"
           << endl;
 }
+
+void Vertex::printNormal(){
+    cout << "(" << normal.x << "," << normal.y << "," << normal.z << ")" ;
+}
