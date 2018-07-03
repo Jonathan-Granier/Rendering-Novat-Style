@@ -1,0 +1,42 @@
+\select@language {english}
+\select@language {english}
+\select@language {french}
+\select@language {english}
+\select@language {french}
+\select@language {english}
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}
+\contentsline {chapter}{\chapternumberline {2} Le Style Novat}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Contexte}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Les panoramas de montagnes en informatique graphique}{4}{section.2.2}
+\contentsline {section}{\numberline {2.3}\IeC {\'E}tude du style de Pierre Novat}{4}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Qu'est-ce que dessiner un panorama du point de vue d'Arthur Novat ?}{4}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Fabrication en pratique - Les diff\IeC {\'e}rentes \IeC {\'e}tapes}{5}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}\IeC {\'E}l\IeC {\'e}ments visuels sp\IeC {\'e}cifiques du style Novat}{7}{subsection.2.3.3}
+\contentsline {chapter}{\chapternumberline {3}\IeC {\'E}tat de l'art sur l'ombrage}{11}{chapter.3}
+\contentsline {section}{\numberline {3.1}Probl\IeC {\'e}matique}{11}{section.3.1}
+\contentsline {section}{\numberline {3.2}L'ombrage vu par les cartographes}{11}{section.3.2}
+\contentsline {section}{\numberline {3.3}Exag\IeC {\'e}ration de la forme en informatique graphique }{13}{section.3.3}
+\contentsline {chapter}{\chapternumberline {4}Calcul d'un ombrage expressif pour les panoramas}{17}{chapter.4}
+\contentsline {section}{\numberline {4.1}Vue d'ensemble de la solution}{17}{section.4.1}
+\contentsline {section}{\numberline {4.2}L'orientation de la lumi\IeC {\`e}re}{18}{section.4.2}
+\contentsline {section}{\numberline {4.3}L'ombrage multi \IeC {\'e}chelle}{20}{section.4.3}
+\contentsline {section}{\numberline {4.4}Fusion des ombrages}{21}{section.4.4}
+\contentsline {section}{\numberline {4.5}Les ombres port\IeC {\'e}es}{22}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Calcul des ombres port\IeC {\'e}es}{22}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Abstraction des ombres port\IeC {\'e}es }{23}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Multi \IeC {\'E}chelles et fusion}{25}{subsection.4.5.3}
+\contentsline {chapter}{\chapternumberline {5}Impl\IeC {\'e}mentation et r\IeC {\'e}sultats}{27}{chapter.5}
+\contentsline {section}{\numberline {5.1}Degr\IeC {\'e}s de libert\IeC {\'e}s}{27}{section.5.1}
+\contentsline {section}{\numberline {5.2}Impl\IeC {\'e}mentation}{28}{section.5.2}
+\contentsline {section}{\numberline {5.3}R\IeC {\'e}sultats}{28}{section.5.3}
+\contentsline {chapter}{\chapternumberline {6}Validation}{33}{chapter.6}
+\contentsline {section}{\numberline {6.1}Entretien avec Arthur Novat}{33}{section.6.1}
+\contentsline {section}{\numberline {6.2}Comparaison avec un rendu classique}{33}{section.6.2}
+\contentsline {section}{\numberline {6.3}Test sur des utilisateurs}{34}{section.6.3}
+\contentsline {chapter}{\chapternumberline {7}Discussions des r\IeC {\'e}sultats et travaux futurs}{35}{chapter.7}
+\contentsline {section}{\numberline {7.1}L'ombrage expressif}{35}{section.7.1}
+\contentsline {section}{\numberline {7.2}Style Novat}{37}{section.7.2}
+\contentsline {section}{\numberline {7.3}Conclusion}{37}{section.7.3}
+\contentsline {appendix}{\chapternumberline {A}Appendix}{39}{appendix.A}
+\contentsline {section}{\numberline {A.1}Quelques paroramas de l'Atelier Novat}{39}{section.A.1}
+\contentsline {chapter}{Bibliography}{43}{section*.56}

@@ -1,0 +1,196 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname fonteauteurs\endcsname\relax
+\def\fonteauteurs{\scshape}\fi
+
+\bibitem{adelson1984pyramid}
+Edward~H \bgroup\fonteauteurs\bgroup Adelson\egroup\egroup{}, Charles~H
+  \bgroup\fonteauteurs\bgroup Anderson\egroup\egroup{}, James~R
+  \bgroup\fonteauteurs\bgroup Bergen\egroup\egroup{}, Peter~J
+  \bgroup\fonteauteurs\bgroup Burt\egroup\egroup{} et Joan~M
+  \bgroup\fonteauteurs\bgroup Ogden\egroup\egroup{} :
+\newblock Pyramid methods in image processing.
+\newblock {\em RCA engineer}, 29(6)\string:\penalty500\relax 33--41, 1984.
+
+\bibitem{balzarini2016effectiveness}
+R~\bgroup\fonteauteurs\bgroup Balzarini\egroup\egroup{} et
+  M~\bgroup\fonteauteurs\bgroup Murat\egroup\egroup{} :
+\newblock The effectiveness of panoramic maps design: A preliminary study based
+  on mobile eye-tracking.
+\newblock {\em International Archives of the Photogrammetry, Remote Sensing \&
+  Spatial Information Sciences}, 41, 2016.
+
+\bibitem{balzarini2015study}
+Raffaella \bgroup\fonteauteurs\bgroup Balzarini\egroup\egroup{}, Anne
+  \bgroup\fonteauteurs\bgroup Dalmasso\egroup\egroup{} et Maxime
+  \bgroup\fonteauteurs\bgroup Murat\egroup\egroup{} :
+\newblock a study on mental representations for realistic visualization the
+  particular case of ski trail mapping.
+\newblock {\em The International Archives of Photogrammetry, Remote Sensing and
+  Spatial Information Sciences}, 40(3)\string:\penalty500\relax 495, 2015.
+
+\bibitem{barla2006x}
+Pascal \bgroup\fonteauteurs\bgroup Barla\egroup\egroup{}, Jo{\"e}lle
+  \bgroup\fonteauteurs\bgroup Thollot\egroup\egroup{} et Lee
+  \bgroup\fonteauteurs\bgroup Markosian\egroup\egroup{} :
+\newblock X-toon: an extended toon shader.
+\newblock \emph{In} {\em Proceedings of the 4th international symposium on
+  Non-photorealistic animation and rendering}, pages 127--132. ACM, 2006.
+
+\bibitem{bousseau2006interactive}
+Adrien \bgroup\fonteauteurs\bgroup Bousseau\egroup\egroup{}, Matt
+  \bgroup\fonteauteurs\bgroup Kaplan\egroup\egroup{}, Jo{\"e}lle
+  \bgroup\fonteauteurs\bgroup Thollot\egroup\egroup{} et Fran{\c{c}}ois~X
+  \bgroup\fonteauteurs\bgroup Sillion\egroup\egroup{} :
+\newblock Interactive watercolor rendering with temporal coherence and
+  abstraction.
+\newblock \emph{In} {\em Proceedings of the 4th international symposium on
+  Non-photorealistic animation and rendering}, pages 141--149. ACM, 2006.
+
+\bibitem{bratkova2009artistic}
+Margarita \bgroup\fonteauteurs\bgroup Bratkova\egroup\egroup{}, Peter
+  \bgroup\fonteauteurs\bgroup Shirley\egroup\egroup{} et William~B
+  \bgroup\fonteauteurs\bgroup Thompson\egroup\egroup{} :
+\newblock Artistic rendering of mountainous terrain.
+\newblock {\em ACM Trans. Graph.}, 28(4)\string:\penalty500\relax 102--1, 2009.
+
+\bibitem{brown2017real}
+S~Alex \bgroup\fonteauteurs\bgroup Brown\egroup\egroup{} et Faramarz
+  \bgroup\fonteauteurs\bgroup Samavati\egroup\egroup{} :
+\newblock Real-time panorama maps.
+\newblock \emph{In} {\em Proceedings of the Symposium on Non-Photorealistic
+  Animation and Rendering}, page~6. ACM, 2017.
+
+\bibitem{caniard2007distortion}
+Franck \bgroup\fonteauteurs\bgroup Caniard\egroup\egroup{} et Roland~W
+  \bgroup\fonteauteurs\bgroup Fleming\egroup\egroup{} :
+\newblock Distortion in 3d shape estimation with changes in illumination.
+\newblock \emph{In} {\em Proceedings of the 4th symposium on Applied perception
+  in graphics and visualization}, pages 99--105. ACM, 2007.
+
+\bibitem{novat2013plans}
+Laurent~Belluard \bgroup\fonteauteurs\bgroup
+  Frédérique~Novat\egroup\egroup{}, Arthur~Novat :
+\newblock {\em Plans des pistes : Les domaines skiables de france dessinés par
+  Pierre NOVAT}.
+\newblock Glenat Production, 2013.
+
+\bibitem{loi2015programmable}
+Hugo \bgroup\fonteauteurs\bgroup Loi\egroup\egroup{} :
+\newblock {\em Programmable synthesis of element textures and application to
+  cartography}.
+\newblock Th\`ese de doctorat, Grenoble Alpes, 2015.
+
+\bibitem{lopez2010measuring}
+Jorge \bgroup\fonteauteurs\bgroup Lopez-Moreno\egroup\egroup{}, Veronica
+  \bgroup\fonteauteurs\bgroup Sundstedt\egroup\egroup{}, Francisco
+  \bgroup\fonteauteurs\bgroup Sangorrin\egroup\egroup{} et Diego
+  \bgroup\fonteauteurs\bgroup Gutierrez\egroup\egroup{} :
+\newblock Measuring the perception of light inconsistencies.
+\newblock \emph{In} {\em Proceedings of the 7th Symposium on Applied Perception
+  in Graphics and Visualization}, pages 25--32. ACM, 2010.
+
+\bibitem{miller1994efficient}
+Gavin \bgroup\fonteauteurs\bgroup Miller\egroup\egroup{} :
+\newblock Efficient algorithms for local and global accessibility shading.
+\newblock \emph{In} {\em Proceedings of the 21st annual conference on Computer
+  graphics and interactive techniques}, pages 319--326. ACM, 1994.
+
+\bibitem{ohtake2004ridge}
+Yutaka \bgroup\fonteauteurs\bgroup Ohtake\egroup\egroup{}, Alexander
+  \bgroup\fonteauteurs\bgroup Belyaev\egroup\egroup{} et Hans-Peter
+  \bgroup\fonteauteurs\bgroup Seidel\egroup\egroup{} :
+\newblock Ridge-valley lines on meshes via implicit surface fitting.
+\newblock \emph{In} {\em ACM transactions on graphics (TOG)}, volume~23, pages
+  609--612. ACM, 2004.
+
+\bibitem{patterson2000view}
+Tom \bgroup\fonteauteurs\bgroup Patterson\egroup\egroup{} :
+\newblock A view from on high: Heinrich berann’s panoramas and landscape
+  visualization techniques for the us national park service.
+\newblock {\em Cartographic Perspectives}, (36)\string:\penalty500\relax
+  38--65, 2000.
+
+\bibitem{patterson2005looking}
+Tom \bgroup\fonteauteurs\bgroup Patterson\egroup\egroup{} :
+\newblock Looking closer: A guide to making bird’s-eye views of national park
+  service cultural and historical sites.
+\newblock {\em Cartographic Perspectives}, (52)\string:\penalty500\relax
+  59--75, 2005.
+
+\bibitem{perlin2002improving}
+Ken \bgroup\fonteauteurs\bgroup Perlin\egroup\egroup{} :
+\newblock Improving noise.
+\newblock \emph{In} {\em ACM Transactions on Graphics (TOG)}, volume~21, pages
+  681--682. ACM, 2002.
+
+\bibitem{pharr2004ambient}
+Matt \bgroup\fonteauteurs\bgroup Pharr\egroup\egroup{} et Simon
+  \bgroup\fonteauteurs\bgroup Green\egroup\egroup{} :
+\newblock Ambient occlusion.
+\newblock {\em GPU Gems}, 1\string:\penalty500\relax 279--292, 2004.
+
+\bibitem{ritschel20083d}
+Tobias \bgroup\fonteauteurs\bgroup Ritschel\egroup\egroup{}, Kaleigh
+  \bgroup\fonteauteurs\bgroup Smith\egroup\egroup{}, Matthias
+  \bgroup\fonteauteurs\bgroup Ihrke\egroup\egroup{}, Thorsten
+  \bgroup\fonteauteurs\bgroup Grosch\egroup\egroup{}, Karol
+  \bgroup\fonteauteurs\bgroup Myszkowski\egroup\egroup{} et Hans-Peter
+  \bgroup\fonteauteurs\bgroup Seidel\egroup\egroup{} :
+\newblock 3d unsharp masking for scene coherent enhancement.
+\newblock {\em ACM Transactions on Graphics (TOG)},
+  27(3)\string:\penalty500\relax 90, 2008.
+
+\bibitem{rusinkiewicz2006exaggerated}
+Szymon \bgroup\fonteauteurs\bgroup Rusinkiewicz\egroup\egroup{}, Michael
+  \bgroup\fonteauteurs\bgroup Burns\egroup\egroup{} et Doug
+  \bgroup\fonteauteurs\bgroup DeCarlo\egroup\egroup{} :
+\newblock Exaggerated shading for depicting shape and detail.
+\newblock \emph{In} {\em ACM Transactions on Graphics (TOG)}, volume~25, pages
+  1199--1205. ACM, 2006.
+
+\bibitem{vergne2016flow}
+Romain \bgroup\fonteauteurs\bgroup Vergne\egroup\egroup{}, Pascal
+  \bgroup\fonteauteurs\bgroup Barla\egroup\egroup{}, Georges-Pierre
+  \bgroup\fonteauteurs\bgroup Bonneau\egroup\egroup{} et Roland~W
+  \bgroup\fonteauteurs\bgroup Fleming\egroup\egroup{} :
+\newblock Flow-guided warping for image-based shape manipulation.
+\newblock {\em ACM Transactions on Graphics (TOG)},
+  35(4)\string:\penalty500\relax 93, 2016.
+
+\bibitem{vergne2008apparent}
+Romain \bgroup\fonteauteurs\bgroup Vergne\egroup\egroup{}, Pascal
+  \bgroup\fonteauteurs\bgroup Barla\egroup\egroup{}, Xavier
+  \bgroup\fonteauteurs\bgroup Granier\egroup\egroup{} et Christophe
+  \bgroup\fonteauteurs\bgroup Schlick\egroup\egroup{} :
+\newblock Apparent relief: a shape descriptor for stylized shading.
+\newblock \emph{In} {\em Proceedings of the 6th international symposium on
+  Non-photorealistic animation and rendering}, pages 23--29. ACM, 2008.
+
+\bibitem{woo1990survey}
+Andrew \bgroup\fonteauteurs\bgroup Woo\egroup\egroup{}, Pierre
+  \bgroup\fonteauteurs\bgroup Poulin\egroup\egroup{} et Alain
+  \bgroup\fonteauteurs\bgroup Fournier\egroup\egroup{} :
+\newblock A survey of shadow algorithms.
+\newblock {\em IEEE Computer Graphics and Applications},
+  10(6)\string:\penalty500\relax 13--32, 1990.
+
+\bibitem{zhang2009laplacian}
+Long \bgroup\fonteauteurs\bgroup Zhang\egroup\egroup{}, Ying
+  \bgroup\fonteauteurs\bgroup He\egroup\egroup{}, Xuexiang
+  \bgroup\fonteauteurs\bgroup Xie\egroup\egroup{} et Wei
+  \bgroup\fonteauteurs\bgroup Chen\egroup\egroup{} :
+\newblock Laplacian lines for real-time shape illustration.
+\newblock \emph{In} {\em Proceedings of the 2009 symposium on Interactive 3D
+  graphics and games}, pages 129--136. ACM, 2009.
+
+\bibitem{zhang2010perceptually}
+Xin \bgroup\fonteauteurs\bgroup Zhang\egroup\egroup{}, Wei
+  \bgroup\fonteauteurs\bgroup Chen\egroup\egroup{}, Jing
+  \bgroup\fonteauteurs\bgroup Fang\egroup\egroup{}, Rui
+  \bgroup\fonteauteurs\bgroup Wang\egroup\egroup{} et Qunsheng
+  \bgroup\fonteauteurs\bgroup Peng\egroup\egroup{} :
+\newblock Perceptually-motivated shape exaggeration.
+\newblock {\em The Visual Computer}, 26(6-8)\string:\penalty500\relax 985--995,
+  2010.
+
+\end{thebibliography}

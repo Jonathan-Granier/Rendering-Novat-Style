@@ -1,0 +1,153 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\sectionentry {1}{Contexte}{2}{Contexte}{0}}
+\headcommand {\beamer@sectionpages {1}{1}}
+\headcommand {\beamer@subsectionpages {1}{1}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{2}{R\IeC {\'e}sum\IeC {\'e}}}\headcommand {\beamer@subsectionpages {2}{1}}
+\headcommand {\slideentry {1}{1}{1}{2/3}{R\IeC {\'e}sum\IeC {\'e}}{0}}
+\headcommand {\beamer@framepages {2}{3}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{4}{D\IeC {\'e}finition d'un panorama}}\headcommand {\beamer@subsectionpages {2}{3}}
+\headcommand {\slideentry {1}{2}{1}{4/4}{D\IeC {\'e}finition d'un panorama}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {1}{2}{2}{5/7}{D\IeC {\'e}finition d'un panorama}{0}}
+\headcommand {\beamer@framepages {5}{7}}
+\headcommand {\slideentry {1}{2}{3}{8/9}{D\IeC {\'e}finition d'un panorama}{0}}
+\headcommand {\beamer@framepages {8}{9}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{10}{Le rendu de panorama}}\headcommand {\beamer@subsectionpages {4}{9}}
+\headcommand {\slideentry {1}{3}{1}{10/10}{Le rendu de panorama}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\beamer@subsectionentry {0}{1}{4}{11}{Pierre Novat}}\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\slideentry {1}{4}{1}{11/11}{Pierre Novat}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {1}{4}{2}{12/12}{Pierre Novat}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {1}{4}{3}{13/14}{Pierre Novat}{0}}
+\headcommand {\beamer@framepages {13}{14}}
+\headcommand {\sectionentry {2}{Style Novat}{15}{Style Novat}{0}}
+\headcommand {\beamer@sectionpages {2}{14}}
+\headcommand {\beamer@subsectionpages {11}{14}}
+\headcommand {\slideentry {2}{0}{1}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{16}{Vue d'ensemble}}\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\slideentry {2}{1}{1}{16/16}{Vue d'ensemble}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{1}{2}{17/17}{Vue d'ensemble}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{18}{Les ombres de Pierre Novat}}\headcommand {\beamer@subsectionpages {16}{17}}
+\headcommand {\slideentry {2}{2}{1}{18/19}{Les ombres de Pierre Novat}{0}}
+\headcommand {\beamer@framepages {18}{19}}
+\headcommand {\slideentry {2}{2}{2}{20/20}{Les ombres de Pierre Novat}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{21}{Perception de la forme}}\headcommand {\beamer@subsectionpages {18}{20}}
+\headcommand {\slideentry {2}{3}{1}{21/21}{Perception de la forme}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\beamer@subsectionentry {0}{2}{4}{22}{Probl\IeC {\'e}matique}}\headcommand {\beamer@subsectionpages {21}{21}}
+\headcommand {\slideentry {2}{4}{1}{22/23}{Probl\IeC {\'e}matique}{0}}
+\headcommand {\beamer@framepages {22}{23}}
+\headcommand {\sectionentry {3}{\IeC {\'E}tat de l'art}{24}{\IeC {\'E}tat de l'art}{0}}
+\headcommand {\beamer@sectionpages {15}{23}}
+\headcommand {\beamer@subsectionpages {22}{23}}
+\headcommand {\slideentry {3}{0}{1}{24/24}{}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{25}{L'illumination en cartographie}}\headcommand {\beamer@subsectionpages {24}{24}}
+\headcommand {\slideentry {3}{1}{1}{25/27}{L'illumination en cartographie}{0}}
+\headcommand {\beamer@framepages {25}{27}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{28}{L'illumination exag\IeC {\'e}r\IeC {\'e}e en informatique graphique}}\headcommand {\beamer@subsectionpages {25}{27}}
+\headcommand {\slideentry {3}{2}{1}{28/30}{L'illumination exag\IeC {\'e}r\IeC {\'e}e en informatique graphique}{0}}
+\headcommand {\beamer@framepages {28}{30}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{31}{Une illumination type carte}}\headcommand {\beamer@subsectionpages {28}{30}}
+\headcommand {\slideentry {3}{3}{1}{31/31}{Une illumination type carte}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\sectionentry {4}{Contribution}{32}{Contribution}{0}}
+\headcommand {\beamer@sectionpages {24}{31}}
+\headcommand {\beamer@subsectionpages {31}{31}}
+\headcommand {\slideentry {4}{0}{1}{32/32}{}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{33}{Vue d'ensemble}}\headcommand {\beamer@subsectionpages {32}{32}}
+\headcommand {\slideentry {4}{1}{1}{33/37}{Vue d'ensemble}{0}}
+\headcommand {\beamer@framepages {33}{37}}
+\headcommand {\slideentry {4}{1}{2}{38/38}{Vue d'ensemble}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{39}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}}\headcommand {\beamer@subsectionpages {33}{38}}
+\headcommand {\slideentry {4}{2}{1}{39/40}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {39}{40}}
+\headcommand {\slideentry {4}{2}{2}{41/41}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {4}{2}{3}{42/42}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\slideentry {4}{2}{4}{43/43}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\slideentry {4}{2}{5}{44/44}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\slideentry {4}{2}{6}{45/45}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\slideentry {4}{2}{7}{46/46}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {4}{2}{8}{47/47}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\slideentry {4}{2}{9}{48/48}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {48}{48}}
+\headcommand {\slideentry {4}{2}{10}{49/49}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {49}{49}}
+\headcommand {\slideentry {4}{2}{11}{50/50}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {50}{50}}
+\headcommand {\slideentry {4}{2}{12}{51/51}{Orientation locale de la lumi\IeC {\`e}re sur une \IeC {\'e}chelle}{0}}
+\headcommand {\beamer@framepages {51}{51}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{52}{Multi-echelle}}\headcommand {\beamer@subsectionpages {39}{51}}
+\headcommand {\slideentry {4}{3}{1}{52/53}{Multi-echelle}{0}}
+\headcommand {\beamer@framepages {52}{53}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{54}{Fusion}}\headcommand {\beamer@subsectionpages {52}{53}}
+\headcommand {\slideentry {4}{4}{1}{54/54}{Fusion}{0}}
+\headcommand {\beamer@framepages {54}{54}}
+\headcommand {\beamer@subsectionentry {0}{4}{5}{55}{Ajout des ombres port\IeC {\'e}es}}\headcommand {\beamer@subsectionpages {54}{54}}
+\headcommand {\slideentry {4}{5}{1}{55/55}{Ajout des ombres port\IeC {\'e}es}{0}}
+\headcommand {\beamer@framepages {55}{55}}
+\headcommand {\sectionentry {5}{R\IeC {\'e}sultats}{56}{R\IeC {\'e}sultats}{0}}
+\headcommand {\beamer@sectionpages {32}{55}}
+\headcommand {\beamer@subsectionpages {55}{55}}
+\headcommand {\slideentry {5}{0}{1}{56/56}{}{0}}
+\headcommand {\beamer@framepages {56}{56}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{57}{Notre m\IeC {\'e}thode d'illumination}}\headcommand {\beamer@subsectionpages {56}{56}}
+\headcommand {\slideentry {5}{1}{1}{57/58}{Notre m\IeC {\'e}thode d'illumination}{0}}
+\headcommand {\beamer@framepages {57}{58}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{59}{Colorisation avec les couleurs de Novat}}\headcommand {\beamer@subsectionpages {57}{58}}
+\headcommand {\slideentry {5}{2}{0}{59/59}{Notre m\IeC {\'e}thode d'illumination}{0}}
+\headcommand {\beamer@framepages {59}{59}}
+\headcommand {\sectionentry {6}{Limitations et travaux futurs}{60}{Limitations et travaux futurs}{0}}
+\headcommand {\beamer@sectionpages {56}{59}}
+\headcommand {\beamer@subsectionpages {57}{59}}
+\headcommand {\slideentry {6}{0}{1}{60/60}{}{0}}
+\headcommand {\beamer@framepages {60}{60}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{61}{Limitations}}\headcommand {\beamer@subsectionpages {60}{60}}
+\headcommand {\slideentry {6}{1}{1}{61/64}{Limitations}{0}}
+\headcommand {\beamer@framepages {61}{64}}
+\headcommand {\beamer@subsectionentry {0}{6}{2}{65}{Travaux futurs}}\headcommand {\beamer@subsectionpages {61}{64}}
+\headcommand {\slideentry {6}{2}{1}{65/66}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {65}{66}}
+\headcommand {\slideentry {6}{2}{2}{67/67}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {67}{67}}
+\headcommand {\slideentry {6}{2}{3}{68/68}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {68}{68}}
+\headcommand {\slideentry {6}{2}{4}{69/69}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {69}{69}}
+\headcommand {\slideentry {6}{2}{5}{70/70}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {70}{70}}
+\headcommand {\slideentry {6}{2}{6}{71/73}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {71}{73}}
+\headcommand {\slideentry {6}{2}{7}{74/74}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {74}{74}}
+\headcommand {\slideentry {6}{2}{8}{75/75}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\slideentry {6}{2}{9}{76/76}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\slideentry {6}{2}{10}{77/77}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {77}{77}}
+\headcommand {\slideentry {6}{2}{11}{78/78}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {78}{78}}
+\headcommand {\beamer@partpages {1}{79}}
+\headcommand {\beamer@subsectionpages {65}{79}}
+\headcommand {\beamer@sectionpages {60}{79}}
+\headcommand {\beamer@documentpages {79}}
+\headcommand {\def \inserttotalframenumber {46}}
+\headcommand {\slideentry {6}{2}{12}{79/79}{Travaux futurs}{0}}
+\headcommand {\beamer@framepages {79}{79}}

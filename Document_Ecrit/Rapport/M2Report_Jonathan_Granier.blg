@@ -1,0 +1,60 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: M2Report_Jonathan_Granier.aux
+A level-1 auxiliary file: ./chapters/1_Introduction.aux
+A level-1 auxiliary file: ./chapters/2_Style_Novat.aux
+A level-1 auxiliary file: ./chapters/3_State_of_the_art.aux
+A level-1 auxiliary file: ./chapters/4_Theorique_solution.aux
+A level-1 auxiliary file: ./chapters/5_Implentation_and_results.aux
+A level-1 auxiliary file: ./chapters/6_Validation.aux
+A level-1 auxiliary file: ./chapters/7_Discution_of_Results.aux
+A level-1 auxiliary file: ./chapters/8_Appendix.aux
+The style file: plain-fr.bst
+Database file #1: bibfile.bib.bib
+Warning--can't use both volume and number fields in ohtake2004ridge
+Warning--there's a number but no volume in patterson2000view
+Warning--there's a number but no volume in patterson2005looking
+Warning--can't use both volume and number fields in perlin2002improving
+Warning--can't use both volume and number fields in rusinkiewicz2006exaggerated
+You've used 24 entries,
+            2238 wiz_defined-function locations,
+            690 strings with 9171 characters,
+and the built_in function-call counts, 10192 in all, are:
+= -- 1108
+> -- 388
+< -- 14
++ -- 162
+- -- 136
+* -- 660
+:= -- 1817
+add.period$ -- 59
+call.type$ -- 24
+change.case$ -- 138
+chr.to.int$ -- 0
+cite$ -- 29
+duplicate$ -- 384
+empty$ -- 758
+format.name$ -- 136
+if$ -- 2233
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 24
+newline$ -- 125
+num.names$ -- 48
+pop$ -- 151
+preamble$ -- 1
+purify$ -- 116
+quote$ -- 0
+skip$ -- 270
+stack$ -- 0
+substring$ -- 741
+swap$ -- 130
+text.length$ -- 14
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 94
+warning$ -- 5
+while$ -- 96
+width$ -- 26
+write$ -- 281
+(There were 5 warnings)

@@ -1,0 +1,173 @@
+\documentclass[12pt, a4paper]{memoir} % for a short document
+\usepackage[french,english]{babel}
+
+\usepackage [vscale=0.76,includehead]{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+%\geometry{a4paper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\OnehalfSpacing
+% \setSingleSpace{1.05}
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+
+
+%===================================== packages
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{mathptmx} % font = times
+\usepackage{helvet} % font sf = helvetica
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{textcomp}%textquotesingle
+\usepackage{multirow}
+\usepackage{pgfplots}
+\usepackage[hyphens]{url}
+\usepackage{footnote}
+\usepackage[font={small,it}]{caption}
+\usepackage{subcaption}
+\usepackage{ulem}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black]{hyperref}
+%============================================
+\usetikzlibrary{arrows,shapes,positioning,shadows,trees}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+%==============================================
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+%Style des têtes de section, headings, chapitre
+\headstyles{komalike}
+\nouppercaseheads
+\chapterstyle{dash}
+\makeevenhead{headings}{\sffamily\thepage}{}{\sffamily\leftmark} 
+\makeoddhead{headings}{\sffamily\rightmark}{}{\sffamily\thepage}
+\makeoddfoot{plain}{}{}{} % Pages chapitre. 
+\makeheadrule{headings}{\textwidth}{\normalrulethickness}
+%\renewcommand{\leftmark}{\thechapter ---}
+\renewcommand{\chaptername}{\relax}
+\renewcommand{\chaptitlefont}{ \sffamily\bfseries \LARGE}
+\renewcommand{\chapnumfont}{ \sffamily\bfseries \LARGE}
+\setsecnumdepth{subsection} 
+
+% Title page formatting -- do not change!
+\pretitle{\HUGE\sffamily \bfseries\begin{center}} 
+\posttitle{\end{center}}
+\preauthor{\LARGE  \sffamily \bfseries\begin{center}}
+\postauthor{\par\end{center}}
+\newcommand{\jury}[1]{% 
+\gdef\juryB{#1}} 
+\newcommand{\juryB}{} 
+\newcommand{\session}[1]{% 
+\gdef\sessionB{#1}} 
+\newcommand{\sessionB}{} 
+\newcommand{\option}[1]{% 
+\gdef\optionB{#1}} 
+\newcommand{\optionB} {}
+
+\renewcommand{\maketitlehookd}{% 
+\vfill{}  \large\par\noindent  
+\begin{center}\juryB \bigskip\sessionB\end{center}
+\vspace{-1.5cm}}
+\renewcommand{\maketitlehooka}{% 
+\vspace{-1.5cm}\noindent\includegraphics[height=12ex]{pics/logo-uga.png}\hfill\raisebox{2ex}{\includegraphics[height=14ex]{pics/logoINP.png}}\\
+\bigskip
+\begin{center} \large
+Master of Science in Informatics at Grenoble \\
+Master Informatique \\ 
+Specialization \optionB  \end{center}\vfill}
+% =======================End of title page formatting
+
+
+
+% ===================================================================
+
+\option{Graphics, Vision and Robotics} 
+\title{Rendering panorama maps in the "atelier Novat" style} %\\\vspace{-1ex}\rule{10ex}{0.5pt} \\sub-title} 
+\author{Granier Jonathan}
+\date{25 June, 2018} % Delete this line to display the current date
+\jury{
+Research project performed at Inria Grenoble Rhône-Alpes, Maverick team\\
+Univ. Grenoble Alpes,  LJK, INRIA \\\medskip
+Under the supervision of:\\
+Joelle THOLLOT and Romain VERGNE\\\medskip
+Defended before a jury composed of:\\
+President : James CROWLEY\\
+Examiner : Dominique VAUFREYDAZ\\
+External Expert : Renaud BLANCH\\
+}
+\session{June \hfill 2018}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+%%% BEGIN DOCUMENT
+\begin{document}
+\selectlanguage{English} % french si rapport en français
+\frontmatter
+%\begin{titlingpage}
+\maketitle
+%\end{titlingpage}
+
+\clearpage
+
+%\small
+\setlength{\parskip}{-1pt plus 1pt}
+
+\renewcommand{\abstracttextfont}{\normalfont}
+
+
+~\\~\\~\\~\\~\\~\\~\\~\\~\\
+\selectlanguage{french}
+\renewcommand\abstractname{Remerciements}
+\begin{abstract}
+Je voudrais remercier en premier Joelle et Romain de m'avoir aidé tout le long de ce stage, du premier jour jusqu'à la rédaction de ce rapport. Je remercie également Arthur Novat d'avoir été aussi disponible pour répondre à nos questions. Enfin merci à toute l’équipe Maverick d'être un laboratoire aussi détendu et agréable.
+\end{abstract}
+
+\clearpage
+
+\selectlanguage{english}
+\renewcommand{\abstracttextfont}{\normalfont}
+\begin{abstract} 
+Panoramic maps are aerial views made by artists to describe a landscape in a pleasing and understandable way. These artists are cartographers who have developed techniques to create these artistic landscapes for centuries. However the process remains long and complicated. Thus the question of the automation of this creations arises. In this work, in the continuation of the MECOMO project and working in collaboration with Arthur Novat, we propose a first approach for rendering panorama maps in the "atelier Novat" style, and more specifically shading. It is an essential element that will allow a good reading of the landscape. After a detailed study of the Novat style, we produced an shading expressive rendering which allows to emphasize the relief. To do this, we calculate the shading on multi-scales where we modify the light locally in order to align it with the variations of the ground while keeping an overall coherence. In this way, the shading is placed along the ridges to make them stand out. And so the landscape becomes more readable than with a more classic shading.
+\end{abstract}
+
+\renewcommand\abstractname{R\'esum\'e}
+\begin{abstract} \selectlanguage{French}
+Les cartes panoramiques sont des vues aériennes faites par des artistes pour décrire au mieux un paysage afin de s'y repérer. Ces artistes sont des cartographes qui ont développé des techniques pour créer ces paysages artistiques depuis des siècles. Cependant le processus reste long et compliqué. Ainsi la question de l'automatisation de ces créations se pose.  Dans ce travail, dans la suite du projet MECOMO et en travaillant en collaboration avec Arthur Novat, nous proposons une première approche pour le rendu de panorama du style Novat, et plus spécifiquement des ombres. C'est un élément essentiel qui va permettre une bonne lecture du paysage. Après une étude détaillée du style Novat, nous avons produit un rendu expressif des ombres qui permet de mettre en valeur le relief. Pour ce faire nous calculons les ombres sur plusieurs échelles où nous modifions localement la lumière afin de l’aligner aux variations du terrain tout en gardant une cohérence globale. De cette manière, les ombres se placent le long des crêtes afin de les faire ressortir. Et ainsi le paysage devient plus lisible qu'avec un ombrage plus classique. 
+\end{abstract}
+
+
+\cleardoublepage
+
+\tableofcontents* % the asterisk means that the table of contents itself isn't put into the ToC
+\normalsize
+
+\mainmatter
+\SingleSpace
+%==============================CHAPTERS==================
+\include{./chapters/1_Introduction}
+\include{./chapters/2_Style_Novat}
+\include{./chapters/3_State_of_the_art}
+\include{./chapters/4_Theorique_solution}
+\include{./chapters/5_Implentation_and_results}
+\include{./chapters/6_Validation}
+\include{./chapters/7_Discution_of_Results}
+\include{./chapters/8_Appendix}
+
+
+
+
+%=========================================================
+
+
+%=========================================================
+\backmatter
+
+\bibliographystyle{plain-fr} % plain-fr si rapport en français 
+\bibliography{bibfile.bib}
+
+%\cleardoublepage % Goes to an odd page
+%\pagestyle{empty} % no page number
+%~\newpage % goes to a new even page
+
+\end{document}

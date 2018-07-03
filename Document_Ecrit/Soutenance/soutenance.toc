@@ -1,0 +1,7 @@
+\select@language {french}
+\beamer@sectionintoc {1}{Contexte}{2}{0}{1}
+\beamer@sectionintoc {2}{Style Novat}{15}{0}{2}
+\beamer@sectionintoc {3}{\IeC {\'E}tat de l'art}{24}{0}{3}
+\beamer@sectionintoc {4}{Contribution}{32}{0}{4}
+\beamer@sectionintoc {5}{R\IeC {\'e}sultats}{56}{0}{5}
+\beamer@sectionintoc {6}{Limitations et travaux futurs}{60}{0}{6}
