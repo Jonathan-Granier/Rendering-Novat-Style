@@ -102,7 +102,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke)
 void MainWindow::open()
 {
     QFileDialog browser;
-    QStringList fileNames = browser.getOpenFileNames(this, tr("Open Models"), QDir::currentPath()+"/models",tr("Models (*.asc *.obj)"));
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open Models"), QDir::currentPath()+"../models",tr("Models (*.asc *.obj)"));
     browser.close(); // FIXME , don't always work
     if(!fileNames.isEmpty())
     {
@@ -122,7 +122,7 @@ void MainWindow::saveScreenshot()
 {
 
     QImage screenshot =_viewer->grabFramebuffer();
-    QFileDialog dialog(this, "Sauvegarder la capture d'ecran", QDir::currentPath()+"/screenshots","*.png *.jpg");
+    QFileDialog dialog(this, "Sauvegarder la capture d'ecran", QDir::currentPath()+"../screenshots","*.png *.jpg");
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     QString filename;
     int ret = dialog.exec();
@@ -260,7 +260,7 @@ QColor MainWindow::selectColor(QColor currentColor)
 QString MainWindow::loadTexture()
 {
     QFileDialog browser;
-    QString fileName = browser.getOpenFileName(this, tr("Charger une texture"), QDir::currentPath()+"/textures",tr("Textures (*.png)"));
+    QString fileName = browser.getOpenFileName(this, tr("Charger une texture"), QDir::currentPath()+"../textures",tr("Textures (*.png)"));
     browser.close();
     return fileName;
 }

@@ -4,7 +4,7 @@
 
 #include <QStringList>
 #include <QString>
-#include "src/OpenGl/meshloader.h"
+#include "OpenGl/meshloader.h"
 /*
 // TODO DELETE ET trouve une solution
 #define GLM_ENABLE_EXPERIMENTAL
@@ -31,7 +31,7 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
     create();
-    _filepaths.push_back("models/Basic/Est.asc");// BDALTI_Alpe_d_huez.asc");
+    _filepaths.push_back("../models/Basic/Est.asc");// BDALTI_Alpe_d_huez.asc");
     _light  = make_shared<Light>();
     _needInitializeScene = true;
 }
@@ -589,8 +589,8 @@ void Viewer::loadScene()
 }
 
 void Viewer::initShaders(){
-    _lightShader = make_shared<Shader>("shaders/computelight.vert", "shaders/computelight.frag");
-    _drawTextureShader = make_shared<Shader>("shaders/drawtexture.vert","shaders/drawtexture.frag");
+    _lightShader = make_shared<Shader>("../shaders/computelight.vert", "../shaders/computelight.frag");
+    _drawTextureShader = make_shared<Shader>("../shaders/drawtexture.vert","../shaders/drawtexture.frag");
 
 }
 

@@ -34,7 +34,7 @@ Scene::Scene(int widthViewport,int heightViewport) :
     //InitializeGenMaps();
     initStackMaps();
 
-    _meshSphere = MeshLoader::vertexFromObj("models/sphere.obj");
+    _meshSphere = MeshLoader::vertexFromObj("../models/sphere.obj");
 }
 
 
@@ -410,16 +410,16 @@ void Scene::setDoDefaultShading(bool doDefaultShading)
 
 void Scene::initializeGenShader(){
     _genShaders = make_shared<GenShaders>();
-    _genShaders->editHeightMapShader        = make_shared<Shader>("shaders/editheightmap.vert","shaders/editheightmap.frag");
-    _genShaders->normalMapShader            = make_shared<Shader>("shaders/normalmap.vert","shaders/normalmap.frag");
-    _genShaders->slantShader                = make_shared<Shader>("shaders/slant.vert","shaders/slant.frag");
-    _genShaders->shadeLightShader           = make_shared<Shader>("shaders/shadelight.vert","shaders/shadelight.frag");
-    _genShaders->shadowLightShader          = make_shared<Shader>("shaders/shadowlight.vert","shaders/shadowlight.frag");
-    _genShaders->gaussBlurShader            = make_shared<Shader>("shaders/gaussBlur.vert","shaders/gaussBlur.frag");
-    _genShaders->shadowShader               = make_shared<Shader>("shaders/shadowmap.vert","shaders/shadowmap.frag");
-    _genShaders->morphoShader               = make_shared<Shader>("shaders/morpho.vert","shaders/morpho.frag");
-    _genShaders->mergeShadowShader          = make_shared<Shader>("shaders/mergeshadow.vert","shaders/mergeshadow.frag");
-    _genShaders->shadingShader              = make_shared<Shader>("shaders/shading.vert","shaders/shading.frag");
+    _genShaders->editHeightMapShader        = make_shared<Shader>("../shaders/editheightmap.vert","../shaders/editheightmap.frag");
+    _genShaders->normalMapShader            = make_shared<Shader>("../shaders/normalmap.vert","../shaders/normalmap.frag");
+    _genShaders->slantShader                = make_shared<Shader>("../shaders/slant.vert","../shaders/slant.frag");
+    _genShaders->shadeLightShader           = make_shared<Shader>("../shaders/shadelight.vert","../shaders/shadelight.frag");
+    _genShaders->shadowLightShader          = make_shared<Shader>("../shaders/shadowlight.vert","../shaders/shadowlight.frag");
+    _genShaders->gaussBlurShader            = make_shared<Shader>("../shaders/gaussBlur.vert","../shaders/gaussBlur.frag");
+    _genShaders->shadowShader               = make_shared<Shader>("../shaders/shadowmap.vert","../shaders/shadowmap.frag");
+    _genShaders->morphoShader               = make_shared<Shader>("../shaders/morpho.vert","../shaders/morpho.frag");
+    _genShaders->mergeShadowShader          = make_shared<Shader>("../shaders/mergeshadow.vert","../shaders/mergeshadow.frag");
+    _genShaders->shadingShader              = make_shared<Shader>("../shaders/shading.vert","../shaders/shading.frag");
 }
 
 
@@ -452,9 +452,9 @@ shared_ptr<Texture> Scene::computeGenHeightMap(){
 
 
 void Scene::initializeTexture(){
-    _asciiTex       = make_shared<LoadTexture>("asciiTex","textures/ASCII_Debug.png");
-    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","textures/awesomeface.png");
-    _colorMapTex    = make_shared<LoadTexture>("colorMapTex","textures/degrade_neige.png");
+    _asciiTex       = make_shared<LoadTexture>("asciiTex","../textures/ASCII_Debug.png");
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex","../textures/cel_shading.png");
+    _colorMapTex    = make_shared<LoadTexture>("colorMapTex","../textures/novat_moyenne_altitude.png");
 }
 
 

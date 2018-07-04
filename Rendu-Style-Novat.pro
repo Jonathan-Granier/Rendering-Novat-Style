@@ -51,14 +51,14 @@ SOURCES += \
     src/Light_Camera/light.cpp \
     src/Light_Camera/camera.cpp \
     src/Light_Camera/trackball.cpp \
-    lib/stb_image.cpp \
-    lib/glm_add.cpp \
     src/OpenGl/loadtexture.cpp \
     src/OpenGl/generatedtexture.cpp \
     src/OpenGl/scene.cpp \
     src/OpenGl/heightmap.cpp \
     src/OpenGl/maps.cpp \
-    src/OpenGl/caller.cpp
+    src/OpenGl/caller.cpp \
+    src/lib/glm_add.cpp \
+    src/lib/stb_image.cpp
 
 
 HEADERS += \
@@ -72,14 +72,14 @@ HEADERS += \
     src/Light_Camera/light.h \
     src/Light_Camera/camera.h \
     src/Light_Camera/trackball.h \
-    lib/stb_image.h \
-    lib/glm_add.h \
     src/OpenGl/loadtexture.h \
     src/OpenGl/generatedtexture.h \
     src/OpenGl/scene.h \
     src/OpenGl/heightmap.h \
     src/OpenGl/maps.h \
-    src/OpenGl/caller.h
+    src/OpenGl/caller.h \
+    src/lib/glm_add.h \
+    src/lib/stb_image.h
 
 DISTFILES += \
     shaders/drawtexture.frag \

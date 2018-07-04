@@ -59,14 +59,14 @@ SOURCES       = src/MainWindow/main.cpp \
 		src/Light_Camera/light.cpp \
 		src/Light_Camera/camera.cpp \
 		src/Light_Camera/trackball.cpp \
-		lib/stb_image.cpp \
-		lib/glm_add.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
 		src/OpenGl/scene.cpp \
 		src/OpenGl/heightmap.cpp \
 		src/OpenGl/maps.cpp \
-		src/OpenGl/caller.cpp moc_viewer.cpp
+		src/OpenGl/caller.cpp \
+		src/lib/glm_add.cpp \
+		src/lib/stb_image.cpp moc_viewer.cpp
 OBJECTS       = bin/debug/main.o \
 		bin/debug/viewer.o \
 		bin/debug/mainwindow.o \
@@ -78,14 +78,14 @@ OBJECTS       = bin/debug/main.o \
 		bin/debug/light.o \
 		bin/debug/camera.o \
 		bin/debug/trackball.o \
-		bin/debug/stb_image.o \
-		bin/debug/glm_add.o \
 		bin/debug/loadtexture.o \
 		bin/debug/generatedtexture.o \
 		bin/debug/scene.o \
 		bin/debug/heightmap.o \
 		bin/debug/maps.o \
 		bin/debug/caller.o \
+		bin/debug/glm_add.o \
+		bin/debug/stb_image.o \
 		bin/debug/moc_viewer.o
 DIST          = shaders/drawtexture.frag \
 		shaders/drawtexture.vert \
@@ -188,14 +188,14 @@ DIST          = shaders/drawtexture.frag \
 		src/Light_Camera/light.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/stb_image.h \
-		lib/glm_add.h \
 		src/OpenGl/loadtexture.h \
 		src/OpenGl/generatedtexture.h \
 		src/OpenGl/scene.h \
 		src/OpenGl/heightmap.h \
 		src/OpenGl/maps.h \
-		src/OpenGl/caller.h src/MainWindow/main.cpp \
+		src/OpenGl/caller.h \
+		src/lib/glm_add.h \
+		src/lib/stb_image.h src/MainWindow/main.cpp \
 		src/MainWindow/viewer.cpp \
 		src/MainWindow/mainwindow.cpp \
 		src/OpenGl/shader.cpp \
@@ -206,14 +206,14 @@ DIST          = shaders/drawtexture.frag \
 		src/Light_Camera/light.cpp \
 		src/Light_Camera/camera.cpp \
 		src/Light_Camera/trackball.cpp \
-		lib/stb_image.cpp \
-		lib/glm_add.cpp \
 		src/OpenGl/loadtexture.cpp \
 		src/OpenGl/generatedtexture.cpp \
 		src/OpenGl/scene.cpp \
 		src/OpenGl/heightmap.cpp \
 		src/OpenGl/maps.cpp \
-		src/OpenGl/caller.cpp
+		src/OpenGl/caller.cpp \
+		src/lib/glm_add.cpp \
+		src/lib/stb_image.cpp
 QMAKE_TARGET  = Rendu-Style-Novat
 DESTDIR       = bin/debugz/
 TARGET        = bin/debugz/Rendu-Style-Novat
@@ -381,8 +381,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h lib/stb_image.h lib/glm_add.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h src/OpenGl/maps.h src/OpenGl/caller.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp lib/stb_image.cpp lib/glm_add.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp src/OpenGl/maps.cpp src/OpenGl/caller.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/mainwindow.h src/MainWindow/viewer.h src/OpenGl/shader.h src/OpenGl/mesh.h src/OpenGl/vertex.h src/OpenGl/meshloader.h src/OpenGl/texture.h src/Light_Camera/light.h src/Light_Camera/camera.h src/Light_Camera/trackball.h src/OpenGl/loadtexture.h src/OpenGl/generatedtexture.h src/OpenGl/scene.h src/OpenGl/heightmap.h src/OpenGl/maps.h src/OpenGl/caller.h src/lib/glm_add.h src/lib/stb_image.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/MainWindow/main.cpp src/MainWindow/viewer.cpp src/MainWindow/mainwindow.cpp src/OpenGl/shader.cpp src/OpenGl/mesh.cpp src/OpenGl/vertex.cpp src/OpenGl/meshloader.cpp src/OpenGl/texture.cpp src/Light_Camera/light.cpp src/Light_Camera/camera.cpp src/Light_Camera/trackball.cpp src/OpenGl/loadtexture.cpp src/OpenGl/generatedtexture.cpp src/OpenGl/scene.cpp src/OpenGl/heightmap.cpp src/OpenGl/maps.cpp src/OpenGl/caller.cpp src/lib/glm_add.cpp src/lib/stb_image.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/MainWindow/mainwindow.ui $(DISTDIR)/
 
 
@@ -423,7 +423,7 @@ moc_viewer.cpp: src/OpenGl/shader.h \
 		src/OpenGl/maps.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/glm_add.h \
+		src/lib/glm_add.h \
 		src/Light_Camera/light.h \
 		src/MainWindow/viewer.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
@@ -461,7 +461,7 @@ bin/debug/main.o: src/MainWindow/main.cpp src/MainWindow/mainwindow.h \
 		src/OpenGl/maps.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/glm_add.h \
+		src/lib/glm_add.h \
 		src/Light_Camera/light.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/main.o src/MainWindow/main.cpp
@@ -478,7 +478,7 @@ bin/debug/viewer.o: src/MainWindow/viewer.cpp src/MainWindow/viewer.h \
 		src/OpenGl/maps.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/glm_add.h \
+		src/lib/glm_add.h \
 		src/Light_Camera/light.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/viewer.o src/MainWindow/viewer.cpp
 
@@ -495,7 +495,7 @@ bin/debug/mainwindow.o: src/MainWindow/mainwindow.cpp src/MainWindow/mainwindow.
 		src/OpenGl/maps.h \
 		src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/glm_add.h \
+		src/lib/glm_add.h \
 		src/Light_Camera/light.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/mainwindow.o src/MainWindow/mainwindow.cpp
@@ -521,7 +521,7 @@ bin/debug/meshloader.o: src/OpenGl/meshloader.cpp src/OpenGl/meshloader.h \
 bin/debug/texture.o: src/OpenGl/texture.cpp src/OpenGl/texture.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/caller.h \
-		lib/stb_image.h
+		src/lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/texture.o src/OpenGl/texture.cpp
 
 bin/debug/light.o: src/Light_Camera/light.cpp src/Light_Camera/light.h
@@ -529,23 +529,17 @@ bin/debug/light.o: src/Light_Camera/light.cpp src/Light_Camera/light.h
 
 bin/debug/camera.o: src/Light_Camera/camera.cpp src/Light_Camera/camera.h \
 		src/Light_Camera/trackball.h \
-		lib/glm_add.h
+		src/lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/camera.o src/Light_Camera/camera.cpp
 
 bin/debug/trackball.o: src/Light_Camera/trackball.cpp src/Light_Camera/trackball.h \
-		lib/glm_add.h
+		src/lib/glm_add.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/trackball.o src/Light_Camera/trackball.cpp
-
-bin/debug/stb_image.o: lib/stb_image.cpp lib/stb_image.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/stb_image.o lib/stb_image.cpp
-
-bin/debug/glm_add.o: lib/glm_add.cpp lib/glm_add.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o lib/glm_add.cpp
 
 bin/debug/loadtexture.o: src/OpenGl/loadtexture.cpp src/OpenGl/loadtexture.h \
 		src/OpenGl/shader.h \
 		src/OpenGl/texture.h \
-		lib/stb_image.h
+		src/lib/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/loadtexture.o src/OpenGl/loadtexture.cpp
 
 bin/debug/generatedtexture.o: src/OpenGl/generatedtexture.cpp src/OpenGl/generatedtexture.h \
@@ -583,6 +577,12 @@ bin/debug/maps.o: src/OpenGl/maps.cpp src/OpenGl/maps.h \
 
 bin/debug/caller.o: src/OpenGl/caller.cpp src/OpenGl/caller.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/caller.o src/OpenGl/caller.cpp
+
+bin/debug/glm_add.o: src/lib/glm_add.cpp src/lib/glm_add.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/glm_add.o src/lib/glm_add.cpp
+
+bin/debug/stb_image.o: src/lib/stb_image.cpp src/lib/stb_image.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/stb_image.o src/lib/stb_image.cpp
 
 bin/debug/moc_viewer.o: moc_viewer.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bin/debug/moc_viewer.o moc_viewer.cpp

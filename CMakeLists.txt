@@ -1,63 +1,65 @@
-#Demandez à vincent pour la version
+#Demandez à vincent pour INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/includela version
 cmake_minimum_required(VERSION 3.1)
 
 project(Rendu_Style_Novat)
 
-set(CMAKE_CXX_STANDARD 11)
+include(CMakeDependentOption)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 
 file( 
     GLOB_RECURSE
     SOURCE_FILES
-    src/*
-    lib/*   
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MainWindow/mainwindow.ui
 )
 
+#set(FORMS ${CMAKE_CURRENT_SOURCE_DIR}/src/MainWindow/mainwindow.ui)
 
-set(UI src/MainWindow/mainWindow.ui)
-qt5_wrap_ui(UI_HDRS ${UI})
+#qt5_wrap_ui(FORMS_HEADERS ${FORMS})
 
+#add_library()(CONFIG  ${FORMS_HEADERS})
 
-add_executable(Rendu_Style_Novat ${SOURCE_FILES} ${UI_HDRS})
-
+add_executable(Rendu_Style_Novat ${SOURCE_FILES})# ${CONFIG})
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
-find_package(Qt5gui REQUIRED)
-find_package(OpenGl REQUIRED)
-
-
-find_package(glfw REQUIRED)
-include_directories(${GLFW_INCLUDE_DIRS})
-link_libraries(${GLFW_LIBRARY_DIRS})
-
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5OpenGL)
+find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
-
 find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
-
-find_package(glm QUIET)
-if (NOT GLM_FOUND)
-    # Find GLM using pkg-config
-    pkg_search_module(GLM glm)
-
-    if (NOT GLM_FOUND)
-        # Find GLM using find_path
-        find_path(GLM_INCLUDE_DIRS glm/glm.hpp)
-
-        if (NOT GLM_INCLUDE_DIRS)
-            message(FATAL "Could not find GLM using any of CMake, pkg-config or find_path. Please ensure libglm-dev is installed.")
-        endif()
-    endif()
-endif()
+find_package(glm REQUIRED)
 
 
+target_include_directories(
+    Rendu_Style_Novat PRIVATE
+    ${CMAKE_BINARY_DIR}
+   # ${QT5WIDGETS_INCLUDE_DIRS}
+   # ${QT5CORE_INCLUDE_DIRS}
+   # ${QT5GUI_INCLUDE_DIRS}
+   # ${QT5OPENGL_INCLUDE_DIRS}
+    ${GLFW_INCLUDE_DIRS}
+    ${OPENGL_INCLUDE_DIRS}
+    ${GLEW_INCLUDE_DIRS}
+    ${GLM_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
+qt5_use_modules(Rendu_Style_Novat Core Gui Widgets OpenGL)
 
-
-
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
-
-
+target_link_libraries(
+    Rendu_Style_Novat
+   # ${QT5WIDGETS_LIBRARIES}
+   # ${QT5CORE_LIBRARIES}
+   # ${QT5GUI_LIBRARIES}
+   # ${QT5OPENGL_LIBRARIES}
+    glfw
+    ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    ${GLM_LIBRARIES}
+)
 

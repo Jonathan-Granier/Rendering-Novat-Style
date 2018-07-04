@@ -21,13 +21,13 @@
 #include <QTime>
 #include <QColor>
 
-#include "src/OpenGl/shader.h"
-#include "src/OpenGl/scene.h"
+#include "OpenGl/shader.h"
+#include "OpenGl/scene.h"
 
 
 
-#include "src/Light_Camera/camera.h"
-#include "src/Light_Camera/light.h"
+#include "Light_Camera/camera.h"
+#include "Light_Camera/light.h"
 
 
 /**
