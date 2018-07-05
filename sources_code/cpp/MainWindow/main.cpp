@@ -64,7 +64,7 @@
  *
  *      Corriger coquille (un schema + ; et imprimer le rapport )
  *
- *
+ *      Faire un Best of paper
  *
  *
  *      [DONE] Rapport file transfert.
@@ -78,7 +78,8 @@
  * QT5 (qt5-default + qt5-qmake + qtdeclarative5-dev
  * Glew : (libglew-dev sous debian)
  * glm :  libglm-dev
- * libglfw3-dev
+ * glfw : libglfw3-dev
+ * cmd : sudo apt-get install qt5-default qt5-qmake qtdeclarative5-dev libglew-dev libglm-dev libglfw3-dev pkg-config
  *
  */
 
