@@ -142,56 +142,6 @@ void Mesh::printInfo()
 }
 
 
-vector<float> Mesh::getNormalMapObjectSpace(){
-
-    vector<float> normalMap;
-    // Reverse texture
-
-    unsigned int index = 0;
-
-    for(int i = 0 ; i < _height ; i++){
-        for(int j=0; j < _width; j++){
-            index = i*_width + j;
-            glm::vec3 n = _vertices[index].normal;
-            normalMap.push_back(n.x);
-            normalMap.push_back(n.y);
-            normalMap.push_back(n.z);
-            normalMap.push_back(0.0f);
-        }
-    }
-    return normalMap;
-}
-
-
-
-vector<float> Mesh::getNormalMapZUp(){
-    vector<float> normalMap;
-    unsigned int index = 0;
-
-    // For oriente correctly the normal map (Z up)
-
-    glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,-1.0f));
-    glm::mat3 normalMat = glm::inverseTranspose(viewMat);
-
-    // Reverse texture
-    for(int i = _height-1 ; i>= 0 ; i--){
-        for(int j=0; j < _width; j++){
-            index = i*_width + j;
-            glm::vec3 n = _vertices[index].normal;
-            n = glm::normalize(normalMat * n);
-
-            normalMap.push_back(n.x);
-            normalMap.push_back(n.y);
-            normalMap.push_back(n.z);
-            normalMap.push_back(0.0f);
-        }
-    }
-    return normalMap;
-
-}
-
-
-
 vector<float> Mesh::getHeightMap()
 {
     vector<float> heightMap;

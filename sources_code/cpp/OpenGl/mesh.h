@@ -68,14 +68,7 @@ public:
 
     void printInfo();
 
-    /**
-     * @brief Return the normal Map of a MTN mesh, do nothing otherwise
-     * @return the normal Map of a MNT Mesh , empty if not.
-     */
-    std::vector<float> getNormalMapObjectSpace();
 
-
-    std::vector<float> getNormalMapZUp();
     /**
      * @brief Return the heith Map of a MTN mesh, do nothing otherwise
      * @returnthe height Map of a MNT Mesh , empty if not.
