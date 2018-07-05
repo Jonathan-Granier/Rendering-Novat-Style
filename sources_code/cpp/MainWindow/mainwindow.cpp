@@ -440,7 +440,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
         // Version QT5.7 and more
         //connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
         // Version QT5.6 and less
-        connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,,static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+        connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
 
         gaussLayout->addWidget(gaussInfoLabel);
         gaussLayout->addWidget(gaussValueLabel);
