@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(Rendu_Style_Novat)
 
-include(CMakeDependentOption)
+#include(CMakeDependentOption)
+include(FindPkgConfig)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
@@ -27,7 +28,23 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(glm REQUIRED)
+
+find_package(glm QUIET)
+if (NOT GLM_FOUND)
+	# Find GLM using pkg-config
+	pkg_search_module(GLM glm)
+
+	if (NOT GLM_FOUND)
+		# Find GLM using find_path
+		find_path(GLM_INCLUDE_DIRS glm/glm.hpp)
+
+		if (NOT GLM_INCLUDE_DIRS)
+			message(FATAL "Could not find GLM using any of CMake, pkg-config or find_path. Please ensure libglm-dev is installed.")
+		endif()
+	endif()
+endif()
+
+
 
 
 target_include_directories(
