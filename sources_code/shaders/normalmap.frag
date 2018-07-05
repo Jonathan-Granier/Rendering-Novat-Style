@@ -15,7 +15,7 @@ float getTex(float x,float y){
 
 
 vec3 computeNormal(vec3 v1, vec3 v2, vec3 v3){
-    if(v1 == 0 || v2 == 0 || v3 == 0)
+    if(v1 == vec3(0,0,0) || v2 == vec3(0,0,0) || v3 == vec3(0,0,0))
       return vec3(0);
     vec3 v12 = v2 - v1;
     vec3 v13 = v3 - v1;
@@ -73,4 +73,3 @@ void main()
 
     //FragColor = vec4(v10,0);
 }
-

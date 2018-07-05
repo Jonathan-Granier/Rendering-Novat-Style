@@ -7,7 +7,7 @@ uniform sampler2D shadowMap;
 uniform int operator;
 uniform bool doMorpho;
 
-float morphoFilter(int type){
+float morphoFilter(float type){
   int min = -5;
   int max = 5;
 
@@ -20,7 +20,7 @@ float morphoFilter(int type){
   }
 
 
-  return type==0?1:0;
+  return type==0.0?1.0:0.0;
 }
 
 
@@ -32,14 +32,14 @@ void main()
 /**/
     //Dilation
     if(operator == 1 && doMorpho){
-      if(shadow == 1){
-        shadow = morphoFilter(0);
+      if(shadow == 1.0){
+        shadow = morphoFilter(0.0);
       }
     }
     //Erosion
     else if(operator == 0 && doMorpho){
-      if(shadow == 0){
-        shadow = morphoFilter(1);
+      if(shadow == 0.0){
+        shadow = morphoFilter(1.0);
       }
     }
 /**/
