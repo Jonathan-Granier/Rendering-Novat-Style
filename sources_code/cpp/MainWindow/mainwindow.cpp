@@ -409,7 +409,12 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
     QLabel *lightInfoLabel  = new QLabel("Angle max:(PI/(t/10)) t=");
     QLabel *lightValueLabel = new QLabel();
     lightValueLabel->setNum(30);
-    connect(lightSlider,&QSlider::valueChanged,lightValueLabel,qOverload<int>(&QLabel::setNum));
+    // Version QT5.7 and more
+    //connect(lightSlider,&QSlider::valueChanged,lightValueLabel,qOverload<int>(&QLabel::setNum));
+    // Version QT5.6 and less
+    connect(lightSlider,&QSlider::valueChanged,lightValueLabel,static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+
+
 
     lightLayout->addWidget(lightInfoLabel);
     lightLayout->addWidget(lightValueLabel);
@@ -432,7 +437,10 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
         QLabel *gaussInfoLabel  = new QLabel("Niveau de flou :");
         QLabel *gaussValueLabel = new QLabel();
         gaussValueLabel->setNum(0);
-        connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
+        // Version QT5.7 and more
+        //connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,qOverload<int>(&QLabel::setNum));
+        // Version QT5.6 and less
+        connect(gaussSlider,&QSlider::valueChanged,gaussValueLabel,,static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
 
         gaussLayout->addWidget(gaussInfoLabel);
         gaussLayout->addWidget(gaussValueLabel);
