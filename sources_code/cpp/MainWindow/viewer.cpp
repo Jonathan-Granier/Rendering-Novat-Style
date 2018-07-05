@@ -9,6 +9,7 @@
 // TODO DELETE ET trouve une solution
 #define GLM_ENABLE_EXPERIMENTAL
 */
+#define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 
 
