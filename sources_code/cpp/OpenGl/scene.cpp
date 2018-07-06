@@ -97,16 +97,16 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
     shader->setVec3("lightDirection",lightDirection);
 
 
-  //  mat4 modelMesh = mat4(1.0);
-   // shader->setMat4("modelMat",modelMesh);
+    mat4 modelMesh = mat4(1.0);
+    shader->setMat4("modelMat",modelMesh);
     _mountains->draw();
-    /*
+    
     mat4 modelSphere = mat4(1.0);
     modelSphere = glm::translate(modelSphere,lightDirection*_mountains->getRadius());
     modelSphere = glm::scale(modelSphere,vec3(_mountains->getRadius()/20.0,_mountains->getRadius()/20.0,_mountains->getRadius()/20.0));
     shader->setMat4("modelMat",modelSphere);
     _meshSphere->draw();
-*/
+
 
 
 
