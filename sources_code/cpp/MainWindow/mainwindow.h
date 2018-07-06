@@ -132,7 +132,7 @@ private:
 
     unsigned int _id;
 
-    QButtonGroup* _currentMapsSelector;
+    QButtonGroup* _currentScaleSelector;
 
 
     void setupMenu();

@@ -28,10 +28,10 @@ struct ViewportSize{
 };
 
 
-class Maps
+class Scale
 {
 public:
-    Maps(std::shared_ptr<GenShaders> shaders,std::shared_ptr<ViewportSize> viewportSize);
+    Scale(std::shared_ptr<GenShaders> shaders,std::shared_ptr<ViewportSize> viewportSize);
 
 
 

@@ -44,7 +44,7 @@ MainWindow::MainWindow() :
      ui->mainWidget->setLayout(centralLayout);
 
     setupButtons();
-    _currentMapsSelector = new QButtonGroup();
+    _currentScaleSelector = new QButtonGroup();
 
     ui->settingsLayout->addWidget(createNewPanel(0,true));
 }
@@ -187,7 +187,7 @@ void MainWindow::addNewPanel()
 {
     _id++;
     ui->settingsLayout->addWidget(createNewPanel(_id,false));
-    _viewer->addMaps(_id);
+    _viewer->addScale(_id);
 
 }
 
@@ -380,7 +380,7 @@ void MainWindow::refreshInformationPanel(){
 
 QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
 
-    QString title = QString("Maps ID : %1").arg(id);
+    QString title = QString("Scale ID : %1").arg(id);
 
 
     QGroupBox *mainGroupBox = new QGroupBox(title);
@@ -457,7 +457,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
             [this,id](int value){
                 bool b=true;
                 if(value==0) b=false ;
-                this->_viewer->setEnabledMaps(id,b);
+                this->_viewer->setEnabledScale(id,b);
                 this->ui->mainWidget->setFocus();
             }
     );
@@ -476,13 +476,13 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
 
     connect(selectCurrent, &QRadioButton::toggled,
             [this,id](){
-                this->_viewer->selectCurrentMaps(id);
+                this->_viewer->selectCurrentScale(id);
                 this->ui->mainWidget->setFocus();
             }
     );
 
 
-    _currentMapsSelector->addButton(selectCurrent);
+    _currentScaleSelector->addButton(selectCurrent);
     QGridLayout *gridLayout = new QGridLayout;
     gridLayout->addWidget(selectCurrent,0,0,1,1);
     gridLayout->addLayout(mainLayout,0,1,1,9);

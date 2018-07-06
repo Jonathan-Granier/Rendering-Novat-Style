@@ -139,7 +139,7 @@ public:
 
 
 
-    void selectCurrentMaps(int id);
+    void selectCurrentScale(int id);
 
 
 
@@ -150,9 +150,9 @@ public:
 
     void setGaussBlurFactor(unsigned int id, float g);
     void setLightThreshold(unsigned int id, float t);
-    void setEnabledMaps(unsigned int id, bool enabled);
+    void setEnabledScale(unsigned int id, bool enabled);
     void reloadLaplacienPyramid();
-    void addMaps(unsigned int id);
+    void addScale(unsigned int id);
 
     void setShadeSelector(int s);
     void setDoShadow(bool s);

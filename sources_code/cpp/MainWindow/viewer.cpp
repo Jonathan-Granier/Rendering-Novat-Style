@@ -83,7 +83,7 @@ void Viewer::initializeGL(){
 void Viewer::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _scene->generateLaplacienPyramid();
-    _scene->generateIntermediateMaps(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
+    _scene->generateIntermediateScale(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
     switch(_drawMode){
 
     case HEIGHTMAP:
@@ -317,8 +317,8 @@ void Viewer::previousDrawMode(){
     update();
 }
 
-void Viewer::selectCurrentMaps(int id){
-    _scene->selectCurrentMaps(id);
+void Viewer::selectCurrentScale(int id){
+    _scene->selectCurrentScale(id);
     update();
 }
 
@@ -421,8 +421,8 @@ void Viewer::setLightThreshold(unsigned int id, float t)
 }
 
 
-void Viewer::setEnabledMaps(unsigned int id,bool enabled){
-    _scene->setEnabledMaps(id,enabled);
+void Viewer::setEnabledScale(unsigned int id,bool enabled){
+    _scene->setEnabledScale(id,enabled);
     update();
 }
 
@@ -432,8 +432,8 @@ void Viewer::reloadLaplacienPyramid(){
 }
 
 
-void Viewer::addMaps(unsigned int id){
-    _scene->addMaps(id);
+void Viewer::addScale(unsigned int id){
+    _scene->addScale(id);
     update();
 }
 

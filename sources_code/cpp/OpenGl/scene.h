@@ -12,20 +12,20 @@
 #include "generatedtexture.h"
 #include "meshloader.h"
 #include <math.h>
-#include "maps.h"
+#include "scale.h"
 /**
- * @brief This class manage the stack of Maps ( on set of texture) , the mesh and all the texture.
+ * @brief This class manage the stack of Scale ( on set of texture) , the mesh and all the texture.
  * The goal of this class is manage the multi-scale rendering (it's a Laplacian pyramid).
- *  So the main object of this class is _mapsManagers . It's a vector that contains maps , their ID and if they are enabled.
- * Show Maps description for more details about the maps.
- * First , We have to create a scene with a set of DEM (.asc) with createScene. This will instanciate a maps object and a mesh of the DEM.
+ *  So the main object of this class is _scaleManagers . It's a vector that contains scale , their ID and if they are enabled.
+ * Show Scale description for more details about the scale.
+ * First , We have to create a scene with a set of DEM (.asc) with createScene. This will instanciate a scale object and a mesh of the DEM.
  *  Use :
 
-        addMaps : add maps object , this add a step of the Laplacian pyramid.
- *      selectCurrentMaps Select the current maps object. This maps will be draw after call a "draw" Functions
- *      Enabled/disable maps : Only enabled maps are use to create the Laplacien pyramid.
+        addScale : add scale object , this add a step of the Laplacian pyramid.
+ *      selectCurrentScale Select the current scale object. This scale will be draw after call a "draw" Functions
+ *      Enabled/disable scale : Only enabled scale are use to create the Laplacien pyramid.
  *
- * There is a conflict with the FBO of QT. So we need to instanciate all FBO before the initialize of QT. Thus we create 10 Maps object in the stack ( = 130 textures 1024*1024).
+ * There is a conflict with the FBO of QT. So we need to instanciate all FBO before the initialize of QT. Thus we create 10 Scale object in the stack ( = 130 textures 1024*1024).
  */
 class Scene
 {
@@ -35,7 +35,7 @@ public:
 
 
     /**
-     * @brief constructor that instanciate all shaders for the maps , load texture and create the maps' stack (_mapsManager)
+     * @brief constructor that instanciate all shaders for the scale , load texture and create the scale' stack (_scaleManager)
      * @param widthViewport : the width of the openGL widget
      * @param heightViewport : the height of the openGL widget
      */
@@ -49,7 +49,7 @@ public:
     void createScene(const std::vector<std::string> &filepaths);
 
     /**
-     * @brief Draw the current maps, the mesh and the texture. Add a sphere for display the sun.
+     * @brief Draw the current scale, the mesh and the texture. Add a sphere for display the sun.
      * @param shader :  the shader to use for draw the Scene
      * @param lightDirection : the direction of the light. (normalize vector)
      */
@@ -132,26 +132,26 @@ public:
 
 
     /**
-    * @brief Generate the laplacien pyramide with all enabled maps in three step :
-    * 1. for each maps make a gauss blur with the previous map except the first map.
-    * 2. for each maps make the difference with the next maps except the last map..
-    * 3. for each maps generate the normal map and slant map.
+    * @brief Generate the laplacien pyramide with all enabled scale in three step :
+    * 1. for each scale make a gauss blur with the previous map except the first map.
+    * 2. for each scale make the difference with the next scale except the last map..
+    * 3. for each scale generate the normal map and slant map.
     * Do something only if reloadLaplacienPyramid function was call before and do the stuff only once.
     */
     void generateLaplacienPyramid();
 
     /**
-    * @brief Generate all Intermediate maps. It's compose the orientation light for the shading and the shadow, all shadow Map and the final shading.
+    * @brief Generate all Intermediate scale. It's compose the orientation light for the shading and the shadow, all shadow Map and the final shading.
     * @param mdvMat : the view Matrice for compute the shading.
     * @param normalMat : the normal matrice for compute the shading.
     * @param lightDir : the global light direction which will be modified locally.
     * @param pitch : the pitch angle of the light.
     * @param yaw : the yaw angle of the light.
     */
-    void generateIntermediateMaps(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightDir, float pitch, float yaw);
+    void generateIntermediateScale(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightDir, float pitch, float yaw);
 
     /**
-    * @brief Reload all the shader used by the Maps class.
+    * @brief Reload all the shader used by the Scale class.
     * Allow a regenerate of the Laplacien Pyramid.
     */
     void reloadGenerateTexturesShader();
@@ -169,14 +169,14 @@ public:
     float getRadius() const;
 
     /**
-    * @brief select the current Maps . This current maps will be the drawn maps when a draw function will be call.
-    * @param id : The ID of the current Maps.
+    * @brief select the current Scale . This current scale will be the drawn scale when a draw function will be call.
+    * @param id : The ID of the current Scale.
     */
-    void selectCurrentMaps(int id);
+    void selectCurrentScale(int id);
 
     /**
-    * @brief Set the light Threshold that is the threshold for the smoothstep for the light correction, for a maps.
-    * @param id: The ID of the maps where the threshold is to change.
+    * @brief Set the light Threshold that is the threshold for the smoothstep for the light correction, for a scale.
+    * @param id: The ID of the scale where the threshold is to change.
     * @param t : the threshold between pi/10 and pi/2.
     */
     void setLightThreshold(unsigned int id, float t);
@@ -186,17 +186,17 @@ public:
 //    int getGaussBlurFactor() const;
     void setGaussBlurFactor(unsigned int id, int g);
 
-    void setEnabledMaps(unsigned int id, bool enabled);
+    void setEnabledScale(unsigned int id, bool enabled);
 
     void reloadLaplacienPyramid();
 
 
-    void addMaps(unsigned int id, bool enabled = false);
+    void addScale(unsigned int id, bool enabled = false);
 
 
 
 
-    unsigned int getCurrentMapsIndex() const;
+    unsigned int getCurrentScaleIndex() const;
 
 
 
@@ -226,20 +226,20 @@ private:
 
 
 
-    struct MapsManager{
+    struct ScaleManager{
         unsigned int ID;
         bool enabled;
-        std::shared_ptr<Maps>   maps;
+        std::shared_ptr<Scale>   scale;
     };
 
 
 
-    std::vector<std::shared_ptr<MapsManager>>           _mapsManagers;
+    std::vector<std::shared_ptr<ScaleManager>>           _scaleManagers;
     std::shared_ptr<GenShaders>                         _genShaders;
     std::shared_ptr<Mesh>                               _mountains;
 
 
-    std::vector<std::shared_ptr<Maps>>                  _supplyMaps;   /**< There is conflig between glew and QT , and it's impossible to create a new FBO in the paintGL context without break the QT's FBOs.
+    std::vector<std::shared_ptr<Scale>>                  _supplyScale;   /**< There is conflig between glew and QT , and it's impossible to create a new FBO in the paintGL context without break the QT's FBOs.
                                                                             So i instanciate a stack of map in the initializeGL contexte.*/
 
 
@@ -269,16 +269,16 @@ private:
 
 
     void initializeGenShader();
-    void initializeMaps(std::shared_ptr<Texture> heightMap);
-    void initializeGenMaps();
+    void initializeScale(std::shared_ptr<Texture> heightMap);
+    void initializeGenScale();
     std::shared_ptr<Texture> computeGenHeightMap();
     void initializeTexture();
 
 
-    std::shared_ptr<MapsManager> findFromID(unsigned int id);
-    void printMapsManagers();
-    void initStackMaps();
-    std::shared_ptr<Maps> getMapsFromSupply();
+    std::shared_ptr<ScaleManager> findFromID(unsigned int id);
+    void printScaleManagers();
+    void initStackScale();
+    std::shared_ptr<Scale> getScaleFromSupply();
 
 };
 
