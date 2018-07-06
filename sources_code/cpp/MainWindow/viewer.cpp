@@ -183,7 +183,6 @@ void Viewer::mousePressEvent(QMouseEvent *me){
 
    
     _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
-    _moussePos = vec2(679.0,527.0);
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
         _cam->initRotation(_moussePos);
@@ -195,19 +194,17 @@ void Viewer::mousePressEvent(QMouseEvent *me){
         _light->startMoveAroundYAxe(_moussePos,width(),height());
     }
    
-  // cout << "mousseInit : " << glm::to_string(_moussePos) << endl;
+
     update();
 }    
 
 void Viewer::mouseMoveEvent(QMouseEvent *me){
 
    _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
-   _moussePos = vec2(678.0,524.0);
     if(_lightMode)
         _light->moveAroundYAxe(_moussePos,width(),height());
     else
         _cam->move(_moussePos);
-  //  cout << "mousse : " << glm::to_string(_moussePos) << endl;
     update();
 }
 
