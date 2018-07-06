@@ -19,13 +19,18 @@
 
 /**
  * @brief The Shader class, opens, compiles and executes a vertex shader and a fragment shader.
+ * Input :
+ *    path of a vertex shader and a fragment shader.
+ * Use :
+ *      use/disable to activate/disable the shaders
+*       reload to recompute the shaders
+*       set... to set a uniform var to the shaders.
  */
 class Shader
 {
 public:
 
 
-        // constructor
     /**
      * @brief Create a new shader and initialize it.
      * @param vertexPath : a path of a vertex shader.
@@ -172,8 +177,7 @@ private:
      * @param name : name of the shader.
      */
     void checkCompileErrors(GLuint shader, std::string type, std::string name);
-    //TODO remonter les erreurs
-
+    
     /**
      * @brief Get the name of the shader from the vertexPath.
      * @param The path of the vertex shader.

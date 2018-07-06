@@ -28,10 +28,8 @@ Scene::Scene(int widthViewport,int heightViewport) :
     _viewportSize->width = widthViewport;
     _viewportSize->height = heightViewport;
 
-    _reloadEditHeightMap = true;
     initializeGenShader();
     initializeTexture();
-    //InitializeGenMaps();
     initStackMaps();
 
     _meshSphere = MeshLoader::vertexFromObj("../ressources/models/sphere.obj");
@@ -58,16 +56,12 @@ void Scene::createScene(const vector<string> &filepaths){
         initializeMaps(heightMap);
     }
 
-
-
-
-
     for(shared_ptr<MapsManager> m : _mapsManagers){
         if(m->ID!=0)
             m->maps->create(_mountains->getWidth(),_mountains->getHeight(),_mountains->getYmin(),_mountains->getYmax());
     }
 
-   _reloadEditHeightMap = true;
+   _doReloadLaplacienPyramid = true;
 }
 
 
@@ -100,7 +94,7 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
     mat4 modelMesh = mat4(1.0);
     shader->setMat4("modelMat",modelMesh);
     _mountains->draw();
-    
+
     mat4 modelSphere = mat4(1.0);
     modelSphere = glm::translate(modelSphere,lightDirection*_mountains->getRadius());
     modelSphere = glm::scale(modelSphere,vec3(_mountains->getRadius()/20.0,_mountains->getRadius()/20.0,_mountains->getRadius()/20.0));
@@ -113,9 +107,6 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
     glActiveTexture(GL_TEXTURE0);
 }
 
-void Scene::drawOnlyMesh(){
-    _mountains->draw();
-}
 
 void Scene::drawHeightMap(shared_ptr<Shader> shader){               _mapsManagers[_currentIndex]->maps->drawHeightMap(shader);}
 void Scene::drawEditHeightMap(shared_ptr<Shader> shader){           _mapsManagers[_currentIndex]->maps->drawEditHeightMap(shader);}
@@ -135,43 +126,41 @@ void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
 }
 
 
-void Scene::generateGaussHeightMap(){
-    bool firstMap = true;
-    unsigned int previousI = 0;
-    for(unsigned int i = 0; i < _mapsManagers.size(); i++)
-    {
-        if(_mapsManagers[i]->enabled){
-            if(!firstMap)
-                _mapsManagers[i]->maps->generateHeightMap(_mapsManagers[previousI]->maps->getHeightMap());
-            previousI = i;
-            firstMap = false;
+
+
+void Scene::generateLaplacienPyramid(){
+    if(_doReloadLaplacienPyramid){
+
+        // The gauss Blur
+        bool firstMap = true;
+        unsigned int previousI = 0;
+        for(unsigned int i = 0; i < _mapsManagers.size(); i++)
+        {
+            if(_mapsManagers[i]->enabled){
+                if(!firstMap)
+                    _mapsManagers[i]->maps->generateHeightMap(_mapsManagers[previousI]->maps->getHeightMap());
+                previousI = i;
+                firstMap = false;
+            }
         }
-    }
-
-}
-
-
-void Scene::generateEditHeightAndNormalMap(){
-
-
-    bool lastMap = true;
-    shared_ptr<Texture> nextHeightMap;
-    if(_reloadEditHeightMap){
+        // The difference
+        bool lastMap = true;
+        shared_ptr<Texture> nextHeightMap;
         for(int i = _mapsManagers.size()-1; i >=0 ; i--){
             if(_mapsManagers[i]->enabled){
                 _mapsManagers[i]->maps->generateEditHeightMap(nextHeightMap,lastMap);
                 lastMap = false;
                 _mapsManagers[i]->maps->generateNormalMap();
+                _mapsManagers[i]->maps->generateSlantMap();
                 nextHeightMap = _mapsManagers[i]->maps->getHeightMap();
             }
         }
-        _reloadEditHeightMap = false;
-    }
+        _doReloadLaplacienPyramid = false;
 
+    }
 }
 
-
-void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightPos, float pitch, float yaw){
+void Scene::generateIntermediateMaps(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightDir, float pitch, float yaw){
 
     bool firstMap = true;
     int i;
@@ -181,11 +170,9 @@ void Scene::generateSlantLightAndParalaxMaps(glm::mat4 mdvMat, glm::mat3 normalM
 
     for(i=_mapsManagers.size()-1; i >= 0 ;i--){
         if(_mapsManagers[i]->enabled){
-            _mapsManagers[i]->maps->generateNormalMap();
-            _mapsManagers[i]->maps->generateSlantMap();
 
-            _mapsManagers[i]->maps->generateShadeLightMap(lightPos,pitch,yaw,_doEditShadeLightDir);
-            _mapsManagers[i]->maps->generateShadowLightMap(lightPos,_pitchLightShadow,yaw,_doEditShadowLightDir);
+            _mapsManagers[i]->maps->generateShadeLightMap(lightDir,pitch,yaw,_doEditShadeLightDir);
+            _mapsManagers[i]->maps->generateShadowLightMap(lightDir,_pitchLightShadow,yaw,_doEditShadowLightDir);
             if(_doShadow){
                 _mapsManagers[i]->maps->generateShadowMap();
                 _mapsManagers[i]->maps->generateMorphoDilationMap(_doShadowMorpo);
@@ -213,7 +200,7 @@ void Scene::reloadGenerateTexturesShader(){
     _genShaders->morphoShader->reload();
     _genShaders->mergeShadowShader->reload();
     _genShaders->shadingShader->reload();
-    _reloadEditHeightMap = true;
+    _doReloadLaplacienPyramid = true;
 }
 
 
@@ -253,17 +240,12 @@ void Scene::setGaussBlurFactor(unsigned int id ,int g)
 
 void Scene::setEnabledMaps(unsigned int id, bool enabled){
     findFromID(id)->enabled = enabled;
-    _reloadEditHeightMap = true;
+    //_doReloadLaplacienPyramid = true;
 }
 
-void Scene::reloadHeightMaps()
+void Scene::reloadLaplacienPyramid()
 {
-    for(shared_ptr<MapsManager> m : _mapsManagers){
-        if(m->ID != 0){
-            m->maps->reloadHeightMap();
-        }
-    }
-    _reloadEditHeightMap = true;
+    _doReloadLaplacienPyramid = true;
 }
 
 void Scene::addMaps(unsigned int id, bool enabled)
@@ -283,7 +265,7 @@ void Scene::addMaps(unsigned int id, bool enabled)
         _mapsManagers.push_back(mapsManager);
     }
 
-    _reloadEditHeightMap = true;
+    _doReloadLaplacienPyramid = true;
 }
 
 unsigned int Scene::getCurrentMapsIndex() const

@@ -7,6 +7,7 @@
 
 /**
  * @brief A Type class that define a vertex with his position , his normal and his texture coordinates
+ * The normal must be normalize and the texture coordinates must be between 0 and 1.  
  */
 class Vertex
 {

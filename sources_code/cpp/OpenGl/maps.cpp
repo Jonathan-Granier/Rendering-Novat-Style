@@ -23,9 +23,6 @@ void Maps::create(int width, int height,float ymin, float ymax){
     _yminEdit = _ymin;
     _ymaxEdit = _ymax;
     resize();
-    _isGenerate = false;
-    _factorIsChange = true;
-
 }
 void Maps::create(shared_ptr<Texture> heightMap,int width, int height,float ymin, float ymax){
     _heightMap = heightMap;
@@ -36,33 +33,23 @@ void Maps::create(shared_ptr<Texture> heightMap,int width, int height,float ymin
     _yminEdit = _ymin;
     _ymaxEdit = _ymax;
     resize();
-    _isGenerate = true;
-    _factorIsChange = false;
 }
 
 void Maps::generateHeightMap(std::shared_ptr<Texture> refHeightMap){
-    if(!_isGenerate && _factorIsChange)
-    {
-        _gaussBlurHMap->startGenerate();
-        _gaussBlurHMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
-        _gaussBlurHMap->getGeneratorShader()->setInt("direction",0);
-        refHeightMap->sendToShader(_gaussBlurHMap->getGeneratorShader(),"img");
-        _gaussBlurHMap->generate(_viewportSize->width,_viewportSize->height);
+    _gaussBlurHMap->startGenerate();
+    _gaussBlurHMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
+    _gaussBlurHMap->getGeneratorShader()->setInt("direction",0);
+    refHeightMap->sendToShader(_gaussBlurHMap->getGeneratorShader(),"img");
+    _gaussBlurHMap->generate(_viewportSize->width,_viewportSize->height);
 
+    _gaussBlurVMap->startGenerate();
+    _gaussBlurVMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
+    _gaussBlurVMap->getGeneratorShader()->setInt("direction",1);
+    _gaussBlurHMap->sendToShader(_gaussBlurVMap->getGeneratorShader(),"img");
+    _gaussBlurVMap->generate(_viewportSize->width,_viewportSize->height);
 
-        _gaussBlurVMap->startGenerate();
-        _gaussBlurVMap->getGeneratorShader()->setInt("halfsize",_gaussBlurFactor);
-        _gaussBlurVMap->getGeneratorShader()->setInt("direction",1);
-        _gaussBlurHMap->sendToShader(_gaussBlurVMap->getGeneratorShader(),"img");
-        _gaussBlurVMap->generate(_viewportSize->width,_viewportSize->height);
-
-        _heightMap = _gaussBlurVMap;
-        _heightMap->setHeightMapOffset(refHeightMap->getHeightMapOffset());
-        generateNormalMap();
-        generateSlantMap();
-        _isGenerate = true;
-        _factorIsChange = false;
-    }
+    _heightMap = _gaussBlurVMap;
+    _heightMap->setHeightMapOffset(refHeightMap->getHeightMapOffset());
 }
 
 
@@ -243,13 +230,8 @@ void Maps::setGaussBlurFactor(float g)
         _gaussBlurFactor = 0;
     else
         _gaussBlurFactor = g;
-    _factorIsChange = true;
 }
 
-void Maps::reloadHeightMap()
-{
-    _isGenerate = false;
-}
 
 int Maps::getWidth() const
 {

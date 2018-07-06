@@ -88,7 +88,6 @@ public:
 
     void setGaussBlurFactor(float g);
 
-    void reloadHeightMap();
 
     int getWidth() const;
 
@@ -141,10 +140,6 @@ private :
 
     float _gaussBlurFactor;
     float _lightThreshold;
-
-    bool _isGenerate;
-    bool _factorIsChange;
-    bool _isEdit;
 
     const float         _MAXLIGHTTRESHOLD = M_PI/2.0;
     const float         _MINLIGHTRESHOLD = 0;

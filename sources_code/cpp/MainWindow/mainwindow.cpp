@@ -178,8 +178,8 @@ void MainWindow::updateDrawMode(int d)
 }
 
 
-void MainWindow::reloadHeightMaps(){
-    _viewer->reloadHeightMaps();
+void MainWindow::reloadLaplacienPyramid(){
+    _viewer->reloadLaplacienPyramid();
     ui->mainWidget->setFocus();
 }
 
@@ -368,7 +368,7 @@ void MainWindow::setupColorSettings(){
 
 void MainWindow::setupButtons(){
     connect(ui->addButton,&QPushButton::clicked,this,&MainWindow::addNewPanel);
-    connect(ui->reloadButton,&QPushButton::clicked,this,&MainWindow::reloadHeightMaps);
+    connect(ui->reloadButton,&QPushButton::clicked,this,&MainWindow::reloadLaplacienPyramid);
 }
 
 

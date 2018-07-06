@@ -20,6 +20,10 @@
 
 /**
  * @brief Texture define by a name and a id.
+ * Use :
+ *      sendToshader for bind the texture and send to a shader
+ *      draw to draw only the texture.
+ * Warning : This class can't be instanciate. Use LoadTexture or generatedTexture to instanciate a texture.
  */
 class Texture
 {

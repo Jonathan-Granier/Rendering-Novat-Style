@@ -89,7 +89,7 @@ private slots:
     //void updateSigma(int sigma);
     //void updateLightThreshold(int t);
     //void updateGaussBlurFactor(int g);
-    void reloadHeightMaps();
+    void reloadLaplacienPyramid();
     void setupInformationPanelSlot();
     void updateDrawMode(int d);
     void addNewPanel();

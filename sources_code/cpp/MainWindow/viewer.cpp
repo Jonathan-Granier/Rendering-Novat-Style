@@ -82,9 +82,8 @@ void Viewer::initializeGL(){
 // Rendu loop
 void Viewer::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    _scene->generateGaussHeightMap();
-    _scene->generateEditHeightAndNormalMap();
-    _scene->generateSlantLightAndParalaxMaps(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
+    _scene->generateLaplacienPyramid();
+    _scene->generateIntermediateMaps(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
     switch(_drawMode){
 
     case HEIGHTMAP:
@@ -427,8 +426,8 @@ void Viewer::setEnabledMaps(unsigned int id,bool enabled){
     update();
 }
 
-void Viewer::reloadHeightMaps(){
-    _scene->reloadHeightMaps();
+void Viewer::reloadLaplacienPyramid(){
+    _scene->reloadLaplacienPyramid();
     update();
 }
 
