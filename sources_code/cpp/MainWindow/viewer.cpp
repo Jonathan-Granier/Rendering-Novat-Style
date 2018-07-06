@@ -181,7 +181,7 @@ void Viewer::mousePressEvent(QMouseEvent *me){
 
 
 
-    //cout << width() << " " << height() << endl;
+   
     _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
@@ -193,15 +193,15 @@ void Viewer::mousePressEvent(QMouseEvent *me){
         _lightMode = true;
         _light->startMoveAroundYAxe(_moussePos,width(),height());
     }
+   
+
     update();
-}    //_shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
-//_shadowMap->initialize();
+}    
 
 void Viewer::mouseMoveEvent(QMouseEvent *me){
 
    _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
-
-
+   
     if(_lightMode)
         _light->moveAroundYAxe(_moussePos,width(),height());
     else

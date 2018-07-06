@@ -16,7 +16,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
 
 #include <math.h>
 /**
@@ -274,24 +275,33 @@ inline void Camera::move(const glm::vec2 &p) {
  * @param p
  */
 inline void Camera::rotate(const glm::vec2 &p) {
+  std::cout << "BEGIN ROTATE" << std::endl;
   glm::mat4 mo = _matm;
-
+  std::cout << "mo : " << glm::to_string(mo) << std::endl;
   // compute rotation matrix
   const glm::vec3 tr = glm::vec3(mo[3][0],mo[3][1],mo[3][2]);
   const glm::mat4 t1 = gml_add::identityTranslateEq(-tr);
   const glm::mat4 t2 = gml_add::identityTranslateEq(tr);
 
+  std::cout << "tr : " << glm::to_string(tr) << std::endl;
+  std::cout << "t1 : " << glm::to_string(t1) << std::endl;
+  std::cout << "t2 : " << glm::to_string(t2) << std::endl;
+
 
   glm::quat q = _t.track(p);
   const glm::mat4  mr = gml_add::quatToMat4(q);
+  std::cout << "q : " << glm::to_string(q) << std::endl;
+  std::cout << "mr : " << glm::to_string(mr) << std::endl;
 
   _matm = t2*mr*t1*mo; // TODO test
 
+  std::cout << "_matm : " << glm::to_string(_matm) << std::endl;
   // update params
   _p = p;
   _t.beginTracking(_p);
   updateCamVectors(_matm);
   updateCamDists(_matm);
+   std::cout << "P : " << _p.x << "|" << _p.y << std::endl;
 }
 
 /**

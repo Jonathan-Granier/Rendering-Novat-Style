@@ -38,5 +38,5 @@ void main()
     lightDir =  mdvMat * normalize(vec4(lightDirection,0));
     normal = normalMat * aNormal;
 
-    gl_Position = projMat * mdvMat * modelMat * position;
+    gl_Position = projMat * mdvMat  * modelMat * position;
 }

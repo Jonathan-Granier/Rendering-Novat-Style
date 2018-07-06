@@ -226,9 +226,10 @@ void main()
     color = texture(celShadingTex,vec2(Cd,0.5));
   }
 
-
   FragColor = xtoon(Cd);
+  //FragColor = vec4(1.0,1.0,1.0,1.0);
   //FragColor = texture(celShadingTex,texCoord);
+  //FragColor = vec4(Cd,Cd,Cd,1.0);
 }
 
 
