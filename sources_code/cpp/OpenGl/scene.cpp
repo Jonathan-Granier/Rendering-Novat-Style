@@ -188,66 +188,6 @@ void Scene::generateIntermediateScale(glm::mat4 mdvMat, glm::mat3 normalMat,glm:
 
 }
 
-
-void Scene::reloadGenerateTexturesShader(){
-    _genShaders->editHeightMapShader->reload();
-    _genShaders->normalMapShader->reload();
-    _genShaders->slantShader->reload();
-    _genShaders->shadeLightShader->reload();
-    _genShaders->shadowLightShader->reload();
-    _genShaders->gaussBlurShader->reload();
-    _genShaders->shadowShader->reload();
-    _genShaders->morphoShader->reload();
-    _genShaders->mergeShadowShader->reload();
-    _genShaders->shadingShader->reload();
-    _doReloadLaplacienPyramid = true;
-}
-
-
-
-
-
-vec3 Scene::getCenter() const
-{
-    return _mountains->getCenter();
-}
-
-
-float Scene::getRadius() const
-{
-    return _mountains->getRadius();
-}
-
-// TODO Voir le lien entre Id et index si il est constant et adapter le code en fonction (plus de fonction supprimé)
-void Scene::selectCurrentScale(int id)
-{
-    if(_scaleManagers[id]->enabled)
-        _currentIndex = id;
-}
-
-
-
-
-void Scene::setLightThreshold(unsigned int id, float t)
-{
-    findFromID(id)->scale->setLightThreshold(t);
-} 
-
-void Scene::setGaussBlurFactor(unsigned int id ,int g)
-{
-    findFromID(id)->scale->setGaussBlurFactor(g);
-}
-
-void Scene::setEnabledScale(unsigned int id, bool enabled){
-    findFromID(id)->enabled = enabled;
-    //_doReloadLaplacienPyramid = true;
-}
-
-void Scene::reloadLaplacienPyramid()
-{
-    _doReloadLaplacienPyramid = true;
-}
-
 void Scene::addScale(unsigned int id, bool enabled)
 {
     if(id == 0){
@@ -268,23 +208,83 @@ void Scene::addScale(unsigned int id, bool enabled)
     _doReloadLaplacienPyramid = true;
 }
 
+
+void Scene::reloadLaplacienPyramid()
+{
+    _doReloadLaplacienPyramid = true;
+}
+
+
+
+void Scene::reloadGenerateTexturesShader(){
+    _genShaders->editHeightMapShader->reload();
+    _genShaders->normalMapShader->reload();
+    _genShaders->slantShader->reload();
+    _genShaders->shadeLightShader->reload();
+    _genShaders->shadowLightShader->reload();
+    _genShaders->gaussBlurShader->reload();
+    _genShaders->shadowShader->reload();
+    _genShaders->morphoShader->reload();
+    _genShaders->mergeShadowShader->reload();
+    _genShaders->shadingShader->reload();
+    _doReloadLaplacienPyramid = true;
+}
+
+
+
+void Scene::loadColorMapTex(std::string filepaths){
+    _colorMapTex    = make_shared<LoadTexture>("colorMapTex",filepaths);
+
+}
+
+void Scene::loadCelShadingTex(std::string filepaths){
+    _celShadingTex  = make_shared<LoadTexture>("celShadingTex",filepaths);
+}
+
+
+
+vec3 Scene::getCenter() const
+{
+    return _mountains->getCenter();
+}
+
+
+float Scene::getRadius() const
+{
+    return _mountains->getRadius();
+}
+
+
+void Scene::selectCurrentScale(int id)
+{
+    if(_scaleManagers[id]->enabled)
+        _currentIndex = id;
+}
+
 unsigned int Scene::getCurrentScaleIndex() const
 {
     return _currentIndex;
 }
 
 
+void Scene::setLightThreshold(unsigned int id, float t)
+{
+    findFromID(id)->scale->setLightThreshold(t);
+}
+
+void Scene::setGaussBlurFactor(unsigned int id ,int g)
+{
+    findFromID(id)->scale->setGaussBlurFactor(g);
+}
+
+void Scene::setEnabledScale(unsigned int id, bool enabled){
+    findFromID(id)->enabled = enabled;
+}
 
 void Scene::setDoShadow(bool doShadow)
 {
     _doShadow = doShadow;
 }
-
-
-
-
-
-
 
 void Scene::setShadeSelector(int s){
     _shadeSelector = s;
@@ -335,15 +335,6 @@ glm::vec4 Scene::getWaterColor() const
 
 
 
-
-void Scene::loadColorMapTex(std::string filepaths){
-    _colorMapTex    = make_shared<LoadTexture>("colorMapTex",filepaths);
-
-}
-
-void Scene::loadCelShadingTex(std::string filepaths){
-    _celShadingTex  = make_shared<LoadTexture>("celShadingTex",filepaths);
-}
 
 void Scene::setColorSelector(int colorSelector)
 {

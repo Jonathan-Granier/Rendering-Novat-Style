@@ -151,11 +151,34 @@ public:
     void generateIntermediateScale(glm::mat4 mdvMat, glm::mat3 normalMat,glm::vec3 lightDir, float pitch, float yaw);
 
     /**
+    * @brief add a scale to the laplacien pyramide. We can't have more than 10 scale.
+    * @param id : the id of the new scale.
+    * @param enabled : set if the new scale is enabled or not. By default it is disabled.
+    */
+    void addScale(unsigned int id, bool enabled = false);
+
+    /**
+    * @brief allow the generateLaplacienPyramid function to regenerate the Laplacien pyramide.
+    */
+    void reloadLaplacienPyramid();
+
+    /**
     * @brief Reload all the shader used by the Scale class.
     * Allow a regenerate of the Laplacien Pyramid.
     */
     void reloadGenerateTexturesShader();
 
+    /**
+    * @brief Load a new texture for the colorMap colorization methode.
+    * @param filepaths : path of the texture file.
+    */
+    void loadColorMapTex(std::string filepaths);
+
+    /**
+    * @brief Load a new texture for the cel-shading colorization methode.
+    * @param filepaths : path of the texture file.
+    */
+    void loadCelShadingTex(std::string filepaths);
 
     /**
      * @brief get _center
@@ -175,6 +198,12 @@ public:
     void selectCurrentScale(int id);
 
     /**
+    * @brief return the index of the current scale.
+    * @return the index of the current scale
+    */
+    unsigned int getCurrentScaleIndex() const;
+
+    /**
     * @brief Set the light Threshold that is the threshold for the smoothstep for the light correction, for a scale.
     * @param id: The ID of the scale where the threshold is to change.
     * @param t : the threshold between pi/10 and pi/2.
@@ -182,26 +211,43 @@ public:
     void setLightThreshold(unsigned int id, float t);
 
 
-
-//    int getGaussBlurFactor() const;
+    /**
+    * @brief Set the sigma for the gauss blur of the scale id.
+    * @param id: The ID of the scale where the sigma is to change.
+    * @param g : the value of sigma, must be positive or null.
+    */
     void setGaussBlurFactor(unsigned int id, int g);
 
+    /**
+    * @brief Enabled or disabled a scale
+    * @param id: the ID of the scale that be enabled/disabled
+    * @param enabled : if true, enabled the scale , disabled overwise.
+    */
     void setEnabledScale(unsigned int id, bool enabled);
 
-    void reloadLaplacienPyramid();
 
 
-    void addScale(unsigned int id, bool enabled = false);
-
-
-
-
-    unsigned int getCurrentScaleIndex() const;
-
-
-
+    /**
+    * @brief enabled or disabled the shadow (compute and draw)
+    * @param doShadow : if true, enabled the shadows , disabled overwise.
+    */
     void setDoShadow(bool doShadow);
+
+    /**
+    * @brief Select the merge method for the shading.
+    * @param s : the merge method selected :
+    *   0. Only blur (only if we have two scale)
+    *   1. Only details (only if we have two scale)
+    *   2. Overlay standart merge.
+    *   3. WaterColor merge
+    * Show the shader "shading.frag" for more information
+    */
     void setShadeSelector(int s);
+
+    /**
+    * @brief
+    *   
+    */
     void setPitchLightShadow(float pitchLightShadow);
 
     void setDoEditShadeLightDir(bool doEditShadeLightDir);
@@ -214,8 +260,7 @@ public:
     void setWaterColor(const glm::vec4 &waterColor);
     glm::vec4 getWaterColor() const;
 
-    void loadColorMapTex(std::string filepaths);
-    void loadCelShadingTex(std::string filepaths);
+
 
     void setColorSelector(int colorSelector);
 
