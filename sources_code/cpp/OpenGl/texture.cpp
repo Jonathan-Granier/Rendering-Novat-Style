@@ -8,8 +8,6 @@
 #include <GL/glu.h>
 
 
-#include "caller.h"
-
 
 #include <iostream>
 #include "lib/stb_image.h"
@@ -58,7 +56,6 @@ vector<float> Texture::getDataRED(){
 
     for(int i = _height-1; i >=0; i--){
         for(int j =0; j< _width;j++){
-            //cout <<pixels[i*_width+ j] << "|";
             dataVec.push_back(pixels[i*_width+ j]);
         }
     }

@@ -31,12 +31,6 @@ void GeneratedTexture::initialize()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-   // float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-   // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-
-
-    // attach depth texture as FBO's depth buffer
-
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_id,0);
 
@@ -88,15 +82,7 @@ void GeneratedTexture::resize(int width, int height){
 
 }
 
-
-
-void GeneratedTexture::reloadShader()
-{
-    _generatorShader->reload();
-}
-
 std::shared_ptr<Shader> GeneratedTexture::getGeneratorShader() const
 {
     return _generatorShader;
 }
-

@@ -24,13 +24,14 @@ class QMenu;
 
 
 /**
- * @brief The MainWindow class with basic menu bar (load model, save a screenshot and quit the app) and the central widget is a openGl widget.
+ * @brief The MainWindow class is the controle center of the UI of the project. He have many buttons and a QOpenGLWidget.
+ * The UI is generated with mainwindow.ui , a file generate by QTDesigner.
  */
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 public:
     /**
-     * @brief Set the different Widget.
+     * @brief Constructon, set the differents widgets.
      */
     explicit MainWindow();
     ~MainWindow();
@@ -41,20 +42,23 @@ public:
 
 
 protected:
+
+    /**
+    * Close the windows.
+    */
+    void closeEvent(QCloseEvent *event) override;
+
     /**
      * @brief Intercepts the closeEvent and destroy all the variable of mainWindow.
      * @details R : reload all shaders,
      *          I : init the camera,
      *          P : print the camera and light position,
      *          D : fixe the camera and the light to hard code positions,
-     *          Q : Switch to the previous shader,
-     *          S : Switch to the next shader,
      *          W : Switch to the previous draw mode,
      *          X : Switch to the previous draw mode.
-     * @param event
+     *
+     * @param ke    The key pressed
      */
-    void closeEvent(QCloseEvent *event) override;
-
     void keyPressEvent(QKeyEvent *ke) override;
 
 
@@ -64,13 +68,19 @@ protected:
 
 private slots:
     /**
-     * @brief open a file and call _viewer.loadModelFromFile.
+     * @brief Open files and load it.
+     * @details See loadSceneFromFile function in viewer for more details.
      */
     void open();
 
-    void generateModel();
     /**
-     * @brief Save a screenshot of the actual _viewer.
+    * @brief Generate a scene from the shader genheightmap.frag.
+    * @details See generateScene function in viewer for more details.
+    *
+    */
+    void generateScene();
+    /**
+     * @brief Save a screenshot of the actual QOpenGLWidget.
      */
     void saveScreenshot();
 
@@ -84,65 +94,152 @@ private slots:
      */
     void about();
 
+    /**
+    * @brief Set the pitch of the global light
+    *
+    * @param theta      a angle in degree between 0 and 89.
+    */
     void updateLightPosition(int angle);
+
+    /**
+    * @brief Set the picht of the light for the shadowLightMap.
+    *
+    * @param p          a angle in degree between 0 and 89.
+    */
     void updateShadowLightPosition(int angle);
-    //void updateSigma(int sigma);
-    //void updateLightThreshold(int t);
-    //void updateGaussBlurFactor(int g);
+
+    /**
+    * @brief Reload the laplacien pyramid.
+    */
     void reloadLaplacienPyramid();
+
+    /**
+    * @brief call refreshInformationPanel function.
+    */
     void setupInformationPanelSlot();
+
+    /**
+    * @brief update the draw mode
+    * @details See viewer for more information.
+    *
+    * @param d      The draw mode number.
+    */
     void updateDrawMode(int d);
+
+    /**
+    * @brief add a new scale and a new panel for controle this scale.
+    * @details Increment _id
+    */
     void addNewPanel();
 
-
+    /**
+    * @brief Enabled or disabled the shadow (compute and draw)
+    * @param b       If 1, enabled the shadows, disabled otherwise.
+    */
     void setShadowEnabled(int b);
+
+    /**
+    * @brief Set if the mathematical morphology on the shadow is done or not.
+    * @param b       If 1, do the mathematical morphology, do nothing otherwise.
+    */
     void setShadowEnabledMorpho(int b);
+
+    /**
+    * @brief Set if the light for compute the shadow is the global light or the oriented light.
+    * @param b      If 1, oriented used, global light otherwise.
+    */
     void setShadowEnabledLightDir(int b);
-    void setShadowUpdateLightPosition(int angle);
 
 
 
+    /**
+    * @brief Set if the light for compute the shade is the global light or the oriented light.
+    * @param b      If 1, oriented used, global light otherwise.
+    */
     void setShadeEnabledLightDir(int b);
-    void setShadeUpdateLightPosition(int angle);
 
+    /**
+    * @brief set if we compute ur shading methode or if we compute a classic lambertien with native normal and the global light.
+    * @param b       If 1, classic lambertien, ur methode otherwise.
+    */
     void setDoDefaultShading(int b);
 
+    /**
+    * @brief Open a QColor Dialog.
+    * @return The color return by QColorDialog.
+    */
     QColor selectColor(QColor currentColor);
+
+    /**
+    * @brief Select a texture to load.
+    * @return The path of the texture file selected.
+    */
     QString loadTexture();
 
 private:
 
-
+    /**
+    * @brief The UI generate by QTDesigner.
+    */
     Ui::MainWindow *ui;
 
-
-
-    //SettingsWindow *_settingsWindow;
     /**
-     * @brief the central openGl widget
+     * @brief the central QOpenGLWidget
      */
     std::unique_ptr<Viewer> _viewer;
     /**
      * @brief The application widget : only use for quitEvent
      */
     QApplication *_application;
-    /**
-     * @brief the actual progress of the loading objects (Mesh and Textures).
-     */
 
+    /**
+    * @brief The ID of the last scale add.
+    */
     unsigned int _id;
+
 
     QButtonGroup* _currentScaleSelector;
 
-
+    /**
+    * @brief Do the connections between the menu bar and the functions
+    */
     void setupMenu();
+
+    /**
+    * @brief Do the connections between the ControlePanel and the functions
+    */
     void setupControlePanel();
+
+    /**
+    * @brief Do the connections between the shade settings and the functions
+    */
     void setupShadeSettings();
+
+    /**
+    * @brief Do the connections between the shadow settings and the functions
+    */
     void setupShadowSettings();
+
+    /**
+    * @brief Do the connections between the color settings and the functions
+    */
     void setupColorSettings();
+
+    /**
+    * @brief Do the connections between the Multi-scale buttons and the functions
+    */
     void setupButtons();
 
+    /**
+    * @brief Refresh the information on the controle Penel (Draw Mode)
+    */
     void refreshInformationPanel();
+
+    /**
+    * @brief Create a new panel for controle a new scale.
+    * @param id             The id of the new scale
+    * @param firstPanel     If true don't show the slide bar for the sigma.
+    */
     QGroupBox *createNewPanel(int id, bool firstPanel);
 
 };

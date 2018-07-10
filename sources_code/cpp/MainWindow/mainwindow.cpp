@@ -62,18 +62,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *ke)
 {
-
-
-    // key i: init camera
     if(ke->key()==Qt::Key_I) {
       _viewer->resetTheCameraPosition();
 
     }
-    //key r : reload shader
+
     if(ke->key()==Qt::Key_R){
        _viewer->reloadShader();
 
-    }
+   }
 
     if(ke->key()==Qt::Key_P){
         _viewer->printCamAndLight();
@@ -102,8 +99,8 @@ void MainWindow::open()
 {
 
     QFileDialog browser;
-    QStringList fileNames = browser.getOpenFileNames(this, tr("Open Models"), QDir::currentPath()+"/../ressources/models",tr("Models (*.asc *.obj)"));
-    browser.close(); // FIXME , don't always work
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open DEM(s)"), QDir::currentPath()+"/../ressources/models",tr("Models (*.asc)"));
+    browser.close();
     if(!fileNames.isEmpty())
     {
 
@@ -114,7 +111,7 @@ void MainWindow::open()
 
 }
 
-void MainWindow::generateModel(){
+void MainWindow::generateScene(){
     _viewer->generateScene();
 }
 
@@ -122,14 +119,14 @@ void MainWindow::saveScreenshot()
 {
 
     QImage screenshot =_viewer->grabFramebuffer();
-    QFileDialog dialog(this, "Sauvegarder la capture d'ecran", QDir::currentPath()+"/../ressources/screenshots","*.png *.jpg");
+    QFileDialog dialog(this, "Save the screenshot", QDir::currentPath()+"/../ressources/screenshots","*.png *.jpg");
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     QString filename;
     int ret = dialog.exec();
     if(ret == QDialog::Accepted){
         filename = dialog.selectedFiles()[0];
         if(!screenshot.save(filename)){
-            QMessageBox::warning(0,tr("MainWindow"),tr("Impossible de sauvegarder la capture d'ecran :") + filename, QMessageBox::Ok);
+            QMessageBox::warning(0,tr("MainWindow"),tr("Can not save screenshot :") + filename, QMessageBox::Ok);
         }
     }
 
@@ -139,17 +136,17 @@ void MainWindow::saveScreenshot()
 void MainWindow::help()
 {
     QErrorMessage errorMessageDialog(this);
-    errorMessageDialog.showMessage(tr("Not Implemented!"));
-
-
+    errorMessageDialog.showMessage(tr("Not Implemented! See the report (in french) and the documentation"));
 }
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("A propos Rendu Style Novat"),
-                tr("Application ayant pour objectif d'automatiser "
-                   "le rendu de panorama de montagne dans le style du peintre "
-                   "<b>Pierre Novat</b>"));
+    QMessageBox::about(this, tr("About Rendu Style Novat"),
+                tr("Prototype of a shadow rendering software \n"
+                "in the style of the mountain panoramas of the painters \n "
+                "Pierre Novat and Arthur Novat. \n"
+                "Create by Jonathan Granier\n"
+                "In the MAVERICK Team (LJK,INRIA)\n"));
 }
 
 void MainWindow::updateLightPosition(int angle)
@@ -194,9 +191,9 @@ void MainWindow::addNewPanel()
 void MainWindow::setShadowEnabled(int b)
 {
     if(b==0)
-        _viewer->setShadowEnabled(false);
+        _viewer->setDoShadow(false);
     else
-        _viewer->setShadowEnabled(true);
+        _viewer->setDoShadow(true);
      ui->mainWidget->setFocus();
 }
 
@@ -204,9 +201,9 @@ void MainWindow::setShadowEnabledMorpho(int b)
 {
 
     if(b==0)
-        _viewer->setShadowEnabledMorpho(false);
+        _viewer->setDoShadowMorpho(false);
     else
-        _viewer->setShadowEnabledMorpho(true);
+        _viewer->setDoShadowMorpho(true);
 
     ui->mainWidget->setFocus();
 }
@@ -215,9 +212,9 @@ void MainWindow::setShadowEnabledLightDir(int b)
 {
 
     if(b==0)
-        _viewer->setShadowEnabledLightDir(false);
+        _viewer->setDoEditShadowLightDir(false);
     else
-        _viewer->setShadowEnabledLightDir(true);
+        _viewer->setDoEditShadowLightDir(true);
 
     ui->mainWidget->setFocus();
 }
@@ -225,9 +222,9 @@ void MainWindow::setShadowEnabledLightDir(int b)
 void MainWindow::setShadeEnabledLightDir(int b)
 {
     if(b==0)
-        _viewer->setShadeEnabledLightDir(false);
+        _viewer->setDoEditShadeLightDir(false);
     else
-        _viewer->setShadeEnabledLightDir(true);
+        _viewer->setDoEditShadeLightDir(true);
     ui->mainWidget->setFocus();
 }
 
@@ -248,7 +245,7 @@ QColor MainWindow::selectColor(QColor currentColor)
 QString MainWindow::loadTexture()
 {
     QFileDialog browser;
-    QString fileName = browser.getOpenFileName(this, tr("Charger une texture"), QDir::currentPath()+"/../ressources/textures",tr("Textures (*.png)"));
+    QString fileName = browser.getOpenFileName(this, tr("Load a texture"), QDir::currentPath()+"/../ressources/textures",tr("Textures (*.png)"));
     browser.close();
     return fileName;
 }
@@ -263,9 +260,12 @@ QString MainWindow::loadTexture()
 void MainWindow::setupMenu(){
 
     connect(ui->loadModelAction,&QAction::triggered,this,&MainWindow::open);
-    connect(ui->generateModelAction,&QAction::triggered,this,&MainWindow::generateModel);
+    connect(ui->generateModelAction,&QAction::triggered,this,&MainWindow::generateScene);
     connect(ui->screenshotAction,&QAction::triggered,this,&MainWindow::saveScreenshot);
     connect(ui->exitAction,&QAction::triggered,this,&QWidget::close);
+
+    connect(ui->helpAction,&QAction::triggered,this,&MainWindow::help);
+    connect(ui->aboutAction,&QAction::triggered,this,&MainWindow::about);
 }
 
 void MainWindow::setupControlePanel()
@@ -406,7 +406,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
     );
 
 
-    QLabel *lightInfoLabel  = new QLabel("Angle max:(PI/(t/10)) t=");
+    QLabel *lightInfoLabel  = new QLabel("Angle limit:(PI/(T/10)) T=");
     QLabel *lightValueLabel = new QLabel();
     lightValueLabel->setNum(30);
     // Version QT5.7 and more
@@ -434,7 +434,7 @@ QGroupBox* MainWindow::createNewPanel(int id, bool firstPanel){
                 }
         );
 
-        QLabel *gaussInfoLabel  = new QLabel("Niveau de flou :");
+        QLabel *gaussInfoLabel  = new QLabel("Blur (sigma) :");
         QLabel *gaussValueLabel = new QLabel();
         gaussValueLabel->setNum(0);
         // Version QT5.7 and more

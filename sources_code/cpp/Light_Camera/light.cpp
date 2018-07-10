@@ -10,7 +10,7 @@ Light::Light(float yaw , float pitch)
 {
     _yaw = yaw;
     _pitch = pitch;
-    updatePosition();
+    updateDirection();
 }
 
 
@@ -27,7 +27,7 @@ void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
 
 
     _oldmoussePosition = moussePos;
-    updatePosition();
+    updateDirection();
 
 }
 
@@ -36,35 +36,35 @@ void Light::moveAroundXZ(float theta)
     if(theta < M_PI/2.0f && theta >= 0.0f )
         _pitch = theta;
 
-    updatePosition();
+    updateDirection();
 
 }
 
 
-void Light::setFixePosition()
+void Light::setFixeDirection()
 {
     _yaw = 3.76215;
     _pitch = M_PI/4.0f;
-    updatePosition();
+    updateDirection();
 }
 
-void Light::setFixePosition(float yaw, float pitch){
+void Light::setFixeDirection(float yaw, float pitch){
     _yaw = yaw;
     _pitch = pitch;
-    updatePosition();
+    updateDirection();
 }
 
-glm::vec3 Light::position() const
+glm::vec3 Light::getDirection() const
 {
-    return _position;
+    return _direction;
 }
 
-float Light::yaw() const
+float Light::getYaw() const
 {
     return _yaw;
 }
 
-float Light::pitch() const
+float Light::getPitch() const
 {
     return _pitch;
 }
@@ -83,9 +83,9 @@ vec2 Light::centerAndNormalize(vec2 v,float width,float height){
 
 
 
-void Light::updatePosition(){
-    _position.x = cos(_pitch) * cos(_yaw);
-    _position.y = sin(_pitch);
-    _position.z = cos(_pitch) * sin(_yaw);
-    _position = normalize(_position);
+void Light::updateDirection(){
+    _direction.x = cos(_pitch) * cos(_yaw);
+    _direction.y = sin(_pitch);
+    _direction.z = cos(_pitch) * sin(_yaw);
+    _direction = normalize(_direction);
 }

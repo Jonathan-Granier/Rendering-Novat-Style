@@ -18,9 +18,8 @@ using namespace glm;
 
 Viewer::Viewer(QWidget *parent) :
     QOpenGLWidget(parent),
-    _lightMode(false),
-    _drawMode(CLASSICAL)
-
+    _drawMode(CLASSICAL),
+    _lightMode(false)
 {
 
 
@@ -56,7 +55,7 @@ void Viewer::initializeGL(){
     // init OpenGL settings
     glEnable(GL_MULTISAMPLE);
     glClearColor(0.345f, 0.647f, 0.827f, 1.0f); // Cyan
-    //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);     // Grey
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glViewport(0,0,width(),height());
@@ -70,7 +69,6 @@ void Viewer::initializeGL(){
 
     loadScene();
     initShaders();
-    _timer.start();
 
 
 
@@ -83,7 +81,7 @@ void Viewer::initializeGL(){
 void Viewer::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _scene->generateLaplacienPyramid();
-    _scene->generateIntermediateScale(_cam->mdvMatrix(),_cam->normalMatrix(),_light->position(),_light->pitch(),_light->yaw());
+    _scene->generateIntermediateScale(_cam->mdvMatrix(),_cam->normalMatrix(),_light->getDirection(),_light->getPitch(),_light->getYaw());
     switch(_drawMode){
 
     case HEIGHTMAP:
@@ -154,21 +152,21 @@ void Viewer::paintGL(){
         _drawTextureShader->disable();
          break;
     case CLASSICAL:
-        _lightShader->use();
-        _lightShader->setMat4("mdvMat",_cam->mdvMatrix());
-        _lightShader->setMat4("projMat",_cam->projMatrix());
-        _lightShader->setMat3("normalMat",_cam->normalMatrix());
-        _lightShader->setVec3("lightPosition",_light->position());
-        _lightShader->setVec3("cameraPosition",_cam->view());
-        _scene->draw(_lightShader,_light->position());
-        _lightShader->disable();
+        _meshShader->use();
+        _meshShader->setMat4("mdvMat",_cam->mdvMatrix());
+        _meshShader->setMat4("projMat",_cam->projMatrix());
+        _meshShader->setMat3("normalMat",_cam->normalMatrix());
+        _meshShader->setVec3("lightDirection",_light->getDirection());
+        _meshShader->setVec3("cameraPosition",_cam->view());
+        _scene->draw(_meshShader,_light->getDirection());
+        _meshShader->disable();
         break;
     }
 }
 
 void Viewer::resizeGL(int width,int height){
-    _cam->initialize(width,height,false);
-    glViewport(0,0,width,height);
+    //_cam->initialize(width,height,false);
+    //glViewport(0,0,width,height);
     update();
 }
 
@@ -176,11 +174,6 @@ void Viewer::resizeGL(int width,int height){
 
 
 void Viewer::mousePressEvent(QMouseEvent *me){
-
-
-
-
-    //cout << width() << " " << height() << endl;
     _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
@@ -193,8 +186,7 @@ void Viewer::mousePressEvent(QMouseEvent *me){
         _light->startMoveAroundYAxe(_moussePos,width(),height());
     }
     update();
-}    //_shadowMap = make_shared<ShadowMap>("depthMap",1024,1024);
-//_shadowMap->initialize();
+}
 
 void Viewer::mouseMoveEvent(QMouseEvent *me){
 
@@ -231,7 +223,7 @@ void Viewer::resetTheCameraPosition(){
 }
 
 void Viewer::reloadShader(){
-    _lightShader->reload();
+    _meshShader->reload();
     //_shadowMap->reloadShader();
     _drawTextureShader->reload();
     _scene->reloadGenerateTexturesShader();
@@ -247,14 +239,14 @@ void Viewer::printCamAndLight(){
     cout << "proj mat : " << glm::to_string(_cam->projMatrix()) << endl;
     cout << "mdv mat : " << glm::to_string(_cam->mdvMatrix()) << endl;
     cout << "normal mat : " << glm::to_string(_cam ->normalMatrix()) << endl;
-    cout << " light's angles : yaw : " << _light->yaw() << " pitch : " << _light->pitch() << endl;
+    cout << " light's angles : yaw : " << _light->getYaw() << " pitch : " << _light->getPitch() << endl;
 
 }
 
 void Viewer::fixeCamAndLight()
 {
     _cam->setFixePosition();
-    _light->setFixePosition();
+    _light->setFixeDirection();
     update();
 }
 
@@ -329,7 +321,6 @@ bool Viewer::loadSceneFromFile(const QStringList &fileNames)
 
 
     QString ext_ref = fileNames.at(0).section('.',-1);
-    //cout << "path : " << path.toStdString() << " ext : " << ext.toStdString() << endl;
 
     if(ext_ref.compare("asc")==0){
         _filepaths.push_back(fileNames.at(0).toStdString());
@@ -407,18 +398,19 @@ string Viewer::getCurrentDrawMode()
 }
 
 
-
-void Viewer::setGaussBlurFactor(unsigned int id, float g)
-{
-    _scene->setGaussBlurFactor(id,g);
-    update();
-}
-
 void Viewer::setLightThreshold(unsigned int id, float t)
 {
     _scene->setLightThreshold(id,t);
     update();
 }
+
+
+void Viewer::setGaussBlurFactor(unsigned int id, int g)
+{
+    _scene->setGaussBlurFactor(id,g);
+    update();
+}
+
 
 
 void Viewer::setEnabledScale(unsigned int id,bool enabled){
@@ -443,31 +435,32 @@ void Viewer::setShadeSelector(int s){
     _scene->setShadeSelector(s);
     update();
 }
-// TODO Armoniser les noms
 
-void Viewer::setShadowEnabled(int b)
+void Viewer::setDoShadow(int b)
 {
     _scene->setDoShadow(b);
     update();
 }
 
-void Viewer::setShadowEnabledMorpho(int b)
+
+void Viewer::setDoEditShadeLightDir(int b)
 {
-    _scene->setDoShadowMorpo(b);
+    _scene->setDoEditShadeLightDir(b);
     update();
 }
 
-void Viewer::setShadowEnabledLightDir(int b)
+void Viewer::setDoEditShadowLightDir(int b)
 {
     _scene->setDoEditShadowLightDir(b);
     update();
 }
 
-void Viewer::setShadeEnabledLightDir(int b)
+void Viewer::setDoShadowMorpho(int b)
 {
-    _scene->setDoEditShadeLightDir(b);
+    _scene->setDoShadowMorpho(b);
     update();
 }
+
 
 void Viewer::setPlainColor(const QColor &plainColor)
 {
@@ -539,7 +532,7 @@ void Viewer::loadScene()
 }
 
 void Viewer::initShaders(){
-    _lightShader = make_shared<Shader>("../sources_code/shaders/computelight.vert", "../sources_code/shaders/computelight.frag");
+    _meshShader = make_shared<Shader>("../sources_code/shaders/computelight.vert", "../sources_code/shaders/computelight.frag");
     _drawTextureShader = make_shared<Shader>("../sources_code/shaders/drawtexture.vert","../sources_code/shaders/drawtexture.frag");
 
 }
@@ -547,15 +540,5 @@ void Viewer::initShaders(){
 void Viewer::initDrawTexture(int numTex){
     _drawTextureShader->setInt("selectTexture",numTex);
     _drawTextureShader->setVec2("moussePos",_moussePos);
-    _scene->drawAsciiTex(_drawTextureShader);
-}
-
-
-void Viewer::takeScreenShot(QString name){
-
-    update();
-    QImage screenshot = grabFramebuffer();
-    screenshot.save(name);
-    cout << "screenshot save at " << name.toStdString() << endl;
-
+    _scene->sendAsciiTexToShader(_drawTextureShader);
 }

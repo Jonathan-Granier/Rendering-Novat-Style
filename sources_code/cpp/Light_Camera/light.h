@@ -5,70 +5,100 @@
 #include <math.h>
 #include "glm/glm.hpp"
 /**
- * @brief A basic light defined by a point.
- * The distance between the center of the world and the light point is constante.
+ * @brief A basic light defined by two euler angle Yaw and Pitch in radian.
+ * Use :
+ *      Change Yaw with startMoveAroundYAxe and moveAroundYAxe (relative displacement).
+ *      Change pitch with moveAroundXZ (absolute displacement)
  */
 class Light
 {
 public:
     /**
      * @brief Basic constructor
-     * @param position : the position of the light
-     * @param mode :  if we move the light , false by default.
+     *
+     * @param yaw       The yaw angle in radian of the light
+     * @param pitch     The pitch angle in radian of the light
      */
     Light(float yaw=M_PI/2.0f, float pitch=M_PI/4.0f);
 
 
 
     /**
-     * @brief Init the move of the light around the Y axe
-     * @param moussPos : the actual position of the mousse
+     * @brief Init the move of the light around the Y axe (yaw)
+     *
+     * @param moussPos      The actual position of the mousse.
+     * @param width         The width of the OpenGL widget.
+     * @param height        The height of the OpenGL widget.
      */
     void startMoveAroundYAxe(glm::vec2 moussePos,float width,float height);
     /**
-     * @brief Move the light around the Y axe, use startMoveAroundYAxe before use this.
-     * @param moussePos : the actual position of the mousse
+     * @brief Move the light around the Y axe, use startMoveAroundYAxe before use this (yaw).
+     *
+     * @param moussePos : the actual position of the mousse.
+     * @param width         The width of the OpenGL widget.
+     * @param height        The height of the OpenGL widget.
      */
     void moveAroundYAxe(glm::vec2 moussePos,float width,float height);
 
     /**
-     * @brief Move the light for have a theta angle between the vector position and the plan xz of the world.
-     * @param theta a angle in radian
+     * @brief Move the light for have a theta angle between the vector direction and the plan xz of the world.
+     * @param theta         A angle in radian.
      */
     void moveAroundXZ(float theta);
 
+    /**
+    * @brief Set a hard code direction.
+    */
+    void setFixeDirection();
 
-    void setFixePosition();
-    void setFixePosition(float yaw, float pitch);
+    /**
+    * @brief Set the yaw and the pitch of the light.
+    *
+    * @param yaw        The new yaw of the ligth.
+    * @param pitch        The new pitch of the ligth.
+    */
+    void setFixeDirection(float yaw, float pitch);
 
-    glm::vec3 position() const;
+    /**
+    * @return The direction of the light, a normal 3D vector.
+    */
+    glm::vec3 getDirection() const;
 
-    float yaw() const;
+    /**
+    * @return The yaw angle in radian of the light
+    */
+    float getYaw() const;
 
-    float pitch() const;
+    /**
+    * @return The pitch angle in radian of the light
+    */
+    float getPitch() const;
 
 private:
-    glm::vec3 _position; /** < The position of the light */
-    glm::vec2 _oldmoussePosition; /** < The postion of the mousse */
+    /** The direction of the light */
+    glm::vec3 _direction;
+    /** The position of the mousse */
+    glm::vec2 _oldmoussePosition;
 
-
-    float _yaw;         /** Euler's angle for the rotation around the y axis  */
-    float _pitch;       /** Euler's angle for the rotation around the xz plan */
+    /** Euler's angle for the rotation around the y axis  */
+    float _yaw;
+    /** Euler's angle for the rotation around the xz plan */
+    float _pitch;
 
     /**
      * @brief set and normalize a vector in the middle of the screen.
      * @param v : the vector to center and normalize.
-     * @param width : the width of the screen.
-     * @param height : the height of the screen.
-     * @return
+     * @param width : the width of the OpenGL widget.
+     * @param height : the height of the OpenGL widget.
+     * @return a 2D vector.
      */
     glm::vec2 centerAndNormalize(glm::vec2 v, float width, float height);
 
 
     /**
-     * @brief Compute the new position with Euler's angles _yaw and _pitch
+     * @brief Compute the new direction with Euler's angles _yaw and _pitch
      */
-    void updatePosition();
+    void updateDirection();
 
 };
 

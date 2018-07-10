@@ -5,7 +5,7 @@ in vec2 texCoord;
 
 uniform sampler2D slantMap;
 
-uniform vec3 lightPosition;
+uniform vec3 lightDirection;
 uniform float yaw;
 uniform float pitch;
 uniform float threshold;
@@ -87,7 +87,7 @@ void main()
   vec4 s = texture(slantMap,texCoord);
   vec4 newLightDir;
 
-  vec2 l = lightPosition.xz;
+  vec2 l = lightDirection.xz;
   float newYaw = yaw;
   if(doEdit)
     newLightDir = computeLight(s,l,newYaw);

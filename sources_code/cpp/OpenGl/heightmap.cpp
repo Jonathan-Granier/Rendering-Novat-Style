@@ -17,7 +17,6 @@ void HeightMap::initialize()
 
     glGenFramebuffers(1,&_fbo);
     glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
-    // create depth texture
 
     glGenTextures(1,&_id);
     glBindTexture(GL_TEXTURE_2D,_id);
@@ -26,11 +25,7 @@ void HeightMap::initialize()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-   // float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-   // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-
-    // attach depth texture as FBO's depth buffer
 
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,_id,0);
@@ -38,11 +33,6 @@ void HeightMap::initialize()
     glDrawBuffer(DrawBuffers);
 
 
-   //  glDrawBuffer(GL_NONE);
-    //glReadBuffer(GL_NONE);
-    //glBindFramebuffer(GL_FRAMEBUFFER,0);
-
-   // glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
 
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
         cerr << "error in framebuffer of " << _name  << endl;

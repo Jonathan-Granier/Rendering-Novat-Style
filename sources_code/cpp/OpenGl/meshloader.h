@@ -11,7 +11,7 @@
 #include "loadtexture.h"
 
 /**
- * @brief A class for loading a mesh from MNT and OBJ.
+ * @brief A class for loading a mesh from DEM and OBJ.
  */
 class MeshLoader
 {
@@ -39,24 +39,31 @@ public:
 
 
     /**
-     * @brief Load texture from a set of MNT file.
-     * @param filepaths : a set of path of MNT file, the form described for all MNT files must be continuous and form a square or a rectangle.
+     * @brief Load texture from a set of DEM file.
+     * @param filepaths : a set of path of DEM file, the form described for all DEM files must be continuous and form a square or a rectangle.
      * @return a heightMap texture.
      */
-    static std::shared_ptr<LoadTexture> textureFromMNT(const std::vector<std::string> &filepaths);
+    static std::shared_ptr<LoadTexture> textureFromDEM(const std::vector<std::string> &filepaths);
 
 private:
     /**
-     * @brief A basic struct to store the header information in a header of a MNT file
+     * @brief A basic struct to store the header information in a header of a DEM file
      */
     struct FileInfo{
-            std::ifstream filestream; /*!< Reading head*/
-            unsigned int ncols;       /*!< Number of columns*/
-            unsigned int nrows;       /*!< Number of lines*/
-            float xllcorner;          /*!< Position Weast-East of the upper right corner*/
-            float yllcorner;          /*!< Position North-South of upper right corner*/
-            float offset;             /*!< Distance (in meter) between 2 differentes altitudes*/
-            float noDataValue;        /*!< The null value of the file*/
+            /** Reading head*/
+            std::ifstream filestream;
+            /** Number of columns*/
+            unsigned int ncols;
+             /** Number of lines*/
+            unsigned int nrows;
+            /** Position Weast-East of the upper right corner*/
+            float xllcorner;
+            /** Position North-South of upper right corner*/
+            float yllcorner;
+            /** Distance (in meter) between 2 differentes altitudes*/
+            float offset;
+            /** The null value of the file*/
+            float noDataValue;
         };
 
 
@@ -90,13 +97,13 @@ private:
     static void computeNormal(Vertex *v1, Vertex *v2, Vertex *v3);
 
     /**
-     * @brief open, read and store the information of each header of MNT files store in filepaths
-     * @param filepaths a set of MNT files
+     * @brief open, read and store the information of each header of DEM files store in filepaths
+     * @param filepaths a set of DEM files
      * @return A set of FileInfo , one for each file in filepaths
      */
     static std::vector<std::shared_ptr<FileInfo>> getFileInfosFromFiles(const std::vector<std::string> &filepaths);
     /**
-     * @brief Read a MNT header and store the information in fileInfo
+     * @brief Read a DEM header and store the information in fileInfo
      * @param fileInfo : Where the information will be stored.
      */
     static void readHeader(std::shared_ptr<FileInfo> FileInfo);

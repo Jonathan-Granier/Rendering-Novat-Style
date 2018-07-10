@@ -28,6 +28,7 @@ find_package(Qt5OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
+#find_package(OpenEXR REQUIRED)
 
 find_package(glm QUIET)
 if (NOT GLM_FOUND)
@@ -53,6 +54,7 @@ target_include_directories(
     ${GLFW_INCLUDE_DIRS}
     ${OPENGL_INCLUDE_DIRS}
     ${GLEW_INCLUDE_DIRS}
+    #${OPENEXR_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/sources_code/cpp
 )
@@ -64,5 +66,6 @@ target_link_libraries(
     glfw
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
+    #${OPENEXR_LIBRARIES}
     ${GLM_LIBRARIES}
 )

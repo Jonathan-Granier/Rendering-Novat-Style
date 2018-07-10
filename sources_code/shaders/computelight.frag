@@ -230,5 +230,3 @@ void main()
   FragColor = xtoon(Cd);
   //FragColor = texture(celShadingTex,texCoord);
 }
-
-

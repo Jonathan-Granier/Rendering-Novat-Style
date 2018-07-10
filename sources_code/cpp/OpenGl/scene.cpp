@@ -16,7 +16,7 @@ Scene::Scene(int widthViewport,int heightViewport) :
     _doShadow(false),
     _doEditShadeLightDir(true),
     _doEditShadowLightDir(true),
-    _doShadowMorpo(true),
+    _doShadowMorpho(true),
     _doDefaultShading(false),
     _shadeSelector(3),
     _colorSelector(0),
@@ -30,7 +30,7 @@ Scene::Scene(int widthViewport,int heightViewport) :
 
     initializeGenShader();
     initializeTexture();
-    initStackScale();
+    initSupplyScale();
 
     _meshSphere = MeshLoader::vertexFromObj("../ressources/models/sphere.obj");
 }
@@ -48,15 +48,15 @@ void Scene::createScene(const vector<string> &filepaths){
         initializeScale(heightMap);
     }
     else{
-        cout << "Loading MNT from : " << endl;
+        cout << "Loading DEM from : " << endl;
         for(unsigned int i=0;i< filepaths.size() ; i++ ){
             cout << filepaths[i] << "..." << endl;
         }
-        shared_ptr<Texture> heightMap = MeshLoader::textureFromMNT(filepaths);
+        shared_ptr<Texture> heightMap = MeshLoader::textureFromDEM(filepaths);
         initializeScale(heightMap);
     }
 
-    for(shared_ptr<ScaleManager> m : _scaleManagers){
+    for(shared_ptr<ScaleInfo> m : _scalesManager){
         if(m->ID!=0)
             m->scale->create(_mountains->getWidth(),_mountains->getHeight(),_mountains->getYmin(),_mountains->getYmax());
     }
@@ -69,11 +69,11 @@ void Scene::createScene(const vector<string> &filepaths){
 void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
 
 
-    _scaleManagers[_currentIndex]->scale->sendShadingMap(shader);
-    _scaleManagers[_currentIndex]->scale->sendNormalMapToShader(shader);
-    _scaleManagers[_currentIndex]->scale->sendShadeLightMapToShader(shader);
-    _scaleManagers[_currentIndex]->scale->sendMergeShadowMap(shader);
-    _scaleManagers[_currentIndex]->scale->sendHeightMapToShader(shader);
+    _scalesManager[_currentIndex]->scale->sendShadingMap(shader);
+    _scalesManager[_currentIndex]->scale->sendNormalMapToShader(shader);
+    _scalesManager[_currentIndex]->scale->sendShadeLightMapToShader(shader);
+    _scalesManager[_currentIndex]->scale->sendMergeShadowMap(shader);
+    _scalesManager[_currentIndex]->scale->sendHeightMapToShader(shader);
     shader->setFloat("ymax",_mountains->getYmax());
     shader->setFloat("ymin",_mountains->getYmin());
 
@@ -88,7 +88,6 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
 
     shader->setBool("doShadow",_doShadow);
     shader->setBool("doDefaultShading",_doDefaultShading);
-    shader->setVec3("lightDirection",lightDirection);
 
 
     mat4 modelMesh = mat4(1.0);
@@ -108,19 +107,19 @@ void Scene::draw(shared_ptr<Shader> shader, vec3 lightDirection){
 }
 
 
-void Scene::drawHeightMap(shared_ptr<Shader> shader){               _scaleManagers[_currentIndex]->scale->drawHeightMap(shader);}
-void Scene::drawEditHeightMap(shared_ptr<Shader> shader){           _scaleManagers[_currentIndex]->scale->drawEditHeightMap(shader);}
-void Scene::drawNormalMap(shared_ptr<Shader> shader){               _scaleManagers[_currentIndex]->scale->drawNormalMap(shader); }
-void Scene::drawSlantMap(shared_ptr<Shader> shader){                _scaleManagers[_currentIndex]->scale->drawSlantMap(shader);}
-void Scene::drawShadeLightMap(std::shared_ptr<Shader> shader){      _scaleManagers[_currentIndex]->scale->drawShadeLightMap(shader); }
-void Scene::drawShadowLightMap(std::shared_ptr<Shader> shader){     _scaleManagers[_currentIndex]->scale->drawShadowLightMap(shader); }
-void Scene::drawShadowMap(std::shared_ptr<Shader> shader){          _scaleManagers[_currentIndex]->scale->drawShadowMap(shader);}
-void Scene::drawMorphoErosionMap(std::shared_ptr<Shader> shader){   _scaleManagers[_currentIndex]->scale->drawMorphoErosionMap(shader);}
-void Scene::drawMorphoDilationMap(std::shared_ptr<Shader> shader){  _scaleManagers[_currentIndex]->scale->drawMorphoDilationMap(shader);}
-void Scene::drawMergeShadowMap(std::shared_ptr<Shader> shader){     _scaleManagers[_currentIndex]->scale->drawMergeShadowMap(shader);}
-void Scene::drawShadingMap(std::shared_ptr<Shader> shader){         _scaleManagers[_currentIndex]->scale->drawShadingMap(shader);}
+void Scene::drawHeightMap(shared_ptr<Shader> shader){               _scalesManager[_currentIndex]->scale->drawHeightMap(shader);}
+void Scene::drawEditHeightMap(shared_ptr<Shader> shader){           _scalesManager[_currentIndex]->scale->drawEditHeightMap(shader);}
+void Scene::drawNormalMap(shared_ptr<Shader> shader){               _scalesManager[_currentIndex]->scale->drawNormalMap(shader); }
+void Scene::drawSlantMap(shared_ptr<Shader> shader){                _scalesManager[_currentIndex]->scale->drawSlantMap(shader);}
+void Scene::drawShadeLightMap(std::shared_ptr<Shader> shader){      _scalesManager[_currentIndex]->scale->drawShadeLightMap(shader); }
+void Scene::drawShadowLightMap(std::shared_ptr<Shader> shader){     _scalesManager[_currentIndex]->scale->drawShadowLightMap(shader); }
+void Scene::drawShadowMap(std::shared_ptr<Shader> shader){          _scalesManager[_currentIndex]->scale->drawShadowMap(shader);}
+void Scene::drawMorphoErosionMap(std::shared_ptr<Shader> shader){   _scalesManager[_currentIndex]->scale->drawMorphoErosionMap(shader);}
+void Scene::drawMorphoDilationMap(std::shared_ptr<Shader> shader){  _scalesManager[_currentIndex]->scale->drawMorphoDilationMap(shader);}
+void Scene::drawMergeShadowMap(std::shared_ptr<Shader> shader){     _scalesManager[_currentIndex]->scale->drawMergeShadowMap(shader);}
+void Scene::drawShadingMap(std::shared_ptr<Shader> shader){         _scalesManager[_currentIndex]->scale->drawShadingMap(shader);}
 
-void Scene::drawAsciiTex(std::shared_ptr<Shader> shader)
+void Scene::sendAsciiTexToShader(std::shared_ptr<Shader> shader)
 {
     _asciiTex->sendToShader(shader);
 }
@@ -134,11 +133,11 @@ void Scene::generateLaplacienPyramid(){
         // The gauss Blur
         bool firstMap = true;
         unsigned int previousI = 0;
-        for(unsigned int i = 0; i < _scaleManagers.size(); i++)
+        for(unsigned int i = 0; i < _scalesManager.size(); i++)
         {
-            if(_scaleManagers[i]->enabled){
+            if(_scalesManager[i]->enabled){
                 if(!firstMap)
-                    _scaleManagers[i]->scale->generateHeightMap(_scaleManagers[previousI]->scale->getHeightMap());
+                    _scalesManager[i]->scale->generateHeightMap(_scalesManager[previousI]->scale->getHeightMap());
                 previousI = i;
                 firstMap = false;
             }
@@ -146,13 +145,13 @@ void Scene::generateLaplacienPyramid(){
         // The difference
         bool lastMap = true;
         shared_ptr<Texture> nextHeightMap;
-        for(int i = _scaleManagers.size()-1; i >=0 ; i--){
-            if(_scaleManagers[i]->enabled){
-                _scaleManagers[i]->scale->generateEditHeightMap(nextHeightMap,lastMap);
+        for(int i = _scalesManager.size()-1; i >=0 ; i--){
+            if(_scalesManager[i]->enabled){
+                _scalesManager[i]->scale->generateEditHeightMap(nextHeightMap,lastMap);
                 lastMap = false;
-                _scaleManagers[i]->scale->generateNormalMap();
-                _scaleManagers[i]->scale->generateSlantMap();
-                nextHeightMap = _scaleManagers[i]->scale->getHeightMap();
+                _scalesManager[i]->scale->generateNormalMap();
+                _scalesManager[i]->scale->generateSlantMap();
+                nextHeightMap = _scalesManager[i]->scale->getHeightMap();
             }
         }
         _doReloadLaplacienPyramid = false;
@@ -168,21 +167,21 @@ void Scene::generateIntermediateScale(glm::mat4 mdvMat, glm::mat3 normalMat,glm:
     std::shared_ptr<Texture>       previousShadowMap;
 
 
-    for(i=_scaleManagers.size()-1; i >= 0 ;i--){
-        if(_scaleManagers[i]->enabled){
+    for(i=_scalesManager.size()-1; i >= 0 ;i--){
+        if(_scalesManager[i]->enabled){
 
-            _scaleManagers[i]->scale->generateShadeLightMap(lightDir,pitch,yaw,_doEditShadeLightDir);
-            _scaleManagers[i]->scale->generateShadowLightMap(lightDir,_pitchLightShadow,yaw,_doEditShadowLightDir);
+            _scalesManager[i]->scale->generateShadeLightMap(lightDir,pitch,yaw,_doEditShadeLightDir);
+            _scalesManager[i]->scale->generateShadowLightMap(lightDir,_pitchLightShadow,yaw,_doEditShadowLightDir);
             if(_doShadow){
-                _scaleManagers[i]->scale->generateShadowMap();
-                _scaleManagers[i]->scale->generateMorphoDilationMap(_doShadowMorpo);
-                _scaleManagers[i]->scale->generateMorphoErosionMap(_doShadowMorpo);
-                _scaleManagers[i]->scale->generateMergeShadowMap(previousShadowMap,firstMap);
-                previousShadowMap      = _scaleManagers[i]->scale->getMorphoErosionMap();
+                _scalesManager[i]->scale->generateShadowMap();
+                _scalesManager[i]->scale->generateMorphoDilationMap(_doShadowMorpho);
+                _scalesManager[i]->scale->generateMorphoErosionMap(_doShadowMorpho);
+                _scalesManager[i]->scale->generateMergeShadowMap(previousShadowMap,firstMap);
+                previousShadowMap      = _scalesManager[i]->scale->getMorphoErosionMap();
             }
-            _scaleManagers[i]->scale->generateShadingMap(mdvMat,normalMat,previousShadingMap,firstMap,_shadeSelector);
+            _scalesManager[i]->scale->generateShadingMap(mdvMat,normalMat,previousShadingMap,firstMap,_shadeSelector);
             firstMap = false;
-            previousShadingMap     = _scaleManagers[i]->scale->getShadingMap();
+            previousShadingMap     = _scalesManager[i]->scale->getShadingMap();
         }
     }
 
@@ -198,11 +197,11 @@ void Scene::addScale(unsigned int id, bool enabled)
     std::shared_ptr<Scale> scale = getScaleFromSupply();
     if(scale!=nullptr){
         scale->create(_mountains->getWidth(),_mountains->getHeight(),_mountains->getYmin(),_mountains->getYmax());
-        std::shared_ptr<ScaleManager> scaleManager = make_shared<ScaleManager>();
+        std::shared_ptr<ScaleInfo> scaleManager = make_shared<ScaleInfo>();
         scaleManager->scale = scale;
         scaleManager->enabled = enabled;
         scaleManager->ID = id;
-        _scaleManagers.push_back(scaleManager);
+        _scalesManager.push_back(scaleManager);
     }
 
     _doReloadLaplacienPyramid = true;
@@ -257,7 +256,7 @@ float Scene::getRadius() const
 
 void Scene::selectCurrentScale(int id)
 {
-    if(_scaleManagers[id]->enabled)
+    if(_scalesManager[id]->enabled)
         _currentIndex = id;
 }
 
@@ -290,24 +289,25 @@ void Scene::setShadeSelector(int s){
     _shadeSelector = s;
 }
 
-void Scene::setPitchLightShadow(float pitchLightShadow)
+void Scene::setPitchLightShadow(float p)
 {
-    _pitchLightShadow = pitchLightShadow;
+    if(p < M_PI/2.0f && p >= 0.0f )
+        _pitchLightShadow = p;
 }
 
-void Scene::setDoEditShadeLightDir(bool doEditShadeLightDir)
+void Scene::setDoEditShadeLightDir(bool b)
 {
-    _doEditShadeLightDir = doEditShadeLightDir;
+    _doEditShadeLightDir = b;
 }
 
-void Scene::setDoEditShadowLightDir(bool doEditShadowLightDir)
+void Scene::setDoEditShadowLightDir(bool b)
 {
-    _doEditShadowLightDir = doEditShadowLightDir;
+    _doEditShadowLightDir = b;
 }
 
-void Scene::setDoShadowMorpo(bool doShadowMorpo)
+void Scene::setDoShadowMorpho(bool b)
 {
-    _doShadowMorpo = doShadowMorpo;
+    _doShadowMorpho = b;
 }
 
 void Scene::setPlainColor(const glm::vec4 &plainColor)
@@ -336,14 +336,14 @@ glm::vec4 Scene::getWaterColor() const
 
 
 
-void Scene::setColorSelector(int colorSelector)
+void Scene::setColorSelector(int c)
 {
-    _colorSelector = colorSelector;
+    _colorSelector = c;
 }
 
-void Scene::setDoDefaultShading(bool doDefaultShading)
+void Scene::setDoDefaultShading(bool b)
 {
-    _doDefaultShading = doDefaultShading;
+    _doDefaultShading = b;
 }
 
 
@@ -373,15 +373,15 @@ void Scene::initializeScale(std::shared_ptr<Texture> heightMap){
 
         _mountains = MeshLoader::vertexFromHeightMap(heightMap->getDataRED(),heightMap->getWidth(),heightMap->getHeight(),heightMap->getHeightMapOffset());
        // _mountains->printNormal();
-        shared_ptr<ScaleManager> scaleManager = make_shared<ScaleManager>();
+        shared_ptr<ScaleInfo> scaleManager = make_shared<ScaleInfo>();
         scaleManager->scale = getScaleFromSupply();
         scaleManager->scale->create(heightMap,heightMap->getWidth(),heightMap->getHeight(),_mountains->getYmin(),_mountains->getYmax());
         scaleManager->ID = 0;
         scaleManager->enabled = true;
-        if(_scaleManagers.empty())
-            _scaleManagers.push_back(scaleManager);
+        if(_scalesManager.empty())
+            _scalesManager.push_back(scaleManager);
         else
-            _scaleManagers[0] = scaleManager;
+            _scalesManager[0] = scaleManager;
 }
 
 
@@ -407,9 +407,9 @@ void Scene::initializeTexture(){
 
 
 
-std::shared_ptr<Scene::ScaleManager> Scene::findFromID(unsigned int id){
+std::shared_ptr<Scene::ScaleInfo> Scene::findFromID(unsigned int id){
 
-    for(shared_ptr<ScaleManager> m : _scaleManagers){
+    for(shared_ptr<ScaleInfo> m : _scalesManager){
         if(m->ID == id){
             return m;
         }
@@ -418,16 +418,10 @@ std::shared_ptr<Scene::ScaleManager> Scene::findFromID(unsigned int id){
     return nullptr;
 }
 
-void Scene::printScaleManagers(){
-    cout <<" Scale Managers :" << endl;
-    for(shared_ptr<ScaleManager> m : _scaleManagers){
-        cout << "ID : " << m->ID << " enabled : " << m->enabled << endl;
-    }
-}
 
 
-void Scene::initStackScale(){
-    for(int i=0 ; i < 10 ; i++){
+void Scene::initSupplyScale(){
+    for(unsigned int i=0 ; i < MAXSCALE ; i++){
         std::shared_ptr<Scale> m =  make_shared<Scale>(_genShaders,_viewportSize);
         _supplyScale.push_back(m);
     }

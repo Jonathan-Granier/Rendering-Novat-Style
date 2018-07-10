@@ -21,7 +21,6 @@ class Mesh
 {
 public:
 
-    /* Functions */
     /**
      * @brief set _vertices and _indices compute the center and the radius and start setupMesh.
      * @param vertices : a vector of vertex.
@@ -44,10 +43,6 @@ public:
      * @brief Draw the mesh.
      */
     void draw();
-    /**
-     * @brief load the mesh data into the GPU with a VAO, VBO and EBO.
-     */
-    void setupMesh();
 
 
     /**
@@ -61,24 +56,9 @@ public:
     void computeRadius();
 
     /**
-     * @brief
-     */
-    void computeNormalMap();
-
-
+    * @brief print the number of vertex and the number of polygone of the mesh.
+    */
     void printInfo();
-
-
-    /**
-     * @brief Return the heith Map of a MTN mesh, do nothing otherwise
-     * @returnthe height Map of a MNT Mesh , empty if not.
-     */
-    std::vector<float> getHeightMap();
-
-
-    std::vector<float> getReverseHeightMap();
-
-
 
 
     /**
@@ -95,34 +75,65 @@ public:
 
 
 
-
+    /**
+    * @return The width of the mesh.
+    */
     int getWidth() const;
 
+    /**
+    * @return The height of the mesh.
+    */
     int getHeight() const;
 
+    /**
+    * @return The min value of the DEM (or the min value of the y in all the vertex).
+    */
     float getYmin() const;
 
+    /**
+    * @return The max value of the DEM (or the max value of the y in all the vertex).
+    */
     float getYmax() const;
 
 
 private :
 
 
+    /** Vertex Array Object. */
+    unsigned int _vao;
+    /** Vertex Buffer Object.*/
+    unsigned int _vbo;
+    /** Element Buffer Object.*/
+    unsigned int _ebo;
 
-    unsigned int _vao;                       /** < a Vertex Array Object. */
-    unsigned int _vbo;                      /** < a Vertex Buffer Object.*/
-    unsigned int _ebo;                      /** < a Element Buffer Object.*/
-    std::vector<Vertex> _vertices;      /** < a vector of vertex.*/
-    std::vector<unsigned int> _indices; /** <  a vector of int that define the indices of vertex of polygons of the mesh.*/
-    glm::vec3 _center;                  /** < The radius of the mesh.*/
-    float _radius;                      /** < The radius of the mesh.*/
+    /** Vector of vertex.*/
+    std::vector<Vertex> _vertices;
 
+    /** Vector of int that define the indices of vertex of polygons of the mesh.*/
+    std::vector<unsigned int> _indices;
 
+    /** The radius of the mesh.*/
+    glm::vec3 _center;
+
+    /** The radius of the mesh.*/
+    float _radius;
+
+    /** The width of the mesh. */
     const int _width;
+    /** The height of the mesh. */
     const int _height;
+
+    /** The min value of the DEM (or the min value of the y in all the vertex). */
     float _ymin;
+
+    /** The max value of the DEM (or the max value of the y in all the vertex).*/
     float _ymax;
 
+
+    /**
+     * @brief load the mesh data into the GPU with a VAO, VBO and EBO.
+     */
+    void setupMesh();
 
 
 };

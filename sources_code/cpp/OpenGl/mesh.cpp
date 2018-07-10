@@ -60,48 +60,6 @@ void Mesh::draw()
 
 }
 
-/* Private functions */
-// CATAPULTAGE
-void Mesh::setupMesh()
-{
-    /*_vao.create();
-    _vbo.create();
-    _ebo.create();
-
-    _vao.bind();
-
-    _vbo.bind(GL_ARRAY_BUFFER);
-
-*/
-    cout << _indices.size() << endl;
-    // create buffers/arrays
-    glGenVertexArrays(1,&_vao);
-    glGenBuffers(1,&_vbo);
-    glGenBuffers(1,&_ebo);
-
-
-    glBindVertexArray(_vao);
-    // load data into vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER,_vbo);
-
-    glBufferData(GL_ARRAY_BUFFER,_vertices.size() * sizeof(Vertex),&_vertices[0],GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,_indices.size()*sizeof(unsigned int),&_indices[0],GL_STATIC_DRAW);
-
-    // set the vertex attribute pointers
-    // vertex Positions
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)0);
-    // vertex normals
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    // vertex texture coords
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
-    glBindVertexArray(0);
-
-
-}
 
 void Mesh::computeCenter(){
     glm::vec3 c = glm::vec3(0.0f,0.0f,0.0f);
@@ -115,10 +73,6 @@ void Mesh::computeCenter(){
 
 
 }
-
-
-
-
 
 
 void Mesh::computeRadius(){
@@ -141,51 +95,6 @@ void Mesh::printInfo()
     cout << "number of vertice : " << _vertices.size() << endl;
     cout << "number of polygone : " << _indices.size()/3 << endl;
 }
-
-
-vector<float> Mesh::getHeightMap()
-{
-    vector<float> heightMap;
-    _ymin = 10000;
-    _ymax = -10000;
-
-
-    for(Vertex v : _vertices){
-        heightMap.push_back(v.position.y);
-        if(v.position.y > _ymax){
-            _ymax = v.position.y;
-        }
-        if(v.position.y < _ymin){
-            _ymin = v.position.y;
-        }
-    }
-    return heightMap;
-}
-
-
-vector<float> Mesh::getReverseHeightMap(){
-    vector<float> heightMap;
-
-    _ymin = 10000;
-    _ymax = -10000;
-
-    unsigned int index = 0;
-    // Reverse texture
-    for(int i = _height-1 ; i>= 0 ; i--){
-        for(int j=0; j < _width; j++){
-            index = i*_width + j;
-            heightMap.push_back(_vertices[index].position.y);
-            if(_vertices[index].position.y > _ymax){
-                _ymax = _vertices[index].position.y;
-            }
-            if(_vertices[index].position.y < _ymin){
-                _ymin = _vertices[index].position.y;
-            }
-        }
-    }
-    return heightMap;
-}
-
 
 
 
@@ -218,4 +127,41 @@ float Mesh::getYmin() const
 float Mesh::getYmax() const
 {
     return _ymax;
+}
+
+
+/************************************************
+ *              Private Functions               *
+ ************************************************/
+
+void Mesh::setupMesh()
+{
+
+    // create buffers/arrays
+    glGenVertexArrays(1,&_vao);
+    glGenBuffers(1,&_vbo);
+    glGenBuffers(1,&_ebo);
+
+
+    glBindVertexArray(_vao);
+    // load data into vertex buffers
+    glBindBuffer(GL_ARRAY_BUFFER,_vbo);
+
+    glBufferData(GL_ARRAY_BUFFER,_vertices.size() * sizeof(Vertex),&_vertices[0],GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,_indices.size()*sizeof(unsigned int),&_indices[0],GL_STATIC_DRAW);
+
+    // set the vertex attribute pointers
+    // vertex Positions
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(Vertex),(void*)0);
+    // vertex normals
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+    glBindVertexArray(0);
+
+
 }

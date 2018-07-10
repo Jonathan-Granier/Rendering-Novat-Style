@@ -87,10 +87,10 @@ void Scale::generateSlantMap()
     _slantMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Scale::generateShadeLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
+void Scale::generateShadeLightMap(glm::vec3 lightDir, float pitch, float yaw, bool doEdit)
 {
     _shadeLightMap->startGenerate();
-    _shadeLightMap->getGeneratorShader()->setVec3("lightPosition",lightPos);
+    _shadeLightMap->getGeneratorShader()->setVec3("lightDirection",lightDir);
     _shadeLightMap->getGeneratorShader()->setFloat("yaw",yaw);
     _shadeLightMap->getGeneratorShader()->setFloat("pitch",pitch);
     _shadeLightMap->getGeneratorShader()->setFloat("threshold",_lightThreshold);
@@ -99,10 +99,10 @@ void Scale::generateShadeLightMap(glm::vec3 lightPos, float pitch, float yaw, bo
     _shadeLightMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Scale::generateShadowLightMap(glm::vec3 lightPos, float pitch, float yaw, bool doEdit)
+void Scale::generateShadowLightMap(glm::vec3 lightDir, float pitch, float yaw, bool doEdit)
 {
     _shadowLightMap->startGenerate();
-    _shadowLightMap->getGeneratorShader()->setVec3("lightPosition",lightPos);
+    _shadowLightMap->getGeneratorShader()->setVec3("lightDirection",lightDir);
     _shadowLightMap->getGeneratorShader()->setFloat("yaw",yaw);
     _shadowLightMap->getGeneratorShader()->setFloat("pitch",pitch);
     _shadowLightMap->getGeneratorShader()->setFloat("threshold",_lightThreshold);
@@ -123,14 +123,6 @@ void Scale::generateShadowMap()
     _shadowMap->generate(_viewportSize->width,_viewportSize->height);
 }
 
-void Scale::generateMorphoErosionMap(bool doMorpho)
-{
-    _morphoErosionMap->startGenerate();
-    _morphoErosionMap->getGeneratorShader()->setInt("operator",0);
-    _morphoErosionMap->getGeneratorShader()->setBool("doMorpho",doMorpho);
-    _morphoDilationMap->sendToShader(_morphoErosionMap->getGeneratorShader(),"shadowMap");
-    _morphoErosionMap->generate(_viewportSize->width,_viewportSize->height);
-}
 
 void Scale::generateMorphoDilationMap(bool doMorpho)
 {
@@ -140,6 +132,17 @@ void Scale::generateMorphoDilationMap(bool doMorpho)
     _shadowMap->sendToShader(_morphoDilationMap->getGeneratorShader(),"shadowMap");
     _morphoDilationMap->generate(_viewportSize->width,_viewportSize->height);
 }
+
+
+void Scale::generateMorphoErosionMap(bool doMorpho)
+{
+    _morphoErosionMap->startGenerate();
+    _morphoErosionMap->getGeneratorShader()->setInt("operator",0);
+    _morphoErosionMap->getGeneratorShader()->setBool("doMorpho",doMorpho);
+    _morphoDilationMap->sendToShader(_morphoErosionMap->getGeneratorShader(),"shadowMap");
+    _morphoErosionMap->generate(_viewportSize->width,_viewportSize->height);
+}
+
 
 
 
@@ -184,8 +187,8 @@ void Scale::drawSlantMap(shared_ptr<Shader> shader){              _slantMap->dra
 void Scale::drawShadeLightMap(shared_ptr<Shader> shader){         _shadeLightMap->draw(shader);}
 void Scale::drawShadowLightMap(shared_ptr<Shader> shader){        _shadowLightMap->draw(shader);}
 void Scale::drawShadowMap(std::shared_ptr<Shader> shader){        _shadowMap->draw(shader);}
-void Scale::drawMorphoErosionMap(std::shared_ptr<Shader> shader){ _morphoErosionMap->draw(shader);}
 void Scale::drawMorphoDilationMap(std::shared_ptr<Shader> shader){_morphoDilationMap->draw(shader);}
+void Scale::drawMorphoErosionMap(std::shared_ptr<Shader> shader){ _morphoErosionMap->draw(shader);}
 void Scale::drawMergeShadowMap(std::shared_ptr<Shader> shader){   _mergeShadowMap->draw(shader);}
 void Scale::drawShadingMap(std::shared_ptr<Shader> shader){       _shadingMap->draw(shader);}
 
@@ -197,34 +200,24 @@ void Scale::sendSlantMapToShader(std::shared_ptr<Shader> shader){            _sl
 void Scale::sendShadeLightMapToShader(std::shared_ptr<Shader> shader){       _shadeLightMap->sendToShader(shader)    ;}
 void Scale::sendShadowLightMapToShader(std::shared_ptr<Shader> shader){      _shadowLightMap->sendToShader(shader)   ;}
 void Scale::sendShadowMap(std::shared_ptr<Shader> shader){                   _shadowMap->sendToShader(shader)      ;}
-void Scale::sendMorphoErosionMap(std::shared_ptr<Shader> shader){            _morphoErosionMap->sendToShader(shader) ;}
 void Scale::sendMorphoDilationMap(std::shared_ptr<Shader> shader){           _morphoDilationMap->sendToShader(shader);}
+void Scale::sendMorphoErosionMap(std::shared_ptr<Shader> shader){            _morphoErosionMap->sendToShader(shader) ;}
 void Scale::sendMergeShadowMap(std::shared_ptr<Shader> shader){              _mergeShadowMap->sendToShader(shader)   ;}
 void Scale::sendShadingMap(std::shared_ptr<Shader> shader){                  _shadingMap->sendToShader(shader)       ;}
 
 
-
-float Scale::getLightThreshold() const
-{
-    return _lightThreshold;
-}
 void Scale::setLightThreshold(float t)
 {
 
     if(t < _MINLIGHTRESHOLD)
-        _lightThreshold = 0;
+        _lightThreshold = _MINLIGHTRESHOLD;
     if(t > _MAXLIGHTTRESHOLD)
         _lightThreshold = _MAXLIGHTTRESHOLD;
     else
         _lightThreshold = t;
 }
 
-float Scale::getGaussBlurFactor() const
-{
-    return _gaussBlurFactor;
-}
-
-void Scale::setGaussBlurFactor(float g)
+void Scale::setGaussBlurFactor(int g)
 {
     if(g <= 0)
         _gaussBlurFactor = 0;
@@ -249,31 +242,15 @@ shared_ptr<Texture> Scale::getHeightMap(){
     return _heightMap;
 }
 
-std::shared_ptr<GeneratedTexture> Scale::getEditHeightMap() const
-{
-    return _editHeightMap;
-}
-std::shared_ptr<GeneratedTexture> Scale::getShadeLightMap() const
-{
-    return _shadeLightMap;
-}
 
-std::shared_ptr<GeneratedTexture> Scale::getShadowLightMap() const
-{
-    return _shadowLightMap;
-}
-
-std::shared_ptr<GeneratedTexture> Scale::getShadingMap() const
+std::shared_ptr<Texture> Scale::getShadingMap() const
 {
     return _shadingMap;
 }
 
-std::shared_ptr<GeneratedTexture> Scale::getMorphoDilationMap() const
-{
-    return _morphoDilationMap;
-}
 
-std::shared_ptr<GeneratedTexture> Scale::getMorphoErosionMap() const
+
+std::shared_ptr<Texture> Scale::getMorphoErosionMap() const
 {
     return _morphoErosionMap;
 }

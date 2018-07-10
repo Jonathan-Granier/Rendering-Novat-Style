@@ -16,7 +16,6 @@ MeshLoader::MeshLoader()
 {}
 
 
-//TODO translate c reader to c++ reader (FILE to ifstream)
 shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
 {
 
@@ -93,12 +92,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
                 texCoordIndex[2] = stoi(lineFace);
             getline(file,lineFace);
             normalIndex[2] = stoi(lineFace);
-            /*
-            cout << "I read a face : " <<  positionIndex[0] << "/" << texCoordIndex[0] << "/" << normalIndex[0] << " " <<
-                                                positionIndex[1] << "/" << texCoordIndex[1] << "/" << normalIndex[1] << " " <<
-                                                positionIndex[2] << "/" << texCoordIndex[2] << "/" << normalIndex[2] << endl;
-    */
-
+        
             for(unsigned i=0;i<3;i++){
                 positionIndices .push_back(positionIndex[i]);
                 texCoordIndices .push_back(texCoordIndex[i]);
@@ -139,11 +133,11 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
 
 }
 
-shared_ptr<LoadTexture> MeshLoader::textureFromMNT(const vector<string> &filepaths){
+shared_ptr<LoadTexture> MeshLoader::textureFromDEM(const vector<string> &filepaths){
 
     /*
 
-    Format d'un fichier MNT
+    Format d'un fichier DEM
 
     ncols       int
     nrows       int
@@ -357,7 +351,7 @@ bool MeshLoader::getSimilarVertexIndex(Vertex &v,map<Vertex,unsigned int> &Verte
 //TODO remonter l'erreur
 void MeshLoader::checkHeader(string value,string goal){
     if(value.compare(goal) != 0)
-        cerr << "Error in MNT file header | Expected: " << goal << " Read: " << value << endl;
+        cerr << "Error in DEM file header | Expected: " << goal << " Read: " << value << endl;
 
 
 }

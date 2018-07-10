@@ -33,8 +33,8 @@ public:
 
     /**
      * @brief Create a new shader and initialize it.
-     * @param vertexPath : a path of a vertex shader.
-     * @param fragmentPath : a path of a fragment shader.
+     * @param vertexPath     a path of a vertex shader.
+     * @param fragmentPath   a path of a fragment shader.
      */
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
 
@@ -42,20 +42,19 @@ public:
 
     /**
      * @brief Add a new shader and initialize it.
-     * @param vertexPath :  a path of a vertex shader.
-     * @param fragmentPaht :  a path of a fragment shader.
+     * @param vertexPath    a path of a vertex shader.
+     * @param fragmentPaht  a path of a fragment shader.
      */
-   // void add(const GLchar* vertexPath, const GLchar* fragmentPath);
 
     /**
      * @brief activate the current shader.
      */
     void use();
+
     /**
      * @brief disable the shaders.
      */
     void disable();
-
 
     /**
      * @brief Read and compile all shaders
@@ -73,80 +72,80 @@ public:
     // utility uniform functions
     /**
      * @brief set a boolean like a uniform value into the current sharders.
-     * @param name : the name of the boolean.
-     * @param value : the value of the boolean.
+     * @param name      the name of the boolean.
+     * @param value     the value of the boolean.
      */
     void setBool(const std::string &name, bool value);
     /**
      * @brief set a integer like a uniform value into the current sharders.
-     * @param name : the name of the integer.
-     * @param value : the value of the integer.
+     * @param name      the name of the integer.
+     * @param value     the value of the integer.
      */
     void setInt(const std::string &name, int value);
     /**
      * @brief set a float like a uniform value into the current sharders.
-     * @param name : the name of the float.
-     * @param value : the value of the float.
+     * @param name      the name of the float.
+     * @param value     the value of the float.
      */
     void setFloat(const std::string &name, float value);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
-     * @param name : the name of the 2D vector.
-     * @param value : the value of the 2D vector.
+     * @param name      the name of the 2D vector.
+     * @param value     the value of the 2D vector.
      */
     void setVec2(const std::string &name, const glm::vec2 &value);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
-     * @param name : the name of the 2D vector.
-     * @param x : the x value of the 2D vector.
-     * @param y :  the y value of the 2D vector.
+     * @param name      the name of the 2D vector.
+     * @param x         the x value of the 2D vector.
+     * @param y         the y value of the 2D vector.
      */
     void setVec2(const std::string &name, float x, float y);
     /**
      * @brief set a 2D vector like a uniform value into the current sharders.
-     * @param name : the name of the 2D vector.
-     * @param value : the value of the 2D vector.
+     * @param name      the name of the 2D vector.
+     * @param value     the value of the 2D vector.
      */
     void setVec3(const std::string &name, const glm::vec3 &value);
     /**
      * @brief set a 3D vector like a uniform value into the current sharders.
-     * @param name : the name of the 3D vector.
-     * @param x : the x value of the 3D vector.
-     * @param y : the y value of the 3D vector.
-     * @param z : the z value of the 3D vector.
+     * @param name      the name of the 3D vector.
+     * @param x         the x value of the 3D vector.
+     * @param y         the y value of the 3D vector.
+     * @param z         the z value of the 3D vector.
      */
     void setVec3(const std::string &name, float x, float y, float z);
     /**
      * @brief set a 4D vector like a uniform value into the current sharders.
-     * @param name : the name of the 4D vector.
-     * @param value : the value of the 4D vector.
+     * @param name      the name of the 4D vector.
+     * @param value     the value of the 4D vector.
      */
     void setVec4(const std::string &name, const glm::vec4 &value);
     /**
      * @brief set a 4D vector like a uniform value into the current sharders.
-     * @param name : the name of the 4D vector.
-     * @param x : the x value of the 4D vector.
-     * @param y : the y value of the 4D vector.
-     * @param z : the z value of the 4D vector.
-     * @param w : the w value of the 4D vector.
+     * @param name      the name of the 4D vector.
+     * @param x         the x value of the 4D vector.
+     * @param y         the y value of the 4D vector.
+     * @param z         the z value of the 4D vector.
+     * @param w         the w value of the 4D vector.
      */
     void setVec4(const std::string &name, float x, float y, float z, float w);
     /**
      * @brief set a 2D matrix like a uniform value into the current sharders.
-     * @param name : the name of the 2D matrix.
-     * @param value : the value of the 2D matrix.
+     * @param name      the name of the 2D matrix.
+     * @param value     the value of the 2D matrix.
      */
     void setMat2(const std::string &name, const glm::mat2 &mat);
     /**
      * @brief set a 3D matrix like a uniform value into the current sharders.
-     * @param name : the name of the 3D matrix.
-     * @param value : the value of the 3D matrix.
+     * @param name      the name of the 3D matrix.
+     * @param value     the value of the 3D matrix.
      */
     void setMat3(const std::string &name, const glm::mat3 &mat);
     /**
      * @brief set a 4D matrix like a uniform value into the current sharders.
-     * @param name : the name of the 4D matrix.
-     * @param value : the value of the 4D matrix.
+     * @param name      the name of the 4D matrix.
+     * @param value     the value of the 4D matrix.
      */
     void setMat4(const std::string &name, const glm::mat4 &mat);
 
@@ -156,31 +155,37 @@ public:
 
 private:
 
-   // struct ShaderInfo{
-    unsigned int _id;                /** < the program ID*/
-    const GLchar* _vertexPath;       /** < the path of the vertex shader*/
-    const GLchar* _fragmentPath;     /** < the path of the fragment shader*/
-    std::string _name;               /** < Name of the shader */
-    //};
+     /** The program ID*/
+    unsigned int _id;
+
+    /** The path of the vertex shader*/
+    const GLchar* _vertexPath;
+
+    /** The path of the fragment shader*/
+    const GLchar* _fragmentPath;
+
+    /** Name of the shader */
+    std::string _name;
+
 
     /**
      * @brief Reads, compiles the vertex and the fragment of the current shader and store the id
-     * @shaderInfo : The current shader
+     * @shaderInfo      The current shader
      */
     void initialize();
 
 
     /**
      * @brief Check if the compilation or the linkage went fine.
-     * @param shader : the id of the shader or the program.
-     * @param type : the type of the shader : PROGRAMME , VERTEX or FRAGMENT.
-     * @param name : name of the shader.
+     * @param shader    the id of the shader or the program.
+     * @param type      the type of the shader : PROGRAMME , VERTEX or FRAGMENT.
+     * @param name      name of the shader.
      */
     void checkCompileErrors(GLuint shader, std::string type, std::string name);
-    
+
     /**
      * @brief Get the name of the shader from the vertexPath.
-     * @param The path of the vertex shader.
+     * @param vertexPath    The path of the vertex shader.
      * @return the name of the shader.
      */
     std::string getName(const GLchar *vertexPath);

@@ -50,14 +50,14 @@
      <item>
       <widget class="QPushButton" name="reloadButton">
        <property name="text">
-        <string>Recharger</string>
+        <string>Reload</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="addButton">
        <property name="text">
-        <string>Ajouter</string>
+        <string>Add</string>
        </property>
       </widget>
      </item>
@@ -73,7 +73,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Multi-Echelle</string>
+     <string>Multi-Scale</string>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_4">
      <property name="geometry">
@@ -94,9 +94,9 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>1200</x>
+      <x>1220</x>
       <y>770</y>
-      <width>371</width>
+      <width>351</width>
       <height>21</height>
      </rect>
     </property>
@@ -122,7 +122,7 @@
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Shader courant :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Current Shader :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -188,7 +188,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Couleur</string>
+     <string>Color</string>
     </property>
     <widget class="QWidget" name="gridLayoutWidget">
      <property name="geometry">
@@ -203,7 +203,7 @@
       <item row="0" column="2">
        <widget class="QRadioButton" name="colorRadio2">
         <property name="text">
-         <string>Carte de couleur</string>
+         <string>Color map</string>
         </property>
        </widget>
       </item>
@@ -217,7 +217,7 @@
       <item row="0" column="0">
        <widget class="QRadioButton" name="colorRadio0">
         <property name="text">
-         <string>Couleur Unique</string>
+         <string>Plain color</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -227,35 +227,35 @@
       <item row="0" column="1">
        <widget class="QRadioButton" name="colorRadio1">
         <property name="text">
-         <string>Aquarelle</string>
+         <string>Watercolor</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="colorButton0">
         <property name="text">
-         <string>Choisir couleur</string>
+         <string>Chose color</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QPushButton" name="colorButton1">
         <property name="text">
-         <string>Choisir couleur</string>
+         <string>Chose color</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
        <widget class="QPushButton" name="colorButton2">
         <property name="text">
-         <string>Charger Texture</string>
+         <string>Load texture</string>
         </property>
        </widget>
       </item>
       <item row="1" column="3">
        <widget class="QPushButton" name="colorButton3">
         <property name="text">
-         <string>Charger Texture</string>
+         <string>Load texture</string>
         </property>
        </widget>
       </item>
@@ -272,7 +272,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Ombres Portées</string>
+     <string>Worn shadows</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -293,7 +293,7 @@
       <item>
        <widget class="QCheckBox" name="shadowCheckBoxLightDir">
         <property name="text">
-         <string>Orienter la lumière</string>
+         <string>Directs the light</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -303,7 +303,7 @@
       <item>
        <widget class="QCheckBox" name="shadowCheckBoxMorpho">
         <property name="text">
-         <string>Faire la Morphologie</string>
+         <string>Do the morphology filter</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -317,7 +317,7 @@
           <item>
            <widget class="QLabel" name="lightShadowPosLabel">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position vertical de la lumière :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Vertical position of the light :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -371,7 +371,7 @@
      </rect>
     </property>
     <property name="title">
-     <string> Ombrage</string>
+     <string>Shading</string>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_5">
      <property name="geometry">
@@ -386,7 +386,7 @@
       <item>
        <widget class="QCheckBox" name="shadeCheckBoxLightDir">
         <property name="text">
-         <string>Orienter la lumière </string>
+         <string>Directs the light</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -401,7 +401,7 @@
         <item>
          <widget class="QRadioButton" name="shadeRadio0">
           <property name="text">
-           <string>Flou</string>
+           <string>Blur</string>
           </property>
           <property name="checked">
            <bool>false</bool>
@@ -441,7 +441,7 @@
           <item>
            <widget class="QLabel" name="lightShadingPosLabel">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position vertical de la lumière :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Vertical position of the light :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -490,12 +490,12 @@
      <rect>
       <x>20</x>
       <y>910</y>
-      <width>141</width>
+      <width>161</width>
       <height>26</height>
      </rect>
     </property>
     <property name="text">
-     <string>do default shading</string>
+     <string>Do the default shading</string>
     </property>
    </widget>
   </widget>
@@ -510,7 +510,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Fichier</string>
+     <string>File</string>
     </property>
     <addaction name="loadModelAction"/>
     <addaction name="generateModelAction"/>
@@ -522,8 +522,8 @@
     <property name="title">
      <string>Aide</string>
     </property>
-    <addaction name="actionAide"/>
-    <addaction name="actionA_propos"/>
+    <addaction name="helpAction"/>
+    <addaction name="aboutAction"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAide"/>
@@ -535,7 +535,7 @@
   </widget>
   <action name="loadModelAction">
    <property name="text">
-    <string>Charger un model</string>
+    <string>Load DEM</string>
    </property>
    <property name="statusTip">
     <string>Charger un model existant (.obj ou .mnt)</string>
@@ -546,7 +546,7 @@
   </action>
   <action name="screenshotAction">
    <property name="text">
-    <string>Capture d'ecran</string>
+    <string>Screenshot</string>
    </property>
    <property name="statusTip">
     <string>Sauvegarder une capture d'ecran dans un fichier</string>
@@ -555,12 +555,12 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionAide">
+  <action name="helpAction">
    <property name="text">
     <string>Aide</string>
    </property>
   </action>
-  <action name="actionA_propos">
+  <action name="aboutAction">
    <property name="text">
     <string>A propos</string>
    </property>
@@ -606,7 +606,7 @@
   </action>
   <action name="generateModelAction">
    <property name="text">
-    <string>Generer un model</string>
+    <string>Generate aheight map</string>
    </property>
   </action>
  </widget>
