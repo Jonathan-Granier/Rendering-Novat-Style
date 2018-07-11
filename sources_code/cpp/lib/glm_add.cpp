@@ -25,7 +25,7 @@ glm::mat4 translateEq(glm::mat4 m, glm::vec3 v){
 
 
 glm::mat4 identityTranslateEq(glm::vec3 v){
-    glm::mat4 m = glm::mat4(); // build identity matrices 4x4
+    glm::mat4 m = glm::mat4(1.0); // build identity matrices 4x4
     return translateEq(m,v);
 
 }

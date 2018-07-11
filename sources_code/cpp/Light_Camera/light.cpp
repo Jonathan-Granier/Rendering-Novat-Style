@@ -15,7 +15,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/string_cast.hpp>
+
 using namespace glm;
 using namespace std;
 Light::Light(float yaw , float pitch)
@@ -32,7 +32,7 @@ void Light::startMoveAroundYAxe(glm::vec2 moussePos,float width,float height){
 
 void Light::moveAroundYAxe(vec2 moussePos,float width,float height){
     moussePos = centerAndNormalize(moussePos,width,height);
-    float theta= orientedAngle(_oldmoussePosition,moussePos);
+    float theta = orientedAngle(_oldmoussePosition,moussePos);
     _yaw -= theta;
     //Modulo
     _yaw = _yaw - 2*M_PI*floor(_yaw/(2.0 * M_PI));

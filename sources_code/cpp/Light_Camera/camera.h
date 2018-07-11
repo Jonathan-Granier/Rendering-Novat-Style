@@ -17,7 +17,6 @@
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 #include <math.h>
 /**
  * @brief Define a camera link to a trackball for move the model arround the trackball.
@@ -274,19 +273,18 @@ inline void Camera::move(const glm::vec2 &p) {
  * @param p
  */
 inline void Camera::rotate(const glm::vec2 &p) {
+  
   glm::mat4 mo = _matm;
-
+ 
   // compute rotation matrix
   const glm::vec3 tr = glm::vec3(mo[3][0],mo[3][1],mo[3][2]);
   const glm::mat4 t1 = gml_add::identityTranslateEq(-tr);
   const glm::mat4 t2 = gml_add::identityTranslateEq(tr);
 
-
   glm::quat q = _t.track(p);
   const glm::mat4  mr = gml_add::quatToMat4(q);
-
+ 
   _matm = t2*mr*t1*mo; // TODO test
-
   // update params
   _p = p;
   _t.beginTracking(_p);

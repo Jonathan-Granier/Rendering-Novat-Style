@@ -185,6 +185,7 @@ void Viewer::resizeGL(int width,int height){
 
 
 void Viewer::mousePressEvent(QMouseEvent *me){
+
     _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
     if(me->button()==Qt::LeftButton) {
         _lightMode = false;
@@ -196,19 +197,20 @@ void Viewer::mousePressEvent(QMouseEvent *me){
         _lightMode = true;
         _light->startMoveAroundYAxe(_moussePos,width(),height());
     }
+
+
     update();
+
 }
+
 
 void Viewer::mouseMoveEvent(QMouseEvent *me){
 
    _moussePos = vec2((float)me->x(),(float)(height()-me->y()));
-
-
     if(_lightMode)
         _light->moveAroundYAxe(_moussePos,width(),height());
     else
         _cam->move(_moussePos);
-
     update();
 }
 
