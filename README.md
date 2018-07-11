@@ -37,9 +37,10 @@ make
 -----------------------------------------
 ## Usage
 
-Read the [controls](documentations/controls.md)
++ Read the [controls](documentations/controls.md)
+
 -----------------------------------------
-## Documentation
+## Documentations
 + Read the [report](documentations/report/Rapport/M2Report_Jonathan_Granier.pdf) (In french)
 + Read the [code abstract]()
 
