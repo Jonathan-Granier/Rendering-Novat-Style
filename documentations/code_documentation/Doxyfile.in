@@ -1,0 +1,26 @@
+PROJECT_NAME           = "Rendering in Novat style"
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "A prototype for render the shading of a panorama in Novat style"
+PROJECT_LOGO           = @PROJECT_SOURCE_DIR@/ressources/images/RSN.ico
+STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@ 
+INPUT                  = @doxy_main_page@ \
+                         @PROJECT_SOURCE_DIR@/documentation \
+                         @PROJECT_SOURCE_DIR@/sources_code
+
+FILE_PATTERNS          = *.hpp \
+                         *.cpp \
+                         *.md \
+                         *.dox \
+                         *.frag \
+                         *.vert 
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = @doxy_main_page@
+
+SHOW_NAMESPACES        = YES
+GENERATE_TREEVIEW      = YES
+ALWAYS_DETAILED_SEC    = YES
+MULTILINE_CPP_IS_BRIEF = YES
+TAB_SIZE               = 4
+BUILTIN_STL_SUPPORT    = YES
+WARN_NO_PARAMDOC       = YES
+VERBOSE = NO

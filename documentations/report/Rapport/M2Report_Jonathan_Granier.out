@@ -1,0 +1,36 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [0][-]{chapter.2}{ Le Style Novat}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Contexte}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Les panoramas de montagnes en informatique graphique}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{\311tude du style de Pierre Novat}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.3.1}{Qu'est-ce que dessiner un panorama du point de vue d'Arthur Novat ?}{section.2.3}% 6
+\BOOKMARK [2][-]{subsection.2.3.2}{Fabrication en pratique - Les diff\351rentes \351tapes}{section.2.3}% 7
+\BOOKMARK [2][-]{subsection.2.3.3}{\311l\351ments visuels sp\351cifiques du style Novat}{section.2.3}% 8
+\BOOKMARK [0][-]{chapter.3}{\311tat de l'art sur l'ombrage}{}% 9
+\BOOKMARK [1][-]{section.3.1}{Probl\351matique}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.2}{L'ombrage vu par les cartographes}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.3}{Exag\351ration de la forme en informatique graphique }{chapter.3}% 12
+\BOOKMARK [0][-]{chapter.4}{Calcul d'un ombrage expressif pour les panoramas}{}% 13
+\BOOKMARK [1][-]{section.4.1}{Vue d'ensemble de la solution}{chapter.4}% 14
+\BOOKMARK [1][-]{section.4.2}{L'orientation de la lumi\350re}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.3}{L'ombrage multi \351chelle}{chapter.4}% 16
+\BOOKMARK [1][-]{section.4.4}{Fusion des ombrages}{chapter.4}% 17
+\BOOKMARK [1][-]{section.4.5}{Les ombres port\351es}{chapter.4}% 18
+\BOOKMARK [2][-]{subsection.4.5.1}{Calcul des ombres port\351es}{section.4.5}% 19
+\BOOKMARK [2][-]{subsection.4.5.2}{Abstraction des ombres port\351es }{section.4.5}% 20
+\BOOKMARK [2][-]{subsection.4.5.3}{Multi \311chelles et fusion}{section.4.5}% 21
+\BOOKMARK [0][-]{chapter.5}{Impl\351mentation et r\351sultats}{}% 22
+\BOOKMARK [1][-]{section.5.1}{Degr\351s de libert\351s}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.2}{Impl\351mentation}{chapter.5}% 24
+\BOOKMARK [1][-]{section.5.3}{R\351sultats}{chapter.5}% 25
+\BOOKMARK [0][-]{chapter.6}{Validation}{}% 26
+\BOOKMARK [1][-]{section.6.1}{Entretien avec Arthur Novat}{chapter.6}% 27
+\BOOKMARK [1][-]{section.6.2}{Comparaison avec un rendu classique}{chapter.6}% 28
+\BOOKMARK [1][-]{section.6.3}{Test sur des utilisateurs}{chapter.6}% 29
+\BOOKMARK [0][-]{chapter.7}{Discussions des r\351sultats et travaux futurs}{}% 30
+\BOOKMARK [1][-]{section.7.1}{L'ombrage expressif}{chapter.7}% 31
+\BOOKMARK [1][-]{section.7.2}{Style Novat}{chapter.7}% 32
+\BOOKMARK [1][-]{section.7.3}{Conclusion}{chapter.7}% 33
+\BOOKMARK [0][-]{appendix.A}{Appendix}{}% 34
+\BOOKMARK [1][-]{section.A.1}{Quelques paroramas de l'Atelier Novat}{appendix.A}% 35
+\BOOKMARK [0][-]{section*.56}{Bibliography}{}% 36

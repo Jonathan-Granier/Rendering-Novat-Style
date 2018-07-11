@@ -1,0 +1,10 @@
+<map id="Camera::rotate" name="Camera::rotate">
+<area shape="rect" id="node2" href="$namespacegml__add.html#ac51a926472b84ab7286507e2d9fc1c7d" title="Add v to the last line of a indentity matrice. " alt="" coords="163,31,353,57"/>
+<area shape="rect" id="node4" href="$class_track_ball.html#aa562dadd39fcb9b859026ba14a5ea75f" title="TrackBall::track" alt="" coords="201,93,315,120"/>
+<area shape="rect" id="node8" href="$namespacegml__add.html#abe8269b04ff298fed269b5ba20a02935" title="Translate a quad to a 4x4 matrice. " alt="" coords="184,144,332,171"/>
+<area shape="rect" id="node9" href="$class_track_ball.html#a98dca62dce061a1f880278e55bbc1afb" title="TrackBall::beginTracking" alt="" coords="175,195,341,221"/>
+<area shape="rect" id="node3" href="$namespacegml__add.html#ae0afc799fabe2961cd6cb69cce3ae926" title="Add v to the last line of m. " alt="" coords="401,5,547,32"/>
+<area shape="rect" id="node5" href="$namespacegml__add.html#a5057111ed54ce7142bed3a6a20a3d40e" title="compute the normal of a 3D vector. " alt="" coords="415,56,533,83"/>
+<area shape="rect" id="node6" href="$namespacegml__add.html#a5f96a4c6c689e31e37d08a43684a235a" title="Check if v have Nan value. " alt="" coords="412,107,536,133"/>
+<area shape="rect" id="node7" href="$namespacegml__add.html#a981e966dfb419cb65655523443be0e06" title="Check if v have infinity value. " alt="" coords="417,157,531,184"/>
+</map>

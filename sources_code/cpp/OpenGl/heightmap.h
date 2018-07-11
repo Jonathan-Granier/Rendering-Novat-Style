@@ -1,3 +1,13 @@
+/**
+* @file heightmap.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef HEIGHTMAP_H
 #define HEIGHTMAP_H
 
@@ -9,7 +19,7 @@
 /**
 * @brief This class is a child of GeneratedTexture. It is used to generate a height map from the genheightmap.frag shader.
 * This class have the same use that the GeneratedTexture class.
-* Only The RED canal of the texture are write. 
+* Only The RED canal of the texture are write.
 */
 class HeightMap : public GeneratedTexture
 {

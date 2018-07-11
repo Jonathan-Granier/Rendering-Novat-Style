@@ -20,7 +20,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Rendu Style Nova</string>
+   <string>Rendering in Novat style</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -490,7 +490,7 @@
      <rect>
       <x>20</x>
       <y>910</y>
-      <width>161</width>
+      <width>171</width>
       <height>26</height>
      </rect>
     </property>
@@ -520,7 +520,7 @@
    </widget>
    <widget class="QMenu" name="menuAide">
     <property name="title">
-     <string>Aide</string>
+     <string>Help</string>
     </property>
     <addaction name="helpAction"/>
     <addaction name="aboutAction"/>
@@ -538,7 +538,7 @@
     <string>Load DEM</string>
    </property>
    <property name="statusTip">
-    <string>Charger un model existant (.obj ou .mnt)</string>
+    <string>Load a DEM (.asc)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -549,7 +549,7 @@
     <string>Screenshot</string>
    </property>
    <property name="statusTip">
-    <string>Sauvegarder une capture d'ecran dans un fichier</string>
+    <string>Save a screenshot of the openGL widget in a file (.png)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -557,20 +557,20 @@
   </action>
   <action name="helpAction">
    <property name="text">
-    <string>Aide</string>
+    <string>Help</string>
    </property>
   </action>
   <action name="aboutAction">
    <property name="text">
-    <string>A propos</string>
+    <string>About</string>
    </property>
   </action>
   <action name="exitAction">
    <property name="text">
-    <string>Quitter</string>
+    <string>Quit</string>
    </property>
    <property name="statusTip">
-    <string>Quitter l'application</string>
+    <string>Close the app</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>

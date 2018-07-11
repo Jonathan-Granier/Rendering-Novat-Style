@@ -1,3 +1,13 @@
+/**
+* @file scale.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef MAPS_H
 #define MAPS_H
 #include <memory>
@@ -208,13 +218,13 @@ public:
     * Need to have normalMap and shadeLightMap instanciate.
     * Do a lambertien with the normal and the light vector from the two textures.
     *
-    * @param mdvMat                 The view matrice.
-    * @param normalMat              The normal matrice.
+    * @param mdvMat                 The view matrix from the camera.
+    * @param normalMat              The normal matrix from the camera.
     * @param previousShadingMap     A shading map from a another scale. If null then set firstMap to true.
     * @param firstMap               If true, don't merge with a another shading Map.
     * @param shadeSelector          The merge method selected :
-    *                                   0. Only blur (only if we have two scale)
-    *                                   1. Only details (only if we have two scale)
+    *                                   0. Only blur (only if we have two scales)
+    *                                   1. Only details (only if we have two scales)
     *                                   2. Overlay standart merge.
     *                                   3. WaterColor merge
     *                               Show the shader "shading.frag" for more information
@@ -457,7 +467,7 @@ private :
     std::shared_ptr<GeneratedTexture>   _morphoErosionMap;
 
     /**
-    * The merge between two _morphoDilationMap from two scale. Generate by mergeShadow.frag.
+    * The merge between two _morphoDilationMap from two scales. Generate by mergeShadow.frag.
     */
     std::shared_ptr<GeneratedTexture>   _mergeShadowMap;
 

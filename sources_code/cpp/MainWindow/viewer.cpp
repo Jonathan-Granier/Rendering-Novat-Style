@@ -1,3 +1,14 @@
+/**
+* @file viewer.cpp
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
+
 #include "viewer.h"
 #include <iostream>
 

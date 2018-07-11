@@ -1,3 +1,11 @@
+/**
+*   \file camera.h
+*   \author Romain Vergne
+*   \version 1.0
+*   \date 26/02/2018
+*/
+
+
 #include "camera.h"
 
 Camera::Camera(float radius,const glm::vec3 &center,int mode)
@@ -92,4 +100,3 @@ void Camera::setFixePosition2(){
     updateCamVectors(_matm);
 
 }
-

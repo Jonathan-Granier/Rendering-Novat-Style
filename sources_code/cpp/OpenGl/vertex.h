@@ -1,3 +1,13 @@
+/**
+* @file vertex.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef VERTEX_H
 #define VERTEX_H
 
@@ -5,7 +15,7 @@
 
 
 
-/**
+/*
  * @brief A Type class that define a vertex with his position , his normal and his texture coordinates
  * The normal must be normalize and the texture coordinates must be between 0 and 1.
  */

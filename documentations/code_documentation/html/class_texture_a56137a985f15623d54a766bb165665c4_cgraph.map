@@ -1,0 +1,4 @@
+<map id="Texture::draw" name="Texture::draw">
+<area shape="rect" id="node2" href="$class_texture.html#a1c54e0e8bb070b70fa110c586e2520e8" title="Active, bind and send the texture to the shader in param. " alt="" coords="156,5,315,32"/>
+<area shape="rect" id="node3" href="$class_texture.html#a498fa3b4dd1649ff39bc1a7c843d880f" title="Render a quad for draw a texture. " alt="" coords="165,56,306,83"/>
+</map>

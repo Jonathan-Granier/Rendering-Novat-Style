@@ -1,3 +1,13 @@
+/**
+* @file meshloader.cpp
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #include "meshloader.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
@@ -92,7 +102,7 @@ shared_ptr<Mesh> MeshLoader::vertexFromObj(const string &path)
                 texCoordIndex[2] = stoi(lineFace);
             getline(file,lineFace);
             normalIndex[2] = stoi(lineFace);
-        
+
             for(unsigned i=0;i<3;i++){
                 positionIndices .push_back(positionIndex[i]);
                 texCoordIndices .push_back(texCoordIndex[i]);

@@ -1,3 +1,13 @@
+/**
+* @file scene.cpp
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #include "scene.h"
 
 #include "glm/glm.hpp"
@@ -278,6 +288,7 @@ void Scene::setGaussBlurFactor(unsigned int id ,int g)
 
 void Scene::setEnabledScale(unsigned int id, bool enabled){
     findFromID(id)->enabled = enabled;
+    reloadLaplacienPyramid();
 }
 
 void Scene::setDoShadow(bool doShadow)

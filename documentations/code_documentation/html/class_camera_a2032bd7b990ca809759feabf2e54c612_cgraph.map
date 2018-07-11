@@ -1,0 +1,16 @@
+<map id="Camera::normalMatrix" name="Camera::normalMatrix">
+<area shape="rect" id="node2" href="$class_camera.html#ac6671aeaa88d6cc673864f0183d5046b" title="Camera::mdvMatrix" alt="" coords="222,19,359,45"/>
+<area shape="rect" id="node3" href="$class_camera.html#a88b05cb16b9528bd1310facaa7cd34e4" title="Set the camera to a hard code fixe point. " alt="" coords="207,69,374,96"/>
+<area shape="rect" id="node4" href="$class_camera.html#ab7fed7d9f28a8f770df0e0778de33229" title="Camera::setFixePosition2" alt="" coords="204,120,377,147"/>
+<area shape="rect" id="node5" href="$class_camera.html#a46f849a8ee9514d0e35269f5fce48096" title="Camera::rotate" alt="" coords="236,171,345,197"/>
+<area shape="rect" id="node14" href="$class_camera.html#a53a4ce8177d8622bcc01ae9a8f8fe391" title="Camera::moveXY" alt="" coords="457,259,584,285"/>
+<area shape="rect" id="node15" href="$class_camera.html#a7c6676296255f1aef549228bf1c0a715" title="Camera::moveZ" alt="" coords="233,309,349,336"/>
+<area shape="rect" id="node6" href="$namespacegml__add.html#ac51a926472b84ab7286507e2d9fc1c7d" title="Add v to the last line of a indentity matrice. " alt="" coords="425,107,616,133"/>
+<area shape="rect" id="node8" href="$class_track_ball.html#aa562dadd39fcb9b859026ba14a5ea75f" title="TrackBall::track" alt="" coords="463,56,578,83"/>
+<area shape="rect" id="node12" href="$namespacegml__add.html#abe8269b04ff298fed269b5ba20a02935" title="Translate a quad to a 4x4 matrice. " alt="" coords="447,157,595,184"/>
+<area shape="rect" id="node13" href="$class_track_ball.html#a98dca62dce061a1f880278e55bbc1afb" title="TrackBall::beginTracking" alt="" coords="437,208,604,235"/>
+<area shape="rect" id="node7" href="$namespacegml__add.html#ae0afc799fabe2961cd6cb69cce3ae926" title="Add v to the last line of m. " alt="" coords="664,259,809,285"/>
+<area shape="rect" id="node9" href="$namespacegml__add.html#a5057111ed54ce7142bed3a6a20a3d40e" title="compute the normal of a 3D vector. " alt="" coords="677,5,796,32"/>
+<area shape="rect" id="node10" href="$namespacegml__add.html#a5f96a4c6c689e31e37d08a43684a235a" title="Check if v have Nan value. " alt="" coords="675,56,799,83"/>
+<area shape="rect" id="node11" href="$namespacegml__add.html#a981e966dfb419cb65655523443be0e06" title="Check if v have infinity value. " alt="" coords="679,107,794,133"/>
+</map>

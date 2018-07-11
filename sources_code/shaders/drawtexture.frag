@@ -1,9 +1,19 @@
 /**
-  Created by Jonathan Granier
-  Shader for draw a texture select by selectTexture
-  Show the value pointed by the mousse.
-
+* @file drawtexture.frag
+* @author Jonathan Granier
+* @date
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*
+* @brief Shader for draw a texture select by selectTexture
+*         Show the value pointed by the mousse.
+*
+*  SHADER OUT OF THE PIPELINE.
 **/
+
 
 
 
@@ -11,28 +21,43 @@
 
 #version 330 core
 
-
+// The Output, a color.
 out vec4 FragColor;
-
+// The texture coordinates
 in vec2 texCoord;
 
-
+// The map of the pipeline
+// TEXTURE NUMBER 0. The height map.
 uniform sampler2D heightMap;
+// TEXTURE NUMBER 1. The edit height map.
 uniform sampler2D editHeightMap;
+// TEXTURE NUMBER 2. The normal map.
 uniform sampler2D normalMap;
+// TEXTURE NUMBER 3. The slant map.
 uniform sampler2D slantMap;
+// TEXTURE NUMBER 4. The shade light map.
 uniform sampler2D shadeLightMap;
+// TEXTURE NUMBER 5. The shadow light map.
 uniform sampler2D shadowLightMap;
+// TEXTURE NUMBER 6. The shadow map.
 uniform sampler2D shadowMap;
+// TEXTURE NUMBER 7. The morpho erosion map.
 uniform sampler2D morphoErosionMap;
+// TEXTURE NUMBER 8. The morpho dilation map.
 uniform sampler2D morphoDilationMap;
+// TEXTURE NUMBER 9. The merge shadow map.
 uniform sampler2D mergeShadowMap;
+// TEXTURE NUMBER 10. The shading map.
 uniform sampler2D shadingMap;
 
+// A Texture with the ascii character
 uniform sampler2D asciiTex;
 
-uniform float ymin;
-uniform float ymax;
+// The max altitude of the heightMap.
+uniform float     ymax;
+// The min altitude of the heightMap.
+uniform float     ymin;
+// The position of the mousse in the OpenGL Widget (warning it's hard code).
 uniform vec2 moussePos;
 /*
   Select the texture to draw :
@@ -48,7 +73,6 @@ uniform vec2 moussePos;
   9  - mergeShadowMap
   10 - shadingMap
 */
-
 uniform int selectTexture;
 
 /* API to diplay text from Astor Bizard
@@ -202,9 +226,20 @@ void writeNumber(float number, int min_int_digits, int dec_digits, vec3 num_colo
 #define WriteChar(char,char_color) writeNormalChar(char,char_color,uv,asciiTex,color)
 
 
-// Display the value of a pixel
+/*-------------------------------------
+* DISPLAYVEC4
+*
+* Display the value of a pixel.
+*
+* Input
+*   color     The current color of the pixel
+*   v         The value to print.
+*
+* Ouput
+*   color     The new color of the pixel.
+*/
 void displayVec4(inout vec3 color, vec4 v){
-/**/
+
   vec3 fontColor = TURQUOISE;
   vec2 pos = vec2(10,350);
   float scale = 1./50.;
@@ -217,7 +252,7 @@ void displayVec4(inout vec3 color, vec4 v){
   WriteNumber(v.z,1,5,fontColor);
   WriteChar(comma,fontColor);
   WriteNumber(v.a,1,5,fontColor);
-/**/
+
 }
 
 
@@ -235,7 +270,9 @@ void displayVec4(inout vec3 color, vec4 v){
 
 
 
-
+/**
+* Draw a texture in according to the value of selectTexture
+*/
 void main()
 {
     vec4 valueDisplay;

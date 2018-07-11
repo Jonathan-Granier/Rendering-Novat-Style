@@ -1,15 +1,47 @@
-#version 330 core
-layout(location = 0) out float outBuffer;
+/**
+* @file genheightmap.frag
+* @author Jonathan Granier
+* @date
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*
+* @brief  Generate a height map in level of gray.
+*
+*
+* Output :
+*     A height in level of gray.
+*
+*  SHADER OUT OF THE PIPELINE.
+**/
 
+
+
+
+
+
+
+#version 330 core
+// Output, a height in level of gray
+layout(location = 0) out float outBuffer;
+// The texture coordinates
 in vec2 texCoord;
 #define PI 3.14159265359
 
+
+/**
+* A hash for perlin noise
+*/
 float hash( vec2 p ) {                          // rand in [-1,1]
     p = vec2( dot(p,vec2(127.1,311.7)),
               dot(p,vec2(269.5,183.3)) );
     return -1. + 2.*fract(sin(p+20.)*53758.5453123).x;
 }
-
+/**
+* A noise for perlin noise
+*/
 float noise( in vec2 p )
 {
     vec2 i = floor( p );
@@ -24,7 +56,15 @@ float noise( in vec2 p )
 }
 
 // -----------------------------------------------
-
+/**
+* A Perlin noise
+*
+* Intput
+*     uv      texture coordinates
+*
+* Output
+*     float   a value between 0 and 1.
+*/
 float perlin(vec2 uv )
 {
     float f;
@@ -40,15 +80,15 @@ float perlin(vec2 uv )
     return f;
 }
 
-
+// DO a wave
 float sinXY(vec2 t){
   return (sin(t.y*t.x*20)*10);
 }
-
+// Do a gaussian
 float gaussienne(float x){
   return 2/(sqrt(2*PI)) * exp(-(x*x)/(0.2));
 }
-
+// DO a wave
 float sinYF(vec2 t){
   float r = 1024;
   float y0 = 0;
@@ -92,12 +132,12 @@ float sinYF(vec2 t){
 
   return (sin((t.y)*5)*300) + y0 + x0 + x1 + xy0+xy1;
 }
-
+// DO a wave
 float sinY(vec2 t){
     return sin((t.y+cos(t.x))*5)*300;
 }
 
-
+// Do a double donut.
 float anneau(vec2 t){
 
   vec2 center = vec2(0.5,0.5);
@@ -117,5 +157,3 @@ void main()
   float p = perlin(texCoord);
   outBuffer = anneau(texCoord);
 }
-
-

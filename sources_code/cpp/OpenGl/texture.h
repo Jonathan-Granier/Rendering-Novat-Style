@@ -1,3 +1,13 @@
+/**
+* @file texture.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
@@ -17,14 +27,13 @@
 #include "shader.h"
 
 
-
 /**
- * @brief Texture define by a name and a id.
- * Use :
- *      sendToshader for bind the texture and send to a shader
- *      draw to draw only the texture.
- * Warning : This class can't be instanciate. Use LoadTexture or generatedTexture to instanciate a texture.
- */
+* @brief Texture define by a name and a id.
+* Use :
+*      sendToshader for bind the texture and send to a shader
+*      draw to draw only the texture.
+* Warning : This class can't be instanciate. Use LoadTexture or generatedTexture to instanciate a texture.
+*/
 class Texture
 {
 protected:

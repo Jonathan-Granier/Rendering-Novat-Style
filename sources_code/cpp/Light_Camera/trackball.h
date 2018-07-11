@@ -1,5 +1,5 @@
 /**
-*   \file camera.h
+*   \file trackball.h
 *   \author Romain Vergne
 *   \version 1.0
 *   \date 26/02/2018
@@ -150,5 +150,3 @@ inline void TrackBall::setRadius(float radius) {
 }
 
 #endif // TRACKBALL_H
-
-

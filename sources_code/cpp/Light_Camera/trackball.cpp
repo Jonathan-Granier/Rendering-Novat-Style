@@ -1,3 +1,13 @@
+/**
+*   \file trackball.cpp
+*   \author Romain Vergne
+*   \version 1.0
+*   \date 26/02/2018
+*
+*/
+
+
+
 #include "trackball.h"
 
 TrackBall::TrackBall()
@@ -22,4 +32,3 @@ TrackBall::TrackBall(const TrackBall &t)
   _radius(t._radius) {
 
 }
-

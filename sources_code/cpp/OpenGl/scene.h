@@ -1,3 +1,13 @@
+/**
+* @file scene.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef SCENE_H
 #define SCENE_H
 
@@ -13,20 +23,21 @@
 #include "meshloader.h"
 #include <math.h>
 #include "scale.h"
-/**
- * @brief This class manage the stack of Scale ( on set of texture) , the mesh and all the texture.
- * The goal of this class is manage the multi-scale rendering (it's a Laplacian pyramid).
- *  So the main object of this class is _scalesManager . It's a vector that contains scale , their ID and if they are enabled.
- * Show Scale description for more details about the scale.
- * First , We have to create a scene with a set of DEM (.asc) with createScene. This will instanciate a scale object and a mesh of the DEM.
- *  Use :
 
-        addScale : add scale object , this add a step of the Laplacian pyramid.
- *      selectCurrentScale Select the current scale object. This scale will be draw after call a "draw" Functions
- *      Enabled/disable scale : Only enabled scale are use to create the Laplacien pyramid.
- *
- * There is a conflict with the FBO of QT. So we need to instanciate all FBO before the initialize of QT. Thus we create 10 Scale object in the stack ( = 130 textures 1024*1024).
- */
+/**
+* @brief This class manage the stack of Scale ( on set of texture) , the mesh and all the texture.
+* The goal of this class is manage the multi-scale rendering (it's a Laplacian pyramid).
+*  So the main object of this class is _scalesManager . It's a vector that contains scale , their ID and if they are enabled.
+* Show Scale description for more details about the scale.
+* First , We have to create a scene with a set of DEM (.asc) with createScene. This will instanciate a scale object and a mesh of the DEM.
+*  Use :
+
+    addScale : add scale object , this add a step of the Laplacian pyramid.
+*      selectCurrentScale Select the current scale object. This scale will be draw after call a "draw" Functions
+*      Enabled/disable scale : Only enabled scale are use to create the Laplacien pyramid.
+*
+* There is a conflict with the FBO of QT. So we need to instanciate all FBO before the initialize of QT. Thus we create 10 Scale object in the stack ( = 130 textures 1024*1024).
+*/
 class Scene
 {
 public:
@@ -142,8 +153,8 @@ public:
 
     /**
     * @brief Generate all Intermediate scale. It's compose the orientation light for the shading and the shadow, all shadow Map and the final shading.
-    * @param mdvMat         The view Matrice for compute the shading.
-    * @param normalMat      The normal matrice for compute the shading.
+    * @param mdvMat         The view matrix from the camera for compute the shading.
+    * @param normalMat      The normal matrix from the camera for compute the shading.
     * @param lightDir       The global light direction which will be modified locally.
     * @param pitch          The pitch angle of the light.
     * @param yaw            The yaw angle of the light.
@@ -219,7 +230,7 @@ public:
     void setGaussBlurFactor(unsigned int id, int g);
 
     /**
-    * @brief Enabled or disabled a scale
+    * @brief Enabled or disabled a scale, call reloadLaplacienPyramid.
     * @param id             The ID of the scale that be enabled/disabled
     * @param enabled        If true, enabled the scale , disabled otherwise.
     */
@@ -236,8 +247,8 @@ public:
     /**
     * @brief Select the merge method for the shading.
     * @param s      The merge method selected :
-    *                   0. Only blur (only if we have two scale)
-    *                   1. Only details (only if we have two scale)
+    *                   0. Only blur (only if we have two scales)
+    *                   1. Only details (only if we have two scales)
     *                   2. Overlay standart merge.
     *                   3. WaterColor merge
     * Show the shader "shading.frag" for more information
@@ -370,8 +381,8 @@ private:
     bool _doReloadLaplacienPyramid;
 
      /** The merge method selected :
-     *   0. Only blur (only if we have two scale)
-     *   1. Only details (only if we have two scale)
+     *   0. Only blur (only if we have two scales)
+     *   1. Only details (only if we have two scales)
      *   2. Overlay standart merge.
      *   3. WaterColor merge
      */

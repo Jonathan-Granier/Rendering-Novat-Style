@@ -1,0 +1,4 @@
+<map id="GeneratedTexture" name="GeneratedTexture">
+<area shape="rect" id="node3" href="$class_height_map.html" title="This class is a child of GeneratedTexture. It is used to generate a height map from the genheightmap..." alt="" coords="26,155,111,181"/>
+<area shape="rect" id="node2" href="$class_texture.html" title="Texture define by a name and a id. Use : sendToshader for bind the texture and send to a shader draw ..." alt="" coords="35,5,102,32"/>
+</map>

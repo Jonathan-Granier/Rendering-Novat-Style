@@ -1,3 +1,13 @@
+/**
+* @file viewer.h
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 #ifndef VIEWER_H
 #define VIEWER_H
 
@@ -248,8 +258,8 @@ public:
     /**
     * @brief Select the merge method for the shading.
     * @param s      The merge method selected :
-    *                   0. Only blur (only if we have two scale)
-    *                   1. Only details (only if we have two scale)
+    *                   0. Only blur (only if we have two scales)
+    *                   1. Only details (only if we have two scales)
     *                   2. Overlay standart merge.
     *                   3. WaterColor merge
     * Show the shader "shading.frag" for more information
@@ -376,7 +386,7 @@ private:
     * For the mousse. If true , we move the light , if false , we move the camera.
     */
     bool        _lightMode;
-    
+
     /**
     * Last position of the mousse.
     */

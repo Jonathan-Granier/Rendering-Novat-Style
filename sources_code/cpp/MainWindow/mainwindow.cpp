@@ -1,3 +1,13 @@
+/**
+* @file mainwindow.cpp
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*/
+
 
 #include "mainwindow.h"
 #include <QMenu>
@@ -99,7 +109,7 @@ void MainWindow::open()
 {
 
     QFileDialog browser;
-    QStringList fileNames = browser.getOpenFileNames(this, tr("Open DEM(s)"), QDir::currentPath()+"/../ressources/models",tr("Models (*.asc)"));
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open DEM(s) (.asc)"), QDir::currentPath()+"/../ressources/models",tr("DEM (*.asc)"));
     browser.close();
     if(!fileNames.isEmpty())
     {
@@ -141,7 +151,7 @@ void MainWindow::help()
 
 void MainWindow::about()
 {
-    QMessageBox::about(this, tr("About Rendu Style Novat"),
+    QMessageBox::about(this, tr("About Rendering in Novat style"),
                 tr("Prototype of a shadow rendering software \n"
                 "in the style of the mountain panoramas of the painters \n "
                 "Pierre Novat and Arthur Novat. \n"

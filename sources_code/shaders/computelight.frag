@@ -1,34 +1,69 @@
 /**
-  Created by Jonathan Granier
-  Last shader of the pipeline and only shader with the mesh.
-  Mix the mesh with the shading , the shadows and the color.
+* @file computelight.frag
+* @author Jonathan Granier
+* @copyright  This code was writen for the research project
+*             "Rendering panorama maps in the "atelier Novat" style.
+*             Performed at Inria Grenoble Rhöne-Alpes, Maverick Team.
+*             Univ.Grenoble Alpes, LJK, INRIA.
+*             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+*
+* @brief Last shader of the pipeline and only shader with the mesh.
+*         Mix the mesh with the shading , the shadows and the color.
+*
+*
+* Input texture :
+*     Final shadow map.
+*     Final shading map.
+* Output :
+*     A Color.
+*
+* SHADER NUMBER 11.
 **/
-
 
 #version 330 core
 
-
-
-
+// The output, a color
 out vec4 FragColor;
 
-
+// The global light direction
 in vec4 lightDir;
+// The normal of the mesh
 in vec3 normal;
+// The texture coordinates of the mesh
 in vec2 texCoord;
+// If true, the shadows are add to the shading.
 uniform bool doShadow;
+// If true, do a classic lambertien with the native normal and the global light direction instead of our methode.
 uniform bool doDefaultShading;
 
+// TEXTURE NUMBER 9. The final shadow map after the merge between the scales.
 uniform sampler2D mergeShadowMap;
+// TEXTURE NUMBER 10. The final shading map after the merge between the scales.
 uniform sampler2D shadingMap;
+
+// Color map texture. (a color gradient)
 uniform sampler2D colorMapTex;
+// cel-shading texture
 uniform sampler2D celShadingTex;
+// The native height Map. (For know the altitude)
 uniform sampler2D heightMap;
 
+// The color for plain color colorization method.
 uniform vec4      plainColor;
+// The color for watercolor colorization method.
 uniform vec4      waterColor;
+
+/** The colorization methode selected:
+  *       0: plain color.
+  *       1: water color.
+  *       2: color map.
+  *       3: cel-shading.
+  */
 uniform int       colorSelector;
+
+// The max altitude of the heightMap.
 uniform float     ymax;
+// The min altitude of the heightMap.
 uniform float     ymin;
 
 
@@ -38,7 +73,6 @@ uniform float     ymin;
 
   Output
     value of shadow between 0 and 1 with antialiasing
-
 */
   float shadow(){
   int max = 1;
@@ -60,14 +94,14 @@ uniform float     ymin;
 /*-------------------------------------
   WATERCOLOR
   Show report for more information (p. 21-22) or the paper watercolor by [Bousseau et al].
-  TLDR : just a overlay function that mix 2 value.
+  TLDR : just a overlay function that mix 2 values.
 
   Input
-    vec4 color : a constante color.
-    float density : a value between 0 and 1.
+    vec4 color      a constante color.
+    float density   a value between 0 and 1.
 
   Output
-    vec3 : a color.
+    vec3            a color.
 */
 vec4 watercolor(vec4 color,float density ){
   float d = density;
@@ -181,8 +215,11 @@ vec4 xtoon(float cd){
 
 /**
 Compute the Lambertien
-    n : normal Vector
-    l : light Vector
+    Input :
+      n : normal Vector
+      l : light Vector
+    Output :
+      A value between 0 and 1.
 **/
 float Lambertien( vec4 n, vec4 l){
     return max(dot(n,l),0);
@@ -211,7 +248,6 @@ void main()
 
 
   // Select the color methode
-
   vec4 color;
   if(colorSelector == 0){
     color = plainColor *Cd;
@@ -227,6 +263,6 @@ void main()
   }
 
 
-  FragColor = xtoon(Cd);
-  //FragColor = texture(celShadingTex,texCoord);
+  //FragColor = xtoon(Cd);
+  FragColor = color;
 }
