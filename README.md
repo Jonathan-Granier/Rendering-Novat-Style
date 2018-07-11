@@ -2,7 +2,7 @@
 
 
 
-This code was writen for the research project "Rendering panorama maps in the "atelier Novat" style. Performed at Inria Grenoble Rhöne-Alpes, Maverick Team. Univ.Grenoble Alpes, LJK, INRIA. Under the supervision of : Joelle THOLLOT and Romain VERGNE.
+This code was writen for the research project "Rendering panorama maps in the "atelier Novat" style. Performed at Inria Grenoble Rhône-Alpes, Maverick Team. Univ.Grenoble Alpes, LJK, INRIA. Under the supervision of : Joelle THOLLOT and Romain VERGNE.
 
 -----------------------------------------
 ## Installing
@@ -42,8 +42,11 @@ Read the [controls](documentations/controls.md)
 ## Documentation
 + Read the [report](documentations/report/Rapport/M2Report_Jonathan_Granier.pdf) (In french)
 + Read the [code abstract]()
-+ Read the [code documentation](documentations/code_documentation/html/index.html)
 
+Show the complete code documentation :
+```bash
+firefox documentations/code_documentation/html/index.html
+```
 -----------------------------------------
 ## Copyright
 Jonathan GRANIER <jonathan.granier@wanadoo.fr>
