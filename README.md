@@ -4,7 +4,7 @@
 
 This code was writen for the research project "Rendering panorama maps in the "atelier Novat" style. Performed at Inria Grenoble Rhône-Alpes, Maverick Team. Univ.Grenoble Alpes, LJK, INRIA. Under the supervision of : Joelle THOLLOT and Romain VERGNE.
 
------------------------------------------
+
 ## Installing
 To build from source , first clone the repository
 ```bash
@@ -34,12 +34,12 @@ cmake ..
 #Compile
 make
 ```
------------------------------------------
+
 ## Usage
 
 + Read the [controls](documentations/controls.md)
 
------------------------------------------
+
 ## Documentations
 + Read the [report](documentations/report/Rapport/M2Report_Jonathan_Granier.pdf) (In french)
 + Read the [code abstract]()
@@ -48,7 +48,7 @@ Show the complete code documentation :
 ```bash
 firefox documentations/code_documentation/html/index.html
 ```
------------------------------------------
+
 ## Copyright
 Jonathan GRANIER <jonathan.granier@wanadoo.fr>
 ```
