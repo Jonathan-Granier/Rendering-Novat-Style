@@ -2,12 +2,14 @@
 
 The controls of the prototype.
 
+-----------------------------------------
 ##Mouse
 
 * `Right`   Control the camera.
 * `Middle`  Zoom.
 * `Left`   Control the light.     
 
+-----------------------------------------
 ##Keyboard
 
 * `r` Reload all shaders.
@@ -17,9 +19,10 @@ The controls of the prototype.
 * `w` Switch to the previous draw mode.
 * `x` Switch to the next draw mode.
 
+-----------------------------------------
 ##User interface
 
-![Test](Interface.png)
+![Interface](Interface.png)
 
 <ol>
 <li> File menu.
