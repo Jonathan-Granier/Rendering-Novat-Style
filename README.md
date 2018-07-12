@@ -8,7 +8,7 @@ This code was writen for the research project "Rendering panorama maps in the "a
 ## Installing
 To build from source , first clone the repository
 ```bash
-git clone TODO
+git clone https://gitlab.com/Jonathan-Granier/Rendu-Style-Novat.git
 ```
 
 
