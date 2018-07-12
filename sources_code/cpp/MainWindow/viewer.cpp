@@ -42,7 +42,7 @@ Viewer::Viewer(QWidget *parent) :
     format.setDepthBufferSize(24);
     this->setFormat(format);
     create();
-    _filepaths.push_back("../ressources/models/Basic/Est.asc");// BDALTI_Alpe_d_huez.asc");
+    _filepaths.push_back("../ressources/DEM/Alpe_d_huez_6_dalles/South-East.asc");// BDALTI_Alpe_d_huez.asc");
     _light  = make_shared<Light>();
     _needInitializeScene = true;
 }

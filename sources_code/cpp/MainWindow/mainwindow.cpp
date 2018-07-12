@@ -109,7 +109,7 @@ void MainWindow::open()
 {
 
     QFileDialog browser;
-    QStringList fileNames = browser.getOpenFileNames(this, tr("Open DEM(s) (.asc)"), QDir::currentPath()+"/../ressources/models",tr("DEM (*.asc)"));
+    QStringList fileNames = browser.getOpenFileNames(this, tr("Open DEM(s) (.asc)"), QDir::currentPath()+"/../ressources/DEM",tr("DEM (*.asc)"));
     browser.close();
     if(!fileNames.isEmpty())
     {
