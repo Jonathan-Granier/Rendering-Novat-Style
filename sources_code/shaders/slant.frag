@@ -8,7 +8,7 @@
 *             Univ.Grenoble Alpes, LJK, INRIA.
 *             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
 *
-* @brief  Compute the slant map of the height Map. It's just the normal projected.
+* @brief  Compute the slant map of a height Map. It's just the normal projected.
 *
 * Input texture :
 *     The normal map.

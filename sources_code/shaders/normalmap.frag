@@ -13,7 +13,7 @@
 * Input texture :
 *     The edit height map..
 * Output :
-*     A 3D vector, z up (for have the same orthonormal coordinate system with the light vector).
+*     A 3D vector, y up (for have the same orthonormal coordinate system with the light vector).
 *
 *  SHADER NUMBER 2.
 **/
@@ -115,6 +115,6 @@ void main()
     normal += computeNormal(v11,v10,v01);
     normal = normalize(normal);
 
-    FragColor = vec4(normal.x,normal.y,-normal.z,0); // For oriente z up .
+    FragColor = vec4(normal.x,normal.y,-normal.z,0); // For oriente y up .
 
 }

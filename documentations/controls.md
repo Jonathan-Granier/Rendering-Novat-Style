@@ -22,7 +22,7 @@ The controls of the prototype.
 
 ## User interface
 
-![Interface](Interface.png)
+![Interface](../ressources/schemas/Interface.png)
 
 <ol>
 <li> File menu.
@@ -42,14 +42,14 @@ The controls of the prototype.
 <li> Enabled/Disabled shadows.</li>
 <li> If enabled , the light for compute the shadow is locally directs with the slant.</li>
 <li> If enabled , do the mathematical morphology filter.</li>
-<li> Select the vertical position of the light (in degree) for compute the shadow.</li>
+<li> Select the vertical position of the light (in degree) for compute the shadow (Range: 0 to 90).</li>
 </ol>
 </li>
 <li>Shading control panel.
 <ol>
 <li> If enabled , the light for compute the shading is locally directs with the slant.</li>
 <li> Select the merge method between two scales.</li>
-<li> Select the vertical position of the light (in degree) for compute the shadow.</li>
+<li> Select the vertical position of the light (in degree) for compute the shadow (Range: 0 to 90).</li>
 </ol>
 </li>
 <li>Colorization control panel.
@@ -63,7 +63,7 @@ The controls of the prototype.
 <li> Enabled or disabled a scale , the Laplacien pyramid is automatically updated.</li>
 <li> Select the last scale of the Laplacien pyramid.</li>
 <li> Select the threshold for directs the light for the scale (between pi/2 (T=20 )and pi/10 (T=100)).</li>
-<li> Select blur factor for the current scale (Need to press button "Reload" after changing this setting).</li>
+<li> Select blur factor for the current scale (Need to press button "Reload" after changing this setting)(Range 0 to 100, scale with the size of the DEM).</li>
 </ol>
 </li>
 <li>Multi-scale buttons.

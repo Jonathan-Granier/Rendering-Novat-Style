@@ -8,13 +8,13 @@
 *             Univ.Grenoble Alpes, LJK, INRIA.
 *             Under the supervision of : Joelle THOLLOT and Romain VERGNE.
 *
-* @brief  Shader just for draw a quad for print the texture on this quad.
+* @brief  Compute the shadow map with a raymarching.
 *
 * Input texture :
 *     The edit height map.
 *     The shadow light map.
 * Output :
-*     A 3D vector (Same orthonormal coordinate system with the normal).
+*     A boolean value in the red chanel. 0--> shadow , 1--> no shadow.
 *
 *
 *  SHADER NUMBER 6.

@@ -1,2 +1,8 @@
 #Binary files
 build/*
+
+#Latex output
+*.aux
+*.log
+*.out
+*.synctex.gz
