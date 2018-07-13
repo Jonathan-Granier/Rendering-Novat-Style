@@ -80,12 +80,7 @@ void Viewer::initializeGL(){
 
     loadScene();
     initShaders();
-
-
-
     emit initializeDone();
-
-
 }
 
 // Rendu loop

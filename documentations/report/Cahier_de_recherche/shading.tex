@@ -1446,10 +1446,21 @@ Comme dit dans le rapport ça souleve 2 questions :
 \end{itemize}
 
 
-Le probleme c'est que notre méthode de fusion est pas du tout adapter pour faire cela. Deplus <
+Le probleme c'est que notre méthode de fusion est pas du tout adapter pour faire cela.
+
+
+\section{Pour la suite}
+
+Donc voici l'état final.\\
+J'ai pas réussi à faire la fonction pour sortir la HeightMap (Impossible de link OpenEXR a mon programme).  \\
+Pour le shading, il faut essayer la méthode de Renaud Blanc. Pyramide Gaussienne et Interpolation avec un poids mis sur une couche choisi par l'utilisateur.
+Pour les ombres portée , modifier l'élévation localement. But : avoir des ombres portées qui s’arrête au pied des montagnes. Mais pour les petite aspérité , avoir des ombres portée étendu . (Ici il y a une contradiction , voir avec Arthur). Faire un filtre qui rend les ombres portée très tranchées mais dans le sens de la pente. 
+
+Couleur : Essayer de trouver un lien HSV entre l'ombrage, l'altitude et la nature du terrain (herbe , roche ou glacier). 
 
 
 
+ 
 
 
 \end{document}
