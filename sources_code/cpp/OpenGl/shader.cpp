@@ -14,7 +14,7 @@
 #include <sstream>
 #include <iostream>
 
-// Constructor : Compile and link the shaders to _id
+
 
 using namespace std;
 using namespace glm;

@@ -6,7 +6,7 @@ project(Rendu_Style_Novat)
 include(FindPkgConfig)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "-g -O0 -Wall -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "-g -O0 -Wall")
 set(CMAKE_CXX_OUPUT_EXTENSION_REPLACE 1)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -54,7 +54,6 @@ target_include_directories(
     ${GLFW_INCLUDE_DIRS}
     ${OPENGL_INCLUDE_DIRS}
     ${GLEW_INCLUDE_DIRS}
-    #${OPENEXR_INCLUDE_DIRS}
     ${GLM_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/sources_code/cpp
 )
@@ -66,6 +65,5 @@ target_link_libraries(
     glfw
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
-    #${OPENEXR_LIBRARIES}
     ${GLM_LIBRARIES}
 )
