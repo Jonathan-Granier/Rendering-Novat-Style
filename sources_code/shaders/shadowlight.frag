@@ -149,6 +149,9 @@ vec4 computeLight(in vec4 s,in vec2 l){
   }
   float theta = thetaSign* (acos(cosTheta(normL,slant)));
 
+  if(isnan(theta)){
+    theta = 0;
+  }
 
   theta = theta * smoothTheta(theta)*normS;
   float newYaw = yaw + theta;
